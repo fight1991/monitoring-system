@@ -16,7 +16,7 @@ export default new Vuex.Store({
       currentPage: 1,
       total: 0
     },
-    access: 0, // 0 游客， 1 终端用户 ，2 安装商 3 代理商 ，255 厂商
+    access: -1, // 0 游客， 1 终端用户 ，2 安装商 3 代理商 ，255 厂商
     username: '',
     userInfo: {
       user: '', // 当前登录的用户名
