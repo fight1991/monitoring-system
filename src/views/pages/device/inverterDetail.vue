@@ -248,6 +248,12 @@ export default {
             name: v.variable,
             data: tempData,
             type: 'line',
+            markPoint: {
+              data: [
+                { type: 'max', name: '最大值', itemStyle: { color: 'green' } },
+                { type: 'min', name: '最小值', itemStyle: { color: '#F96867' } }
+              ]
+            },
             smooth: true
           })
           this.lineChart.series = temp
