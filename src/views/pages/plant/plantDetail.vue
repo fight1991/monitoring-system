@@ -128,6 +128,7 @@ export default {
       incomeDetail: { // 收益详情
         currencyCount: 0, // 币种数量
         power: '', // 功率
+        systemCapacity: '',
         generation: {
           today: 0,
           month: 0,
@@ -291,6 +292,7 @@ export default {
       if (result) {
         this.incomeDetail.power = result.power
         this.incomeDetail.currencyCount = 0
+        this.incomeDetail.systemCapacity = result.systemCapacity
         this.incomeDetail.generation.today = result.today.generation
         this.incomeDetail.generation.month = result.month.generation
         this.incomeDetail.generation.cumulate = result.cumulate.generation
