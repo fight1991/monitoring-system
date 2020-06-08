@@ -16,8 +16,21 @@ export default {
     })
   },
   methods: {
-    backRoute (router) {
-      this.$store.dispatch('backGo', router)
+    // 翻译状态
+    translateStatus (num) {
+      let value = ''
+      switch (Number(num)) {
+        case 1:
+          value = '正常'
+          break
+        case 2:
+          value = '故障'
+          break
+        default:
+          value = '离线'
+          break
+      }
+      return value
     },
     // 获取国家列表
     async getCountryList () {

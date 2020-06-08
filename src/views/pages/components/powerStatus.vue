@@ -47,7 +47,6 @@ export default {
   },
   computed: {
     powerPercent () {
-      console.log(this.capacity)
       if (this.capacity > 0) {
         return Math.ceil((this.power / this.capacity) * 100)
       }

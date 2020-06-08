@@ -10,7 +10,7 @@
             <span>{{$t('plant.name')}} : {{headInfo.plantName || ''}}</span>
             <span>{{$t('common.datacolSN')}}  : {{headInfo.moduleSN || ''}}</span>
             <span>{{$t('common.InvType')}}  : {{headInfo.deviceType || ''}}</span>
-            <span>{{$t('plant.equipSta')}} : {{headInfo.status || ''}}</span>
+            <span>{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</span>
           </div>
         </div>
         <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
