@@ -61,9 +61,10 @@
  *  3. tableHeadData -- 表格表头数据
  *  4. selectBox --- 是否显示勾选框
  *  5. border --- 是否显示边框
- *  6. showSummary -- 是否显示汇总
  *  7. showNum -- 是否显示序号
  *  9. selectSingle -- 表格是否为单选
+ *  10. tableHeight -- 表格高度 如果传入Height 定高, 否则自动设置成最大高
+ *  11. widthMethod -- 如果设置了item.width 列宽 则定宽, 否则自动设置成最小宽度
 */
 export default {
   name: 'common-table',
@@ -139,11 +140,10 @@ export default {
           prop: 'height',
           value: this.height
         }
-      } else {
-        return {
-          prop: 'max-height',
-          value: this.maxHeight
-        }
+      }
+      return {
+        prop: 'max-height',
+        value: this.maxHeight
       }
     }
   },

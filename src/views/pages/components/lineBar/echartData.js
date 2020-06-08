@@ -3,7 +3,6 @@ export default {
     return {
       echartData: {
         power: { // 折线图表
-          color: ['#c23531', '#2f4554', '#61a0a8', '#d48265'],
           legend: {
             type: 'plain',
             data: ['generationPower', 'feedinPower', 'loadsPower'],
