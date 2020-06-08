@@ -7,13 +7,15 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          renderHeader: true
+          renderHeader: true,
+          width: 140
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          renderHeader: true
+          renderHeader: true,
+          width: 140
         },
         {
           label: 'common.plant',
@@ -48,7 +50,8 @@ export default {
           prop: 'feedinDate',
           checked: true,
           renderHeader: true,
-          slotName: 'feedinDate'
+          slotName: 'feedinDate',
+          width: 100
         },
         {
           label: 'plant.country',

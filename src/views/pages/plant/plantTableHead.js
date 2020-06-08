@@ -68,7 +68,7 @@ export default {
           label: 'plant.stationTime',
           prop: 'createdDate',
           checked: true,
-          width: '130',
+          width: 220,
           renderHeader: true
         },
         {

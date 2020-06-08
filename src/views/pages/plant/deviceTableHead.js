@@ -7,13 +7,15 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          renderHeader: true
+          renderHeader: true,
+          width: 140
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          renderHeader: true
+          renderHeader: true,
+          width: 140
         },
         {
           label: 'firmware.devicetype',
