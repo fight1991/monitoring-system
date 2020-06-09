@@ -30,6 +30,7 @@ export default {
           }
         },
         yAxis: {
+          name: 'kW',
           type: 'value',
           splitLine: {
             lineStyle: {

@@ -1,7 +1,6 @@
 <template>
   <div class="demo">
     <h1>This page is not found , Coming soon</h1>
-    <el-date-picker></el-date-picker>
   </div>
 </template>
 

@@ -44,9 +44,10 @@ export default {
             xAxisIndex: [0],
             top: '80%',
             start: 0,
-            end: 70
+            end: 40
           }],
           yAxis: {
+            name: 'kW',
             type: 'value',
             splitLine: {
               lineStyle: {
@@ -108,7 +109,9 @@ export default {
             start: 0,
             end: 70
           }],
-          yAxis: {},
+          yAxis: {
+            name: 'kW/h'
+          },
           // Declare several bar series, each will be mapped
           // to a column of dataset.source by default.
           series: [

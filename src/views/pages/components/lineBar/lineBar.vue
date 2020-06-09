@@ -67,8 +67,8 @@ export default {
         Years: 'year'
       },
       pickerDate: {
-        Days: 'month',
-        Months: 'year',
+        Days: 'date',
+        Months: 'month',
         Years: 'year'
       },
       pickerOptions: {
@@ -165,8 +165,9 @@ export default {
       if (result && result.length > 0) {
         this.echartData.power.legend.data = result.map(v => v.variable)
         this.echartData.power.series = result.map(v => {
-          let tempData = v.data.map(item => [Date.parse(item.time), item.value])
+          let tempData = v.data.map(item => [Date.parse(item.time), (item.value).toLocaleString()])
           return {
+            symbol: 'none',
             type: 'line',
             name: v.variable,
             data: tempData,
