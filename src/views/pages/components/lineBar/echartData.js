@@ -1,3 +1,4 @@
+import { formatDate } from '@/util'
 export default {
   data () {
     return {
@@ -29,9 +30,9 @@ export default {
               show: false
             },
             axisLabel: {
-              // formatter: function (value) {
-              //   return formatDate(value, 'MM-dd HH:mm')
-              // }
+              formatter: function (value) {
+                return formatDate(value, 'HH:mm:ss') + '\n' + formatDate(value, 'MM-dd')
+              }
             }
           },
           grid: [{

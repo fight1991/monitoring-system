@@ -42,7 +42,7 @@
     </div>
     <!-- 图表 -->
     <div class="chart" v-show="echartType!=='list'">
-      <el-echart :datas="echartData[echartType]" height="350px"></el-echart>
+      <el-echart :loading="chartLoading" :datas="echartData[echartType]" height="350px"></el-echart>
     </div>
     <div v-show="echartType==='list'">
       <slot name="other"></slot>
@@ -57,6 +57,7 @@ export default {
   data () {
     return {
       dateValue: '',
+      chartLoading: false,
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       dateType: 'Days',
       echartType: 'power', // 默认显示功率图表
@@ -136,6 +137,7 @@ export default {
     },
     // 折现图表数据功率
     async getLineData (id) {
+      this.chartLoading = true
       let params = {}
       if (this.type === 'plant') {
         params.plantID = this.id || id
@@ -144,6 +146,7 @@ export default {
       }
       let { result } = await this.$axios({
         url: `/v0/${this.type}/history/raw`,
+        isLoad: false,
         method: 'post',
         data: {
           ...params,
@@ -177,6 +180,7 @@ export default {
           }
         })
       }
+      this.chartLoading = false
       return true
     },
     // 柱状图表数据;电量统计
@@ -191,6 +195,7 @@ export default {
       let { result } = await this.$axios({
         url: `/v0/${this.type}/history/report`,
         method: 'post',
+        isLoad: false,
         data: {
           ...params,
           reportType: this.reportType[this.dateType],

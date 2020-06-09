@@ -71,7 +71,7 @@
           </el-option>
         </el-select>
       </el-row>
-      <el-echart :datas="lineChart" height="300px"></el-echart>
+      <el-echart :loading="chartLoading" :datas="lineChart" height="300px"></el-echart>
     </div>
     <flow-dialog :visible.sync="flowDialog" :tabList="flowDetail"></flow-dialog>
   </section>
@@ -96,6 +96,7 @@ export default {
   mixins: [lineChart],
   data () {
     return {
+      chartLoading: false,
       flowPath: 0,
       flowDetail: [],
       pvTotal: 0,
@@ -225,9 +226,11 @@ export default {
     },
     // 多折线图表
     async getMultiChart () {
+      this.chartLoading = true
       let { result } = await this.$axios({
         url: '/v0/device/history/raw',
         method: 'post',
+        isLoad: false,
         data: {
           deviceID: this.deviceId,
           variables: this.multiValue,
@@ -261,6 +264,7 @@ export default {
           this.lineChart.series = temp
         })
       }
+      this.chartLoading = false
       return true
     },
     // 获取今日异常

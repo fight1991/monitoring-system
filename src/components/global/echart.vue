@@ -1,5 +1,5 @@
 <template>
-  <div class="echart-box">
+  <div class="echart-box" v-loading="loading">
     <div v-show="hasData" class="echart" ref="echart" :style="{'width':width,'height':height}"></div>
     <div v-show="!hasData" class="noData flex-column-center" :style="{'width':width,'height':height}">
       <p><i class="iconfont icon-noData"></i></p>
@@ -13,6 +13,9 @@ import { mapState } from 'vuex'
 export default {
   name: 'e-chart',
   props: {
+    loading: {
+      default: false
+    },
     width: {
       type: String,
       default: '100%'
