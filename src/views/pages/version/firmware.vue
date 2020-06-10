@@ -44,9 +44,6 @@
           <el-button size="mini" icon="el-icon-delete">{{$t('common.delete')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :height="530" :tableList="resultList">
-          <template v-slot:time="{row}">
-            {{Number(row.time )| formatDate('yyyy-MM-dd')}}
-          </template>
         </common-table>
         <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>

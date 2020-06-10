@@ -27,9 +27,6 @@
             <i class="el-icon-error" v-show="row.status==2"></i>
             <i class="el-icon-remove" v-show="row.status==3"></i>
           </template>
-          <template v-slot:feedinDate="{row}">
-            {{row.feedinDate | formatDate('yyyy-MM-dd')}}
-          </template>
         </common-table>
         <div class="states-row">
           <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>

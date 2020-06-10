@@ -63,9 +63,6 @@
           <el-button size="mini" icon="iconfont icon-chakan">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :height="530" :tableList="resultList">
-          <template v-slot:time="{row}">
-            {{Number(row.time )| formatDate('yyyy-MM-dd')}}
-          </template>
         </common-table>
         <div class="states-row">
           <span><i class="el-icon-success"></i> {{$t('common.online')}}</span>

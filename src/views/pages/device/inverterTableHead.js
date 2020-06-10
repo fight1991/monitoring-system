@@ -50,8 +50,7 @@ export default {
           prop: 'feedinDate',
           checked: true,
           renderHeader: true,
-          slotName: 'feedinDate',
-          width: 100
+          width: 240
         },
         {
           label: 'plant.country',

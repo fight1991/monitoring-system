@@ -93,7 +93,7 @@ import todayAbnormal from '@/views/pages/plant/todayAbnormal'
 import deviceList from './deviceList'
 import plantStatus from '@/views/pages/components/powerStatus'
 import lineBar from '@/views/pages/components/lineBar/lineBar'
-import { formatDate, decodeData } from '@/util'
+import { decodeData } from '@/util'
 export default {
   components: {
     todayAbnormal,
@@ -214,9 +214,6 @@ export default {
         }
       })
       this.plants = result.plant || {}
-      if (this.plants.createdDate) {
-        this.plants.createdDate = formatDate(this.plants.createdDate)
-      }
       this.installer = result.installer || {}
       this.users = result.users || {}
     },

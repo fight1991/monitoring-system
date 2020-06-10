@@ -70,9 +70,6 @@
             <i class="el-icon-error" v-show="row.status==2"></i>
             <i class="el-icon-remove" v-show="row.status==3"></i>
           </template>
-          <template v-slot:feedinDate="{row}">
-            {{Number(row.feedinDate )| formatDate('yyyy-MM-dd')}}
-          </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
               <i title="view" class="iconfont icon-look" @click="goToDetail('look', row.deviceID)"></i>

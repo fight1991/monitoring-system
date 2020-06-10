@@ -43,11 +43,7 @@
             <el-table-column :label="$t('common.alarmType')" prop="alarmType"></el-table-column>
             <el-table-column :label="$t('plant.errorCode')" prop="code"></el-table-column>
             <el-table-column :label="$t('plant.errorName')" prop="content"></el-table-column>
-            <el-table-column :label="$t('plant.reportTime')" prop="time">
-              <template slot-scope="scope">
-                {{ scope.row.time | formatDate}}
-              </template>
-            </el-table-column>
+            <el-table-column :label="$t('plant.reportTime')" prop="time"></el-table-column>
           </el-table>
           <page-box :pagination.sync="pagination" @change="getList"></page-box>
         </func-bar>

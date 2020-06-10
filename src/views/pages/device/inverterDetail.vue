@@ -20,7 +20,7 @@
         <el-row :gutter="30">
           <el-col :span="6">{{$t('plant.country')}}  : {{headInfo.country || ''}}</el-col>
           <el-col :span="6">{{$t('plant.city')}} : {{headInfo.city || ''}}</el-col>
-          <el-col :span="6">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate | formatDate('yyyy-MM-dd')}}</el-col>
+          <el-col :span="6">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || ''}}</el-col>
           <el-col :span="6">{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || ''}}</el-col>
           <el-col :span="6">{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || ''}}</el-col>
           <el-col :span="6">{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slaver || ''}}</el-col>
