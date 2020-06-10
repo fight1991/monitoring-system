@@ -30,6 +30,7 @@
 
 <script>
 import md5 from 'js-md5'
+import { base64 } from '@/util'
 import mixins from './mixin'
 import valid from './validate'
 import storage from '@/util/storage'
@@ -103,7 +104,7 @@ export default {
         success: ({ result }) => {
           if (this.$route.query.sysId === 'maxScreen') {
             let outPath = decodeURIComponent(this.$route.query.redirect)
-            window.open(`${outPath}?token=${result.token}`, '_self')
+            window.open(`${outPath}?token=${base64.encode(result.token)}`, '_self')
             return
           }
           storage.setToken(result.token)
