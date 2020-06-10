@@ -140,9 +140,9 @@ export default {
       this.chartLoading = true
       let params = {}
       if (this.type === 'plant') {
-        params.plantID = this.id || id
+        params.plantID = id || this.id
       } else {
-        params.deviceID = this.id
+        params.deviceID = id || this.id
       }
       let { result } = await this.$axios({
         url: `/v0/${this.type}/history/raw`,
@@ -189,9 +189,9 @@ export default {
       // let dateArr = this.dateValue.split('-')
       let params = {}
       if (this.type === 'plant') {
-        params.plantID = this.id || id
+        params.plantID = id || this.id
       } else {
-        params.deviceID = this.id
+        params.deviceID = id || this.id
       }
       let { result } = await this.$axios({
         url: `/v0/${this.type}/history/report`,

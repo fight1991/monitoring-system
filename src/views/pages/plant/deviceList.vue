@@ -90,7 +90,7 @@ export default {
         url: '/v0/plant/device/list',
         data: {
           ...pages,
-          stationID: this.id || id,
+          stationID: id || this.id,
           condition: this.searchForm
         }
       })
