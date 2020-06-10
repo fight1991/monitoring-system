@@ -1,6 +1,6 @@
 export default {
   email: {
-    rule: /^([A-Za-z0-9_\-\\.])+\\@([A-Za-z0-9_\-\\.])+\.([A-Za-z]{2,4})$/, // 邮箱
+    rule: /^([A-Za-z0-9_\-\\.])+\\@([A-Za-z0-9_\-\\.])+\.([A-Za-z]{2,4})$|^$/, // 邮箱或为空
     message: 'login.errorMg3'
   },
   phone: {
@@ -8,11 +8,11 @@ export default {
     message: 'login.errorMg2'
   },
   user: {
-    rule: /^[A-Za-z][A-Za-z0-9_-]{4,}$/, // 以字母开头的至少5位用户名
+    rule: /^[A-Za-z0-9]{4,20}$/, // 4 - 20 位字符，可由英文字母及数字组成
     message: 'login.errorMg4'
   },
   password: {
-    rule: /^[A-Za-z0-9_&$#]{6,}$/, // 至少六位数密码
+    rule: /^[A-Za-z0-9_]{6,20}$/, // 6 - 20位字符，可由英文字母、数字以及“ _"组成
     message: 'login.errorMg5'
   },
   code: {

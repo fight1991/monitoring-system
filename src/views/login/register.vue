@@ -97,7 +97,8 @@ export default {
       loginRules: {
         user: [{ required: true, pattern: valid.user.rule, message: this.$t(valid.user.message), trigger: 'blur' }],
         password: [{ required: true, pattern: valid.password.rule, message: this.$t(valid.password.message), trigger: 'blur' }],
-        verPw: [{ required: true, validator: this.verPwValid, trigger: 'blur' }]
+        verPw: [{ required: true, validator: this.verPwValid, trigger: 'blur' }],
+        email: [{ pattern: valid.email.rule, message: this.$t(valid.email.message), trigger: 'blur' }]
       }
     }
   },
