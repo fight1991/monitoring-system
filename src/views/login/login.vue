@@ -101,6 +101,11 @@ export default {
           password: md5(tempData.password)
         },
         success: ({ result }) => {
+          if (this.$route.query.sysId === 'maxScreen') {
+            let outPath = decodeURIComponent(this.$route.query.redirect)
+            window.open(`${outPath}?token=${result.token}`, '_self')
+            return
+          }
           storage.setToken(result.token)
           // this.getUserInfo()
           // 存储权限信息
