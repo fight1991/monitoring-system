@@ -34,6 +34,9 @@
               <i title="delete" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
             </div>
           </template>
+          <template v-slot:generationToday="{row}">
+            {{(row.generationToday || row.generationToday==0) && row.generationToday.toLocaleString() || ''}}
+          </template>
         </common-table>
         <div class="states-row">
           <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>

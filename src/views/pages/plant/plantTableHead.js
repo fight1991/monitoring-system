@@ -34,14 +34,12 @@ export default {
           label: 'plant.equipqut',
           prop: 'quantity',
           checked: true,
-          width: '100',
           renderHeader: true
         },
         {
           label: 'plant.pvcap',
           prop: 'capacity',
           checked: true,
-          width: '80',
           renderHeader: true
         },
         {
@@ -54,15 +52,14 @@ export default {
           label: 'common.gPower',
           prop: 'power',
           checked: true,
-          width: '80',
           renderHeader: true
         },
         { // 实时数据 今日发电量
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
-          width: '80',
-          renderHeader: true
+          renderHeader: true,
+          slotName: 'generationToday'
         },
         {
           label: 'plant.stationTime',
