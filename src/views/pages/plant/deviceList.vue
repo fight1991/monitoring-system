@@ -79,6 +79,7 @@ export default {
         country: '',
         deviceType: ''
       }
+      this.search()
     },
     async getDeviceList (pagination, id) {
       let pages = pagination || this.$store.state.pagination
