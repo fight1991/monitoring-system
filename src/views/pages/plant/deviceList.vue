@@ -14,7 +14,7 @@
           </el-form-item>
           <el-form-item>
             <el-button size="mini" @click="resetSearchForm">{{$t('common.reset')}}</el-button>
-            <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+            <el-button type="primary" size="mini" @click="search()">{{$t('common.search')}}</el-button>
           </el-form-item>
         </el-form>
       </search-bar>
@@ -82,6 +82,7 @@ export default {
       this.search()
     },
     async getDeviceList (pagination, id) {
+      console.log(id, this.id)
       let pages = pagination || this.$store.state.pagination
       let { result } = await this.$axios({
         method: 'post',
