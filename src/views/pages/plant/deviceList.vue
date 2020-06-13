@@ -82,7 +82,6 @@ export default {
       this.search()
     },
     async getDeviceList (pagination, id) {
-      console.log(id, this.id)
       let pages = pagination || this.$store.state.pagination
       let { result } = await this.$axios({
         method: 'post',

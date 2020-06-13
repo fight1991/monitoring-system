@@ -156,12 +156,12 @@ export default {
           systemCapacity: ''
         }
       },
+      copyDataForm: {},
       templateDevice: {
         sn: '',
         key: '',
         isPass: 1
       },
-      editInfo: {},
       rules: {
         agent: [{ required: true, message: 'agent is required', trigger: 'change' }],
         timezone: [{ required: true, message: 'time zone is required', trigger: 'blur' }],
@@ -183,7 +183,8 @@ export default {
   async created () {
     if (this.access > 1) {
       this.getPriceList()
-      this.getAgentList()
+      await this.getAgentList()
+      // 复制模板
       this.countryList = await this.getCountryList()
     }
     let { opType } = this.$route.meta
@@ -192,8 +193,9 @@ export default {
     }
     if (this.opType !== 'add') {
       this.plantId = this.$route.query.plantId
-      this.getStationInfo(this.plantId)
+      await this.getStationInfo(this.plantId)
     }
+    this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
   },
   watch: {
     '$store.state.lang': async function () {
@@ -222,32 +224,6 @@ export default {
     }
   },
   methods: {
-    // 表格模板
-    copyData () {
-      return {
-        devices: [
-          { sn: '', key: '', isPass: 1 }
-        ],
-        timezone: '',
-        daylight: '',
-        agent: '',
-        details: {
-          name: '',
-          type: '',
-          country: '',
-          city: '',
-          address: '',
-          price: '',
-          capacity: '',
-          quantity: '',
-          stationID: '',
-          owner: '',
-          createdDate: '',
-          postcode: '',
-          systemCapacity: ''
-        }
-      }
-    },
     // 设备新增
     deviceAdd () {
       this.dataForm.devices.push({ ...this.templateDevice })
@@ -328,11 +304,7 @@ export default {
         type: 'warning'
       }).then(() => true).catch(() => false)
       if (!res) return
-      if (this.opType === 'edit') {
-        this.dataForm = this.editInfo
-      } else {
-        this.dataForm = this.copyData()
-      }
+      this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
       this.$refs.dataForm.clearValidate()
     },
     // 新建电站 / 编辑电站
@@ -403,10 +375,7 @@ export default {
           result.devices = [this.templateDevice]
         }
         this.dataForm = result
-      } else {
-        this.dataForm = this.copyData()
       }
-      this.editInfo = JSON.parse(JSON.stringify(this.dataForm))
       return true
     }
   }
