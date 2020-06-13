@@ -164,8 +164,8 @@ export default {
       editInfo: {},
       rules: {
         agent: [{ required: true, message: 'agent is required', trigger: 'change' }],
-        timezone: [{ required: true, message: 'time zone is required', trigger: 'change' }],
-        daylight: [{ required: true, message: 'summer time is required', trigger: 'change' }],
+        timezone: [{ required: true, message: 'time zone is required', trigger: 'blur' }],
+        daylight: [{ required: true, message: 'summer time is required', trigger: 'blur' }],
         'details.name': [{ required: true, message: 'name is required', trigger: 'blur' }],
         'details.type': [{ required: true, message: 'type is required', trigger: 'blur' }],
         'details.country': [{ required: true, message: 'country is required', trigger: 'change' }],
@@ -274,6 +274,8 @@ export default {
     },
     // 获取时区列表
     async getZoneList (name) {
+      this.dataForm.timezone = ''
+      this.dataForm.daylight = ''
       let temp = this.countryList.find(v => v.name === name)
       let { result } = await this.$axios({
         url: '/v0/map/timezones',
