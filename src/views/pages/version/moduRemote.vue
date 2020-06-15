@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main flex-column-between bg-c" v-setH="setDivH">
+  <section class="sys-main flex-column-between bg-c" v-setH:min="setDivH">
     <div class="sys-table-container">
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm">
