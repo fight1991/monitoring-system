@@ -1,6 +1,6 @@
 import router from './index'
 /**
- * 统一用path做跳转, path和params是传参会失效
+ * 统一用name做跳转, path和params是传参会失效
  * tabMethods.open    打开新页签, 需要定义一个tabId
  * tabMethods.push    同this.$router.push 在已有的页签中查找,有则激活,无则新增
  * tabMethods.replace 替换已有页签,无则打开新页签
