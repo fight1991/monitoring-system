@@ -2,7 +2,7 @@
   <section class="sys-main">
     <show-item ref="plantStatus" @getselect="getselect"></show-item>
     <!-- 表格区域 -->
-    <el-card shadow="never" v-if="access !== 1">
+    <el-card shadow="never" v-if="access !== 1" class="no-bottom">
       <div class="title border-line" slot="header">{{$t('plant.plantsList')}}</div>
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">

@@ -62,7 +62,7 @@
           <today-abnormal :todayFault="todayFault" :id="plantId" :type="'plant'"></today-abnormal>
         </el-col>
         <el-col :span="12">
-          <el-card shadow="never">
+          <el-card shadow="never" class="no-bottom">
             <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
             <div class="progress-container">
               <div class="progress-line">

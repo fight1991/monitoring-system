@@ -140,7 +140,8 @@ export default {
 .copy-right {
   font-size: 12px;
   color: #ccc;
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
+  height: 16px;
 }
 </style>
