@@ -13,7 +13,7 @@
             <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')" clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="mini" @click="resetSearchForm">{{$t('common.reset')}}</el-button>
+            <el-button size="mini" @click="resetSearchForm()">{{$t('common.reset')}}</el-button>
             <el-button type="primary" size="mini" @click="search()">{{$t('common.search')}}</el-button>
           </el-form-item>
         </el-form>
@@ -70,7 +70,7 @@ export default {
     search (id) {
       this.getDeviceList(this.$store.state.pagination, id)
     },
-    resetSearchForm () {
+    resetSearchForm (id) {
       this.searchForm = {
         status: 0,
         plantName: '',
@@ -79,7 +79,7 @@ export default {
         country: '',
         deviceType: ''
       }
-      this.search()
+      this.search(id)
     },
     async getDeviceList (pagination, id) {
       let pages = pagination || this.$store.state.pagination
