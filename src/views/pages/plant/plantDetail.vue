@@ -201,7 +201,7 @@ export default {
       this.getAbnormalStatus()
       this.getDeviceStatus()
       this.getPlantEarns()
-      this.$refs.deviceList.search(this.plantId)
+      this.$refs.deviceList.resetSearchForm(this.plantId)
       this.$refs.lineBar.getLineData(this.plantId)
       this.$refs.lineBar.getBarData(this.plantId)
     },
