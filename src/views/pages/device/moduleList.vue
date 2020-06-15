@@ -35,12 +35,15 @@
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-dropdown @command="commandDrop" trigger="click">
-            <el-button size="mini" icon="iconfont icon-import" @click="importMulti">{{$t('common.import')}}</el-button>
+            <el-button size="mini" icon="iconfont icon-import">{{$t('common.import')}}</el-button>
             <el-dropdown-menu slot="dropdown">
+              <!-- 模板下载 -->
               <el-dropdown-item command="d">{{$t('common.download')}}</el-dropdown-item>
+              <!-- 导入 -->
               <el-upload
+                :show-file-list="false"
                 class="dropDown-upload"
-                :before-upload="beforeUpload"
+                :http-request="beforeUpload"
                 action="http://127.0.0.1">
                 <el-dropdown-item command="e" divided>{{$t('common.import')}}</el-dropdown-item>
               </el-upload>
@@ -166,12 +169,41 @@ export default {
     search () {
       this.getModuleList(this.$store.state.pagination)
     },
-    commandDrop () {
-
+    commandDrop (type) {
+      if (type === 'd') {
+        this.downloadModule()
+      }
     },
-    // 批量导入
-    importMulti () {
-      // /module/import
+    // 模板下载
+    downloadModule () {
+      window.open('http://www.foxesscloud.com/template/modules.csv', '_blank')
+    },
+    // 读取文件信息
+    beforeUpload ({ file }) {
+      console.log(file)
+      // excel 或 .csv格式
+      let excelType = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+      if (!excelType.includes(file.type)) {
+        this.$message({
+          message: 'invalid file type',
+          type: 'error'
+        })
+        return false
+      }
+      this.importFile(file)
+    },
+    // 导入文件
+    importFile (file) {
+      let upfile = new FormData()
+      upfile.append('upfile', file)
+      // 文件上传请求
+      this.$upload({
+        url: '/v0/module/import',
+        data: upfile,
+        success: res => {
+          console.log(res)
+        }
+      })
     },
     // 批量解绑
     async unbindMulti () {
@@ -210,25 +242,6 @@ export default {
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
       }
-    },
-    beforeUpload (file) {
-      // excel 或 .csv格式
-      let excelType = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
-      if (!excelType.includes(file.type)) {
-        this.$message({
-          message: 'invalid file type',
-          type: 'error'
-        })
-        return false
-      }
-      let param = new FormData()
-      param.append('file', file, file.name)
-      // 文件上传请求
-      this.$upload({
-        url: '/v0/module/import',
-        data: {},
-        success: res => {}
-      })
     }
   }
 }
