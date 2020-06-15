@@ -47,7 +47,7 @@
     </div>
     <div class="footer">
       <div class="footer-content">
-        <p class="flex-center">
+        <p class="flex-center some-link">
           <el-link type="info" href="https://www.fox-ess.com/" target="_blank">{{$t('login.site')}}</el-link>
           <i class="gap">-</i>
           <el-link type="info" href="http://8.209.116.72/i18n/zh_CN/UserAgreement.html" target="_blank">{{$t('login.useTerm')}}</el-link>
@@ -104,6 +104,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.some-link {
+  flex-wrap: wrap;
+}
 .gap {
   margin: 0 5px;
 }
