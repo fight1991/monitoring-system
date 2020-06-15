@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main">
+  <section class="sys-main flex-column-between bg-c" v-setH="setDivH">
     <div class="sys-table-container">
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm">
@@ -45,14 +45,17 @@
           <el-button size="mini" icon="iconfont icon-shengji">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :height="530" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
         </common-table>
-        <div class="states-row">
-          <span><i class="el-icon-success"></i> {{$t('common.online')}}</span>
-          <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
-        </div>
-        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
+    </div>
+    <div class="page-list">
+      <div class="states-row">
+        <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>
+        <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}</span>
+        <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
+      </div>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>

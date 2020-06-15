@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main">
+  <section class="sys-main flex-column-between bg-c" v-setH="setDivH">
     <div class="sys-table-container">
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm">
@@ -43,10 +43,12 @@
           <el-button size="mini" icon="iconfont icon-fabu">{{$t('common.release')}}</el-button>
           <el-button size="mini" icon="el-icon-delete">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :height="530" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
         </common-table>
-        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
+    </div>
+    <div class="page-list">
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>

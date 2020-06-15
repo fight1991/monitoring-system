@@ -35,7 +35,7 @@
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-dropdown @command="commandDrop" trigger="click">
-            <el-button size="mini" icon="iconfont icon-import">{{$t('common.import')}}</el-button>
+            <el-button size="mini" icon="iconfont icon-import" :disabled="access!=255">{{$t('common.import')}}</el-button>
             <el-dropdown-menu slot="dropdown">
               <!-- 模板下载 -->
               <el-dropdown-item command="d">{{$t('common.download')}}</el-dropdown-item>
@@ -49,7 +49,7 @@
               </el-upload>
             </el-dropdown-menu>
           </el-dropdown>
-          <el-button size="mini" icon="iconfont icon-unbind" :disabled="access!=255" @click="unbindMulti">{{$t('common.unbind')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-unbind" :disabled="access!=255 || bindIds.length < 1" @click="unbindMulti">{{$t('common.unbind')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
@@ -201,7 +201,7 @@ export default {
         url: '/v0/module/import',
         data: upfile,
         success: res => {
-          console.log(res)
+          this.search()
         }
       })
     },

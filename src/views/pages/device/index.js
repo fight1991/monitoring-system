@@ -17,21 +17,21 @@ export default {
       }
     },
     {
-      path: '/bus/device/battery',
-      name: '/bus-device-battery',
-      meta: {
-        permission: [1, 2, 3],
-        title: 'batteryM',
-        component: () => import(/* webpackChunkName: "bus-device-battery" */ '@/views/pages/device/batteryList.vue')
-      }
-    },
-    {
       path: '/bus/device/module',
       name: '/bus-device-module',
       meta: {
         permission: [1, 2, 3],
         title: 'moduleM',
         component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/device/moduleList')
+      }
+    },
+    {
+      path: '/bus/device/battery',
+      name: '/bus-device-battery',
+      meta: {
+        permission: [1, 2, 3],
+        title: 'batteryM',
+        component: () => import(/* webpackChunkName: "bus-device-battery" */ '@/views/pages/demo')
       }
     },
     {
