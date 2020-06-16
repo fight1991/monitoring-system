@@ -3,14 +3,8 @@ export default {
   getLoginUserMenus () {
     return localStorage.getItem('menuCode') || []
   },
-  removeToken () {
-    localStorage.removeItem('token')
-  },
-  setToken (token) {
-    localStorage.setItem('token', token)
-  },
-  getToken () {
-    return localStorage.getItem('token') || ''
+  removeStorage (name) {
+    localStorage.removeItem(name)
   },
   removeLoginInfo () {
     localStorage.removeItem('username')
@@ -21,9 +15,6 @@ export default {
     userInfo.name && localStorage.setItem('username', userInfo.name)
     userInfo.email && localStorage.setItem('email', userInfo.email)
     userInfo.phone && localStorage.setItem('phone', userInfo.phone)
-  },
-  getUserInfo (item) {
-    return localStorage.getItem(item) || ''
   },
   setStorage (key, value) {
     if (typeof value === 'object') {
@@ -38,5 +29,8 @@ export default {
       return JSON.parse(res)
     }
     return res
+  },
+  clearSession () {
+    sessionStorage.clear()
   }
 }

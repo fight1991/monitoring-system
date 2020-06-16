@@ -107,8 +107,7 @@ export default {
             window.open(`${outPath}?token=${base64.encode(result.token)}`, '_self')
             return
           }
-          storage.setToken(result.token)
-          // this.getUserInfo()
+          storage.setStorage('token', result.token)
           // 存储权限信息
           this.$store.commit('setAccess', result.access)
           let path = '/'

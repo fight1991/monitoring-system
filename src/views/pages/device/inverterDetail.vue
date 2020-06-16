@@ -131,7 +131,7 @@ export default {
       },
       setWsHead ({ flag = '', url = '', data = {} }) {
         return JSON.stringify({
-          token: storage.getToken(),
+          token: storage.getStorage('token'),
           msgType: 'request',
           interval: 3000,
           sequence: flag,

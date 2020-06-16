@@ -44,15 +44,16 @@ router.beforeEach(async (to, from, next) => {
   // 不需权限,直接放行 /login,/error-xx等
   if (to.meta.requiresAuth === false) {
     if (to.path === '/login') {
-      storage.removeToken('token')
+      storage.removeStorage('token')
       storage.removeLoginInfo()
+      storage.clearSession()
       _this.$options.store.state.isFirst = true
     }
     next()
     return
   }
   // token不存在,跳转到login
-  if (!storage.getToken()) {
+  if (!storage.getStorage('token')) {
     next('/login')
     return
   }

@@ -14,7 +14,7 @@ export default {
   onRequestResolve: function (config) {
     // ajax异步请求
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
-    config.headers['token'] = storage.getToken()
+    config.headers['token'] = storage.getStorage('token')
     config.headers['lang'] = store.state.lang
     return config
   },

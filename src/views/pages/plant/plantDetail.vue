@@ -15,6 +15,7 @@
           </div>
           <div class="select-area flex-center" v-if="pageFlag==='board'">
             <i class="arrow el-icon-caret-left" v-if="switchBtnShow && plantIndex > 0" @click="switchPlant('reduce')"></i>
+            <!-- 电站名称切换 -->
             <el-select size="mini" @change="getCommonRequest" v-model="plantId" :placeholder="$t('common.select')">
               <el-option v-for="item in plantList" :label="item.plantName" :value="item.stationID" :key="item.stationID"></el-option>
             </el-select>
@@ -171,13 +172,11 @@ export default {
     } else { // dashboard页面
       // 获取plantList列表
       await this.getPlantList()
-      // 截取plantList第一项
-      if (this.plantList[0]) {
-        this.plantId = this.plantList[0].stationID
-        this.getCommonRequest()
-      }
+      // 本地session无则取plantList第一项
+      this.plantId = sessionStorage.getItem('plantId') ||
+                     (this.plantList[0] && this.plantList[0].stationID) || ''
+      this.plantId && this.getCommonRequest()
     }
-    // this.getSomeIncome()
   },
   beforeDestroy () {},
   methods: {
@@ -194,6 +193,8 @@ export default {
     },
     // 发送非socket相关请求
     getCommonRequest () {
+      // 记录下拉数据, 防止刷新页面数据丢失
+      sessionStorage.setItem('plantId', this.plantId)
       this.getAbnormalStatus()
       this.getDeviceStatus()
       this.getPlantEarns()
