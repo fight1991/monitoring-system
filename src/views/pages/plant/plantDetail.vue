@@ -67,7 +67,7 @@
             <div class="progress-container">
               <div class="progress-line">
                 <div class="status-text f12 flex-between"><span>{{$t('common.total')}}</span><span style="color:#00BFFF">{{device.total}}</span></div>
-                <el-progress class="progress" :show-text="false" :stroke-width="12" :percentage="percentMethod(device.total)" color="#67c23a"></el-progress>
+                <el-progress class="progress" :show-text="false" :stroke-width="12" :percentage="percentMethod(device.total)" color="#00BFFF"></el-progress>
               </div>
               <div class="progress-line">
                 <div class="status-text f12 flex-between"><span>{{$t('common.normal')}}</span><span style="color:#67c23a">{{device.normal}}</span></div>
@@ -148,11 +148,7 @@ export default {
   },
   computed: {
     deviceTotal () {
-      let total = 0
-      Object.values(this.device).forEach(value => {
-        total += Number(value)
-      })
-      return total
+      return this.device.total
     },
     plantIndex () {
       return this.plantList.findIndex(v => v.stationID === this.plantId)
