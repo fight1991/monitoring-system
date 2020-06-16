@@ -7,7 +7,7 @@
           <el-row :gutter="15">
             <el-col :span="8">
               <el-form-item>
-                <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
+                <el-input v-model="searchForm.sn" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -149,21 +149,6 @@ export default {
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
-      }
-    },
-    // 删除逆变器
-    async deleteInverter () {
-      if (this.deviceId.length === 0) {
-        this.$message.warning('Please check an option')
-        return
-      }
-      let { result } = await this.$axios({
-        url: '/v0​/device/delete',
-        method: 'post',
-        data: this.deviceId
-      })
-      if (result) {
-        this.$message.success(this.$t('common.success'))
       }
     }
   }
