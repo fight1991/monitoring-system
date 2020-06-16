@@ -35,7 +35,7 @@
       <!-- 列表查询区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="downloadUrl" @click="downLoad">下载</el-button>
+          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="downloadUrl" @click="download">下载</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
         </common-table>
@@ -86,7 +86,7 @@ export default {
     // this.search()
   },
   methods: {
-    downLoad () {
+    download () {
       window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
     },
     resetSearchForm () {
