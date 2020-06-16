@@ -180,7 +180,6 @@ export default {
     },
     // 读取文件信息
     beforeUpload ({ file }) {
-      console.log(file)
       // excel 或 .csv格式
       let excelType = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
       if (!excelType.includes(file.type)) {
