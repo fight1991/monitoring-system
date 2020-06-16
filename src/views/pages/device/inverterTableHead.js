@@ -25,7 +25,8 @@ export default {
         {
           label: 'invupgrade.invmodel',
           prop: 'deviceType',
-          checked: true
+          checked: true,
+          width: 100
         },
         {
           label: 'common.gPower',
