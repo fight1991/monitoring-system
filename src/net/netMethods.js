@@ -50,7 +50,7 @@ const requests = {
       if (process.env.NODE_ENV === 'development') console.log('api is ' + url, err)
       error && error(err)
     }).finally(() => {
-      store.commit('changeLoading', false)
+      if (isLoad) store.commit('changeLoading', false)
     })
   },
   $post ({ url, data = {}, success, other, error, isLoad = true }) {
@@ -64,7 +64,7 @@ const requests = {
         error && error(err)
       })
       .finally(() => {
-        store.commit('changeLoading', false)
+        if (isLoad) store.commit('changeLoading', false)
       })
   },
   $upload ({ url, data = {}, success, error, isLoad = true }) {
@@ -78,7 +78,7 @@ const requests = {
     }).catch(err => {
       error && error(err)
     }).finally(() => {
-      store.commit('changeLoading', false)
+      if (isLoad) store.commit('changeLoading', false)
     })
   }
 }

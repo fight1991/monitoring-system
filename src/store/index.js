@@ -10,6 +10,7 @@ export default new Vuex.Store({
     lang: 'zh', // 语言
     collapse: false, // 是否折叠
     loading: false,
+    loadingNum: 0, // 全局loading数量计数, 防止一个请求没有回来被另一个请求关掉了
     tabView: true, // 是否开启页签模式
     pagination: {
       pageSize: 10,
@@ -32,7 +33,13 @@ export default new Vuex.Store({
   },
   mutations: {
     changeLoading (state, res) {
-      state.loading = res
+      res ? state.loadingNum++ : state.loadingNum--
+      if (state.loadingNum > 0) {
+        state.loading = true
+      } else {
+        state.loadingNum = 0
+        state.loading = false
+      }
     },
     changeCollapse (state) {
       state.collapse = !state.collapse
