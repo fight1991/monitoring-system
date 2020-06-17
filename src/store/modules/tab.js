@@ -12,7 +12,8 @@ export default {
         isShow: true,
         components: [Home],
         query: {},
-        params: {}
+        params: {},
+        loadingNum: 0
       }
     ]
   },
@@ -67,6 +68,16 @@ export default {
     }
   },
   actions: {
+    // 设置当前组件的loading
+    setCurrentTabLoading ({ state }, { tabId, flag }) {
+      let comp = state.tabList.find(v => v.tabId === tabId)
+      let tempNum = comp.loadingNum
+      flag ? tempNum++ : tempNum--
+      if (tempNum < 0) {
+        tempNum = 0
+      }
+      comp.loadingNum = tempNum
+    },
     // 关闭所有页签
     closeAllTab ({ state, commit }) {
       state.tabList.splice(1)

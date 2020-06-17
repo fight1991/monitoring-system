@@ -1,6 +1,7 @@
 
 import store from '@/store'
 import storage from '@/util/storage'
+import { bussinessBundle, startLoading, closeLoading } from '@/util'
 import { MethodBase, MethodAll } from './netConfig'
 let { instance: commonInstance } = new MethodBase(process.env.VUE_APP_API)
 let { instance: upLoadInstance } = new MethodBase(process.env.VUE_APP_FILE)
@@ -10,15 +11,16 @@ const requests = {
   async $axios ({ url, data = {}, method = 'get', isLoad = true, checkParams }) {
     let params = method === 'get' ? { params: data } : data
     // 无论resolve还是reject都返回一个结果
+    let tabId = store.state.tab.currentTab
     try {
       if (checkParams) { // 检查本地是否有缓存
         if (storage.getStorage(checkParams)) {
           return { result: storage.getStorage(checkParams) }
         }
       }
-      isLoad && store.commit('changeLoading', true)
+      isLoad && startLoading(store, tabId)
       let res = await commonInstance[method](url, params)
-      isLoad && store.commit('changeLoading', false)
+      isLoad && closeLoading(store, tabId)
       if (res.errno === store.state.successCode) {
         checkParams && storage.setStorage(checkParams, res.result)
         return { result: res.result }
@@ -26,49 +28,52 @@ const requests = {
       return { other: res.result }
     } catch (err) {
       // console.log(err)
-      if (isLoad) store.commit('changeLoading', false)
+      isLoad && isLoad && closeLoading(store, tabId)
       return { error: err }
     }
   },
   // 多个并发请求
   $all: {
-    promise (promiseArr) { // 入参为promise对象,处理并发请求 async修饰的函数返回promise
-      return new MethodAll(promiseArr).$all(store)
+    promise (promiseArr, isLoad = true) { // 入参为promise对象,处理并发请求 async修饰的函数返回promise
+      return new MethodAll(promiseArr).$all(store, isLoad)
     },
-    url (urlArr) {
-      return new MethodAll(urlArr).$all(store)
+    url (urlArr, isLoad = true) {
+      return new MethodAll(urlArr).$all(store, isLoad)
     }
   },
   // 自定义请求
   $get ({ url, data = {}, success, other, error, isLoad = true }) {
-    if (isLoad) store.commit('changeLoading', true)
+    let tabId = store.state.tab.currentTab
+    isLoad && startLoading(store, tabId)
     commonInstance.get(url, {
       params: data
     }).then(res => {
-      bussinessBundle(res, other, success)
+      bussinessBundle(res, other, success, store)
     }).catch(err => {
       if (process.env.NODE_ENV === 'development') console.log('api is ' + url, err)
       error && error(err)
     }).finally(() => {
-      if (isLoad) store.commit('changeLoading', false)
+      isLoad && closeLoading(store, tabId)
     })
   },
   $post ({ url, data = {}, success, other, error, isLoad = true }) {
-    if (isLoad) store.commit('changeLoading', true)
+    let tabId = store.state.tab.currentTab
+    isLoad && startLoading(store, tabId)
     commonInstance.post(url, data)
       .then(res => {
-        bussinessBundle(res, other, success)
+        bussinessBundle(res, other, success, store)
       })
       .catch(err => {
         if (process.env.NODE_ENV === 'development') console.log('api is ' + url, err)
         error && error(err)
       })
       .finally(() => {
-        if (isLoad) store.commit('changeLoading', false)
+        isLoad && closeLoading(store, tabId)
       })
   },
   $upload ({ url, data = {}, success, error, isLoad = true }) {
-    if (isLoad) store.commit('changeLoading', true)
+    let tabId = store.state.tab.currentTab
+    isLoad && startLoading(store, tabId)
     upLoadInstance.post(url, data, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -78,18 +83,8 @@ const requests = {
     }).catch(err => {
       error && error(err)
     }).finally(() => {
-      if (isLoad) store.commit('changeLoading', false)
+      isLoad && closeLoading(store, tabId)
     })
-  }
-}
-// 响应200时 业务状态码处理
-function bussinessBundle (res, other, success) {
-  if (res.errno === store.state.successCode) {
-    success && success(res)
-    return
-  }
-  if (other) {
-    other(res)
   }
 }
 

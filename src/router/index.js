@@ -106,7 +106,8 @@ router.afterEach((to, from) => {
       path: to.path,
       name: to.name,
       query: JSON.parse(JSON.stringify(to.query)),
-      params: tempParams
+      params: tempParams,
+      loadingNum: 0
     })
   }
 })

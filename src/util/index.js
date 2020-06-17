@@ -97,6 +97,38 @@ export function isJSON (str) {
     return false
   }
 }
+// 响应200时 业务状态码处理
+export function bussinessBundle (res, other, success, store) {
+  if (res.errno === store.state.successCode) {
+    success && success(res)
+    return
+  }
+  if (other) {
+    other(res)
+  }
+}
+
+// 开启loading
+export function startLoading (store, tabId) {
+  // 页签组件的loading
+  if (store.state.tab.currentTab && store.state.tab.currentTab !== 'tab-index') {
+    store.dispatch('setCurrentTabLoading', { tabId, flag: true })
+  } else {
+  // 全局loading
+    store.commit('changeLoading', true)
+  }
+}
+// 关闭loading
+export function closeLoading (store, tabId) {
+  // 页签组件的loading
+  if (store.state.tab.currentTab && store.state.tab.currentTab !== 'tab-index') {
+    store.dispatch('setCurrentTabLoading', { tabId, flag: false })
+  } else {
+  // 全局loading
+    store.commit('changeLoading', false)
+  }
+}
+
 // 得到文件的md5值
 export async function getFileMd5 (file) {
   const fileSize = file.size // 文件大小
@@ -138,13 +170,14 @@ export async function getFileBase64 (file) {
     return res
   }
 }
-// 编码解码
+// url编码解码
 export function encodeData (obj) {
   return encodeURIComponent(JSON.stringify(obj))
 }
 export function decodeData (obj) {
   return JSON.parse(decodeURIComponent(obj))
 }
+// base64编码/解码
 export const base64 = {
   encode: function (params) {
     return Base64.Base64.encode(params)

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import interceptors from './interceptors'
+import { startLoading, closeLoading } from '@/util'
 let {
   onRequestResolve,
   onRequestReject,
@@ -22,15 +23,16 @@ export class MethodAll {
   constructor (params) {
     this.params = params
   }
-  async $all (store) {
+  async $all (store, isLoad) {
     let res = null
+    let tabId = store.state.tab.currentTab
     try {
-      store.commit('changeLoading', true)
+      isLoad && startLoading(store, tabId)
       res = await Promise.all(this.params)
-      store.commit('changeLoading', false)
+      isLoad && closeLoading(store, tabId)
       return res
     } catch (err) {
-      store.commit('changeLoading', false)
+      isLoad && closeLoading(store, tabId)
       return false
     }
   }
