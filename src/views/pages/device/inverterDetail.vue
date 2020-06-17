@@ -62,14 +62,27 @@
     <!-- 多选折线图 -->
     <div class="container-bottom bg-c">
       <el-row class="select-line">
-        <el-select v-model="multiValue" collapse-tags multiple size="mini" :placeholder="$t('common.select')" @change="selectChange">
-          <el-option
-            v-for="item in options"
-            :key="item"
-            :label="$t('chart.'+item)"
-            :value="item">
-          </el-option>
-        </el-select>
+        <div class="flex-between">
+          <div class="select-box">
+            <el-select v-model="multiValue" collapse-tags multiple size="mini" :placeholder="$t('common.select')">
+              <el-option
+                v-for="item in options"
+                :key="item"
+                :label="$t('chart.'+item)"
+                :value="item">
+              </el-option>
+            </el-select>
+            <el-button @click="selectChange" v-show="hasVarible" class="mg-l10" size="mini" plain>{{$t('common.search')}}</el-button>
+          </div>
+          <el-date-picker
+            @change="selectChange"
+            :clearable="false"
+            size="mini"
+            style="width:125px"
+            :picker-options="pickerOptions"
+            v-model="powerDate">
+          </el-date-picker>
+        </div>
       </el-row>
       <el-echart :loading="chartLoading" :datas="lineChart" height="300px"></el-echart>
     </div>
@@ -84,7 +97,7 @@ import flowDialog from './flowDialog'
 import flowAnimate from './flowAnimate'
 import lineChart from './lineChart'
 import storage from '@/util/storage'
-import { isJSON } from '@/util'
+import { isJSON, formatDate } from '@/util'
 export default {
   components: {
     deviceStatus,
@@ -98,6 +111,7 @@ export default {
     return {
       chartLoading: false,
       flowPath: 0,
+      powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       flowDetail: [],
       pvTotal: 0,
       ws: null,
@@ -110,6 +124,11 @@ export default {
       deviceId: '',
       options: [],
       headInfo: {},
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        }
+      },
       incomeDetail: { // 收益详情
         currencyCount: 0, // 币种数量
         power: '', // 功率
@@ -148,6 +167,11 @@ export default {
     this.getAbnormalStatus()
     this.getDeviceEarns()
     this.createWebsocket(this.getWsInfo)
+  },
+  computed: {
+    hasVarible () {
+      return this.multiValue && this.multiValue.length > 0
+    }
   },
   mounted () {
     this.$refs.lineBar.getLineData()
@@ -234,14 +258,14 @@ export default {
         data: {
           deviceID: this.deviceId,
           variables: this.multiValue,
-          timespan: 'hour',
+          timespan: 'day',
           beginDate: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            day: new Date().getDate(),
-            hour: new Date().getHours(),
-            minute: new Date().getMinutes(),
-            second: new Date().getSeconds()
+            year: new Date(this.powerDate).getFullYear(),
+            month: new Date(this.powerDate).getMonth() + 1,
+            day: new Date(this.powerDate).getDate(),
+            hour: 0,
+            minute: 0,
+            second: 0
           }
         }
       })
@@ -282,7 +306,7 @@ export default {
       return true
     },
     selectChange () {
-      if (!this.multiValue) return
+      if (!this.hasVarible) return
       this.lineChart.legend.data = this.multiValue
       this.getMultiChart()
     },
