@@ -2,7 +2,7 @@
   <div class="echart-box" v-loading="loading">
     <div v-show="hasData" class="echart" ref="echart" :style="{'width':width,'height':height}"></div>
     <div v-show="!hasData" class="noData flex-column-center" :style="{'width':width,'height':height}">
-      <p><i class="iconfont icon-noData"></i></p>
+      <div class="img-box"><img :src="emptyImg" alt="No Data"></div>
       <p>{{$t('common.noData')}}</p>
     </div>
   </div>
@@ -12,6 +12,11 @@ import echarts from 'echarts'
 import { mapState } from 'vuex'
 export default {
   name: 'e-chart',
+  data () {
+    return {
+      emptyImg: require('@/assets/emptyData.png')
+    }
+  },
   props: {
     loading: {
       default: false
@@ -58,9 +63,6 @@ export default {
       this.asyncInit()
     }
   },
-  data () {
-    return {}
-  },
   created () {
     window.addEventListener('resize', this.asyncInit)
   },
@@ -90,20 +92,17 @@ export default {
 .echart {
   overflow: hidden!important;
 }
+.img-box {
+  width: 280px;
+  margin: 0 auto 10px;
+  img {
+    width: 100%;
+  }
+}
 .noData {
   text-align: center;
-  color: #ADE9F8;
+  color: #CDD4DB;
   font-weight: bold;
   font-size: 16px;
-  p {
-    margin: 0;
-    margin-bottom: 5px;
-  }
-  .icon-noData {
-    font-weight: normal;
-    height: 100%;
-    font-size: 180px;
-    color: #ADE9F8;
-  }
 }
 </style>
