@@ -2,7 +2,6 @@ export default {
   icon: 'icon-banbenxinxi',
   path: '/bus/version',
   name: 'bus-version',
-  hidden: true,
   meta: {
     permission: [1, 2, 3],
     title: 'versionM'
@@ -14,7 +13,7 @@ export default {
       meta: {
         permission: [1, 2, 3],
         title: 'firmware',
-        component: () => import(/* webpackChunkName: "bus-version-firmware" */ '@/views/pages/version/firmware')
+        component: () => import(/* webpackChunkName: "bus-version-firmware" */ '@/views/pages/demo')
       }
     },
     {
@@ -23,7 +22,7 @@ export default {
       meta: {
         permission: [1, 2, 3],
         title: 'inverUp',
-        component: () => import(/* webpackChunkName: "bus-version-inverRemote" */ '@/views/pages/version/inverRemote')
+        component: () => import(/* webpackChunkName: "bus-version-inverRemote" */ '@/views/pages/demo')
       }
     },
     {
@@ -32,7 +31,7 @@ export default {
       meta: {
         permission: [1, 2, 3],
         title: 'moduleUp',
-        component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/version/moduRemote')
+        component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/demo')
       }
     }
   ]
