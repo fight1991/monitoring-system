@@ -2,6 +2,7 @@ export default {
   icon: 'icon-banbenxinxi',
   path: '/bus/version',
   name: 'bus-version',
+  hidden: true,
   meta: {
     permission: [1, 2, 3],
     title: 'versionM'
