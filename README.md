@@ -41,6 +41,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 > `$ npm run dev/serve` 
 >  2. 生产打包，打包目录 dist  
 > `$ npm run build`
+>  3. 按照需要可以配置测试环境,预生产环境
 
 ## 集成环境 ##
 >  1. less 方便css开发
@@ -49,6 +50,12 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 >  4. elementUI 集成elementUI组件库
 >  5. 集成其他后续补充
 
+## 全局变量 ##
+> .env.dev --> 开发环境
+> .env.test --> 测试环境
+> .env.preprod --> 预生成环境
+> .env.prod --> 生产环境
+>  注意: 可以在文件中添加NODE_ENV=development 指定环境类型在package.json文件中配置
 
 ## 开发规范 ##
 >  1. 熟悉eslint代码质量检测规范
@@ -111,5 +118,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 > 1. this.$tab.open 打开新页签, 需要定义一个tabId
 > 2. this.$tab.push 同this.$router.push 在已有的页签中查找,有则激活,无则新增
 > 3. this.$tab.replace 替换已有页签,无则打开新页签
-> 4. this.$tab.open 关闭当前tab,打开指定tab(如果存在就刷新)
+> 4. this.$tab.back 关闭当前tab,打开指定tab(如果存在就刷新)
  
