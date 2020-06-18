@@ -83,7 +83,7 @@ export default {
     }
   },
   created () {
-    // this.search()
+    this.search()
   },
   methods: {
     download () {
@@ -124,7 +124,7 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      if (this.times) {
+      if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {
           year: new Date(this.times[0]).getFullYear(),
           month: new Date(this.times[0]).getMonth() + 1,
@@ -137,7 +137,8 @@ export default {
         }
       }
       let { result } = await this.$axios({
-        url: '/v0/device​/report​/query',
+        url: '/v0/device/report/query',
+        method: 'post',
         data: {
           ...pagination,
           ...this.searchForm
