@@ -386,7 +386,7 @@ export default {
   margin: 15px 10px;
 }
 .foot-btn {
-  margin: 20px 0;
+  padding: 20px 0;
 }
 .col-container {
   padding: 0 50px;
