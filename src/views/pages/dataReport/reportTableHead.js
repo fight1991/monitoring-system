@@ -4,11 +4,6 @@ export default {
     return {
       reportTableHead: [
         {
-          label: 'Inverter SN',
-          prop: 'sn',
-          checked: true,
-          width: 120
-        }, {
           label: 'Today Yield',
           prop: 'eToday',
           checked: true,
@@ -50,7 +45,7 @@ export default {
           width: 110
         }, {
           label: 'Gird Voltage R',
-          prop: 'gridVoltagR',
+          prop: 'gridVoltageR',
           checked: true,
           width: 130
         }, {
@@ -64,15 +59,14 @@ export default {
           checked: true,
           width: 140
         }, {
-          label: 'Invstatus',
-          prop: 'masterState',
-          checked: true,
-          fixed: 'right'
-        }, {
           label: 'Updatetime',
           prop: 'time',
           checked: true,
-          width: 180,
+          width: 220
+        }, {
+          label: 'Invstatus',
+          prop: 'masterState',
+          checked: true,
           fixed: 'right'
         }
       ]
