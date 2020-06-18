@@ -26,16 +26,16 @@
         <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
-        <el-row :gutter="30">
-          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || ''}}</el-col>
-          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || ''}}</el-col>
-          <el-col :span="6">{{$t('join.installer')}}  : {{installer.account || ''}}</el-col>
-          <el-col :span="6">{{$t('common.contact')}}  : {{installer.phone || ''}}</el-col>
-          <el-col :span="6">{{$t('plant.user')}} : {{users.account || ''}}</el-col>
-          <el-col :span="6">{{$t('common.contact')}}  : {{users.phone || ''}}</el-col>
-          <el-col :span="6">{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): ''}}</el-col>
-          <el-col :span="6">{{$t('plant.websiteTime')}} : {{plants.createdDate || ''}}</el-col>
-          <el-col :span="6">{{$t('plant.websiteAddr')}} : {{plants.address || ''}}</el-col>
+        <el-row :gutter="10">
+          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</el-col>
+          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</el-col>
+          <el-col :span="6">{{$t('join.installer')}}  : {{installer.account || '-'}}</el-col>
+          <el-col :span="6">{{$t('common.contact')}}  : {{installer.phone || '-'}}</el-col>
+          <el-col :span="6">{{$t('plant.user')}} : {{users.account || '-'}}</el-col>
+          <el-col :span="6">{{$t('common.contact')}}  : {{users.phone || '-'}}</el-col>
+          <el-col :span="6">{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</el-col>
+          <el-col :span="6">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</el-col>
+          <el-col :span="6">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</el-col>
         </el-row>
       </div>
     </div>
@@ -217,9 +217,11 @@ export default {
           stationID: this.plantId
         }
       })
-      this.plants = result.plant || {}
-      this.installer = result.installer || {}
-      this.users = result.users || {}
+      if (result) {
+        this.plants = result.plant || {}
+        this.installer = result.installer || {}
+        this.users = result.users || {}
+      }
     },
     // 电站列表
     async getPlantList () {
