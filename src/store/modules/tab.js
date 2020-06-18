@@ -71,6 +71,7 @@ export default {
     // 设置当前组件的loading
     setCurrentTabLoading ({ state }, { tabId, flag }) {
       let comp = state.tabList.find(v => v.tabId === tabId)
+      if (!comp) return // 防止正在请求时,关闭页签,组件查找不到
       let tempNum = comp.loadingNum
       flag ? tempNum++ : tempNum--
       if (tempNum < 0) {

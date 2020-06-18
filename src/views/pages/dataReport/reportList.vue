@@ -83,7 +83,7 @@ export default {
     }
   },
   created () {
-    this.search()
+    // this.search()
   },
   methods: {
     download () {
@@ -108,7 +108,7 @@ export default {
     },
     reset () {
       this.resetSearchForm()
-      this.search()
+      // this.search()
     },
     search () {
       this.getList(this.$store.state.pagination)
