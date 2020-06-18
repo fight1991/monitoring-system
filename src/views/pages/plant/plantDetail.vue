@@ -172,9 +172,16 @@ export default {
     } else { // dashboard页面
       // 获取plantList列表
       await this.getPlantList()
+      let tempId = (this.plantList[0] && this.plantList[0].stationID) || ''
       // 本地session无则取plantList第一项
-      this.plantId = sessionStorage.getItem('plantId') ||
-                     (this.plantList[0] && this.plantList[0].stationID) || ''
+      let sessionId = sessionStorage.getItem('plantId')
+      if (sessionId) {
+        let flag = this.plantList.some(v => v.stationID === sessionId)
+        if (flag) {
+          tempId = sessionStorage.getItem('plantId')
+        }
+      }
+      this.plantId = tempId
       this.plantId && this.getCommonRequest()
     }
   },

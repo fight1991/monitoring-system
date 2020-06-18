@@ -35,7 +35,7 @@
       <!-- 列表查询区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="downloadUrl" @click="download">{{$t('common.download')}}</el-button>
+          <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
         </common-table>
@@ -136,7 +136,7 @@ export default {
           day: new Date(this.times[1]).getDate()
         }
       }
-      let { result } = await this.$axios({
+      let { result, error, other } = await this.$axios({
         url: '/v0/device/report/query',
         method: 'post',
         data: {
@@ -150,6 +150,9 @@ export default {
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
+      }
+      if (error || other) {
+        this.downloadUrl = ''
       }
     }
   }

@@ -25,7 +25,7 @@ const requests = {
         checkParams && storage.setStorage(checkParams, res.result)
         return { result: res.result }
       }
-      return { other: res.result }
+      return { other: res }
     } catch (err) {
       // console.log(err)
       isLoad && isLoad && closeLoading(store, tabId)
