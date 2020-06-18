@@ -1,9 +1,5 @@
 <template>
   <div class="head-container">
-    <div class="logo fl">
-      <img :src="logoSrc">
-      <span>{{$t('monitor')}}</span>
-    </div>
     <div class="login fr">
       <el-dropdown
         trigger="click"
@@ -45,8 +41,7 @@ export default {
   data () {
     return {
       isFullScreen: false,
-      lang: '中文',
-      logoSrc: require('@/assets/logo.png')
+      lang: '中文'
     }
   },
   computed: {
@@ -123,12 +118,10 @@ export default {
   width: 100%;
   height: 100%;
 }
-.login, .logo {
+.login {
   height: 100%;
   display: flex;
   align-items: center;
-}
-.login {
   color: #fff;
   .el-dropdown {
     color: #fff;
@@ -145,17 +138,6 @@ export default {
   }
   .info {
     padding: 0 20px;
-  }
-}
-.logo {
-  height: 100%;
-  img {
-    width: 40px;
-  }
-  span {
-    color: #fff;
-    margin-left: 20px;
-    font-size: 16px;
   }
 }
 .fullscreen {

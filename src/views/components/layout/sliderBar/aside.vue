@@ -58,7 +58,7 @@ export default {
 
 <style lang="less" scoped>
 .sidebar-container {
-  height: 100%;
+  flex: 1;
   position: relative;
   .pull-button {
     cursor: pointer;
