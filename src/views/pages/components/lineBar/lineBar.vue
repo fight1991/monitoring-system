@@ -187,6 +187,9 @@ export default {
     // 柱状图表数据;电量统计
     async getBarData (id) {
       // let dateArr = this.dateValue.split('-')
+      if (!this.chartLoading) {
+        this.chartLoading = true
+      }
       let params = {}
       if (this.type === 'plant') {
         params.plantID = id || this.id
@@ -222,6 +225,7 @@ export default {
           }
         })
       }
+      this.chartLoading = false
       return true
     }
   }

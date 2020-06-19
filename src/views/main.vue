@@ -63,6 +63,6 @@ export default {
 }
 .main-aside {
   border-right: 1px solid #ccc;
-  height: 100%;
+  // height: 100%;
 }
 </style>
