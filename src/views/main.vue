@@ -55,7 +55,6 @@ export default {
   background-color: @sys-main-header;
 }
 .main-container {
-  // height: calc(100% - 50px);
   overflow: hidden;
 }
 .main-tab {
@@ -63,6 +62,5 @@ export default {
 }
 .main-aside {
   border-right: 1px solid #ccc;
-  // height: 100%;
 }
 </style>

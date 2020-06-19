@@ -55,7 +55,7 @@
           <div class="weather-text">22℃</div>
         </div>
       </div>
-      <div class="map-content" style="width:100%;">
+      <div class="map-content">
         <g-map v-if="lang=='en' && gMapNormal" @gMapError="gMapError"></g-map>
         <b-map v-else></b-map>
       </div>
