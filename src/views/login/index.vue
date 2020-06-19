@@ -12,6 +12,7 @@
           placement="top-start">
           <span class="lang flex-center">
             <i class="iconfont icon-yuyan"></i>
+            <!-- <span>{{lang}}</span> -->
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -24,16 +25,34 @@
           placement="top-start">
           <span class="app-downLoad flex-center">
             <i class="iconfont icon-app"></i>
+            <!-- <span>APP</span> -->
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <div class="app-img" v-if="sysFlag=='pc'">
-                <div class="android"><img :src="andrImg" alt="Android"></div>
-                <div class="ios"><img :src="iosImg" alt="IOS"></div>
-              </div>
-              <a v-else :href="downloadApp()" target="_blank">app-download</a>
-            </el-dropdown-item>
+            <div class="login-down-type" v-if="sysFlag=='pc'">
+              <el-dropdown-item>
+                <div class="app-img flex-vertical-center">
+                  <img :src="andrImg" alt="Android">
+                  <img :src="iosImg" alt="IOS">
+                </div>
+              </el-dropdown-item>
+            </div>
+            <div class="down-type" v-else>
+              <el-dropdown-item>
+                <div class="app-download flex-vertical-center" @click="downloadApp('andr')">
+                  <i class="iconfont icon-andriod-logo"></i>
+                  <span>Android</span>
+                  <i class="iconfont icon-download-circle"></i>
+                </div>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="sysFlag=='ios'">
+                <div class="app-download flex-vertical-center" @click="downloadApp('apple')">
+                  <i class="iconfont icon-apple-logo"></i>
+                  <span>Apple</span>
+                  <i class="iconfont icon-download-circle"></i>
+                </div>
+              </el-dropdown-item>
+            </div>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -85,7 +104,7 @@ export default {
     return {
       pageFlag: 'login', // 注册和密码公用页面
       lang: '中文',
-      sysFlag: judgeClient(),
+      sysFlag: judgeClient(), // android ios pc
       andrImg: require('@/assets/android-app.png'),
       iosImg: require('@/assets/ios-app.png')
     }
@@ -107,37 +126,35 @@ export default {
     },
     // 手机app二维码下载
     downloadApp () {
-      let res = judgeClient() // android ios pc
-      if (res === 'android') {
-        return 'http://foxesscloud.com/c/download/app/foxcloud_app.apk'
+      let url = 'http://foxesscloud.com/c/download/app/foxcloud_app.apk'
+      if (this.sysFlag === 'ios') {
+        url = 'https://apps.apple.com/us/app/id1512581978'
       }
-      if (res === 'ios') {
-        return 'https://apps.apple.com/us/app/id1512581978'
-      }
-      return 'http://foxesscloud.com/c/download/app/foxcloud_app.apk'
+      window.open(url, '_blank')
     }
   }
 }
 </script>
 <style lang="less" scoped>
+.app-download {
+  padding: 2px 0;
+  span {
+    margin-right: 5px;
+  }
+}
 .some-link {
   flex-wrap: wrap;
 }
 .app-img {
-  width: 120px;
   img {
     display: block;
-    width: 100%;
+    width: 110px;
+    margin: 0 10px;
+    box-shadow: 0 0 10px #f1f1f1;
   }
 }
 .gap {
   margin: 0 5px;
-}
-.login-logo {
-  width: 50px;
-  img {
-    width: 100%;
-  }
 }
   .login-container {
     // background: url("../../assets/inverter-bg.png") no-repeat left center;
@@ -171,8 +188,10 @@ export default {
         color: @sys-main-header;
         font-weight: bold;
       }
-      .header-right span{
-        color: @sys-main-header;
+      .header-right {
+        span {
+          color: @sys-main-header;
+        }
       }
       display: flex;
       justify-content: space-between;
@@ -182,7 +201,7 @@ export default {
         cursor: pointer;
       }
       .lang {
-        margin-right: 10px;
+        margin-right: 15px;
       }
       .iconfont {
         font-size: 32px;
@@ -279,6 +298,9 @@ export default {
     width: calc(100% - 20px)!important;
     margin: 0 10px;
     right: 0!important;
+  }
+  .login-container .header {
+    padding-left: 0;
   }
   .content .bg {
     display: none;
