@@ -57,7 +57,8 @@ export default {
   data () {
     return {
       dateValue: '',
-      chartLoading: false,
+      lineLoading: false,
+      barLoading: false,
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       dateType: 'Days',
       echartType: 'power', // 默认显示功率图表
@@ -137,7 +138,7 @@ export default {
     },
     // 折现图表数据功率
     async getLineData (id) {
-      this.chartLoading = true
+      this.lineLoading = true
       let params = {}
       if (this.type === 'plant') {
         params.plantID = id || this.id
@@ -181,15 +182,13 @@ export default {
           }
         })
       }
-      this.chartLoading = false
+      this.lineLoading = false
       return true
     },
     // 柱状图表数据;电量统计
     async getBarData (id) {
       // let dateArr = this.dateValue.split('-')
-      if (!this.chartLoading) {
-        this.chartLoading = true
-      }
+      this.barLoading = true
       let params = {}
       if (this.type === 'plant') {
         params.plantID = id || this.id
@@ -225,7 +224,7 @@ export default {
           }
         })
       }
-      this.chartLoading = false
+      this.barLoading = false
       return true
     }
   }
