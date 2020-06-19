@@ -42,7 +42,7 @@
     </div>
     <!-- 图表 -->
     <div class="chart" v-show="echartType!=='list'">
-      <el-echart :loading="chartLoading" :datas="echartData[echartType]" height="350px"></el-echart>
+      <el-echart :loading="chartLoading[echartType]" :datas="echartData[echartType]" height="350px"></el-echart>
     </div>
     <div v-show="echartType==='list'">
       <slot name="other"></slot>
@@ -57,8 +57,10 @@ export default {
   data () {
     return {
       dateValue: '',
-      lineLoading: false,
-      barLoading: false,
+      chartLoading: {
+        power: false,
+        elec: false
+      },
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       dateType: 'Days',
       echartType: 'power', // 默认显示功率图表
@@ -138,7 +140,7 @@ export default {
     },
     // 折现图表数据功率
     async getLineData (id) {
-      this.lineLoading = true
+      this.chartLoading.power = true
       let params = {}
       if (this.type === 'plant') {
         params.plantID = id || this.id
@@ -182,13 +184,13 @@ export default {
           }
         })
       }
-      this.lineLoading = false
+      this.chartLoading.power = false
       return true
     },
     // 柱状图表数据;电量统计
     async getBarData (id) {
       // let dateArr = this.dateValue.split('-')
-      this.barLoading = true
+      this.chartLoading.elec = true
       let params = {}
       if (this.type === 'plant') {
         params.plantID = id || this.id
@@ -224,7 +226,7 @@ export default {
           }
         })
       }
-      this.barLoading = false
+      this.chartLoading.elec = false
       return true
     }
   }
