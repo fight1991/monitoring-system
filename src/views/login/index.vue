@@ -7,6 +7,7 @@
       </div>
       <div class="header-right flex-center">
         <el-dropdown
+          trigger="click"
           @command="toggleLang"
           placement="top-start">
           <span class="lang flex-center">
@@ -19,6 +20,7 @@
           </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown
+          trigger="click"
           placement="top-start">
           <span class="app-downLoad flex-center">
             <i class="iconfont icon-app"></i>
