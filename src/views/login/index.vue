@@ -25,20 +25,19 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>app-downLoad</el-dropdown-item>
+            <el-dropdown-item>
+              <div class="app-img" v-if="sysFlag=='pc'">
+                <div class="android"><img :src="andrImg" alt="Android"></div>
+                <div class="ios"><img :src="iosImg" alt="IOS"></div>
+              </div>
+              <a v-else :href="downloadApp()" target="_blank">app-download</a>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
     </div>
     <div class="content">
-      <!-- <div class="bg"><img src="@/assets/login-bg.png" alt=""></div> -->
       <div class="invert"></div>
-      <!-- <div class="sys-text">
-        <p class="top">SYSTEM MONITORING</p>
-        <div class="down">
-          <p>ANYTIME<br/>ANYWHERE</p>
-        </div>
-      </div> -->
       <transition name="zoom">
         <keep-alive>
           <component :is="pageFlag" @toggleStatus="toggleStatus"></component>
@@ -72,6 +71,7 @@
 import login from './login'
 import register from './register'
 import resetPw from './resetPw'
+import { judgeClient } from '@/util'
 export default {
   name: 'router-login',
   components: {
@@ -82,7 +82,10 @@ export default {
   data () {
     return {
       pageFlag: 'login', // 注册和密码公用页面
-      lang: '中文'
+      lang: '中文',
+      sysFlag: judgeClient(),
+      andrImg: require('@/assets/android-app.png'),
+      iosImg: require('@/assets/ios-app.png')
     }
   },
   created () {
@@ -99,6 +102,17 @@ export default {
     toggleLang (lang) {
       this.$i18n.locale = lang
       this.lang = lang === 'en' ? 'English' : '中文'
+    },
+    // 手机app二维码下载
+    downloadApp () {
+      let res = judgeClient() // android ios pc
+      if (res === 'android') {
+        return 'http://foxesscloud.com/c/download/app/foxcloud_app.apk'
+      }
+      if (res === 'ios') {
+        return 'https://apps.apple.com/us/app/id1512581978'
+      }
+      return 'http://foxesscloud.com/c/download/app/foxcloud_app.apk'
     }
   }
 }
@@ -106,6 +120,13 @@ export default {
 <style lang="less" scoped>
 .some-link {
   flex-wrap: wrap;
+}
+.app-img {
+  width: 120px;
+  img {
+    display: block;
+    width: 100%;
+  }
 }
 .gap {
   margin: 0 5px;

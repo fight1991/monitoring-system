@@ -186,3 +186,16 @@ export const base64 = {
     return Base64.Base64.decode(params)
   }
 }
+// 判断终端
+export function judgeClient () {
+  let u = navigator.userAgent
+  let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 // 判断是否是 android终端
+  let isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // 判断是否是 iOS终端
+  if (isAndroid) {
+    return 'android'
+  } else if (isIOS) {
+    return 'ios'
+  } else {
+    return 'pc'
+  }
+}
