@@ -196,11 +196,7 @@ export default {
   methods: {
     // 关联用户sndialog
     golinkSn () {
-      this.$tab.open({
-        tabId: 'data-view-sn',
-        tabTitle: '关联SN',
-        name: 'bus-plant-add'
-      })
+
     },
     // 顶部展开
     headCollapse () {
