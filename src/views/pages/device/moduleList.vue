@@ -93,7 +93,12 @@ export default {
         moduleType: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
+        currentPage: 1,
+        total: 0
+      },
+      defaultPage: {
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -167,7 +172,7 @@ export default {
       this.search()
     },
     search () {
-      this.getModuleList(this.$store.state.pagination)
+      this.getModuleList(this.defaultPage)
     },
     commandDrop (type) {
       if (type === 'd') {

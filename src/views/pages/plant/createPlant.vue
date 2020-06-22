@@ -1,6 +1,6 @@
 <template>
   <section class="sys-main bg-c" v-setH:min="setDivH">
-    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
+    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="140px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
           <div class="col-container">
@@ -69,7 +69,7 @@
                 </el-form-item>
               </el-col>
               <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
+                <el-form-item :label="$t('common.pvcapacity') + '(kW)'" prop="details.systemCapacity">
                   <el-input v-model="dataForm.details.systemCapacity" clearable></el-input>
                 </el-form-item>
               </el-col>

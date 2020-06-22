@@ -112,7 +112,12 @@ export default {
         deviceType: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
+        currentPage: 1,
+        total: 0
+      },
+      defaultPage: {
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -153,7 +158,7 @@ export default {
       this.search()
     },
     search () {
-      this.getInverterList(this.$store.state.pagination)
+      this.getInverterList(this.defaultPage)
     },
     goToDetail (page, id) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
