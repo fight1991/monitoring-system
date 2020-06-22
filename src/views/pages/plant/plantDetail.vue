@@ -2,28 +2,35 @@
   <section class="sys-main">
     <!-- 电站名称区域 -->
     <div class="block bg-c mg-b15">
-      <div class="plant-head clearfix">
-        <div class="plant-name flex-center fl">
-          <i class="iconfont icon-fadianzhan"></i>
-          <div v-if="pageFlag==='detail'">
-            <span>{{$t('plant.name')}} : {{plantHeadInfo.plantName}}</span>
-            <span>{{$t('plant.country')}} : {{plantHeadInfo.country}}</span>
-            <span>{{$t('plant.city')}} : {{plantHeadInfo.city}}</span>
+      <div class="plant-head flex-between">
+        <div class="plant-box flex-vertical-center">
+          <div class="plant-name flex-center">
+            <i class="iconfont icon-fadianzhan"></i>
+            <div v-if="pageFlag==='detail'">
+              <span>{{$t('plant.name')}} : {{plantHeadInfo.plantName}}</span>
+              <span>{{$t('plant.country')}} : {{plantHeadInfo.country}}</span>
+              <span>{{$t('plant.city')}} : {{plantHeadInfo.city}}</span>
+            </div>
+            <div v-else>
+              <span>{{$t('common.plantsName')}} </span>
+            </div>
+            <div class="select-area flex-center" v-if="pageFlag==='board'">
+              <i class="arrow el-icon-caret-left" v-if="switchBtnShow && plantIndex > 0" @click="switchPlant('reduce')"></i>
+              <!-- 电站名称切换 -->
+              <el-select size="mini" @change="getCommonRequest" v-model="plantId" :placeholder="$t('common.select')">
+                <el-option v-for="item in plantList" :label="item.plantName" :value="item.stationID" :key="item.stationID"></el-option>
+              </el-select>
+              <i class="arrow el-icon-caret-right" v-if="switchBtnShow && plantIndex < plantList.length -1" @click="switchPlant('add')"></i>
+            </div>
           </div>
-          <div v-else>
-            <span>{{$t('common.plantsName')}} </span>
-          </div>
-          <div class="select-area flex-center" v-if="pageFlag==='board'">
-            <i class="arrow el-icon-caret-left" v-if="switchBtnShow && plantIndex > 0" @click="switchPlant('reduce')"></i>
-            <!-- 电站名称切换 -->
-            <el-select size="mini" @change="getCommonRequest" v-model="plantId" :placeholder="$t('common.select')">
-              <el-option v-for="item in plantList" :label="item.plantName" :value="item.stationID" :key="item.stationID"></el-option>
-            </el-select>
-            <i class="arrow el-icon-caret-right" v-if="switchBtnShow && plantIndex < plantList.length -1" @click="switchPlant('add')"></i>
+          <div class="plant-link" @click="golinkSn">
+            <el-button size="mini" icon="el-icon-link">关联SN</el-button>
           </div>
         </div>
-        <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
-        <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
+        <div class="pull-icon">
+          <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
+          <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
+        </div>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
         <el-row :gutter="10">
@@ -187,6 +194,10 @@ export default {
   },
   beforeDestroy () {},
   methods: {
+    // 关联用户sndialog
+    golinkSn () {
+
+    },
     // 顶部展开
     headCollapse () {
       this.collapse = !this.collapse
