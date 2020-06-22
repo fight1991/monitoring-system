@@ -78,17 +78,16 @@ export default {
       })
     },
     tabClick (tabInfo) {
-      let { path, query, params } = this.tabList.find(v => v.tabId === tabInfo.name)
+      // tabInfo tab实例, .name得到tabId
+      let { path, name, query, params } = this.tabList.find(v => v.tabId === tabInfo.name)
       if (path === this.$route.path) return
-      // if (tabInfo.name === 'tab-index') {
-      //   this.$store.commit('setCurrentTab', 'tab-index')
-      //   return
-      // }
-      // 路由跳转
+      // 路由跳转, 带上tabId防止有自定义的tabId
+      let tempParams = { ...params }
+      tempParams.tabId = tabInfo.name
       this.$router.push({
-        path,
+        name,
         query,
-        params
+        params: tempParams
       })
     },
     removeTab (name) {
