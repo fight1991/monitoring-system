@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="plant-link" v-if="access==1" @click="golinkSn">
-            <el-button size="mini" icon="el-icon-link">关联SN</el-button>
+            <el-button size="mini" icon="el-icon-link">{{$t('navBar.linkSn')}}</el-button>
           </div>
         </div>
         <div class="pull-icon">
