@@ -23,7 +23,8 @@ const routes = [
     path: '/app/download',
     name: 'app-download',
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      title: 'Download'
     },
     component: AppDownload
   }, {

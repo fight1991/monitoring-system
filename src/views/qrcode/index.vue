@@ -116,13 +116,23 @@ export default {
 }
 .title {
   text-align: center;
-  padding: 5px;
+  padding: 8px;
   background-color: #52B32B;
   color: #fff;
 }
 .download-btn {
   width: 100%;
   margin-top: 30vh;
+  .text {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #52B32B;
+    height: 36px;
+    border-radius: 18px;
+    padding: 5px 10px 5px 20px;
+    box-sizing: border-box;
+  }
 }
 .app-logo {
   color: #52B32B;
@@ -138,19 +148,6 @@ export default {
 }
 .android,.apple {
   margin: 20px auto;
-  &:hover {
-    background-color: #ccc;
-    border-radius: 10px;
-  }
 }
-.text {
-  color: #fff;
-  font-weight: bold;
-  font-size: 16px;
-  background-color: #52B32B;
-  height: 36px;
-  border-radius: 18px;
-  padding: 5px 10px 5px 20px;
-  box-sizing: border-box;
-}
+
 </style>
