@@ -9,19 +9,24 @@ import BusinessRouter from '@/views/pages/index.js'
 import storage from '@/util/storage'
 
 const Main = () => import(/* webpackChunkName: "bus-main" */ '../views/main.vue')
-
+const AppDownload = () => import(/* webpackChunkName: "downloadApp" */ '@/views/qrcode')
 const routes = [
   {
     path: '/',
     redirect: '/bus/index'
-  },
-  {
+  }, {
     path: '*',
     redirect: {
       name: 'error-404'
     }
-  },
-  {
+  }, {
+    path: '/app/download',
+    name: 'app-download',
+    meta: {
+      requiresAuth: false
+    },
+    component: AppDownload
+  }, {
     path: '/bus/index',
     name: 'bus-index',
     component: Main,

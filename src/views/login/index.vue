@@ -32,7 +32,7 @@
             <div class="login-down-type" v-if="sysFlag=='pc'">
               <el-dropdown-item>
                 <div class="app-img flex-vertical-center">
-                  <img :src="andrImg" alt="Android">
+                  <qrcode-vue :value="androidUrl" :size="size" level="H"></qrcode-vue>
                   <img :src="iosImg" alt="IOS">
                 </div>
               </el-dropdown-item>
@@ -93,12 +93,14 @@ import login from './login'
 import register from './register'
 import resetPw from './resetPw'
 import { judgeClient } from '@/util'
+import QrcodeVue from 'qrcode.vue'
 export default {
   name: 'router-login',
   components: {
     login,
     register,
-    resetPw
+    resetPw,
+    QrcodeVue
   },
   data () {
     return {
@@ -106,7 +108,9 @@ export default {
       lang: '中文',
       sysFlag: judgeClient(), // android ios pc
       andrImg: require('@/assets/android-app.png'),
-      iosImg: require('@/assets/ios-app.png')
+      iosImg: require('@/assets/ios-app.png'),
+      androidUrl: process.env.VUE_APP_WWW + '/c/download/app/foxcloud_app.apk',
+      size: 110
     }
   },
   created () {
@@ -126,9 +130,9 @@ export default {
     },
     // 手机app二维码下载
     downloadApp () {
-      let url = 'http://foxesscloud.com/c/download/app/foxcloud_app.apk'
+      let url = process.env.VUE_APP_WWW + '/c/download/app/foxcloud_app.apk'
       if (this.sysFlag === 'ios') {
-        url = 'https://apps.apple.com/us/app/id1512581978'
+        url = process.env.VUE_APP_APPLE
       }
       window.open(url, '_blank')
     }

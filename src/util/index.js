@@ -199,3 +199,12 @@ export function judgeClient () {
     return 'pc'
   }
 }
+// 判断是否是微信打开的
+export function isWeiXin () {
+  let ua = window.navigator.userAgent.toLowerCase()
+  if (ua.indexOf('micromessenger') > -1) {
+    return true // 是微信端
+  } else {
+    return false
+  }
+}

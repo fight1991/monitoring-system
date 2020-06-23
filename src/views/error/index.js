@@ -4,6 +4,7 @@ export default [
     name: 'error-403',
     component: () => import(/* webpackChunkName: "error-403" */ './403.vue'),
     meta: {
+      title: 'Download',
       requiresAuth: false
     }
   },
