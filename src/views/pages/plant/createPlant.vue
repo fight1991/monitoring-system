@@ -199,7 +199,7 @@ export default {
   },
   watch: {
     '$store.state.lang': async function () {
-      this.countryList = await this.getCountryList()
+      this.access > 1 && (this.countryList = await this.getCountryList())
     }
   },
   computed: {
@@ -342,8 +342,12 @@ export default {
         },
         success: ({ result }) => {
           this.$message.success(this.$t('common.success'))
+          let backName = 'bus-plant-view'
+          if (this.$route.meta.title === 'plantL') {
+            backName = 'bus-data-view'
+          }
           this.$tab.back({
-            name: 'bus-plant-view'
+            name: backName
           })
         }
       })
@@ -359,7 +363,7 @@ export default {
           stationID: this.plantId
         }
       })
-      this.snResult = result || other || []
+      this.snResult = result || other.result || []
       return true
     },
     // 查询电站信息

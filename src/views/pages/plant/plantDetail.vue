@@ -23,7 +23,7 @@
               <i class="arrow el-icon-caret-right" v-if="switchBtnShow && plantIndex < plantList.length -1" @click="switchPlant('add')"></i>
             </div>
           </div>
-          <div class="plant-link" @click="golinkSn">
+          <div class="plant-link" v-if="access==1" @click="golinkSn">
             <el-button size="mini" icon="el-icon-link">关联SN</el-button>
           </div>
         </div>
@@ -196,7 +196,9 @@ export default {
   methods: {
     // 关联用户sndialog
     golinkSn () {
-
+      this.$tab.push({
+        name: 'bus-plant-linkSn'
+      })
     },
     // 顶部展开
     headCollapse () {

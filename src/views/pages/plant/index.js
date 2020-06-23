@@ -30,6 +30,17 @@ export default {
       }
     },
     {
+      path: '/bus/plant/linkSn',
+      name: 'bus-plant-linkSn',
+      hidden: true,
+      meta: {
+        permission: [1],
+        title: 'plantL',
+        opType: 'add',
+        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/createPlant')
+      }
+    },
+    {
       path: '/bus/plant/view',
       name: 'bus-plant-view',
       meta: {

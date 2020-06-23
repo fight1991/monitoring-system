@@ -2,10 +2,12 @@ export default {
   navBar: {
     home: 'Home',
     board: 'Overview',
+    linkSn: 'Associate SN',
     plantM: 'Plant',
     plantN: 'New',
     plantS: 'Display',
     plantE: 'Edit',
+    plantL: 'Related',
     plantD: 'Details',
     deviceM: 'Device',
     invertM: 'Inverter',

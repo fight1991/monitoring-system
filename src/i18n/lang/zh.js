@@ -2,10 +2,12 @@ export default {
   navBar: {
     home: '首页',
     board: '数据概览',
+    linkSn: '关联SN',
     plantM: '电站管理',
     plantN: '创建电站',
     plantS: '电站显示',
     plantE: '编辑电站',
+    plantL: '关联电站',
     plantD: '电站详情',
     deviceM: '设备管理',
     invertM: '逆变器管理',
