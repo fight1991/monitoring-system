@@ -31,10 +31,13 @@
           <el-dropdown-menu slot="dropdown">
             <div class="login-down-type" v-if="sysFlag=='pc'">
               <el-dropdown-item>
-                <div class="app-img flex-vertical-center">
+                <div class="app-img">
+                  <qrcode-vue foreground="#015CA7" :value="qrcode" :size="size" level="H"></qrcode-vue>
+                </div>
+                <!-- <div class="app-img flex-vertical-center">
                   <qrcode-vue :value="androidUrl" :size="size" level="H"></qrcode-vue>
                   <img :src="iosImg" alt="IOS">
-                </div>
+                </div> -->
               </el-dropdown-item>
             </div>
             <div class="down-type" v-else>
@@ -107,9 +110,9 @@ export default {
       pageFlag: 'login', // 注册和密码公用页面
       lang: '中文',
       sysFlag: judgeClient(), // android ios pc
-      andrImg: require('@/assets/android-app.png'),
-      iosImg: require('@/assets/ios-app.png'),
-      androidUrl: process.env.VUE_APP_WWW + '/c/download/app/foxcloud_app.apk',
+      // andrImg: require('@/assets/android-app.png'),
+      // iosImg: require('@/assets/ios-app.png'),
+      qrcode: location.origin + '/app/download',
       size: 110
     }
   },
@@ -130,7 +133,7 @@ export default {
     },
     // 手机app二维码下载
     downloadApp () {
-      let url = process.env.VUE_APP_WWW + '/c/download/app/foxcloud_app.apk'
+      let url = process.env.VUE_APP_ANDROID
       if (this.sysFlag === 'ios') {
         url = process.env.VUE_APP_APPLE
       }
@@ -150,13 +153,17 @@ export default {
   flex-wrap: wrap;
 }
 .app-img {
-  img {
-    display: block;
-    width: 110px;
-    margin: 0 10px;
-    box-shadow: 0 0 10px #f1f1f1;
-  }
+  padding: 5px 5px 0 5px;
+  box-shadow: 0 0 10px #f1f1f1;
 }
+// .app-img {
+//   img {
+//     display: block;
+//     width: 110px;
+//     margin: 0 10px;
+//     box-shadow: 0 0 10px #f1f1f1;
+//   }
+// }
 .gap {
   margin: 0 5px;
 }

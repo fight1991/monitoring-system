@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div :class="{'fix': isWx, 'none': !isWx}">
+  <div :class="{'fix': modalShow, 'none': !modalShow}">
     <div class="img-box clearfix">
       <div class="img-arrow fr">
         <img :src="arrow" alt="">
@@ -44,7 +44,7 @@ export default {
       client: judgeClient(),
       isWx: isWeiXin(),
       arrow: require('@/assets/app-arrow.png'),
-      appAndr: process.env.VUE_APP_WWW + '/c/download/app/foxcloud_app.apk',
+      appAndr: process.env.VUE_APP_ANDROID,
       appApple: process.env.VUE_APP_APPLE
     }
   },
@@ -60,9 +60,14 @@ export default {
     }
   },
   mounted () {},
+  computed: {
+    modalShow () { // andriod中的微信浏览器,显示modal
+      return this.client === 'android' && this.isWx
+    }
+  },
   methods: {
     download (type) {
-      if (this.isWx) return
+      if (this.modalShow) return
       let url = type === 'apple' ? this.appApple : this.appAndr
       window.open(url, '_blank')
     }
