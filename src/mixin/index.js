@@ -43,6 +43,15 @@ export default {
       } else {
         return []
       }
+    },
+    // 保留2位有效小数
+    toFixed (data, num = 2) {
+      let tempNum = data.toFixed(num)
+      if (Number(tempNum) > 0) {
+        return tempNum
+      } else {
+        return 0
+      }
     }
   }
 }

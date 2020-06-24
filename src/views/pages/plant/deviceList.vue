@@ -27,6 +27,15 @@
             <i class="el-icon-error" v-show="row.status==2"></i>
             <i class="el-icon-remove" v-show="row.status==3"></i>
           </template>
+          <template v-slot:power="{row}">
+            {{toFixed(row.power)}}
+          </template>
+          <template v-slot:generationToday="{row}">
+            {{toFixed(row.generationToday)}}
+          </template>
+          <template v-slot:generationTotal="{row}">
+            {{toFixed(row.generationTotal)}}
+          </template>
         </common-table>
         <div class="states-row">
           <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>

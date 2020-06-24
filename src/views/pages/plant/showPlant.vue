@@ -35,7 +35,10 @@
             </div>
           </template>
           <template v-slot:generationToday="{row}">
-            {{(row.generationToday || row.generationToday==0) && row.generationToday.toLocaleString() || ''}}
+            {{toFixed(row.generationToday)}}
+          </template>
+          <template v-slot:power="{row}">
+            {{toFixed(row.power)}}
           </template>
         </common-table>
         <div class="states-row">

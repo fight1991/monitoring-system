@@ -27,17 +27,20 @@ export default {
           label: 'common.gPower',
           prop: 'power',
           checked: true,
+          slotName: 'power',
           renderHeader: true
         },
         {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
+          slotName: 'generationToday',
           renderHeader: true
         },
         {
           label: 'plant.genTot',
           prop: 'generationTotal',
+          slotName: 'generationTotal',
           checked: true,
           renderHeader: true
         },

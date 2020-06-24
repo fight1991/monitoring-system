@@ -26,24 +26,27 @@ export default {
           label: 'invupgrade.invmodel',
           prop: 'deviceType',
           checked: true,
-          width: 100
+          width: 110
         },
         {
           label: 'common.gPower',
           prop: 'power',
           checked: true,
+          slotName: 'power',
           renderHeader: true
         },
         {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
+          slotName: 'generationToday',
           renderHeader: true
         },
         {
           label: 'plant.genTot',
           prop: 'generationTotal',
           checked: true,
+          slotName: 'generationTotal',
           renderHeader: true
         },
         {

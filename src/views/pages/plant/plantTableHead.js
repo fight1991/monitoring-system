@@ -52,6 +52,7 @@ export default {
           label: 'common.gPower',
           prop: 'power',
           checked: true,
+          slotName: 'power',
           renderHeader: true
         },
         { // 实时数据 今日发电量

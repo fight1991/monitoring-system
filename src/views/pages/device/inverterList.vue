@@ -76,6 +76,15 @@
               <i title="remote setting" class="iconfont icon-remote-setting" @click="goToDetail('set', row.deviceID)"></i>
             </div>
           </template>
+          <template v-slot:power="{row}">
+            {{toFixed(row.power)}}
+          </template>
+          <template v-slot:generationToday="{row}">
+            {{toFixed(row.generationToday)}}
+          </template>
+          <template v-slot:generationTotal="{row}">
+            {{toFixed(row.generationTotal)}}
+          </template>
         </common-table>
       </func-bar>
     </div>
