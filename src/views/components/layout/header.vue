@@ -45,13 +45,13 @@ export default {
   data () {
     return {
       isFullScreen: false,
-      logoSrc: require('@/assets/logo.png')
+      logoSrc: require('@/assets/logo.png'),
+      lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
     }
   },
   computed: {
     ...mapState({
-      userInfo: state => state.userInfo,
-      lang: state => state.lang === 'zh' ? '中文' : 'English'
+      userInfo: state => state.userInfo
     })
   },
   created () {
