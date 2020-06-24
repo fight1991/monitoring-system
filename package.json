@@ -4,12 +4,17 @@
   "author": "tiancong",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode dev",
-    "build": "vue-cli-service build --mode prod",
-    "test": "vue-cli-service build --mode test",
-    "preprod": "vue-cli-service serve --mode preprod",
-    "lint": "vue-cli-service lint",
-    "dev": "npm run serve"
+    "dev-en": "npm run serve-en",
+    "serve-en": "vue-cli-service serve --mode dev-en",
+    "build-en": "vue-cli-service build --mode prod-en",
+    "test-en": "vue-cli-service serve --mode test-en",
+
+    "dev-zh": "npm run serve-zh",
+    "serve-zh": "vue-cli-service serve --mode dev-zh",
+    "build-zh": "vue-cli-service build --mode prod-zh",
+    "test-zh": "vue-cli-service serve --mode test-zh",
+    
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "D": "^1.0.0",

@@ -1,13 +1,15 @@
 import Vuex from 'vuex'
 import tab from './modules/tab' // 页签管理模块
 import socket from './modules/socketState' // websocket连接状态
+const language = process.env.VUE_APP_VERSION === 'abroad' ? 'en' : 'zh'
 export default new Vuex.Store({
   state: {
     rightsTxt: 'Copyright © 2010-2020 FoxESS . ',
+    version: process.env.VUE_APP_VERSION, // app版本 国外版, 国内版
     tableH: 320, // 表格高度
     successCode: 0, // 业务成功状态码
     isFirst: true, // 是否第一次进入系统
-    lang: 'zh', // 语言
+    lang: language, // 语言
     collapse: false, // 是否折叠
     loading: false,
     loadingNum: 0, // 全局loading数量计数, 防止一个请求没有回来被另一个请求关掉了

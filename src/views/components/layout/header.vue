@@ -45,13 +45,13 @@ export default {
   data () {
     return {
       isFullScreen: false,
-      lang: '中文',
       logoSrc: require('@/assets/logo.png')
     }
   },
   computed: {
     ...mapState({
-      userInfo: state => state.userInfo
+      userInfo: state => state.userInfo,
+      lang: state => state.lang === 'zh' ? '中文' : 'English'
     })
   },
   created () {
