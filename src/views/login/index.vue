@@ -20,44 +20,7 @@
             <el-dropdown-item command="en" divided>English</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown
-          trigger="click"
-          placement="top-start">
-          <span class="app-downLoad flex-center">
-            <i class="iconfont icon-app"></i>
-            <!-- <span>APP</span> -->
-            <i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <div class="login-down-type" v-if="sysFlag=='pc'">
-              <el-dropdown-item>
-                <div class="app-img">
-                  <qrcode-vue foreground="#015CA7" :value="qrcode" :size="size" level="H"></qrcode-vue>
-                </div>
-                <!-- <div class="app-img flex-vertical-center">
-                  <qrcode-vue :value="androidUrl" :size="size" level="H"></qrcode-vue>
-                  <img :src="iosImg" alt="IOS">
-                </div> -->
-              </el-dropdown-item>
-            </div>
-            <div class="down-type" v-else>
-              <el-dropdown-item>
-                <div class="app-download flex-vertical-center" @click="downloadApp('andr')">
-                  <i class="iconfont icon-andriod-logo"></i>
-                  <span>Android</span>
-                  <i class="iconfont icon-download-circle"></i>
-                </div>
-              </el-dropdown-item>
-              <el-dropdown-item v-if="sysFlag=='ios'">
-                <div class="app-download flex-vertical-center" @click="downloadApp('apple')">
-                  <i class="iconfont icon-apple-logo"></i>
-                  <span>Apple</span>
-                  <i class="iconfont icon-download-circle"></i>
-                </div>
-              </el-dropdown-item>
-            </div>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <erweima></erweima>
       </div>
     </div>
     <div class="content">
@@ -96,14 +59,14 @@ import login from './login'
 import register from './register'
 import resetPw from './resetPw'
 import { judgeClient } from '@/util'
-import QrcodeVue from 'qrcode.vue'
+import erweima from './qrcode/erweima'
 export default {
   name: 'router-login',
   components: {
     login,
     register,
     resetPw,
-    QrcodeVue
+    erweima
   },
   data () {
     return {
@@ -114,6 +77,11 @@ export default {
       // iosImg: require('@/assets/ios-app.png'),
       qrcode: location.origin + '/app/download',
       size: 110
+    }
+  },
+  computed: {
+    version () { // 判断是国内版本还是国外版本
+      return this.$store.state.version
     }
   },
   created () {
@@ -143,12 +111,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.app-download {
-  padding: 2px 0;
-  span {
-    margin-right: 5px;
-  }
-}
 .some-link {
   flex-wrap: wrap;
 }
@@ -208,14 +170,12 @@ export default {
       justify-content: space-between;
       padding: 10px 20px;
       font-size: 22px;
-      .app-downLoad, .lang {
-        cursor: pointer;
-      }
       .lang {
+        cursor: pointer;
         margin-right: 15px;
-      }
-      .iconfont {
-        font-size: 32px;
+        .iconfont {
+          font-size: 32px;
+        }
       }
     }
     .content {
