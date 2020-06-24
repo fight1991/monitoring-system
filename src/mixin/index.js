@@ -46,6 +46,7 @@ export default {
     },
     // 保留2位有效小数
     toFixed (data, num = 2) {
+      if (!data) return 0
       let tempNum = data.toFixed(num)
       if (Number(tempNum) > 0) {
         return tempNum

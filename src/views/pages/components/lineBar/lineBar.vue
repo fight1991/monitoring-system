@@ -169,7 +169,7 @@ export default {
         this.echartData.power.legend.data = result.map(v => v.variable)
         this.echartData.power.series = result.map(v => {
           // 解决Date.parse在火狐浏览器中解析yyyy-MM-dd日期格式时返回NaN
-          let tempData = v.data.map(item => [Date.parse(item.time.replace(/-/g, '/')), (item.value).toLocaleString()])
+          let tempData = v.data.map(item => [Date.parse(item.time.replace(/-/g, '/')), this.toFixed(item.value)])
           return {
             symbol: 'none',
             type: 'line',

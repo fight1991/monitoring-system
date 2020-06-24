@@ -272,7 +272,7 @@ export default {
       if (result && result.length > 0) {
         let temp = []
         result.forEach((v, i) => {
-          let tempData = v.data.map(item => [Date.parse(item.time), (item.value).toLocaleString()])
+          let tempData = v.data.map(item => [Date.parse(item.time), this.toFixed(item.value)])
           temp.push({
             symbol: 'none',
             name: v.variable,

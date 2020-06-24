@@ -8,7 +8,7 @@
         {{$t('plant.genTod')}} (kwh)
       </div>
       <div class="plant-money text-cut txt-c">
-        {{dataFormate(incomeDetail.generation.today)}}
+        {{toFixed(incomeDetail.generation.today)}}
       </div>
     </div>
     <div class="content-item flex-around">
@@ -19,7 +19,7 @@
         {{$t('plant.genMon')}} (kwh)
       </div>
       <div class="plant-money text-cut">
-        {{dataFormate(incomeDetail.generation.month)}}
+        {{toFixed(incomeDetail.generation.month)}}
       </div>
     </div>
     <div class="content-item flex-around">
@@ -30,7 +30,7 @@
         {{$t('plant.genTot')}} (kwh)
       </div>
       <div class="plant-money text-cut txt-c">
-        {{dataFormate(incomeDetail.generation.cumulate)}}
+        {{toFixed(incomeDetail.generation.cumulate)}}
       </div>
     </div>
     <div class="content-item flex-around" v-if="incomeDetail.currencyCount <= 1">
@@ -41,7 +41,7 @@
         {{$t('plant.earnTot')}} ({{incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']}})
       </div>
       <div class="plant-money text-cut plant-money-green">
-        {{incomeDetail.earnings.cumulate[0] && dataFormate(incomeDetail.earnings.cumulate[0]['value'])}}
+        {{incomeDetail.earnings.cumulate[0] && toFixed(incomeDetail.earnings.cumulate[0]['value'])}}
       </div>
     </div>
     <div class="content-item flex-around" v-else>
@@ -59,7 +59,7 @@
           width="100"
           trigger="hover">
           <p v-for="item in incomeDetail.earnings.cumulate" :key="item.currency">
-            {{item.currency + ' : ' + dataFormate(item.value)}}
+            {{item.currency + ' : ' + toFixed(item.value)}}
           </p>
           <i class="iconfont icon-look moneny-detail" slot="reference"></i>
         </el-popover>
@@ -96,11 +96,7 @@ export default {
       }
     }
   },
-  methods: {
-    dataFormate (num) { // 数据格式化
-      return (num).toLocaleString()
-    }
-  }
+  methods: {}
 }
 </script>
 <style lang="less" scoped>
