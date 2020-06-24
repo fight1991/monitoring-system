@@ -48,7 +48,11 @@
           <i class="gap">-</i>
           <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.acStore')}}</el-link>
         </p>
-        <p>{{$store.state.rightsTxt + $t('login.allRight')}}</p>
+        <p class="flex-center">
+          <a class="beian" v-if="version=='abroad'" href="http://www.beian.miit.gov.cn/" target="_blank"></a>
+          <span class="beian-num" v-if="version=='abroad'">苏ICP备20036769</span>
+          <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
+        </p>
       </div>
     </div>
   </div>
@@ -118,14 +122,16 @@ export default {
   padding: 5px 5px 0 5px;
   box-shadow: 0 0 10px #f1f1f1;
 }
-// .app-img {
-//   img {
-//     display: block;
-//     width: 110px;
-//     margin: 0 10px;
-//     box-shadow: 0 0 10px #f1f1f1;
-//   }
-// }
+
+.beian {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/government.png') no-repeat;
+}
+.beian-num {
+  margin: 0 5px;
+}
 .gap {
   margin: 0 5px;
 }
