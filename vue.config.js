@@ -4,7 +4,7 @@ const templateFunc = require(path.join(__dirname, './spriteTemplate')) // 雪碧
 const CompressionPlugin = require('compression-webpack-plugin') // Gzip压缩
 const webpackConfig = {
   publicPath: '/', // 应用部署路径
-  outputDir: 'dist', // 生产环境构建目录
+  outputDir: process.env.VUE_APP_VERSION === 'abroad' ? 'dist/欧服' : 'dist/国服', // 生产环境构建目录
   assetsDir: 'assets', // 放置生成的静态资源
   lintOnSave: process.env.NODE_ENV !== 'production', // 生产环境不启用lint
   runtimeCompiler: false, // 是否在 Vue 组件中使用 template 选项
