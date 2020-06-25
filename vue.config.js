@@ -2,6 +2,7 @@ const path = require('path')
 const SpritesmithPlugin = require('webpack-spritesmith') // 雪碧图插件
 const templateFunc = require(path.join(__dirname, './spriteTemplate')) // 雪碧图文件模板
 const CompressionPlugin = require('compression-webpack-plugin') // Gzip压缩
+const FileManagerPlugin = require('filemanager-webpack-plugin') // 将build后的文件压缩
 const webpackConfig = {
   publicPath: '/', // 应用部署路径
   outputDir: process.env.VUE_APP_VERSION === 'abroad' ? 'dist/欧服' : 'dist/国服', // 生产环境构建目录
@@ -107,11 +108,26 @@ const webpackConfig = {
   }
 }
 if (process.env.NODE_ENV === 'production') {
+  // .js .css .html文件压缩
   let tempCompress = new CompressionPlugin({
     test: /\.js$|\.html$|\.css/, // 匹配文件名
     threshold: 10240, // 对超过10k的数据压缩
     deleteOriginalAssets: false // 不删除源文件
   })
+  // 压缩打包后的文件包
+  let tempFileManager = new FileManagerPlugin({
+    onEnd: {
+      delete: [ // 首先需要删除项目根目录下的dist.zip
+        './dist/国服.zip',
+        './dist/欧服.zip'
+      ],
+      archive: [ // 然后我们选择dist文件夹将之打包成dist.zip并放在根目录
+        { source: './dist/国服', destination: './dist/国服.zip' },
+        { source: './dist/欧服', destination: './dist/欧服.zip' }
+      ]
+    }
+  })
   webpackConfig.configureWebpack.plugins.push(tempCompress)
+  webpackConfig.configureWebpack.plugins.push(tempFileManager)
 }
 module.exports = webpackConfig

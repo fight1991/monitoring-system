@@ -8,16 +8,16 @@
     "serve-en": "vue-cli-service serve --mode dev-en",
     "build-en": "vue-cli-service build --mode prod-en",
     "test-en": "vue-cli-service serve --mode test-en",
-
     "dev-zh": "npm run serve-zh",
     "serve-zh": "vue-cli-service serve --mode dev-zh",
     "build-zh": "vue-cli-service build --mode prod-zh",
     "test-zh": "vue-cli-service serve --mode test-zh",
-    
+    "build": "concurrently \"npm run build-zh\" \"npm run build-en\"",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "D": "^1.0.0",
+    "concurrently": "^5.2.0",
     "core-js": "^3.4.4",
     "echarts": "^4.6.0",
     "element-ui": "^2.13.0",
@@ -46,6 +46,7 @@
     "compression-webpack-plugin": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "filemanager-webpack-plugin": "^2.0.5",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "sass-loader": "^8.0.2",

@@ -49,8 +49,8 @@
           <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.acStore')}}</el-link>
         </p>
         <p class="flex-center">
-          <a class="beian" v-if="version=='abroad'" href="http://www.beian.miit.gov.cn/" target="_blank"></a>
-          <span class="beian-num" v-if="version=='abroad'">苏ICP备20036769</span>
+          <a class="beian" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank"></a>
+          <span class="beian-num" v-if="version=='inside'">苏ICP备20036769</span>
           <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
         </p>
       </div>
