@@ -22,14 +22,15 @@
     <!-- 储能电池状态 -->
     <div class="right">
       <el-card shadow="never">
-        <div class="title border-line" slot="header">电池状态</div>
+        <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
         <div class="battery-box">
           <div class="battery-img">
             <div class="percent-bg" :style="{'width': bPercent + '%'}"></div>
           </div>
           <div class="item battery-value">{{bPercent + '%'}}</div>
-          <div class="item battery-power">功率: <span class="num">10</span>W</div>
-          <div class="item battery-status">状态: <span class="status">离线</span></div>
+          <div class="item battery-power">{{$t('common.power')}}: <span class="num">10</span>W</div>
+          <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
+          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{$t('common.offline')}}</span></div>
         </div>
       </el-card>
     </div>
