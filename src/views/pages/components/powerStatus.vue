@@ -1,5 +1,5 @@
 <template>
-  <div class="whether">
+  <div class="status-box">
     <div class="left">
       <el-card shadow="never">
         <div class="title border-line" slot="header">{{title}}</div>
@@ -19,11 +19,19 @@
         </el-row>
       </el-card>
     </div>
-    <div class="right bg-c hidden-sm-and-down">
-      <div class="weather-img"><i class="iconfont icon-qing" style="font-size:80px"></i></div>
-      <div class="weather-text">晴天</div>
-      <div class="weather-temper">27℃</div>
-      <div class="weather-place flex-center"><i class="iconfont icon-dizhi"></i>&nbsp;江苏无锡</div>
+    <!-- 储能电池状态 -->
+    <div class="right">
+      <el-card shadow="never">
+        <div class="title border-line" slot="header">电池状态</div>
+        <div class="battery-box">
+          <div class="battery-img">
+            <div class="percent-bg" :style="{'width': 30 + '%'}"></div>
+          </div>
+          <div class="item battery-value">50%</div>
+          <div class="item battery-power">功率: <span class="num">10</span>W</div>
+          <div class="item battery-status">状态: <span class="status">离线</span></div>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -32,7 +40,9 @@ import incomeItem from './incomeItem'
 export default {
   components: { incomeItem },
   data () {
-    return {}
+    return {
+      batteryPercent: 30
+    }
   },
   props: {
     title: {
@@ -59,34 +69,65 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.whether {
+.status-box {
   display: flex;
   .right {
     margin-left: 10px;
     width: 250px;
-    height: 321px;
-    box-sizing: border-box;
-    padding: 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    .weather-text, .weather-place {
-      color: #666;
-    }
-    .weather-temper {
-      font-size: 24px;
-    }
-    .weather-place i{
-      color: #FFA28D;
-      font-size: 24px;
-    }
-    .weather-img {
-      color: #FDB201;
-    }
+    // height: 321px;
+    // box-sizing: border-box;
+    // padding: 10px;
   }
   .left {
     flex: 1;
+  }
+  .battery-box {
+    height: 240px;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    .battery-img {
+      height: 96px;
+      margin: 0 auto;
+      // width: 100%;
+      width: 180px;
+      padding: 6px 18px 6px 6px;
+      box-sizing: border-box;
+      // border: 1px solid red;
+      background: url("../../../assets/battery.png") no-repeat;
+      background-size: 180px 96px;
+      .percent-bg {
+        background-color: #67C23A;
+        height: 100%;
+        border-radius: 6px;
+        box-shadow: 0 0 2px #67C23A;
+      }
+    }
+    .item {
+      padding: 10px 0;
+    }
+    .battery-value {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .battery-power,.battery-status {
+      width: 100%;
+      text-indent: 25px;
+    }
+    .battery-power {
+      .num {
+        color: #FDB201;
+        margin: 0 5px 0 15px;
+        font-size: 18px;
+      }
+    }
+    .battery-status {
+      .status {
+        margin: 0 5px 0 15px;
+      }
+    }
   }
 }
 .my-pg {

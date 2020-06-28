@@ -27,9 +27,17 @@
             <el-button size="mini" icon="el-icon-link">{{$t('navBar.linkSn')}}</el-button>
           </div>
         </div>
-        <div class="pull-icon">
-          <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
-          <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
+        <div class="right-box flex-vertical-center">
+          <div class="weather flex-vertical-center">
+            <div class="weather-img"><i class="iconfont icon-qing" style="font-size:30px"></i></div>
+            <div class="weather-text">晴天</div>
+            <div class="weather-temper">27℃</div>
+            <div class="weather-place flex-center"><i class="iconfont icon-dizhi"></i>&nbsp;江苏无锡</div>
+          </div>
+          <div class="pull-icon">
+            <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
+            <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
+          </div>
         </div>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
@@ -334,5 +342,22 @@ export default {
 }
 .status-text {
   padding: 2px 5px;
+}
+.weather {
+  margin-right: 30px;
+  .weather-text, .weather-place {
+    color: #666;
+    margin: 0 10px;
+  }
+  .weather-temper {
+    font-size: 16px;
+  }
+  .weather-place i{
+    color: #FFA28D;
+    font-size: 16px;
+  }
+  .weather-img {
+    color: #FDB201;
+  }
 }
 </style>
