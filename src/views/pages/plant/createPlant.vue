@@ -199,7 +199,7 @@ export default {
   },
   watch: {
     '$store.state.lang': async function () {
-      this.access > 1 && (this.countryList = await this.getCountryList())
+      this.access > 1 && this.$route.name === 'bus-plant-add' && (this.countryList = await this.getCountryList())
     }
   },
   computed: {
