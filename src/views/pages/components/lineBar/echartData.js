@@ -44,7 +44,7 @@ export default {
             xAxisIndex: [0],
             top: '80%',
             start: 0,
-            end: 40
+            end: 100
           }],
           yAxis: {
             name: 'kW',
@@ -107,7 +107,7 @@ export default {
             xAxisIndex: [0],
             top: '80%',
             start: 0,
-            end: 70
+            end: 100
           }],
           yAxis: {
             name: 'kW/h'
