@@ -67,7 +67,8 @@ export default {
           label: 'Invstatus',
           prop: 'masterState',
           checked: true,
-          fixed: 'right'
+          fixed: 'right',
+          width: 100
         }
       ]
     }
