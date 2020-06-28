@@ -1,7 +1,7 @@
 <template>
   <div class="status-box">
     <div class="left">
-      <el-card shadow="never">
+      <el-card shadow="never" class="card-no-padding">
         <div class="title border-line" slot="header">{{title}}</div>
         <el-row class="current-kw">
           <el-col :span="8">
@@ -89,7 +89,7 @@ export default {
     // justify-content: center;
     // align-items: center;
     .battery-img {
-      height: 96px;
+      height: 80px;
       margin: 0 auto;
       // width: 100%;
       width: 180px;
@@ -97,7 +97,7 @@ export default {
       box-sizing: border-box;
       // border: 1px solid red;
       background: url("../../../assets/battery.png") no-repeat;
-      background-size: 180px 96px;
+      background-size: 180px 100%;
       .percent-bg {
         background-color: #67C23A;
         height: 100%;
@@ -107,7 +107,7 @@ export default {
       }
     }
     .item {
-      padding: 10px 0;
+      padding: 15px 0;
     }
     .battery-value {
       font-size: 18px;
@@ -135,6 +135,7 @@ export default {
 .my-pg {
   height: 240px;
   position: relative;
+  overflow: hidden;
   border-right: 1px solid #f5f5f5;
   .el-progress {
     vertical-align: top
