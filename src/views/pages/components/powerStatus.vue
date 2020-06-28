@@ -74,7 +74,7 @@ export default {
   display: flex;
   .right {
     margin-left: 10px;
-    width: 250px;
+    width: 230px;
     // height: 321px;
     // box-sizing: border-box;
     // padding: 10px;
@@ -135,7 +135,6 @@ export default {
 .my-pg {
   height: 240px;
   position: relative;
-  margin-right: 15px;
   border-right: 1px solid #f5f5f5;
   .el-progress {
     vertical-align: top
