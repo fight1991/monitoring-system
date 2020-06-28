@@ -25,9 +25,9 @@
         <div class="title border-line" slot="header">电池状态</div>
         <div class="battery-box">
           <div class="battery-img">
-            <div class="percent-bg" :style="{'width': 30 + '%'}"></div>
+            <div class="percent-bg" :style="{'width': bPercent + '%'}"></div>
           </div>
-          <div class="item battery-value">50%</div>
+          <div class="item battery-value">{{bPercent + '%'}}</div>
           <div class="item battery-power">功率: <span class="num">10</span>W</div>
           <div class="item battery-status">状态: <span class="status">离线</span></div>
         </div>
@@ -41,7 +41,7 @@ export default {
   components: { incomeItem },
   data () {
     return {
-      batteryPercent: 30
+      bPercent: 40
     }
   },
   props: {
@@ -100,6 +100,7 @@ export default {
       .percent-bg {
         background-color: #67C23A;
         height: 100%;
+        transition: all 1s;
         border-radius: 6px;
         box-shadow: 0 0 2px #67C23A;
       }
