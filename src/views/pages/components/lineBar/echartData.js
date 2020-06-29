@@ -19,7 +19,7 @@ export default {
               let res = ''
               params.forEach(v => {
                 !headLabel && (headLabel = v.axisValueLabel)
-                res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1]
+                res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + this.toFixed(v.data[1])
               })
               return headLabel + res
             }
@@ -78,7 +78,7 @@ export default {
             trigger: 'item',
             formatter: params => {
               let { seriesName, name, value, marker } = params
-              return this.$t('chart.' + seriesName) + '<br/>' + marker + name + ' : ' + value
+              return this.$t('chart.' + seriesName) + '<br/>' + marker + name + ' : ' + this.toFixed(value)
             }
           },
           // dataset: {
