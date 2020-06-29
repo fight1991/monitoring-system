@@ -240,3 +240,22 @@ export function readExcel (file, callback) {
     callback && callback(null)
   }
 }
+/**
+ * @description: 将带时区的字符串转换成时间戳(以后可用时间工具库)
+ */
+export function getTimespan (time) {
+  // 解决Date.parse在火狐浏览器中解析yyyy-MM-dd日期格式时返回NaN
+  // edge浏览器中解析不了带时区的
+  let res = Date.parse(time.replace('-', '/').replace('-', '/'))
+  if (res) {
+    return res
+  } else {
+    let temp = time.split(' ')
+    temp.pop()
+    if (temp.length === 2) {
+      return temp.join(' ')
+    } else {
+      return ''
+    }
+  }
+}

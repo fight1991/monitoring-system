@@ -97,7 +97,7 @@ import flowDialog from './flowDialog'
 import flowAnimate from './flowAnimate'
 import lineChart from './lineChart'
 import storage from '@/util/storage'
-import { isJSON, formatDate } from '@/util'
+import { isJSON, formatDate, getTimespan } from '@/util'
 export default {
   components: {
     deviceStatus,
@@ -272,7 +272,7 @@ export default {
       if (result && result.length > 0) {
         let temp = []
         result.forEach((v, i) => {
-          let tempData = v.data.map(item => [Date.parse(item.time), this.toFixed(item.value)])
+          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
           temp.push({
             symbol: 'none',
             name: v.variable,

@@ -51,7 +51,7 @@
 </template>
 <script>
 import echartData from './echartData'
-import { formatDate } from '@/util'
+import { formatDate, getTimespan } from '@/util'
 export default {
   mixins: [echartData],
   data () {
@@ -168,8 +168,7 @@ export default {
       if (result && result.length > 0) {
         this.echartData.power.legend.data = result.map(v => v.variable)
         this.echartData.power.series = result.map(v => {
-          // 解决Date.parse在火狐浏览器中解析yyyy-MM-dd日期格式时返回NaN
-          let tempData = v.data.map(item => [Date.parse(item.time.replace('-', '/').replace('-', '/')), this.toFixed(item.value)])
+          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
           return {
             symbol: 'none',
             type: 'line',
