@@ -35,6 +35,7 @@
       <!-- 列表查询区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
+          <el-button size="mini" v-show="false" icon="iconfont icon-multi-download" @click="multiVisible=true">批量下载</el-button>
           <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
@@ -44,14 +45,18 @@
     <div class="page-list">
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
+    <multi-download :visible.sync="multiVisible"></multi-download>
   </section>
 </template>
 <script>
 import reportTableHead from './reportTableHead'
+import multiDownload from './multiDownload'
 export default {
   mixins: [reportTableHead],
+  components: { multiDownload },
   data () {
     return {
+      multiVisible: false,
       downloadUrl: '',
       selection: [],
       times: [],

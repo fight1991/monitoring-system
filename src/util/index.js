@@ -1,5 +1,6 @@
 import SparkMD5 from 'spark-md5'
 import Base64 from 'js-base64'
+import XLSX from 'xlsx'
 /**
  * 日期格式化 yyyy-MM-dd HH:mm:ss
  * @param date
@@ -206,5 +207,36 @@ export function isWeiXin () {
     return true // 是微信端
   } else {
     return false
+  }
+}
+/**
+ * @description: 导入excel文件并返回数据
+ * @param {*}: file为文件对象
+ * @return: 返回json数据
+ */
+export function readExcel (file, callback) {
+  try {
+    const reader = new FileReader()
+    reader.readAsBinaryString(file)
+    reader.onload = function () {
+      let res = this.result
+      // 以二进制流方式读取得到整份excel表格对象
+      let workbook = XLSX.read(res, {
+        type: 'binary'
+      })
+      // 存储获取到的数据
+      let buildings = []
+      // 遍历每张表读取
+      for (var sheet in workbook.Sheets) {
+        if (workbook.Sheets.hasOwnProperty(sheet)) {
+          buildings = buildings.concat(XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet], { header: 1 }))
+          console.log(buildings)
+          break // 只取第一张sheet表
+        }
+      }
+      callback && callback(buildings)
+    }
+  } catch (err) {
+    callback && callback(null)
   }
 }
