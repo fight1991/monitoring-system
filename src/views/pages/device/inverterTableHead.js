@@ -23,6 +23,18 @@ export default {
           checked: true
         },
         {
+          label: 'plant.datacolType',
+          prop: 'moduleType',
+          checked: true,
+          width: 150
+        },
+        {
+          label: 'common.signal',
+          prop: 'signal',
+          checked: true,
+          slotName: 'signal'
+        },
+        {
           label: 'invupgrade.invmodel',
           prop: 'deviceType',
           checked: true,
