@@ -248,7 +248,7 @@ export default {
     uptime: '上传时间'
   },
   invupgrade: {
-    invmodel: '逆变器类型',
+    invmodel: '逆变器机型',
     invversion: '逆变器软件版本',
     dataversion: '模块软件版本',
     master: '主DSP版本',
