@@ -47,14 +47,17 @@ const router = new VueRouter({
 // 登录校验、放行 注意: 有些cdn路由版本 地址栏输入路由地址时会加载2次
 router.beforeEach(async (to, from, next) => {
   let _this = router.app
-  // 不需权限,直接放行 /login,/error-xx等
+  // 登录页直接放行
+  if (to.path === '/login') {
+    storage.removeStorage('token')
+    storage.removeLoginInfo()
+    storage.clearSession()
+    _this.$options.store.state.isFirst = true
+    next()
+    return
+  }
+  // 不需权限,直接放行,/error-xx等
   if (to.meta.requiresAuth === false) {
-    if (to.path === '/login') {
-      storage.removeStorage('token')
-      storage.removeLoginInfo()
-      storage.clearSession()
-      _this.$options.store.state.isFirst = true
-    }
     next()
     return
   }
@@ -86,7 +89,9 @@ router.beforeEach(async (to, from, next) => {
       next('/product/index')
       return
     }
-    _this.$message.error('No permissions!')
+    if (store.state.access >= 0) {
+      _this.$message.error('No permissions!')
+    }
     return
   }
   next()

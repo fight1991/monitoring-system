@@ -38,7 +38,7 @@ const requests = {
       return new MethodAll(promiseArr).$all(store, isLoad)
     },
     url (urlArr, isLoad = true) {
-      return new MethodAll(urlArr).$all(store, isLoad)
+      return new MethodAll(urlArr.map(v => commonInstance.get(v))).$all(store, isLoad)
     }
   },
   // 自定义请求

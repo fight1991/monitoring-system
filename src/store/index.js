@@ -4,7 +4,7 @@ import socket from './modules/socketState' // websocket连接状态
 const language = process.env.VUE_APP_VERSION === 'abroad' ? 'en' : 'zh'
 export default new Vuex.Store({
   state: {
-    rightsTxt: '© 2010-2020 FoxESS . ',
+    rightsTxt: `© ${new Date().getFullYear()} FoxESS . `,
     version: process.env.VUE_APP_VERSION, // app版本 国外版, 国内版
     tableH: 320, // 表格高度
     successCode: 0, // 业务成功状态码
