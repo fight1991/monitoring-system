@@ -50,7 +50,7 @@
         </p>
         <p class="flex-center">
           <a class="beian" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank"></a>
-          <span class="beian-num" v-if="version=='inside'">苏ICP备20036769</span>
+          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
           <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
         </p>
       </div>
@@ -131,6 +131,8 @@ export default {
 }
 .beian-num {
   margin: 0 5px;
+  text-decoration: none;
+  color: #999;
 }
 .gap {
   margin: 0 5px;
