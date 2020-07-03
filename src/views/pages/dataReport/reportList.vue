@@ -40,37 +40,37 @@
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
           <template v-slot:eToday="{row}">
-            {{row.eToday.toFixed()}}
+            {{toFixed(row.eToday)}}
           </template>
           <template v-slot:eTotal="{row}">
-            {{row.eTotal.toFixed()}}
+            {{toFixed(row.eTotal)}}
           </template>
           <template v-slot:pv1Voltage="{row}">
-            {{row.pv1Voltage.toFixed()}}
+            {{toFixed(row.pv1Voltage)}}
           </template>
           <template v-slot:pv2Voltage="{row}">
-            {{row.pv2Voltage.toFixed()}}
+            {{toFixed(row.pv2Voltage)}}
           </template>
           <template v-slot:pv1Current="{row}">
-            {{row.pv1Current.toFixed()}}
+            {{toFixed(row.pv1Current)}}
           </template>
           <template v-slot:pv2Current="{row}">
-            {{row.pv2Current.toFixed()}}
+            {{toFixed(row.pv2Current)}}
           </template>
           <template v-slot:feedinPower="{row}">
-            {{row.feedinPower.toFixed()}}
+            {{toFixed(row.feedinPower)}}
           </template>
           <template v-slot:outputPower="{row}">
-            {{row.outputPower.toFixed()}}
+            {{toFixed(row.outputPower)}}
           </template>
           <template v-slot:gridVoltageR="{row}">
-            {{row.gridVoltageR.toFixed()}}
+            {{toFixed(row.gridVoltageR)}}
           </template>
           <template v-slot:gridCurrentR="{row}">
-            {{row.gridCurrentR.toFixed()}}
+            {{toFixed(row.gridCurrentR)}}
           </template>
            <template v-slot:gridFrequencyR="{row}">
-            {{row.gridFrequencyR.toFixed()}}
+            {{toFixed(row.gridFrequencyR)}}
           </template>
         </common-table>
       </func-bar>
