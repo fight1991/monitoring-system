@@ -99,12 +99,12 @@ const webpackConfig = {
             name: 'chunk-elementUI', // 单独将 elementUI 拆包
             priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
             test: /[\\/]node_modules[\\/]element-ui[\\/]/
+          },
+          xlsx: {
+            name: 'chunk-xlsx',
+            priority: 30, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+            test: /[\\/]node_modules[\\/]xlsx[\\/]/
           }
-          // echart: {
-          //   name: 'chunk-echart',
-          //   priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-          //   test: /[\\/]node_modules[\\/]echarts[\\/]/
-          // }
         }
       }
     }
