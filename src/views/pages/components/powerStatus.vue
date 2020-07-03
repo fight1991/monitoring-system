@@ -59,7 +59,9 @@ export default {
   computed: {
     powerPercent () {
       if (this.capacity > 0) {
-        return Math.ceil((this.power / this.capacity) * 100)
+        let tempres = Math.ceil((this.power / this.capacity) * 100)
+        if (tempres > 100) return 100
+        return tempres
       }
       return 0
     }

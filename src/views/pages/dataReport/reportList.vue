@@ -39,6 +39,39 @@
           <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
+          <template v-slot:eToday="{row}">
+            {{row.eToday.toFixed()}}
+          </template>
+          <template v-slot:eTotal="{row}">
+            {{row.eTotal.toFixed()}}
+          </template>
+          <template v-slot:pv1Voltage="{row}">
+            {{row.pv1Voltage.toFixed()}}
+          </template>
+          <template v-slot:pv2Voltage="{row}">
+            {{row.pv2Voltage.toFixed()}}
+          </template>
+          <template v-slot:pv1Current="{row}">
+            {{row.pv1Current.toFixed()}}
+          </template>
+          <template v-slot:pv2Current="{row}">
+            {{row.pv2Current.toFixed()}}
+          </template>
+          <template v-slot:feedinPower="{row}">
+            {{row.feedinPower.toFixed()}}
+          </template>
+          <template v-slot:outputPower="{row}">
+            {{row.outputPower.toFixed()}}
+          </template>
+          <template v-slot:gridVoltageR="{row}">
+            {{row.gridVoltageR.toFixed()}}
+          </template>
+          <template v-slot:gridCurrentR="{row}">
+            {{row.gridCurrentR.toFixed()}}
+          </template>
+           <template v-slot:gridFrequencyR="{row}">
+            {{row.gridFrequencyR.toFixed()}}
+          </template>
         </common-table>
       </func-bar>
     </div>
