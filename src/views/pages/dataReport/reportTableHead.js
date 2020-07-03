@@ -15,7 +15,7 @@ export default {
           width: 100
         }, {
           label: 'Pv1 Voltage',
-          prop: 'gridVoltagT',
+          prop: 'pv1Voltage',
           checked: true,
           width: 110
         }, {
