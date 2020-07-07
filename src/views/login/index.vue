@@ -35,9 +35,9 @@
       <div class="footer-content">
         <p class="flex-center some-link">
           <el-link type="info" href="https://www.fox-ess.com/" target="_blank">{{$t('login.site')}}</el-link>
-          <i class="gap shuxian"></i>
+          <i class="shuxian"></i>
           <el-link type="info" href="http://8.209.116.72/i18n/zh_CN/UserAgreement.html" target="_blank">{{$t('login.useTerm')}}</el-link>
-          <i class="gap shuxian"></i>
+          <i class="shuxian"></i>
           {{$t('login.product')}}
           <span class="gap">:</span>
           <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.sSeries')}}</el-link>
