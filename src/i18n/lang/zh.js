@@ -127,7 +127,7 @@ export default {
     acStore: 'AC存储',
     site: '官网',
     useTerm: '使用条款',
-    allRight: '版权所有',
+    allRight: '麦田能源有限公司,版权所有',
     send: '获取验证码',
     mobile: '手机号登录',
     mobileSp: '手机号注册',

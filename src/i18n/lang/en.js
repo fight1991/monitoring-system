@@ -127,7 +127,7 @@ export default {
     acStore: 'AC Storage',
     site: 'FoxEss Site',
     useTerm: 'Terms of Use',
-    allRight: 'All rights reserved',
+    allRight: 'FoxESS,All rights reserved',
     send: 'Send',
     mobile: 'Mobile number sign in',
     mobileSp: 'Mobile number sign up',

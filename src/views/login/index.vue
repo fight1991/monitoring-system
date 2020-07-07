@@ -34,24 +34,17 @@
     <div class="footer">
       <div class="footer-content">
         <p class="flex-center some-link">
-          <el-link type="info" href="https://www.fox-ess.com/" target="_blank">{{$t('login.site')}}</el-link>
+          <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
           <i class="shuxian"></i>
-          <el-link type="info" href="http://8.209.116.72/i18n/zh_CN/UserAgreement.html" target="_blank">{{$t('login.useTerm')}}</el-link>
+          <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
           <i class="shuxian"></i>
-          {{$t('login.product')}}
-          <span class="gap">:</span>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.sSeries')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.eSeries')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.tSeries')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.acStore')}}</el-link>
+          <el-link type="info" :href="apiUrl + '/i18n/zh_CN/UserAgreement.html'" target="_blank">{{$t('login.useTerm')}}</el-link>
+          <i class="shuxian"></i>
+          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
         </p>
         <p class="flex-center">
-          <a class="beian" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank"></a>
-          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备32021402001297号</a>
-          <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
+          <span class="beian" v-if="version=='inside'"></span>
+          <span class="beian-num" v-if="version=='inside'">苏公网安备 32021402001297号</span>
         </p>
       </div>
     </div>
@@ -80,7 +73,9 @@ export default {
       // andrImg: require('@/assets/android-app.png'),
       // iosImg: require('@/assets/ios-app.png'),
       qrcode: location.origin + '/app/download',
-      size: 110
+      size: 110,
+      host: 'https://www.fox-ess.com', // 国外官网
+      apiUrl: process.env.VUE_APP_WWW // 资源地址
     }
   },
   computed: {
@@ -92,6 +87,9 @@ export default {
     // 系统header按钮跳转过来
     if (this.$route.query.type === 'reset') {
       this.toggleStatus('resetPw')
+    }
+    if (process.env.VUE_APP_VERSION === 'inside') {
+      this.host = 'http://www.fox-ess.com.cn' // 国内官网
     }
   },
   methods: {
@@ -132,17 +130,17 @@ export default {
 .beian-num {
   margin: 0 5px;
   text-decoration: none;
-  color: #999;
+  color: #939393;
 }
 .gap {
-  margin: 0 6px;
+  margin: 0 5px;
 }
 .shuxian {
   display: block;
   height: 10px;
   width: 1px;
   border-right: 1px solid #999;
-  margin: 0 8px;
+  margin: 0 5px;
 }
   .login-container {
     // background: url("../../assets/inverter-bg.png") no-repeat left center;
@@ -158,7 +156,7 @@ export default {
     }
     .footer-content {
       font-size: 12px;
-      color: #999;
+      color: #939393;
       text-align:center;
       // width: 1000px;
       // margin: 0 auto;
