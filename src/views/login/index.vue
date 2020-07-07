@@ -35,9 +35,9 @@
       <div class="footer-content">
         <p class="flex-center some-link">
           <el-link type="info" href="https://www.fox-ess.com/" target="_blank">{{$t('login.site')}}</el-link>
-          <i class="gap">-</i>
+          <i class="gap shuxian"></i>
           <el-link type="info" href="http://8.209.116.72/i18n/zh_CN/UserAgreement.html" target="_blank">{{$t('login.useTerm')}}</el-link>
-          <i class="gap">-</i>
+          <i class="gap shuxian"></i>
           {{$t('login.product')}}
           <span class="gap">:</span>
           <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.sSeries')}}</el-link>
@@ -50,7 +50,7 @@
         </p>
         <p class="flex-center">
           <a class="beian" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank"></a>
-          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
+          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备32021402001297号</a>
           <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
         </p>
       </div>
@@ -135,7 +135,14 @@ export default {
   color: #999;
 }
 .gap {
-  margin: 0 5px;
+  margin: 0 6px;
+}
+.shuxian {
+  display: block;
+  height: 10px;
+  width: 1px;
+  border-right: 1px solid #999;
+  margin: 0 8px;
 }
   .login-container {
     // background: url("../../assets/inverter-bg.png") no-repeat left center;
