@@ -117,7 +117,9 @@ export default {
     pvcapacity: '系统组件容量',
     operation: '操作',
     unbind: '批量解绑',
-    signal: '信号'
+    signal: '信号',
+    sunny: '晴天',
+    wuxi: '江苏无锡'
   },
   login: {
     product: '产品',

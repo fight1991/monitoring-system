@@ -21,13 +21,13 @@ export default {
       let value = ''
       switch (Number(num)) {
         case 1:
-          value = '正常'
+          value = this.$t('common.normal')
           break
         case 2:
-          value = '故障'
+          value = this.$t('common.abnormal')
           break
         default:
-          value = '离线'
+          value = this.$t('common.offline')
           break
       }
       return value
