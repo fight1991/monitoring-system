@@ -182,7 +182,7 @@ export default {
     map: 'map',
     price: 'Electricity price',
     cancel: 'Cancel',
-    new: 'New',
+    new: 'Create',
     edit: 'Edit',
     goOn: 'Go on',
     todayAb: `Today's abnormal`,
