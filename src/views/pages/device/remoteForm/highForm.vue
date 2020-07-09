@@ -56,14 +56,14 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="写入当日发电量">
-            <el-input v-model="dataForm.aa" placeholder="kwh"></el-input>
+            <el-input v-model="dataForm.aa" placeholder="kW·h"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="写入总发电量">
-            <el-input v-model="dataForm.aa" placeholder="kwh"></el-input>
+            <el-input v-model="dataForm.aa" placeholder="kW·h"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
