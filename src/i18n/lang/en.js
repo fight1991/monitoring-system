@@ -117,7 +117,9 @@ export default {
     pvcapacity: 'PV capacity',
     operation: 'Operation',
     unbind: 'Unbind',
-    signal: 'Signal'
+    signal: 'Signal',
+    sunny: 'Sunny',
+    wuxi: 'Wuxi Jiangsu'
   },
   login: {
     product: 'PRODUCTS',

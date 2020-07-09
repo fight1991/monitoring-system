@@ -30,9 +30,9 @@
         <div class="right-box flex-vertical-center">
           <div class="weather flex-vertical-center">
             <div class="weather-img"><i class="iconfont icon-qing" style="font-size:30px"></i></div>
-            <div class="weather-text">晴天</div>
+            <div class="weather-text">{{$t('common.sunny')}}</div>
             <div class="weather-temper">27℃</div>
-            <div class="weather-place flex-center"><i class="iconfont icon-dizhi"></i>&nbsp;江苏无锡</div>
+            <div class="weather-place flex-center"><i class="iconfont icon-dizhi"></i>&nbsp;{{$t('common.wuxi')}}</div>
           </div>
           <div class="pull-icon">
             <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>

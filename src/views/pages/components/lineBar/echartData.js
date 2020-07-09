@@ -110,7 +110,7 @@ export default {
             end: 100
           }],
           yAxis: {
-            name: 'kW/h'
+            name: 'kWh'
           },
           // Declare several bar series, each will be mapped
           // to a column of dataset.source by default.
