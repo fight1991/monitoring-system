@@ -64,13 +64,17 @@
               <el-col :lg="12" :md="24">
                 <el-form-item :label="$t('plant.price')" prop="details.price">
                   <el-select v-model="dataForm.details.price" style="width:100%" :placeholder="$t('common.select')">
-                    <el-option v-for="item in powerList" :key="item.id" :value="item.name" :label="item.name"></el-option>
+                    <el-option
+                      v-for="item in powerList"
+                      :key="item.id" :value="item.name"
+                      :label="item.name + '-' + item.description">
+                    </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :lg="12" :md="24">
                 <el-form-item :label="$t('common.pvcapacity') + '(kW)'" prop="details.systemCapacity">
-                  <el-input v-model="dataForm.details.systemCapacity" clearable></el-input>
+                  <el-input v-model.number="dataForm.details.systemCapacity" clearable></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -107,7 +111,7 @@
       :close-on-click-modal="false"
       :show-close="false"
       :visible.sync="errVisible">
-      <div v-for="(item, index) in errorList" :key="'index'+index">
+      <div v-for="item in errorList" :key="item.sn">
         {{item.sn}}
       </div>
       <el-row slot="footer" type="flex" justify="center">
@@ -164,15 +168,18 @@ export default {
       },
       rules: {
         agent: [{ required: true, message: 'agent is required', trigger: 'change' }],
-        timezone: [{ required: true, message: 'time zone is required', trigger: 'blur' }],
+        timezone: [{ required: true, message: 'time zone is required', trigger: 'change' }],
         daylight: [{ required: true, message: 'summer time is required', trigger: 'blur' }],
         'details.name': [{ required: true, message: 'name is required', trigger: 'blur' }],
-        'details.type': [{ required: true, message: 'type is required', trigger: 'blur' }],
+        'details.type': [{ required: true, message: 'type is required', trigger: 'change' }],
         'details.country': [{ required: true, message: 'country is required', trigger: 'change' }],
         'details.city': [{ required: true, message: 'city is required', trigger: 'blur' }],
         'details.address': [{ required: true, message: 'address is required', trigger: 'blur' }],
         'details.price': [{ required: true, message: 'price is required', trigger: 'change' }],
-        'details.systemCapacity': [{ required: true, message: 'capacity is required', trigger: 'blur' }],
+        'details.systemCapacity': [
+          { required: true, message: 'capacity is required', trigger: 'blur' },
+          { message: 'capacity is invalid', type: 'number', trigger: 'blur' }
+        ],
         'details.postcode': [{ required: true, message: 'postcodes is required', trigger: 'blur' }]
       },
       powerList: [
@@ -182,7 +189,7 @@ export default {
   },
   async created () {
     if (this.access > 1) {
-      this.getPriceList()
+      await this.getPriceList()
       await this.getAgentList()
       // 复制模板
       this.countryList = await this.getCountryList()
@@ -247,6 +254,7 @@ export default {
       if (result && result.length > 0) {
         this.powerList = result
       }
+      return true
     },
     // 获取时区列表
     async getZoneList (name) {
