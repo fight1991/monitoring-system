@@ -21,7 +21,7 @@
           </el-row>
           <el-row v-for="item2 in item.values" :key="item2.variable">
             <el-col :span="12">{{item2.variable}}</el-col>
-            <el-col :span="12">{{item2.value}}</el-col>
+            <el-col :span="12">{{toFixed(item2.value)}}</el-col>
           </el-row>
         </div>
       </el-tab-pane>
