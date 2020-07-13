@@ -144,7 +144,7 @@ export default {
     email: 'Email sign in',
     emailSp: 'Email sign up',
     login: 'Sign in',
-    register: 'Sing up',
+    register: 'Sign up',
     back: 'Back',
     verPw: 'Verify password',
     pwNot: 'The second password input is inconsistent',
