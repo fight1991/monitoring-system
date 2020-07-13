@@ -61,6 +61,7 @@
             <i class="icon icon-signal1" v-show="row.signal==1"></i>
             <i class="icon icon-signal2" v-show="row.signal==2"></i>
             <i class="icon icon-signal3" v-show="row.signal==3"></i>
+            <i class="icon icon-signal" v-show="row.signal>3"></i>
           </template>
           <template v-slot:version="{row}">
             {{row.version || '-'}}

@@ -8,7 +8,7 @@
             <div class="my-pg flex-center">
               <el-progress :width="150" type="circle" color="#67C23A" :show-text="false" :percentage="powerPercent" :stroke-width="12"></el-progress>
               <div class="progress-txt">
-                <div class="number">{{toFixed(power) + 'kw'}}</div>
+                <div class="number">{{toFixed(power) + 'kW'}}</div>
                 <div class="f12">{{$t('common.currentP')}}</div>
               </div>
             </div>
