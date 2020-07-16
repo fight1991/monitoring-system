@@ -102,8 +102,18 @@ const webpackConfig = {
           },
           xlsx: {
             name: 'chunk-xlsx',
-            priority: 30, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+            priority: 30,
             test: /[\\/]node_modules[\\/]xlsx[\\/]/
+          },
+          md5: {
+            name: 'chunk-spark-md5',
+            priority: 40,
+            test: /[\\/]node_modules[\\/]spark-md5[\\/]/
+          },
+          base64: {
+            name: 'chunk-js-base64',
+            priority: 50,
+            test: /[\\/]node_modules[\\/]js-base64[\\/]/
           }
         }
       }
