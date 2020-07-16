@@ -149,7 +149,8 @@ export default {
       // this.search()
     },
     search () {
-      this.getList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     goToDetail (page, id) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
