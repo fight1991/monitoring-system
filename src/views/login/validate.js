@@ -1,6 +1,6 @@
 export default {
   email: {
-    rule: /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$|^$/, // 邮箱或为空
+    rule: /^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@([A-Za-z0-9-]+.)+[A-Za-z]{2,6}$|^$/, // 邮箱或为空
     message: 'login.errorMg3'
   },
   phone: {
