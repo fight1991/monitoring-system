@@ -6,27 +6,27 @@
           <el-row :gutter="15">
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" clearable :placeholder="$t('firmware.version')"></el-input>
+                <el-input v-model="searchForm.firmwareVersion" clearable :placeholder="$t('firmware.version')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.type" clearable :placeholder="$t('firmware.devicetype')">
-                  <el-option v-for="item in typeList" :label="item.label" :value="item.status" :key="item.status"></el-option>
+                <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devicetype')">
+                  <el-option v-for="item in modelTypeList" :label="item.label" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.moduleType" clearable :placeholder="$t('firmware.type')">
-                  <el-option v-for="(item,index) in versionList" :label="item" :value="item" :key="item + index"></el-option>
+                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.type')">
+                  <el-option v-for="item in versionList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.status" clearable :placeholder="$t('firmware.status')">
-                  <el-option v-for="(item,index) in statusList" :label="item" :value="item" :key="item + index"></el-option>
+                <el-select style="width:100%" v-model="searchForm.firmwareStatus" clearable :placeholder="$t('firmware.status')">
+                  <el-option v-for="item in statusList" :label="item.label" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -56,14 +56,48 @@
 export default {
   data () {
     return {
-      searchForm: {},
-      versionList: [], // 版本类型
-      typeList: [], // 设备类型
-      statusList: [], // 审核状态
+      searchForm: {
+        firmwareVersion: '',
+        modelType: '',
+        firmwareStatus: '',
+        softType: ''
+      },
+      versionList: [ // 版本类型
+        'master',
+        'slave',
+        'manager'
+      ],
+      modelTypeList: [ // 设备类型
+        {
+          label: '全部',
+          value: 0
+        }, {
+          label: '逆变器',
+          value: 1
+        }, {
+          label: '模块',
+          value: 2
+        }, {
+          label: '电池',
+          value: 3
+        }
+      ],
+      statusList: [ // 固件状态
+        {
+          label: '全部',
+          value: 0
+        }, {
+          label: '测试',
+          value: 1
+        }, {
+          label: '发布',
+          value: 2
+        }
+      ],
       resultList: [],
       selection: [],
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -99,10 +133,16 @@ export default {
   },
   methods: {
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        firmwareVersion: '',
+        modelType: '',
+        firmwareStatus: '',
+        softType: ''
+      }
     },
     search () {
-
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     getSelection (select) {
       this.selection = []
@@ -110,7 +150,7 @@ export default {
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
-        url: '/v0/module/list',
+        url: '/v0/firmware​/list',
         method: 'post',
         data: {
           ...pagination,

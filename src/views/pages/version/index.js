@@ -13,7 +13,7 @@ export default {
       meta: {
         permission: [1, 2, 3],
         title: 'firmware',
-        component: () => import(/* webpackChunkName: "bus-version-firmware" */ '@/views/pages/demo')
+        component: () => import(/* webpackChunkName: "bus-version-firmware" */ '@/views/pages/version/firmware')
       }
     },
     {
