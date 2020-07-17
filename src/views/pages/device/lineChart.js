@@ -18,7 +18,7 @@ export default {
             let res = ''
             params.forEach(v => {
               !headLabel && (headLabel = v.axisValueLabel)
-              res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1]
+              res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1] + 'kW'
             })
             return headLabel + res
           }
