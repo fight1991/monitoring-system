@@ -183,6 +183,9 @@ export default {
             }
           }
         })
+      } else {
+        this.echartData.power.legend.data = []
+        this.echartData.power.series = []
       }
       this.chartLoading.power = false
       return true

@@ -22,7 +22,7 @@ export default {
       meta: {
         permission: [1, 2, 3],
         title: 'inverUp',
-        component: () => import(/* webpackChunkName: "bus-version-inverRemote" */ '@/views/pages/demo')
+        component: () => import(/* webpackChunkName: "bus-version-inverRemote" */ '@/views/pages/version/inverRemote')
       }
     },
     {
