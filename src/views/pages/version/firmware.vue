@@ -39,7 +39,7 @@
       </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-import">{{$t('common.import')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-import" @click="importVisible=true">{{$t('common.import')}}</el-button>
           <el-button size="mini" icon="iconfont icon-fabu">{{$t('common.release')}}</el-button>
           <el-button size="mini" icon="el-icon-delete">{{$t('common.delete')}}</el-button>
         </el-row>
@@ -50,12 +50,18 @@
     <div class="page-list">
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
+    <import-dialog :visible.sync="importVisible"></import-dialog>
   </section>
 </template>
 <script>
+import importDialog from './importDialog'
 export default {
+  components: {
+    importDialog
+  },
   data () {
     return {
+      importVisible: false,
       searchForm: {
         firmwareVersion: '',
         modelType: '',
