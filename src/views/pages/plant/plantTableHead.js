@@ -37,7 +37,7 @@ export default {
           renderHeader: true
         },
         {
-          label: 'plant.pvcap',
+          label: 'plant.InsCap',
           prop: 'capacity',
           checked: true,
           renderHeader: true

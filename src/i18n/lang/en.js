@@ -229,8 +229,7 @@ export default {
     websiteTime: 'Establish time',
     showMoreUser: 'Show more users',
     gridtime: 'Grid-connected time',
-    equipqut: 'Number of device',
-    pvcap: 'PV capacity'
+    equipqut: 'Number of device'
   },
   inverter: {
     InsTime: 'Grid-connection time',

@@ -229,8 +229,7 @@ export default {
     websiteTime: '建站时间',
     showMoreUser: '查看更多用户',
     gridtime: '并网时间',
-    equipqut: '设备数量',
-    pvcap: '装机容量'
+    equipqut: '设备数量'
   },
   inverter: {
     InsTime: '安装时间',
