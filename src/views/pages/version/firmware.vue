@@ -40,10 +40,16 @@
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="iconfont icon-import" @click="importVisible=true">{{$t('common.import')}}</el-button>
-          <el-button size="mini" icon="iconfont icon-fabu">{{$t('common.release')}}</el-button>
-          <el-button size="mini" icon="el-icon-delete">{{$t('common.delete')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-fabu" :disabled="releaseIds.length==0" @click="multiOptions('release')">{{$t('common.release')}}</el-button>
+          <el-button size="mini" icon="el-icon-delete" :disabled="deleteIds.length==0" @click="multiOptions('delete')">{{$t('common.delete')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+          <template v-slot:firmwareStatus="{row}">
+            {{row.firmwareStatus == 1 ? '测试' : '发布'}}
+          </template>
+          <template v-slot:modelType="{row}">
+            {{this.translateDeviceType(row.modelType)}}
+          </template>
         </common-table>
       </func-bar>
     </div>
@@ -54,11 +60,13 @@
   </section>
 </template>
 <script>
-import importDialog from './importDialog'
+import importDialog from './components/importDialog'
+import firmwareMix from './components/firmwareMix'
 export default {
   components: {
     importDialog
   },
+  mixins: [firmwareMix],
   data () {
     return {
       importVisible: false,
@@ -68,73 +76,22 @@ export default {
         firmwareStatus: '',
         softType: ''
       },
-      versionList: [ // 版本类型
-        'master',
-        'slave',
-        'manager'
-      ],
-      modelTypeList: [ // 设备类型
-        {
-          label: '全部',
-          value: 0
-        }, {
-          label: '逆变器',
-          value: 1
-        }, {
-          label: '模块',
-          value: 2
-        }, {
-          label: '电池',
-          value: 3
-        }
-      ],
-      statusList: [ // 固件状态
-        {
-          label: '全部',
-          value: 0
-        }, {
-          label: '测试',
-          value: 1
-        }, {
-          label: '发布',
-          value: 2
-        }
-      ],
       resultList: [],
       selection: [],
       pagination: {
         pageSize: 50,
         currentPage: 1,
         total: 0
-      },
-      tableHead: [
-        {
-          label: 'firmware.devicetype',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.version',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.type',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.status',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.uptime',
-          prop: 'time',
-          checked: true,
-          slotName: 'time'
-        }
-      ]
+      }
+    }
+  },
+  computed: {
+    releaseIds () {
+      let temp = this.selection.filter(v => v.firmwareStatus === 1)
+      return temp.map(v => v.firmwareID)
+    },
+    deleteIds () {
+      return this.selection.map(v => v.firmwareID)
     }
   },
   methods: {
@@ -153,6 +110,19 @@ export default {
     getSelection (select) {
       this.selection = []
     },
+    // 批量发布/批量删除
+    async multiOptions (op) {
+      let { result } = await this.$axios({
+        url: '/v0/firmware/' + op,
+        data: {
+          firmware: op === 'release' ? this.releaseIds : this.deleteIds
+        }
+      })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.search()
+      }
+    },
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
@@ -168,6 +138,16 @@ export default {
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
+      }
+    },
+    translateDeviceType (num) {
+      switch (num) {
+        case 1 :
+          return '逆变器'
+        case 2:
+          return '模块'
+        default:
+          return '电池'
       }
     }
   }
