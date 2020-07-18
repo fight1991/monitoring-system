@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="'升级状态'"
+    :title="'升级详情'"
     :modal-append-to-body="false"
     @open="search"
     @close="closeDialog"
@@ -12,7 +12,7 @@
         <el-form-item>
           <el-row :gutter="15">
             <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" placeholder="逆变器sn"></el-input>
+              <el-input v-model="searchForm.deviceSN" :placeholder="apiUrl=='device' ? '逆变器sn' : '模块sn'"></el-input>
             </el-col>
             <el-col :span="8" align="left">
               <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
@@ -69,7 +69,7 @@ export default {
       ]
     }
   },
-  props: ['visible', 'taskId'],
+  props: ['visible', 'taskId', 'apiUrl'],
   watch: {
     visible: function (newData) {
       this.dialogVisible = newData
@@ -89,7 +89,7 @@ export default {
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
-        url: '/v0/firmware/device/upgrade/detail',
+        url: '/v0/firmware/' + this.apiUrl + '/upgrade/detail',
         method: 'post',
         data: {
           taskID: this.taskId,

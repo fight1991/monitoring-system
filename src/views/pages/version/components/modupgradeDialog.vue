@@ -14,16 +14,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="设备型号" prop="version">
+          <el-form-item label="固件版本" prop="version">
             <el-select v-model="dataForm.version" clearable style="width:100%">
               <el-option v-for="item in versionTypeList" :label="item" :value="item" :key="item"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="软件版本" prop="softType">
-            <el-select v-model="dataForm.softType" clearable style="width:100%">
-              <el-option v-for="item in solfList" :label="item" :value="item" :key="item"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -42,21 +35,13 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      typeList: [],
-      solfList: [ // 版本类型
-        'master',
-        'slave',
-        'manager'
-      ],
-      versionTypeList: [], // 设备型号
+      versionTypeList: [], // 固件版本
       dataForm: {
         taskName: '',
-        softType: '',
         version: ''
       },
       rules: {
         taskName: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        softType: [{ required: true, message: 'it is required', trigger: 'change' }],
         version: [{ required: true, message: 'it is required', trigger: 'change' }]
       }
     }
@@ -66,7 +51,7 @@ export default {
       this.dialogVisible = newData
     }
   },
-  props: ['deviceSns', 'visible'],
+  props: ['sns', 'visible'],
   created () {},
   mounted () {},
   methods: {
@@ -74,7 +59,6 @@ export default {
       this.$emit('update:visible', false)
       this.dataForm = {
         taskName: '',
-        softType: '',
         version: ''
       }
       this.$refs.dataForm.clearValidate()
@@ -84,10 +68,10 @@ export default {
       this.$refs.dataForm.validate(valid => (flag = valid))
       if (!flag) return
       let { result } = await this.$axios({
-        url: '/v0/firmware/device/upgrade',
+        url: '/v0/firmware/module/upgrade',
         data: {
           ...this.dataForm,
-          devices: this.deviceSns
+          modules: this.sns
         }
       })
       if (result) {

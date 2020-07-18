@@ -3,6 +3,7 @@
     class="sys-dialog"
     :title="'升级状态'"
     :modal-append-to-body="false"
+    @open="search"
     @close="$emit('update:visible', false)"
     :visible.sync="dialogVisible"
     width="750px">
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import eventBus from './eventBus'
+import * as eventBus from './eventBus'
 export default {
   components: {},
   data () {
@@ -34,7 +35,7 @@ export default {
       pagination: {
         pageSize: 50,
         currentPage: 1,
-        total: 1000
+        total: 0
       },
       tableHead: [
         {
@@ -66,7 +67,7 @@ export default {
       ]
     }
   },
-  props: ['visible'],
+  props: ['visible', 'apiUrl'],
   watch: {
     visible: function (newData) {
       this.dialogVisible = newData
@@ -75,10 +76,14 @@ export default {
   created () {},
   mounted () {},
   methods: {
+    search () {
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
+    },
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
-        url: '/v0/firmware/device/upgrade/status',
+        url: '/v0/firmware/' + this.apiUrl + '/upgrade/status',
         method: 'post',
         data: {
           ...pagination
@@ -92,7 +97,7 @@ export default {
       }
     },
     openDialog (id) {
-      eventBus.$emit('openUpdetailDialog', id)
+      eventBus[this.apiUrl].$emit('openUpdetailDialog', id)
     }
   }
 }

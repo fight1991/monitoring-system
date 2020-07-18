@@ -55,7 +55,7 @@
       </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-shengji" :disabled="deviceSns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
@@ -75,15 +75,15 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog :visible.sync="upgradeVisible" :deviceSns="deviceSns"></upgrade-dialog>
-    <upstatus-dialog :visible.sync="upstatusVisible"></upstatus-dialog>
-    <updetail-dialog :visible.sync="updetailVisible" :taskId="taskId"></updetail-dialog>
+    <upgrade-dialog :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="device"></upstatus-dialog>
+    <updetail-dialog :visible.sync="updetailVisible" apiUrl="device" :taskId="taskId"></updetail-dialog>
   </section>
 </template>
 <script>
 import inverRemoteMix from './components/inverRemoteMix'
-import eventBus from './components/eventBus'
-import upgradeDialog from './components/upgradeDialog'
+import { device as eventBus } from './components/eventBus'
+import upgradeDialog from './components/iverupgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
 export default {
@@ -116,7 +116,7 @@ export default {
     }
   },
   computed: {
-    deviceSns () {
+    sns () {
       return this.selection.map(v => v.deviceSN)
     }
   },

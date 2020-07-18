@@ -31,7 +31,7 @@ export default {
       meta: {
         permission: [1, 2, 3],
         title: 'moduleUp',
-        component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/demo')
+        component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/version/moduRemote')
       }
     }
   ]
