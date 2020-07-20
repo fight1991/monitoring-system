@@ -1,11 +1,14 @@
 <template>
-  <div id="g-map" :style="{'height': height, 'width': width}"></div>
+  <div style="width:100%;height:100%" v-loading="mapLoading">
+    <div id="g-map" :style="{'height': height, 'width': width}"></div>
+  </div>
 </template>
 
 <script>
 export default {
   data () {
     return {
+      mapLoading: true,
       gMap: null,
       cuPosition: null,
       key: 'AIzaSyCRQmc6dZEosKrS54hJGlMvpOhUglfbo3Q'
@@ -17,6 +20,9 @@ export default {
     },
     width: {
       default: '100%'
+    },
+    autoGps: {
+      default: true // h5自动定位
     }
   },
   watch: {},
@@ -26,11 +32,13 @@ export default {
   mounted () {
     this.loadGMap().then(() => {
       this.initMap()
-      this.getGeoLocation()
+      this.autoGps && this.getGeoLocation()
     }).catch(() => {
       // 谷歌地图引用失败
-      this.$message.error('国内网路访问谷歌地图失败,请翻墙重试!')
+      this.$message.error('load map failure')
       this.$emit('gMapError')
+    }).finally(() => {
+      this.mapLoading = false
     })
   },
   methods: {
@@ -40,6 +48,7 @@ export default {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 8
       })
+      this.$emit('getMapInfo', this.gMap)
     },
     // h5获取当前经纬度信息并标识在
     getGeoLocation () {
@@ -71,8 +80,7 @@ export default {
       })
     },
     getLocationError (res) {
-      console.log(res)
-      console.log('error获取经纬度信息失败')
+      console.log('lng and lat get error')
     },
     loadGMap () {
       return new Promise((resolve, reject) => {
@@ -88,7 +96,7 @@ export default {
         script.setAttribute('async', true)
         script.setAttribute('defer', true)
         script.src =
-          'https://maps.googleapis.com/maps/api/js?key=' + this.key + '&language=en&callback=onGMapCallback'
+          'https://maps.googleapis.com/maps/api/js?key=' + this.key + '&libraries=places&callback=onGMapCallback'
         script.onerror = reject
         document.head.appendChild(script)
       })

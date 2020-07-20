@@ -5,7 +5,7 @@
         <div class="items flex-around" @click="selectStatus(0)">
           <i class="iconfont icon-sum"></i>
           <div class="items-right">
-            <div>{{$t('common.total')}}</div>
+            <div class="text-cut">{{$t('common.total')}}</div>
             <div>
               <span class="num">{{plantStatus.total}}</span>
             </div>
@@ -14,7 +14,7 @@
         <div class="items flex-around" @click="selectStatus(1)">
           <i class="iconfont icon-normal"></i>
           <div class="items-right">
-            <div>{{$t('common.normal')}}</div>
+            <div class="text-cut">{{$t('common.normal')}}</div>
             <div>
               <span class="num">{{plantStatus.normal}}</span>
             </div>
@@ -23,7 +23,7 @@
         <div class="items flex-around" @click="selectStatus(2)">
           <i class="iconfont icon-fault"></i>
           <div class="items-right">
-            <div>{{$t('common.abnormal')}}</div>
+            <div class="text-cut">{{$t('common.abnormal')}}</div>
             <div>
               <span class="num">{{plantStatus.abnormal}}</span>
             </div>
@@ -32,7 +32,7 @@
         <div class="items flex-around" @click="selectStatus(3)">
           <i class="iconfont icon-offline"></i>
           <div class="items-right">
-            <div>{{$t('common.offline')}}</div>
+            <div class="text-cut">{{$t('common.offline')}}</div>
             <div>
               <span class="num">{{plantStatus.offline}}</span>
             </div>
@@ -65,14 +65,10 @@
 <script>
 import incomeItem from './incomeItem'
 import { formatDate } from '@/util'
-const bMap = () => import('./bMap')
-const gMap = () => import('./gMap')
 export default {
   name: 'show-item',
   components: {
-    incomeItem,
-    bMap,
-    gMap
+    incomeItem
   },
   data () {
     return {

@@ -3,86 +3,83 @@
     <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="140px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
-          <div class="col-container">
-            <el-row :gutter="40">
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('join.agent')" prop="agent">
-                  <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
-                    <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('plant.name')" prop="details.name">
-                  <el-input v-model="dataForm.details.name" clearable></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('plant.type')" prop="details.type">
-                  <el-select v-model="dataForm.details.type" style="width:100%" :placeholder="$t('common.select')">
-                    <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
-                    <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('plant.country')" prop="details.country">
-                  <el-select v-model="dataForm.details.country" filterable style="width:100%" @change="getZoneList" :placeholder="$t('common.select')">
-                    <el-option v-for="item in countryList" :key="item.code" :value="item.name" :label="item.name"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('plant.city')" prop="details.city">
-                  <el-input v-model="dataForm.details.city" clearable></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('plant.address')" prop="details.address">
-                  <el-input v-model="dataForm.details.address" clearable></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('common.zone')" prop="timezone">
-                  <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
-                    <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24" v-if="hasSummerTime">
-                <el-form-item :label="$t('plant.summerTime')" prop="daylight">
-                  <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
-                    <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('common.postcode')" prop="details.postcode">
-                  <el-input v-model="dataForm.details.postcode" clearable></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('plant.price')" prop="details.price">
-                  <el-select v-model="dataForm.details.price" style="width:100%" :placeholder="$t('common.select')">
-                    <el-option
-                      v-for="item in powerList"
-                      :key="item.id" :value="item.name"
-                      :label="item.name + '-' + item.description">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12" :md="24">
-                <el-form-item :label="$t('common.pvcapacity') + '(kW)'" prop="details.systemCapacity">
-                  <el-input v-model.number="dataForm.details.systemCapacity" clearable></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
+        <div class="col-container">
+          <el-row :gutter="20">
+            <el-col :span="14">
+              <div class="input-form">
+                <el-col :span="24">
+                  <el-form-item :label="$t('join.agent')" prop="agent">
+                    <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
+                      <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('plant.name')" prop="details.name">
+                    <el-input v-model="dataForm.details.name" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('plant.type')" prop="details.type">
+                    <el-select v-model="dataForm.details.type" style="width:100%" :placeholder="$t('common.select')">
+                      <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
+                      <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('plant.address')" prop="details.address">
+                    <el-input ref="place-map" placeholder="请输入" v-model="dataForm.details.address" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('common.zone')" prop="timezone">
+                    <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
+                      <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24" v-if="hasSummerTime">
+                  <el-form-item :label="$t('plant.summerTime')" prop="daylight">
+                    <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
+                      <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('common.postcode')" prop="details.postcode">
+                    <el-input v-model="dataForm.details.postcode" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('plant.price')" prop="details.price">
+                    <el-select v-model="dataForm.details.price" style="width:100%" :placeholder="$t('common.select')">
+                      <el-option
+                        v-for="item in powerList"
+                        :key="item.id" :value="item.name"
+                        :label="item.name + '-' + item.description">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item :label="$t('common.pvcapacity') + '(kW)'" prop="details.systemCapacity">
+                    <el-input v-model.number="dataForm.details.systemCapacity" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+              </div>
+            </el-col>
+            <el-col :span="10">
+              <div class="map-place">
+                <g-map @getMapInfo="getMapInfo"></g-map>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
       <div class="title equipment border-line">{{$t('plant.epBind')}} <i class="el-add-icon el-icon-circle-plus-outline" @click="deviceAdd"></i></div>
-      <div class="col-container devices">
-        <el-row :gutter="40" v-for="(item, index) in dataForm.devices" :key="'index'+index">
+      <div class="devices-box">
+        <el-row :gutter="10" v-for="(item, index) in dataForm.devices" :key="'index'+index">
           <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
           <el-col :span="12">
             <el-form-item :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="{required:true, message: 'sn is invalid', trigger: 'blur'}">
@@ -129,6 +126,7 @@ export default {
       plantId: '', // 电站id
       snIsPass: true,
       errVisible: false,
+      searchLoading: false,
       snResult: [], // sn校验的结果
       agentList: [],
       zoneInfo: { // 时区信息
@@ -136,6 +134,7 @@ export default {
         timezones: [],
         daylights: []
       },
+      placeList: [], // 地图匹配的列表
       countryList: [], // 国家列表
       dataForm: {
         devices: [
@@ -174,7 +173,7 @@ export default {
         'details.type': [{ required: true, message: 'type is required', trigger: 'change' }],
         'details.country': [{ required: true, message: 'country is required', trigger: 'change' }],
         'details.city': [{ required: true, message: 'city is required', trigger: 'blur' }],
-        'details.address': [{ required: true, message: 'address is required', trigger: 'blur' }],
+        'details.address': [{ required: true, message: 'address is required', trigger: 'change' }],
         'details.price': [{ required: true, message: 'price is required', trigger: 'change' }],
         'details.systemCapacity': [
           { required: true, message: 'capacity is required', trigger: 'blur' },
@@ -389,6 +388,43 @@ export default {
         this.dataForm = result
       }
       return true
+    },
+    // 得到地图实例
+    getMapInfo (map) {
+      if (map) {
+        let google = window.google
+        let $input = this.$refs['place-map'].$refs['input']
+        // var componentForm = {
+        //     locality: 'long_name', // 市
+        //     administrative_area_level_1: 'short_name', // 省
+        //     country: 'long_name' // 国家
+        //   }
+        let autocomplete = new google.maps.places.Autocomplete($input)
+        autocomplete.bindTo('bounds', map)
+        autocomplete.setFields(['address_components', 'geometry', 'icon', 'name', 'place_id'])
+        var marker = new google.maps.Marker({
+          map,
+          anchorPoint: new google.maps.Point(0, -29)
+        })
+        autocomplete.addListener('place_changed', function () {
+          marker.setVisible(false)
+          var place = autocomplete.getPlace()
+          if (!place.geometry) {
+            window.alert('No details available for input: ' + place.name)
+            return
+          }
+          console.log(place)
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport)
+          } else {
+            map.setCenter(place.geometry.location)
+            map.setZoom(17) // Why 17? Because it looks good.
+          }
+          marker.setPosition(place.geometry.location)
+          marker.setVisible(true)
+        })
+      }
     }
   }
 }
@@ -396,12 +432,16 @@ export default {
 <style lang="less" scoped>
 .title {
   margin: 15px 10px;
+  font-size: 14px;
 }
 .foot-btn {
   padding: 20px 0;
 }
 .col-container {
-  padding: 0 50px;
+  padding: 0 30px;
+}
+.devices-box {
+  padding: 0 40px;
 }
 .op-icon {
   display: block;
@@ -445,5 +485,9 @@ export default {
 .sn-key {
   color: #F56C6C;
   padding: 5px 10px;
+}
+.map-place {
+  height: 355px;
+  box-shadow: 0 0 4px 1px #ddd;
 }
 </style>
