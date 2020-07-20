@@ -56,7 +56,7 @@
         </div>
       </div>
       <div class="map-content">
-        <g-map v-if="lang=='en' && gMapNormal" @gMapError="gMapError"></g-map>
+        <g-map v-if="appInvar=='abroad' && gMapNormal" @gMapError="gMapError"></g-map>
         <b-map v-else></b-map>
       </div>
     </div>
@@ -76,6 +76,7 @@ export default {
   },
   data () {
     return {
+      appInvar: process.env.VUE_APP_VERSION,
       gMapNormal: true,
       timer: null,
       plantStatus: {

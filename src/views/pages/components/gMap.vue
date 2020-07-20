@@ -70,7 +70,8 @@ export default {
         infoWindow.open(this.gMap, marker)
       })
     },
-    getLocationError () {
+    getLocationError (res) {
+      console.log(res)
       console.log('error获取经纬度信息失败')
     },
     loadGMap () {
