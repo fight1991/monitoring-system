@@ -136,6 +136,14 @@ export default {
       },
       placeList: [], // 地图匹配的列表
       countryList: [], // 国家列表
+      tempAdressInfo: {
+        country: '', // 国家
+        administrative_area_level_1: '', // 省
+        locality: '', // 市
+        placeId: '',
+        lat: '',
+        lng: ''
+      },
       dataForm: {
         devices: [
           { sn: '', key: '', isPass: 1 }
@@ -143,6 +151,12 @@ export default {
         timezone: '',
         daylight: '',
         agent: '',
+        position: {
+          format: 'dms',
+          pid: '',
+          x: '', // 纬度
+          y: '' // 经度
+        },
         details: {
           name: '',
           type: '',
@@ -166,20 +180,20 @@ export default {
         isPass: 1
       },
       rules: {
-        agent: [{ required: true, message: 'agent is required', trigger: 'change' }],
-        timezone: [{ required: true, message: 'time zone is required', trigger: 'change' }],
-        daylight: [{ required: true, message: 'summer time is required', trigger: 'blur' }],
-        'details.name': [{ required: true, message: 'name is required', trigger: 'blur' }],
-        'details.type': [{ required: true, message: 'type is required', trigger: 'change' }],
-        'details.country': [{ required: true, message: 'country is required', trigger: 'change' }],
-        'details.city': [{ required: true, message: 'city is required', trigger: 'blur' }],
-        'details.address': [{ required: true, message: 'address is required', trigger: 'change' }],
-        'details.price': [{ required: true, message: 'price is required', trigger: 'change' }],
+        agent: [{ required: true, message: 'it is required', trigger: 'change' }],
+        timezone: [{ required: true, message: 'it is required', trigger: 'change' }],
+        daylight: [{ required: true, message: 'it is required', trigger: 'blur' }],
+        'details.name': [{ required: true, message: 'it is required', trigger: 'blur' }],
+        'details.type': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.country': [{ required: true, message: 'it is required', trigger: 'change' }],
+        // 'details.city': [{ required: true, message: 'it is required', trigger: 'blur' }],
+        'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.price': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.systemCapacity': [
-          { required: true, message: 'capacity is required', trigger: 'blur' },
-          { message: 'capacity is invalid', type: 'number', trigger: 'blur' }
+          { required: true, message: 'it is required', trigger: 'blur' },
+          { message: 'it is invalid', type: 'number', trigger: 'blur' }
         ],
-        'details.postcode': [{ required: true, message: 'postcodes is required', trigger: 'blur' }]
+        'details.postcode': [{ required: true, message: 'it is required', trigger: 'blur' }]
       },
       powerList: [
         { id: '3', name: 'CNY' }
@@ -394,11 +408,11 @@ export default {
       if (map) {
         let google = window.google
         let $input = this.$refs['place-map'].$refs['input']
-        // var componentForm = {
-        //     locality: 'long_name', // 市
-        //     administrative_area_level_1: 'short_name', // 省
-        //     country: 'long_name' // 国家
-        //   }
+        let componentForm = {
+          locality: 'long_name', // 市
+          administrative_area_level_1: 'short_name', // 省
+          country: 'long_name' // 国家
+        }
         let autocomplete = new google.maps.places.Autocomplete($input)
         autocomplete.bindTo('bounds', map)
         autocomplete.setFields(['address_components', 'geometry', 'icon', 'name', 'place_id'])
@@ -406,15 +420,27 @@ export default {
           map,
           anchorPoint: new google.maps.Point(0, -29)
         })
-        autocomplete.addListener('place_changed', function () {
+        autocomplete.addListener('place_changed', () => {
           marker.setVisible(false)
           var place = autocomplete.getPlace()
+          console.log(place)
+          this.resetPosition()
           if (!place.geometry) {
             window.alert('No details available for input: ' + place.name)
             return
           }
-          console.log(place)
-          // If the place has a geometry, then present it on a map.
+          for (var i = 0; i < place.address_components.length; i++) {
+            var addressType = place.address_components[i].types[0]
+            if (componentForm[addressType]) {
+              let val = place.address_components[i][componentForm[addressType]]
+              this.tempAdressInfo[addressType] = val || ''
+            }
+          }
+          this.tempAdressInfo.placeId = place.place_id || ''
+          this.tempAdressInfo.lat = place.geometry.location.lat()
+          this.tempAdressInfo.lng = place.geometry.location.lng()
+          this.initDataFormAddress()
+          // 初始化时区
           if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport)
           } else {
@@ -425,6 +451,30 @@ export default {
           marker.setVisible(true)
         })
       }
+    },
+    initDataFormAddress () {
+      /*eslint-disable*/
+      let { country, administrative_area_level_1, locality, placeId, lat, lng } = JSON.parse(JSON.stringify(this.tempAdressInfo))
+      this.dataForm.details.city = administrative_area_level_1 + locality
+      this.dataForm.details.country = country
+      this.dataForm.position.pid = placeId
+      this.dataForm.position.x = lat
+      this.dataForm.position.y = lng
+    },
+    resetPosition () {
+      this.tempAdressInfo = {
+        country: '',
+        administrative_area_level_1: '',
+        locality: '',
+        placeId: '',
+        lat: '',
+        lng: ''
+      }
+      this.dataForm.details.city = ''
+      this.dataForm.details.country = ''
+      this.dataForm.position.pid = ''
+      this.dataForm.position.x = ''
+      this.dataForm.position.y = ''
     }
   }
 }
