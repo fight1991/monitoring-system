@@ -29,7 +29,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item :label="$t('plant.address')" prop="details.address">
-                    <el-input ref="place-map" placeholder="请输入" v-model="dataForm.details.address" clearable></el-input>
+                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" v-model="dataForm.details.address" clearable></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -237,7 +237,7 @@ export default {
       return temp.map(v => v.device)
     },
     zoneIsShow () {
-      return this.zoneInfo.timezones && this.zoneInfo.timezones.length > 0
+      return this.dataForm.details.address && this.zoneInfo.timezones && this.zoneInfo.timezones.length > 0
     },
     hasSummerTime () { // 是否有夏令时
       return this.zoneInfo.useDaylight
@@ -440,7 +440,6 @@ export default {
           this.tempAdressInfo.lat = place.geometry.location.lat()
           this.tempAdressInfo.lng = place.geometry.location.lng()
           this.initDataFormAddress()
-          // 初始化时区
           if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport)
           } else {
@@ -452,6 +451,11 @@ export default {
         })
       }
     },
+    addressChange (val) {
+      if (!val) {
+        this.zoneInfo.timezones = []
+      }
+    },
     initDataFormAddress () {
       /*eslint-disable*/
       let { country, administrative_area_level_1, locality, placeId, lat, lng } = JSON.parse(JSON.stringify(this.tempAdressInfo))
@@ -460,6 +464,8 @@ export default {
       this.dataForm.position.pid = placeId
       this.dataForm.position.x = lat
       this.dataForm.position.y = lng
+      // 初始化时区
+      this.getZoneList(country)
     },
     resetPosition () {
       this.tempAdressInfo = {

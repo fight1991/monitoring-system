@@ -25,10 +25,10 @@ export default {
       default: true // h5自动定位
     }
   },
-  watch: {},
   created () {
     // this.getGeoLocation()
   },
+  watch: {},
   mounted () {
     this.loadGMap().then(() => {
       this.initMap()
@@ -96,7 +96,7 @@ export default {
         script.setAttribute('async', true)
         script.setAttribute('defer', true)
         script.src =
-          'https://maps.googleapis.com/maps/api/js?key=' + this.key + '&libraries=places&callback=onGMapCallback'
+          `https://maps.googleapis.com/maps/api/js?key=${this.key}&language=${this.$store.state.lang}&libraries=places&callback=onGMapCallback`
         script.onerror = reject
         document.head.appendChild(script)
       })
