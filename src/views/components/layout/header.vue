@@ -5,7 +5,7 @@
       <span>{{$t('monitor')}}</span>
     </div>
     <div class="login fr">
-      <el-dropdown
+      <!-- <el-dropdown
         trigger="click"
         @command="toggleLang"
         placement="top-start">
@@ -17,7 +17,7 @@
           <el-dropdown-item command="zh">中文</el-dropdown-item>
           <el-dropdown-item command="en" divided>English</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
       <el-dropdown
         @command="userOption"
         trigger="click"

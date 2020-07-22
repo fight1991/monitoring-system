@@ -270,14 +270,13 @@ export default {
       return true
     },
     // 获取时区列表
-    async getZoneList (name) {
+    async getZoneList (shortName) {
       this.dataForm.timezone = ''
       this.dataForm.daylight = ''
-      let temp = this.countryList.find(v => v.name === name)
       let { result } = await this.$axios({
         url: '/v0/map/timezones',
         data: {
-          country: temp.code
+          country: shortName
         }
       })
       if (result) {

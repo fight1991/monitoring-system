@@ -49,7 +49,8 @@ export default {
       let map = new AMap.Map(this.mapId, {
         zoom: 12,
         center: [116.39, 39.9],
-        resizeEnable: true
+        resizeEnable: true,
+        lang: this.$store.state.lang === 'zh' ? 'zh_cn' : 'en'
       })
       let that = this
       AMap.plugin([...that.plugin], function () {

@@ -1,6 +1,7 @@
 export default {
   data () {
     return {
+      countryShortName: '',
       gMapAdress: { // 谷歌地图暂存容器
         country: '', // 国家
         administrative_area_level_1: '', // 省
@@ -8,13 +9,6 @@ export default {
         placeId: '',
         lat: '',
         lng: ''
-      },
-      aMapAdress: {
-        country: '',
-        lat: '',
-        lng: '',
-        province: '',
-        city: ''
       }
     }
   },
@@ -46,6 +40,7 @@ export default {
           console.log(status, result)
           if (status === 'complete' && result.regeocode) {
             var address = result.regeocode.addressComponent
+            this.countryShortName = 'CN'
             let { country, city, province } = address
             this.initGaodeForm(lat, lng, country, province, city)
           }
@@ -94,6 +89,9 @@ export default {
           if (componentForm[addressType]) {
             let val = place.address_components[i][componentForm[addressType]]
             this.gMapAdress[addressType] = val || ''
+            if (addressType === 'country') {
+              this.countryShortName = place.address_components[i]['short_name']
+            }
           }
         }
         this.gMapAdress.placeId = place.place_id || ''
@@ -109,6 +107,14 @@ export default {
         marker.setPosition(place.geometry.location)
         marker.setVisible(true)
       })
+      if (this.opType === 'edit') {
+        let { x, y } = this.dataForm.position
+        let latLng = new google.maps.LatLng(x, y)
+        map.setCenter(latLng)
+        map.setZoom(17)
+        marker.setPosition(latLng)
+        marker.setVisible(true)
+      }
     },
     initGaodeForm (lat, lng, country, province, city) {
       this.dataForm.position.x = lat
@@ -116,7 +122,7 @@ export default {
       this.dataForm.details.country = country
       this.dataForm.details.city = province + city
       // 初始化时区
-      this.getZoneList(country)
+      this.getZoneList(this.countryShortName)
     },
     initGoogleForm () {
       /*eslint-disable*/
@@ -127,7 +133,7 @@ export default {
       this.dataForm.position.x = lat
       this.dataForm.position.y = lng
       // 初始化时区
-      this.getZoneList(country)
+      this.getZoneList(this.countryShortName)
     },
     resetPosition () {
       if (this.appVersion === 'abroad') {
