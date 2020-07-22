@@ -71,7 +71,8 @@
             </el-col>
             <el-col :span="10">
               <div class="map-place">
-                <g-map @getMapInfo="getMapInfo"></g-map>
+                <g-map v-if="appVersion=='abroad'" @getMapInfo="getMapInfo"></g-map>
+                <a-map v-else @getMapInfo="getMapInfo"></a-map>
               </div>
             </el-col>
           </el-row>
@@ -119,11 +120,14 @@
   </section>
 </template>
 <script>
+import mapMethods from './mapMethods'
 export default {
+  mixins: [mapMethods],
   data () {
     return {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
       plantId: '', // 电站id
+      appVersion: process.env.VUE_APP_VERSION,
       snIsPass: true,
       errVisible: false,
       searchLoading: false,
@@ -136,14 +140,6 @@ export default {
       },
       placeList: [], // 地图匹配的列表
       countryList: [], // 国家列表
-      tempAdressInfo: {
-        country: '', // 国家
-        administrative_area_level_1: '', // 省
-        locality: '', // 市
-        placeId: '',
-        lat: '',
-        lng: ''
-      },
       dataForm: {
         devices: [
           { sn: '', key: '', isPass: 1 }
@@ -403,84 +399,10 @@ export default {
       }
       return true
     },
-    // 得到地图实例
-    getMapInfo (map) {
-      if (map) {
-        let google = window.google
-        let $input = this.$refs['place-map'].$refs['input']
-        let componentForm = {
-          locality: 'long_name', // 市
-          administrative_area_level_1: 'short_name', // 省
-          country: 'long_name' // 国家
-        }
-        let autocomplete = new google.maps.places.Autocomplete($input)
-        autocomplete.bindTo('bounds', map)
-        autocomplete.setFields(['address_components', 'geometry', 'icon', 'name', 'place_id'])
-        var marker = new google.maps.Marker({
-          map,
-          anchorPoint: new google.maps.Point(0, -29)
-        })
-        autocomplete.addListener('place_changed', () => {
-          marker.setVisible(false)
-          var place = autocomplete.getPlace()
-          console.log(place)
-          this.resetPosition()
-          if (!place.geometry) {
-            window.alert('No details available for input: ' + place.name)
-            return
-          }
-          for (var i = 0; i < place.address_components.length; i++) {
-            var addressType = place.address_components[i].types[0]
-            if (componentForm[addressType]) {
-              let val = place.address_components[i][componentForm[addressType]]
-              this.tempAdressInfo[addressType] = val || ''
-            }
-          }
-          this.tempAdressInfo.placeId = place.place_id || ''
-          this.tempAdressInfo.lat = place.geometry.location.lat()
-          this.tempAdressInfo.lng = place.geometry.location.lng()
-          this.initDataFormAddress()
-          if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport)
-          } else {
-            map.setCenter(place.geometry.location)
-            map.setZoom(17) // Why 17? Because it looks good.
-          }
-          marker.setPosition(place.geometry.location)
-          marker.setVisible(true)
-        })
-      }
-    },
     addressChange (val) {
       if (!val) {
         this.zoneInfo.timezones = []
       }
-    },
-    initDataFormAddress () {
-      /*eslint-disable*/
-      let { country, administrative_area_level_1, locality, placeId, lat, lng } = JSON.parse(JSON.stringify(this.tempAdressInfo))
-      this.dataForm.details.city = administrative_area_level_1 + locality
-      this.dataForm.details.country = country
-      this.dataForm.position.pid = placeId
-      this.dataForm.position.x = lat
-      this.dataForm.position.y = lng
-      // 初始化时区
-      this.getZoneList(country)
-    },
-    resetPosition () {
-      this.tempAdressInfo = {
-        country: '',
-        administrative_area_level_1: '',
-        locality: '',
-        placeId: '',
-        lat: '',
-        lng: ''
-      }
-      this.dataForm.details.city = ''
-      this.dataForm.details.country = ''
-      this.dataForm.position.pid = ''
-      this.dataForm.position.x = ''
-      this.dataForm.position.y = ''
     }
   }
 }

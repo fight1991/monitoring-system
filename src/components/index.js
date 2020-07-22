@@ -8,7 +8,7 @@ const Echart = () => import(/* webpackChunkName: "echarts" */ './global/echart')
 const CommonTable = () => import(/* webpackChunkName: "common-table" */ './global/commonTable')
 
 const GMap = () => import(/* webpackChunkName: "google-map" */ './global/gMap')
-const BMap = () => import(/* webpackChunkName: "baidu-map" */ './global/bMap')
+const AMap = () => import(/* webpackChunkName: "gaode-map" */ './global/aMap')
 
 export default {
   install (Vue) {
@@ -18,6 +18,6 @@ export default {
     Vue.component('func-bar', FuncBar)
     Vue.component('common-table', CommonTable)
     Vue.component('gMap', GMap)
-    Vue.component('bMap', BMap)
+    Vue.component('aMap', AMap)
   }
 }

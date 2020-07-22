@@ -48,7 +48,7 @@ export default {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 8
       })
-      this.$emit('getMapInfo', this.gMap)
+      this.$emit('getMapInfo', { map: this.gMap })
     },
     // h5获取当前经纬度信息并标识在
     getGeoLocation () {
