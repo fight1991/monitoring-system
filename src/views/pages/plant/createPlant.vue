@@ -70,7 +70,7 @@
               </div>
             </el-col>
             <el-col :span="10">
-              <div class="map-place">
+              <div class="map-place" v-if="mapShow">
                 <g-map v-if="appVersion=='abroad'" @getMapInfo="getMapInfo"></g-map>
                 <a-map v-else @getMapInfo="getMapInfo"></a-map>
               </div>
@@ -127,6 +127,7 @@ export default {
     return {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
       plantId: '', // 电站id
+      mapShow: false, // 控制地图创建时机
       appVersion: process.env.VUE_APP_VERSION,
       snIsPass: true,
       errVisible: false,
@@ -203,13 +204,16 @@ export default {
       // 复制模板
       this.countryList = await this.getCountryList()
     }
+    // 页面类型 add / edit
     let { opType } = this.$route.meta
-    if (opType) {
-      this.opType = opType || this.$route.query.opType
-    }
-    if (this.opType !== 'add') {
+    this.opType = opType
+    if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
+      // 数据初始化完成后, 再创建地图
       await this.getStationInfo(this.plantId)
+      this.mapShow = true
+    } else {
+      this.mapShow = true
     }
     this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
   },

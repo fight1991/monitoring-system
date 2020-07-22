@@ -1,13 +1,20 @@
 export default {
   data () {
     return {
-      tempAdressInfo: {
+      gMapAdress: { // 谷歌地图暂存容器
         country: '', // 国家
         administrative_area_level_1: '', // 省
         locality: '', // 市
         placeId: '',
         lat: '',
         lng: ''
+      },
+      aMapAdress: {
+        country: '',
+        lat: '',
+        lng: '',
+        province: '',
+        city: ''
       }
     }
   },
@@ -29,14 +36,33 @@ export default {
       AMap.event.addListener(autoComplete, 'select', (e) => {
         // TODO 针对选中的poi实现自己的功能
         console.log(e)
+        this.resetPosition()
         // placeSearch.search(e.poi.name)
         // 添加marker
+        addMarker(e.poi.location)
+        var geocoder = new AMap.Geocoder()
+        let { lng, lat } = e.poi.location
+        geocoder.getAddress([lng, lat], (status, result) => {
+          console.log(status, result)
+          if (status === 'complete' && result.regeocode) {
+            var address = result.regeocode.addressComponent
+            let { country, city, province } = address
+            this.initGaodeForm(lat, lng, country, province, city)
+          }
+        })
+      })
+      // 编辑电站时初始化地图
+      if (this.opType === 'edit') {
+        let { x, y } = this.dataForm.position
+        addMarker([y, x])
+      }
+      function addMarker (position) {
         var marker = new AMap.Marker({
           map,
-          position: e.poi.location
+          position: position
         })
         map.setCenter(marker.getPosition())
-      })
+      }
     },
     // 初始化谷歌地图
     initGoogleMap (map) {
@@ -67,13 +93,13 @@ export default {
           var addressType = place.address_components[i].types[0]
           if (componentForm[addressType]) {
             let val = place.address_components[i][componentForm[addressType]]
-            this.tempAdressInfo[addressType] = val || ''
+            this.gMapAdress[addressType] = val || ''
           }
         }
-        this.tempAdressInfo.placeId = place.place_id || ''
-        this.tempAdressInfo.lat = place.geometry.location.lat()
-        this.tempAdressInfo.lng = place.geometry.location.lng()
-        this.initDataFormAddress()
+        this.gMapAdress.placeId = place.place_id || ''
+        this.gMapAdress.lat = place.geometry.location.lat()
+        this.gMapAdress.lng = place.geometry.location.lng()
+        this.initGoogleForm()
         if (place.geometry.viewport) {
           map.fitBounds(place.geometry.viewport)
         } else {
@@ -84,9 +110,17 @@ export default {
         marker.setVisible(true)
       })
     },
-    initDataFormAddress () {
+    initGaodeForm (lat, lng, country, province, city) {
+      this.dataForm.position.x = lat
+      this.dataForm.position.y = lng
+      this.dataForm.details.country = country
+      this.dataForm.details.city = province + city
+      // 初始化时区
+      this.getZoneList(country)
+    },
+    initGoogleForm () {
       /*eslint-disable*/
-      let { country, administrative_area_level_1, locality, placeId, lat, lng } = JSON.parse(JSON.stringify(this.tempAdressInfo))
+      let { country, administrative_area_level_1, locality, placeId, lat, lng } = JSON.parse(JSON.stringify(this.gMapAdress))
       this.dataForm.details.city = administrative_area_level_1 + locality
       this.dataForm.details.country = country
       this.dataForm.position.pid = placeId
@@ -96,13 +130,15 @@ export default {
       this.getZoneList(country)
     },
     resetPosition () {
-      this.tempAdressInfo = {
-        country: '',
-        administrative_area_level_1: '',
-        locality: '',
-        placeId: '',
-        lat: '',
-        lng: ''
+      if (this.appVersion === 'abroad') {
+        this.gMapAdress = {
+          country: '',
+          administrative_area_level_1: '',
+          locality: '',
+          placeId: '',
+          lat: '',
+          lng: ''
+        }
       }
       this.dataForm.details.city = ''
       this.dataForm.details.country = ''

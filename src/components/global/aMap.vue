@@ -1,12 +1,15 @@
 
 <template>
+<div style="width:100%;height:100%" v-loading="mapLoading">
   <div :id="mapId" class="map-content" :style="{'height': height, 'width': width}"></div>
+</div>
 </template>
 <script>
 export default {
   data () {
     return {
       ak: 'ffa1527d9cf893866bc676b3c699049f',
+      mapLoading: true,
       mapId: '' // 地图容器 若id相同的话只渲染一次
     }
   },
@@ -34,6 +37,10 @@ export default {
   mounted () {
     this.loadAMap().then(() => {
       this.asyncInit()
+    }).catch(() => {
+      this.$message.error('load map failure')
+    }).finally(() => {
+      this.mapLoading = false
     })
   },
   methods: {
