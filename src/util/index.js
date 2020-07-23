@@ -231,7 +231,6 @@ export function readExcel (file, callback) {
       for (var sheet in workbook.Sheets) {
         if (workbook.Sheets.hasOwnProperty(sheet)) {
           buildings = buildings.concat(XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet], { header: 1 }))
-          console.log(buildings)
           break // 只取第一张sheet表
         }
       }

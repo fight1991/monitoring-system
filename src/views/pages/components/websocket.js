@@ -33,7 +33,6 @@ export default {
   },
   onclose: function (e) { // 连接关闭
     // 重新连接
-    console.log(e)
     if (e.reason === 'destroy') return
     this.reconnect()
   },

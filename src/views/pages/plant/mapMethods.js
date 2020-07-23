@@ -52,7 +52,6 @@ export default {
         addMarker([Number(y), Number(x)])
       }
       function addMarker (position) {
-        console.log(position)
         var marker = new AMap.Marker({
           map,
           position: position
@@ -102,7 +101,7 @@ export default {
           map.fitBounds(place.geometry.viewport)
         } else {
           map.setCenter(place.geometry.location)
-          map.setZoom(17) // Why 17? Because it looks good.
+          map.setZoom(12) // Why 17? Because it looks good.
         }
         marker.setPosition(place.geometry.location)
         marker.setVisible(true)
@@ -111,7 +110,7 @@ export default {
         let { x, y } = this.dataForm.position
         let latLng = new google.maps.LatLng(x, y)
         map.setCenter(latLng)
-        map.setZoom(17)
+        map.setZoom(12)
         marker.setPosition(latLng)
         marker.setVisible(true)
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="map-container" style="width:100%;height:100%" v-loading="mapLoading">
-    <div id="g-map" :style="{'height': height, 'width': width}"></div>
+    <div :id="mapId" :style="{'height': height, 'width': width}"></div>
   </div>
 </template>
 
@@ -27,13 +27,14 @@ export default {
   },
   created () {
     // this.getGeoLocation()
+    this.mapId = 'map-google' + this.$route.name
   },
   watch: {},
   mounted () {},
   methods: {
     initMap (callback) {
       let gMap = window.google
-      this.map = new gMap.maps.Map(document.getElementById('g-map'), {
+      this.map = new gMap.maps.Map(document.getElementById(this.mapId), {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 8
       })
@@ -64,7 +65,6 @@ export default {
       // 信息窗
       let infoWindow = new window.google.maps.InfoWindow()
       infoWindow.setPosition(this.cuPosition)
-      infoWindow.setContent('Location found.')
       marker.addListener('click', () => {
         infoWindow.open(this.map, marker)
       })

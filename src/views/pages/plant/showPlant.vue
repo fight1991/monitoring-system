@@ -90,7 +90,7 @@ export default {
     await this.getAllPlant(this.pagination.total)
     // 在地图上标记电站
     if (this.appVersion === 'abroad') {
-      this.$refs.plantStatus.$refs.googleMap.loadMap().then(this.addGaodeMarker)
+      this.$refs.plantStatus.$refs.googleMap.loadMap().then(this.addGoogleMarker)
     } else {
       this.$refs.plantStatus.$refs.gaodeMap.loadMap().then(this.addGaodeMarker)
     }
@@ -230,12 +230,15 @@ export default {
     addGoogleMarker ({ map }) {
       if (this.positionList.length === 0) return
       let infoWindow = new window.google.maps.InfoWindow()
+      var bounds = new google.maps.LatLngBounds()
       this.positionList.forEach(item => {
         // 添加标记点
+        let tempPos = { lng: Number(item.position[0]), lat: Number(item.position[1])}
         let marker = new window.google.maps.Marker({
-          position: { lng: item.position[0], lat: item.position[1]},
+          position: tempPos,
           map
         })
+        bounds.extend(tempPos)
         // 信息窗
         marker.addListener('click', () => {
           infoWindow.open(map, marker)
@@ -243,6 +246,7 @@ export default {
           // infoWindow.setPosition(this.cuPosition)
         })
       })
+      map.fitBounds(bounds)
     }
   }
 }
