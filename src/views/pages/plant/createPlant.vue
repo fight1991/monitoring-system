@@ -71,8 +71,8 @@
             </el-col>
             <el-col :span="10">
               <div class="map-place">
-                <g-map ref="googleMap" v-if="appVersion=='abroad'"></g-map>
-                <a-map ref="gaodeMap" v-else></a-map>
+                <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
+                <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
               </div>
             </el-col>
           </el-row>

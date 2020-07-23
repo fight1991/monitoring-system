@@ -38,7 +38,6 @@ export default {
         var geocoder = new AMap.Geocoder()
         let { lng, lat } = e.poi.location
         geocoder.getAddress([lng, lat], (status, result) => {
-          console.log(status, result)
           if (status === 'complete' && result.regeocode) {
             var address = result.regeocode.addressComponent
             this.countryShortName = 'CN'
@@ -50,9 +49,10 @@ export default {
       // 编辑电站时初始化地图
       if (this.opType === 'edit') {
         let { x, y } = this.dataForm.position
-        addMarker([y, x])
+        addMarker([Number(y), Number(x)])
       }
       function addMarker (position) {
+        console.log(position)
         var marker = new AMap.Marker({
           map,
           position: position

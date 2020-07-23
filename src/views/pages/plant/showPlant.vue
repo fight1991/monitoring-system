@@ -85,7 +85,6 @@ export default {
   },
   created () {},
   async mounted () {
-    console.log('show 父')
     this.$refs.plantStatus.getPlantStatus()
     await this.getPlantList(this.$store.state.pagination)
     await this.getAllPlant(this.pagination.total)

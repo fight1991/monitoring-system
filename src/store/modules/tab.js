@@ -35,6 +35,7 @@ export default {
           sameTab.isShow = false
           sameTab.timer = setTimeout(() => {
             sameTab.isShow = true
+            delete payLoad.params.refresh
             clearTimeout(sameTab.timer)
           }, 0)
         } else {
