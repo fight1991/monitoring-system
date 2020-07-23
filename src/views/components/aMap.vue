@@ -1,6 +1,6 @@
 
 <template>
-<div style="width:100%;height:100%" v-loading="mapLoading">
+<div class="map-container" style="width:100%;height:100%" v-loading="mapLoading">
   <div :id="mapId" class="map-content" :style="{'height': height, 'width': width}"></div>
 </div>
 </template>
@@ -82,6 +82,7 @@ export default {
           'https://webapi.amap.com/maps?v=1.4.15&key=' + this.ak + '&callback=onAMapCallback'
         script.onerror = () => {
           this.mapLoading = false
+          this.$message.error('map loaded failed')
           reject(new Error('fail'))
         }
         document.head.appendChild(script)

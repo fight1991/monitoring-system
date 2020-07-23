@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%;height:100%" v-loading="mapLoading">
+  <div class="map-container" style="width:100%;height:100%" v-loading="mapLoading">
     <div id="g-map" :style="{'height': height, 'width': width}"></div>
   </div>
 </template>
@@ -95,6 +95,7 @@ export default {
         script.onerror = () => {
           this.mapLoading = false
           this.$emit('gMapError')
+          this.$message.error('map loaded failed')
           reject(new Error('fail'))
         }
         document.head.appendChild(script)
