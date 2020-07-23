@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main">
+  <section class="sys-main" v-setH:min="setDivH">
     <show-item ref="plantStatus" @getselect="getselect" :positionList="positionList"></show-item>
     <!-- 表格区域 -->
     <el-card shadow="never" v-if="access !== 1" class="no-bottom">
