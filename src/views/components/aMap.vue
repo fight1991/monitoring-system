@@ -9,7 +9,7 @@ export default {
   data () {
     return {
       ak: 'ffa1527d9cf893866bc676b3c699049f',
-      mapLoading: true,
+      mapLoading: false,
       mapId: '' // 地图容器 若id相同的话只渲染一次
     }
   },
@@ -34,17 +34,8 @@ export default {
     this.mapId = 'map-content' + this.$route.name
     // window.addEventListener('resize', this.asyncInit)
   },
-  mounted () {
-    this.loadAMap().then(() => {
-      this.asyncInit()
-    }).catch(() => {
-      this.$message.error('load map failure')
-    }).finally(() => {
-      this.mapLoading = false
-    })
-  },
   methods: {
-    initAMap () {
+    initAMap (callback) {
       let AMap = window.AMap
       let map = new AMap.Map(this.mapId, {
         zoom: 12,
@@ -52,10 +43,11 @@ export default {
         resizeEnable: true,
         lang: this.$store.state.lang === 'zh' ? 'zh_cn' : 'en'
       })
-      let that = this
-      AMap.plugin([...that.plugin], function () {
-        that.$emit('getMapInfo', { AMap, map })
-        that.autoGps && that.getGeoLocation(AMap, map)
+      AMap.plugin([...this.plugin], () => {
+        // this.$emit('getMapInfo', { AMap, map })
+        this.mapLoading = false
+        callback && callback(map)
+        this.autoGps && this.getGeoLocation(AMap, map)
       })
     },
     getGeoLocation (AMap, map) {
@@ -70,32 +62,31 @@ export default {
       map.addControl(geolocation)
       geolocation.getCurrentPosition()
     },
-    asyncInit () {
-      this.$nextTick(() => {
-        this.initAMap()
-      })
-    },
-    loadAMap () {
-      let that = this
-      return new Promise(function (resolve, reject) {
+    loadMap () {
+      return new Promise((resolve, reject) => {
+        this.mapLoading = true
         if (typeof window.AMap !== 'undefined') {
-          resolve(window.AMap)
-          return true
+          this.initAMap((map) => {
+            resolve({ AMap: window.AMap, map })
+          })
+          return
         }
-        window.onAMapCallback = function () {
-          resolve(window.AMap)
+        window.onAMapCallback = () => {
+          this.initAMap((map) => {
+            resolve({ AMap: window.AMap, map })
+          })
         }
         let script = document.createElement('script')
         script.type = 'text/javascript'
         script.src =
-          'https://webapi.amap.com/maps?v=1.4.15&key=' + that.ak + '&callback=onAMapCallback'
-        script.onerror = reject
+          'https://webapi.amap.com/maps?v=1.4.15&key=' + this.ak + '&callback=onAMapCallback'
+        script.onerror = () => {
+          this.mapLoading = false
+          reject(new Error('fail'))
+        }
         document.head.appendChild(script)
       })
     }
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.asyncInit)
   }
 }
 </script>

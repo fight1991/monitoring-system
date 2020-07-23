@@ -56,19 +56,23 @@
         </div>
       </div>
       <div class="map-content">
-        <g-map v-if="appInvar=='abroad' && gMapNormal" :autoGps="false" @getMapInfo="getMapInfo" @gMapError="gMapError"></g-map>
-        <a-map v-else :autoGps="false" @getMapInfo="getMapInfo"></a-map>
+        <g-map ref="googleMap" v-if="appInvar=='abroad' && gMapNormal" :autoGps="false" @gMapError="gMapError"></g-map>
+        <a-map ref="gaodeMap" v-else :autoGps="false"></a-map>
       </div>
     </div>
   </div>
 </template>
 <script>
 import incomeItem from './incomeItem'
+import gMap from '@/views/components/gMap'
+import aMap from '@/views/components/aMap'
 import { formatDate } from '@/util'
 export default {
   name: 'show-item',
   components: {
-    incomeItem
+    incomeItem,
+    gMap,
+    aMap
   },
   data () {
     return {
@@ -167,34 +171,6 @@ export default {
       if (result) {
         this.incomeDetail = result
       }
-    },
-    // 得到地图实例
-    getMapInfo ({ map, AMap }) {
-      if (map) {
-        this.appInvar === 'abroad' ? this.addGoogleMarker(map) : this.addGaodeMarker(AMap, map)
-      }
-    },
-    // 添加google marker
-    addGoogleMarker () {},
-    // 添加gaode marker
-    addGaodeMarker (AMap, map) {
-      let markerArray = [{ position: [116.205467, 39.907761] }]
-      let infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) })
-      markerArray.forEach(item => {
-        /*eslint-disable*/
-        var marker = new AMap.Marker({
-          map: map,
-          position: item.position,
-          offset: new AMap.Pixel(-13, -30)
-        })
-        marker.on('click', function (e) {
-          infoWindow.setContent('11111')
-          infoWindow.open(map, e.target.getPosition())
-        })
-        // 默认不打开信息窗体
-        // marker.emit('click', {target: marker})
-      })
-      map.setFitView() // 自适应
     }
   }
 }

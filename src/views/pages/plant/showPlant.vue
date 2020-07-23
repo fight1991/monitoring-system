@@ -1,6 +1,6 @@
 <template>
   <section class="sys-main">
-    <show-item ref="plantStatus" @getselect="getselect"></show-item>
+    <show-item ref="plantStatus" @getselect="getselect" :positionList="positionList"></show-item>
     <!-- 表格区域 -->
     <el-card shadow="never" v-if="access !== 1" class="no-bottom">
       <div class="title border-line" slot="header">{{$t('plant.plantsList')}}</div>
@@ -63,6 +63,7 @@ export default {
   mixins: [plantTableHead],
   data () {
     return {
+      appVersion: process.env.VUE_APP_VERSION,
       statusList: [
         { status: 0, label: 'all' },
         { status: 1, label: 'normal' },
@@ -78,19 +79,40 @@ export default {
         currentPage: 1,
         total: 0
       },
-      resultList: []
+      resultList: [],
+      plantAllList: [] // 所有电站列表
     }
   },
-  created () {
-    this.search()
+  created () {},
+  async mounted () {
+    console.log('show 父')
+    this.$refs.plantStatus.getPlantStatus()
+    await this.getPlantList(this.$store.state.pagination)
+    await this.getAllPlant(this.pagination.total)
+    // 在地图上标记电站
+    if (this.appVersion === 'abroad') {
+      this.$refs.plantStatus.$refs.googleMap.loadMap().then(this.addGaodeMarker)
+    } else {
+      this.$refs.plantStatus.$refs.gaodeMap.loadMap().then(this.addGaodeMarker)
+    }
   },
   computed: {
     ...mapState({
       username: state => state.userInfo.user
-    })
-  },
-  mounted () {
-    this.$refs.plantStatus.getPlantStatus()
+    }),
+    positionList () { // 经纬度列表
+      let resultP = []
+      this.plantAllList.forEach(item => {
+        let { x, y } = item.position
+        if (x && y) {
+          resultP.push({
+            position: [y, x],
+            address: item.address
+          })
+        }
+      })
+      return resultP
+    }
   },
   beforeDestroy () {},
   methods: {
@@ -104,23 +126,41 @@ export default {
       }
       this.search()
     },
-    // 获取电站列表
-    getPlantList (pagination) {
-      this.$post({
+    // 获取所有电站列表
+    async getAllPlant (total) {
+      let { result } = await this.$axios({
         url: '/v0/plant/list',
+        method: 'post',
         data: {
-          ...pagination,
-          condition: this.searchForm
-        },
-        success: ({ result }) => {
-          if (result) {
-            this.pagination.total = result.total
-            this.pagination.currentPage = result.currentPage
-            this.pagination.pageSize = result.pageSize
-            this.resultList = result.plants || []
+          currentPage: 1,
+          pageSize: total,
+          condition: {
+            status: 0,
+            name: ''
           }
         }
       })
+      if (result) {
+        this.plantAllList = result.plants || []
+      }
+    },
+    // 获取电站列表
+    async getPlantList (pagination) {
+      let { result } = await this.$axios({
+        url: '/v0/plant/list',
+        method: 'post',
+        data: {
+          ...pagination,
+          condition: this.searchForm
+        }
+      })
+      if (result) {
+        this.pagination.total = result.total
+        this.pagination.currentPage = result.currentPage
+        this.pagination.pageSize = result.pageSize
+        this.resultList = result.plants || []
+      }
+      return true
     },
     // 电站删除
     async deletePlant (id) {
@@ -166,6 +206,44 @@ export default {
           }
         })
       }
+    },
+    // 添加gaode marker
+    addGaodeMarker ({ AMap, map }) {
+      if (this.positionList.length === 0) return
+      let infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) })
+      this.positionList.forEach(item => {
+        /*eslint-disable*/
+        var marker = new AMap.Marker({
+          map: map,
+          position: item.position,
+          offset: new AMap.Pixel(-13, -30)
+        })
+        marker.on('click', function (e) {
+          infoWindow.setContent(item.address)
+          infoWindow.open(map, e.target.getPosition())
+        })
+        // 默认不打开信息窗体
+        // marker.emit('click', {target: marker})
+      })
+      map.setFitView() // 自适应
+    },
+    // 添加google marker
+    addGoogleMarker ({ map }) {
+      if (this.positionList.length === 0) return
+      let infoWindow = new window.google.maps.InfoWindow()
+      this.positionList.forEach(item => {
+        // 添加标记点
+        let marker = new window.google.maps.Marker({
+          position: { lng: item.position[0], lat: item.position[1]},
+          map
+        })
+        // 信息窗
+        marker.addListener('click', () => {
+          infoWindow.open(map, marker)
+          infoWindow.setContent(item.address)
+          // infoWindow.setPosition(this.cuPosition)
+        })
+      })
     }
   }
 }

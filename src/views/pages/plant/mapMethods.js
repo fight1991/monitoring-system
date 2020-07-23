@@ -12,16 +12,18 @@ export default {
       }
     }
   },
-  created () {},
+  mounted () {},
   methods: {
-    // 得到地图实例
-    getMapInfo ({ map, AMap }) {
-      if (map) {
-        this.appVersion === 'abroad' ? this.initGoogleMap(map) : this.initAMap(AMap, map)
+    // 加载地图
+    importMap () {
+      if (this.appVersion === 'abroad') {
+        this.$refs.googleMap.loadMap().then(this.initGoogleMap)
+      } else {
+        this.$refs.gaodeMap.loadMap().then(this.initAMap)
       }
     },
     // 初始化高德地图
-    initAMap (AMap, map) {
+    initAMap ({ AMap, map }) {
       let $input = this.$refs['place-map'].$refs['input']
       var autoComplete = new AMap.Autocomplete({
         input: $input
@@ -29,7 +31,6 @@ export default {
       // var placeSearch = new AMap.PlaceSearch({ map })
       AMap.event.addListener(autoComplete, 'select', (e) => {
         // TODO 针对选中的poi实现自己的功能
-        console.log(e)
         this.resetPosition()
         // placeSearch.search(e.poi.name)
         // 添加marker
@@ -60,7 +61,7 @@ export default {
       }
     },
     // 初始化谷歌地图
-    initGoogleMap (map) {
+    initGoogleMap ({ map }) {
       let google = window.google
       let $input = this.$refs['place-map'].$refs['input']
       let componentForm = {
@@ -78,7 +79,6 @@ export default {
       autocomplete.addListener('place_changed', () => {
         marker.setVisible(false)
         var place = autocomplete.getPlace()
-        console.log(place)
         this.resetPosition()
         if (!place.geometry) {
           window.alert('No details available for input: ' + place.name)
@@ -151,6 +151,6 @@ export default {
       this.dataForm.position.pid = ''
       this.dataForm.position.x = ''
       this.dataForm.position.y = ''
-    },
+    }
   }
 }

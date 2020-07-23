@@ -70,9 +70,9 @@
               </div>
             </el-col>
             <el-col :span="10">
-              <div class="map-place" v-if="mapShow">
-                <g-map v-if="appVersion=='abroad'" @getMapInfo="getMapInfo"></g-map>
-                <a-map v-else @getMapInfo="getMapInfo"></a-map>
+              <div class="map-place">
+                <g-map ref="googleMap" v-if="appVersion=='abroad'"></g-map>
+                <a-map ref="gaodeMap" v-else></a-map>
               </div>
             </el-col>
           </el-row>
@@ -120,14 +120,19 @@
   </section>
 </template>
 <script>
+import gMap from '@/views/components/gMap'
+import aMap from '@/views/components/aMap'
 import mapMethods from './mapMethods'
 export default {
   mixins: [mapMethods],
+  components: {
+    gMap,
+    aMap
+  },
   data () {
     return {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
       plantId: '', // 电站id
-      mapShow: false, // 控制地图创建时机
       appVersion: process.env.VUE_APP_VERSION,
       snIsPass: true,
       errVisible: false,
@@ -149,7 +154,7 @@ export default {
         daylight: '',
         agent: '',
         position: {
-          format: 'dms',
+          format: 'dd',
           pid: '',
           x: '', // 纬度
           y: '' // 经度
@@ -204,18 +209,17 @@ export default {
       // 复制模板
       this.countryList = await this.getCountryList()
     }
+    this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
+  },
+  async mounted () {
     // 页面类型 add / edit
-    let { opType } = this.$route.meta
-    this.opType = opType
+    this.opType = this.$route.meta.opType
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
       // 数据初始化完成后, 再创建地图
       await this.getStationInfo(this.plantId)
-      this.mapShow = true
-    } else {
-      this.mapShow = true
     }
-    this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
+    this.importMap()
   },
   watch: {
     '$store.state.lang': async function () {

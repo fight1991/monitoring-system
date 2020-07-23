@@ -8,8 +8,8 @@
 export default {
   data () {
     return {
-      mapLoading: true,
-      gMap: null,
+      mapLoading: false,
+      map: null,
       cuPosition: null,
       key: 'AIzaSyCRQmc6dZEosKrS54hJGlMvpOhUglfbo3Q'
     }
@@ -29,26 +29,17 @@ export default {
     // this.getGeoLocation()
   },
   watch: {},
-  mounted () {
-    this.loadGMap().then(() => {
-      this.initMap()
-      this.autoGps && this.getGeoLocation()
-    }).catch(() => {
-      // 谷歌地图引用失败
-      this.$message.error('load map failure')
-      this.$emit('gMapError')
-    }).finally(() => {
-      this.mapLoading = false
-    })
-  },
+  mounted () {},
   methods: {
-    initMap () {
+    initMap (callback) {
       let gMap = window.google
-      this.gMap = new gMap.maps.Map(document.getElementById('g-map'), {
+      this.map = new gMap.maps.Map(document.getElementById('g-map'), {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 8
       })
-      this.$emit('getMapInfo', { map: this.gMap })
+      this.mapLoading = false
+      callback && callback(this.map)
+      this.autoGps && this.getGeoLocation()
     },
     // h5获取当前经纬度信息并标识在
     getGeoLocation () {
@@ -64,32 +55,36 @@ export default {
         lng: res.coords.longitude
       }
       // 重新设置中心点
-      this.gMap.setCenter(this.cuPosition)
+      this.map.setCenter(this.cuPosition)
       // 添加标记点
       let marker = new window.google.maps.Marker({
         position: this.cuPosition
-        // title: 'hellow'
       })
-      marker.setMap(this.gMap)
+      marker.setMap(this.map)
       // 信息窗
       let infoWindow = new window.google.maps.InfoWindow()
       infoWindow.setPosition(this.cuPosition)
       infoWindow.setContent('Location found.')
       marker.addListener('click', () => {
-        infoWindow.open(this.gMap, marker)
+        infoWindow.open(this.map, marker)
       })
     },
     getLocationError (res) {
       console.log('lng and lat get error')
     },
-    loadGMap () {
+    loadMap () {
       return new Promise((resolve, reject) => {
+        this.mapLoading = true
         if (typeof window.google !== 'undefined') {
-          resolve(window.google)
+          this.initMap((map) => {
+            resolve({ map })
+          })
           return
         }
-        window.onGMapCallback = function () {
-          resolve(window.google)
+        window.onGMapCallback = () => {
+          this.initMap((map) => {
+            resolve({ map })
+          })
         }
         let script = document.createElement('script')
         script.type = 'text/javascript'
@@ -97,7 +92,11 @@ export default {
         script.setAttribute('defer', true)
         script.src =
           `https://maps.googleapis.com/maps/api/js?key=${this.key}&language=${this.$store.state.lang}&libraries=places&callback=onGMapCallback`
-        script.onerror = reject
+        script.onerror = () => {
+          this.mapLoading = false
+          this.$emit('gMapError')
+          reject(new Error('fail'))
+        }
         document.head.appendChild(script)
       })
     }
