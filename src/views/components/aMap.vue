@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      ak: 'ffa1527d9cf893866bc676b3c699049f',
+      ak: '052e002c53d00e0f81459c89f622b69c',
       mapLoading: false,
       mapId: '' // 地图容器 若id相同的话只渲染一次
     }
