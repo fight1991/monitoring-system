@@ -289,16 +289,16 @@ export default {
     },
     // 设备删除
     async deviceDelete (index) {
+      let res = await this.$confirm(this.$t('common.tips2'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => true).catch(() => false)
+      if (!res) return
       if (index === 0 && this.dataForm.devices.length === 1) {
         if (this.dataForm.devices[0].sn) {
-          let res = await this.$confirm(this.$t('common.tips2'), this.$t('common.tip'), {
-            confirmButtonText: this.$t('common.confirm'),
-            cancelButtonText: this.$t('common.cancel'),
-            type: 'warning'
-          }).then(() => true).catch(() => false)
-          if (!res) return
+          this.dataForm.devices = [{ ...this.templateDevice }]
         }
-        this.dataForm.devices = [{ ...this.templateDevice }]
       } else {
         this.dataForm.devices.splice(index, 1)
       }
@@ -331,7 +331,7 @@ export default {
       this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
       this.$refs.dataForm.clearValidate()
     },
-    // 新建电站 / 编辑电站
+    // 确认按钮
     async confirmBtn () {
       // 表单必填项校验
       let isPass = true
@@ -353,7 +353,7 @@ export default {
         this.errVisible = true
       }
     },
-    // 创建电站
+    // 新建电站 / 编辑电站
     creatPlant () {
       let url = this.opType === 'add' ? '/v0/plant/create' : '/v0/plant/update'
       if (!this.hasSummerTime) {
@@ -370,6 +370,7 @@ export default {
           if (this.$route.meta.title === 'plantL') {
             backName = 'bus-data-view'
           }
+          this.$message.success(this.$t('common.success'))
           this.$tab.back({
             name: backName
           })
