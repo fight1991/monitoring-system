@@ -41,7 +41,7 @@ export default {
     newInst: '新建安装商',
     newAgent: '新建代理商',
     existAgent: '已有代理商',
-    companyName: '安装商名称',
+    companyName: '代理商名称',
     email: '邮箱',
     phone: '手机号',
     remark: '备注'
