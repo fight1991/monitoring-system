@@ -3,7 +3,7 @@
     <div class="header">
       <div class="login-logo flex-center">
         <img src="@/assets/logo.png" alt="">
-        <span>FoxESS</span>
+        <!-- <span>FoxESS</span> -->
       </div>
       <div class="header-right flex-center">
         <el-dropdown
@@ -33,7 +33,7 @@
     </div>
     <div class="footer">
       <div class="footer-content">
-        <p class="flex-center some-link">
+        <!-- <p class="flex-center some-link">
           <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
           <i class="shuxian"></i>
           <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
@@ -41,10 +41,12 @@
           <el-link type="info" :href="apiUrl + '/i18n/zh_CN/UserAgreement.html'" target="_blank">{{$t('login.useTerm')}}</el-link>
           <i class="shuxian"></i>
           <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
-        </p>
+        </p> -->
         <p class="flex-center">
           <span class="beian" v-if="version=='inside'"></span>
           <span class="beian-num" v-if="version=='inside'">苏公网安备 32021402001297号</span>
+          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
+
         </p>
       </div>
     </div>
@@ -194,7 +196,7 @@ export default {
     .content {
       min-height: 400px;
       // background: linear-gradient(40deg, #1174b6 40%, #2398dd 80%,#56b3e9);
-      background: url("../../assets/inverter-bg.png") no-repeat left center;
+      background: url("../../assets/inverter-bg.jpg") no-repeat left center;
       background-size: cover;
       flex: 1;
       position: relative;

@@ -4,7 +4,7 @@
     <div class="header flex-between">
       <div class="header-left flex-start">
         <img :src="logoImg" alt="">
-        <span class="company-name">FoxESS</span>
+        <!-- <span class="company-name">KODAK</span> -->
       </div>
       <div class="header-right flex-start">
         <div class="join-us"><i class="iconfont icon-hand-right"></i>{{$t('join.joinUs')}}</div>
@@ -42,7 +42,7 @@
     <!-- 底部区域 -->
     <div class="footer">
       <div class="rights-info">
-        {{$store.state.rightsTxt + $t('login.allRight')}}
+        <!-- {{$store.state.rightsTxt + $t('login.allRight')}} -->
       </div>
     </div>
     <!-- 注册或加入 -->
