@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "pack-dev-zh": "vue-cli-service build --mode pack-dev-zh",
+    "pack-test-zh": "vue-cli-service build --mode test-zh",
     "dev-en": "npm run serve-en",
     "serve-en": "vue-cli-service serve --mode dev-en",
     "build-en": "vue-cli-service build --mode prod-en",
