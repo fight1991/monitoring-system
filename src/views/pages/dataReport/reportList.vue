@@ -39,17 +39,17 @@
           <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
-          <template v-slot:eToday="{row}">
-            {{toFixed(row.eToday)}}
+          <template v-slot:etoday="{row}">
+            {{toFixed(row.etoday)}}
           </template>
-          <template v-slot:eTotal="{row}">
-            {{toFixed(row.eTotal)}}
+          <template v-slot:generation="{row}">
+            {{toFixed(row.generation)}}
           </template>
-          <template v-slot:pv1Voltage="{row}">
-            {{toFixed(row.pv1Voltage)}}
+          <template v-slot:pv1Volt="{row}">
+            {{toFixed(row.pv1Volt)}}
           </template>
-          <template v-slot:pv2Voltage="{row}">
-            {{toFixed(row.pv2Voltage)}}
+          <template v-slot:pv2Volt="{row}">
+            {{toFixed(row.pv2Volt)}}
           </template>
           <template v-slot:pv1Current="{row}">
             {{toFixed(row.pv1Current)}}
@@ -60,17 +60,17 @@
           <template v-slot:feedinPower="{row}">
             {{toFixed(row.feedinPower)}}
           </template>
-          <template v-slot:outputPower="{row}">
-            {{toFixed(row.outputPower)}}
+          <template v-slot:generationPower="{row}">
+            {{toFixed(row.generationPower)}}
           </template>
-          <template v-slot:gridVoltageR="{row}">
-            {{toFixed(row.gridVoltageR)}}
+          <template v-slot:RVolt="{row}">
+            {{toFixed(row.RVolt)}}
           </template>
-          <template v-slot:gridCurrentR="{row}">
-            {{toFixed(row.gridCurrentR)}}
+          <template v-slot:RCurrent="{row}">
+            {{toFixed(row.RCurrent)}}
           </template>
-           <template v-slot:gridFrequencyR="{row}">
-            {{toFixed(row.gridFrequencyR)}}
+           <template v-slot:RFreq="{row}">
+            {{toFixed(row.RFreq)}}
           </template>
         </common-table>
       </func-bar>

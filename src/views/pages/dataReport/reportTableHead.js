@@ -5,28 +5,28 @@ export default {
       reportTableHead: [
         {
           label: 'Today Yield',
-          prop: 'eToday',
+          prop: 'etoday',
           checked: true,
           width: 100,
-          slotName: 'eToday'
+          slotName: 'etoday'
         }, {
           label: 'Total Yield',
-          prop: 'eTotal',
+          prop: 'generation',
           checked: true,
           width: 100,
-          slotName: 'eTotal'
+          slotName: 'generation'
         }, {
           label: 'Pv1 Voltage',
-          prop: 'pv1Voltage',
+          prop: 'pv1Volt',
           checked: true,
           width: 110,
-          slotName: 'pv1Voltage'
+          slotName: 'pv1Volt'
         }, {
           label: 'Pv2 Voltage',
-          prop: 'pv2Voltage',
+          prop: 'pv2Volt',
           checked: true,
           width: 110,
-          slotName: 'pv2Voltage'
+          slotName: 'pv2Volt'
         }, {
           label: 'Pv1 Current',
           prop: 'pv1Current',
@@ -47,28 +47,28 @@ export default {
           slotName: 'feedinPower'
         }, {
           label: 'OutputPower',
-          prop: 'outputPower',
+          prop: 'generationPower',
           checked: true,
           width: 110,
-          slotName: 'outputPower'
+          slotName: 'generationPower'
         }, {
           label: 'Gird Voltage R',
-          prop: 'gridVoltageR',
+          prop: 'RVolt',
           checked: true,
           width: 130,
-          slotName: 'gridVoltageR'
+          slotName: 'RVolt'
         }, {
           label: 'Grid Current R',
-          prop: 'gridCurrentR',
+          prop: 'RCurrent',
           checked: true,
           width: 130,
-          slotName: 'gridCurrentR'
+          slotName: 'RCurrent'
         }, {
           label: 'Grid Frequency R',
-          prop: 'gridFrequencyR',
+          prop: 'RFreq',
           checked: true,
           width: 140,
-          slotName: 'gridFrequencyR'
+          slotName: 'RFreq'
         }, {
           label: 'Updatetime',
           prop: 'time',
