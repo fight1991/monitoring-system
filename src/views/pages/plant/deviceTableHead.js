@@ -8,14 +8,14 @@ export default {
           prop: 'deviceSN',
           checked: true,
           renderHeader: true,
-          width: 140
+          width: 150
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
           renderHeader: true,
-          width: 140
+          width: 160
         },
         {
           label: 'firmware.devicetype',
