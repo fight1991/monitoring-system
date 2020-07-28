@@ -29,7 +29,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item :label="$t('plant.address')" prop="details.address">
-                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" v-model="dataForm.details.address" clearable @blur="test"></el-input>
+                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" v-model="dataForm.details.address" clearable></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -146,9 +146,6 @@ export default {
       },
       placeList: [], // 地图匹配的列表
       countryList: [], // 国家列表
-      test: () => {
-        console.log(this.dataForm.details.address)
-      },
       dataForm: {
         devices: [
           { sn: '', key: '', isPass: 1 }
