@@ -39,7 +39,7 @@
           <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
           <i class="shuxian"></i>
           <el-link type="info" :href="apiUrl + '/i18n/zh_CN/UserAgreement.html'" target="_blank">{{$t('login.useTerm')}}</el-link>
-          <i class="shuxian"></i>
+          <i class="shuxian" v-if="version=='inside'"></i>
           <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
         </p>
         <p class="flex-center">
@@ -100,6 +100,7 @@ export default {
     toggleLang (lang) {
       this.$i18n.locale = lang
       this.lang = lang === 'en' ? 'English' : '中文'
+      this.$store.commit('toggleLang', lang)
     },
     // 手机app二维码下载
     downloadApp () {
