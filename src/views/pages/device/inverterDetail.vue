@@ -3,29 +3,29 @@
     <!-- 电站名称区域 -->
     <div class="block bg-c mg-b15">
       <div class="plant-head clearfix">
-        <div class="plant-name flex-center fl">
+        <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
-          <div>
+          <div class="line-center">
             <span>{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</span>
             <span>{{$t('plant.name')}} : {{headInfo.plantName || ''}}</span>
             <span>{{$t('common.datacolSN')}}  : {{headInfo.moduleSN || ''}}</span>
             <span>{{$t('common.InvType')}}  : {{headInfo.deviceType || ''}}</span>
             <span>{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</span>
           </div>
+          <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
+          <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
         </div>
-        <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
-        <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
-        <el-row :gutter="30">
-          <el-col :span="6">{{$t('plant.country')}}  : {{headInfo.country || ''}}</el-col>
-          <el-col :span="6">{{$t('plant.city')}} : {{headInfo.city || ''}}</el-col>
-          <el-col :span="6">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || ''}}</el-col>
-          <el-col :span="6">{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || ''}}</el-col>
-          <el-col :span="6">{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || ''}}</el-col>
-          <el-col :span="6">{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slaver || ''}}</el-col>
-          <el-col :span="6">{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || ''}}</el-col>
-        </el-row>
+        <div class="line-collapse">
+          <span>{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
+          <span>{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
+          <span>{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
+          <span>{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
+          <span>{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
+          <span>{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
+          <span class="text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
+        </div>
       </div>
     </div>
     <!-- 设备状态 -->
@@ -398,5 +398,8 @@ export default {
 .select-line {
   padding:10px;
   border-bottom:1px solid #f5f5f5;
+}
+.line-center {
+  flex: 1;
 }
 </style>

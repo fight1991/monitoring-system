@@ -34,6 +34,7 @@ export default {
         this.resetPosition()
         // placeSearch.search(e.poi.name)
         // 添加marker
+        this.dataForm.details.address = e.pi.name
         addMarker(e.poi.location)
         var geocoder = new AMap.Geocoder()
         let { lng, lat } = e.poi.location
@@ -96,6 +97,7 @@ export default {
         this.gMapAdress.placeId = place.place_id || ''
         this.gMapAdress.lat = place.geometry.location.lat()
         this.gMapAdress.lng = place.geometry.location.lng()
+        this.dataForm.details.address = place.name
         this.initGoogleForm()
         if (place.geometry.viewport) {
           map.fitBounds(place.geometry.viewport)

@@ -22,8 +22,9 @@
         @command="userOption"
         trigger="click"
         placement="top-start">
-        <span class="user-name">
-          <i class="user-logo iconfont icon-user"></i>
+        <span class="user-name flex-center">
+          <!-- <i class="user-logo iconfont icon-user"></i> -->
+          <div class="user-logo"><img :src="userLogo" alt=""></div>
           <span>{{userInfo.user || ''}}</span>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -32,8 +33,8 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- <span class="info"><i class="iconfont icon-info"></i></span> -->
-      <span class="fullscreen" v-show="!isFullScreen" @click="screenClick('enter')" :title="$t('common.enterFull')"><i class="iconfont icon-enter-fullScreen"></i></span>
-      <span class="fullscreen" v-show="isFullScreen" @click="screenClick('out')" :title="$t('common.outFull')"><i class="iconfont icon-out-fullScreen"></i></span>
+      <!-- <span class="fullscreen" v-show="!isFullScreen" @click="screenClick('enter')" :title="$t('common.enterFull')"><i class="iconfont icon-enter-fullScreen"></i></span>
+      <span class="fullscreen" v-show="isFullScreen" @click="screenClick('out')" :title="$t('common.outFull')"><i class="iconfont icon-out-fullScreen"></i></span> -->
     </div>
   </div>
 </template>
@@ -45,6 +46,7 @@ export default {
   data () {
     return {
       isFullScreen: false,
+      userLogo: require('@/assets/user-logo.png'),
       logoSrc: require('@/assets/logo.png'),
       lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
     }
@@ -142,6 +144,10 @@ export default {
   }
   .user-logo {
     padding-right: 5px;
+    width: 35px;
+    img {
+      width: 100%;
+    }
   }
   .info {
     padding: 0 20px;
