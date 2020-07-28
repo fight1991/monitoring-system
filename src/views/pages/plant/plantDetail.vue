@@ -41,17 +41,17 @@
         </div>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
-        <el-row :gutter="10">
-          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</el-col>
-          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</el-col>
-          <el-col :span="6">{{$t('join.installer')}}  : {{installer.account || '-'}}</el-col>
-          <el-col :span="6">{{$t('common.contact')}}  : {{installer.phone || '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.user')}} : {{users.account || '-'}}</el-col>
-          <el-col :span="6">{{$t('common.contact')}}  : {{users.phone || '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</el-col>
-        </el-row>
+        <div class="line-collapse line-collapse-plant">
+          <span v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</span>
+          <span v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</span>
+          <span>{{$t('join.installer')}}  : {{installer.account || '-'}}</span>
+          <span>{{$t('common.contact')}}  : {{installer.phone || '-'}}</span>
+          <span>{{$t('plant.user')}} : {{users.account || '-'}}</span>
+          <span>{{$t('common.contact')}}  : {{users.phone || '-'}}</span>
+          <span>{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</span>
+          <span class="text-cut" :title="plants.createdDate || '-'">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</span>
+          <span class="text-cut" :title="plants.address || '-'">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</span>
+        </div>
       </div>
     </div>
     <!-- 电站状态 -->
