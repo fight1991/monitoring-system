@@ -34,7 +34,7 @@ export default {
         this.resetPosition()
         // placeSearch.search(e.poi.name)
         // 添加marker
-        this.dataForm.details.address = e.pi.name
+        this.dataForm.details.address = e.poi.name
         addMarker(e.poi.location)
         var geocoder = new AMap.Geocoder()
         let { lng, lat } = e.poi.location
