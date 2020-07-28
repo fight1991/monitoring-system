@@ -1,17 +1,18 @@
 .plant-head {
   padding: 10px;
   .arrow-right {
-    padding: 10px;
     cursor: pointer;
+    padding: 0 10px;
   }
   .plant-name {
     .iconfont {
       color: @sys-main-header;
       font-size: 32px;
       margin-right: 10px;
+      width: 32px;
     }
-    span {
-      margin-right: 40px;
+    .arrow-right {
+      width: 14px;
     }
   }
   .select-area {
@@ -40,4 +41,15 @@
   .el-col {
     padding-bottom: 10px;
   }
+}
+.line-center, .line-collapse {
+  margin-left: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  grid-column-gap: 20px;
+  grid-row-gap: 10px;
+}
+.line-collapse {
+  grid-template-columns: repeat(auto-fill, 200px);
+  margin-left: 48px;
 }
