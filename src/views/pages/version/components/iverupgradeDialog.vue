@@ -113,6 +113,7 @@ export default {
       let { result } = await this.$axios({
         url: '/v0/firmware/device/upgrade',
         method: 'post',
+        globalLoading: true,
         data: {
           ...this.dataForm,
           devices: this.sns
@@ -127,7 +128,8 @@ export default {
     // 获取固件版本信息
     async getVersionInfo () {
       let { result } = await this.$axios({
-        url: '/v0/firmware/device/version'
+        url: '/v0/firmware/device/version',
+        globalLoading: true
       })
       if (result) {
         this.versionInfo = result

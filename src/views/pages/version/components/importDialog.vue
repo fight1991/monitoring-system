@@ -152,7 +152,8 @@ export default {
     // 获取产品型号
     async getProductList () {
       let { result } = await this.$axios({
-        url: '/v0/firmware/products'
+        url: '/v0/firmware/products',
+        globalLoading: true
       })
       if (result) {
         this.allList = result
@@ -163,6 +164,7 @@ export default {
       this.$upload({
         url: '/v0/firmware/upload',
         data: formData,
+        globalLoading: true,
         success: res => {
           this.$message.success(this.$t('common.success'))
           this.dialogVisible = false
