@@ -1,35 +1,34 @@
 <template>
-<div>
-  <div :class="{'fix': modalShow, 'none': !modalShow}">
-    <div class="img-box clearfix">
-      <div class="img-arrow fr">
-        <img :src="arrow" alt="">
-      </div>
-    </div>
-    <div class="choose-item flex-vertical-center"><span class="number">1</span> 点击右上角的<i class="iconfont hide-icon icon-brower-menu"></i>按钮</div>
-    <div class="choose-item flex-vertical-center"><span class="number">2</span> 选择<i class="iconfont hide-icon icon-brower"></i>在浏览器中打开</div>
-  </div>
-  <div class="title">客户端下载</div>
-  <div class="download-btn flex-center">
-    <div class="box">
-      <div class="android flex-vertical-center">
-        <i class="iconfont icon-andriod-logo app-logo"></i>
-        <div class="text flex-vertical-center" @click="download('andriod')">
-          <span>安卓</span>
-          <i class="iconfont icon-download-circle load-logo"></i>
+  <div>
+    <div :class="{'fix': modalShow, 'none': !modalShow}">
+      <div class="img-box clearfix">
+        <div class="img-arrow fr">
+          <img :src="arrow" alt="">
         </div>
       </div>
-      <div class="apple flex-vertical-center">
-        <i class="iconfont icon-apple-logo app-logo"></i>
-        <div class="text flex-vertical-center" @click="download('apple')">
-          <span>苹果</span>
-          <i class="iconfont icon-download-circle load-logo"></i>
+      <div class="choose-item flex-vertical-center"><span class="number">1</span> 点击右上角的<i class="iconfont hide-icon icon-brower-menu"></i>按钮</div>
+      <div class="choose-item flex-vertical-center"><span class="number">2</span> 选择<i class="iconfont hide-icon icon-brower"></i>在浏览器中打开</div>
+    </div>
+    <div class="title">客户端下载</div>
+    <div class="download-btn flex-center">
+      <div class="box">
+        <div class="android flex-vertical-center">
+          <i class="iconfont icon-andriod-logo app-logo"></i>
+          <div class="text flex-vertical-center" @click="download('andriod')">
+            <span>安卓</span>
+            <i class="iconfont icon-download-circle load-logo"></i>
+          </div>
+        </div>
+        <div class="apple flex-vertical-center">
+          <i class="iconfont icon-apple-logo app-logo"></i>
+          <div class="text flex-vertical-center" @click="download('apple')">
+            <span>苹果</span>
+            <i class="iconfont icon-download-circle load-logo"></i>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>
