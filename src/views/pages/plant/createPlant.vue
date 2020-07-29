@@ -1,6 +1,6 @@
 <template>
   <section class="sys-main bg-c" v-setH:min="setDivH">
-    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="140px">
+    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
@@ -25,6 +25,16 @@
                       <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
                       <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
                     </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="13">
+                  <el-form-item :label="$t('plant.country')" prop="details.country">
+                    <el-input disabled v-model="dataForm.details.country"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label-width="50px" :label="$t('plant.city')" prop="details.city">
+                    <el-input disabled v-model="dataForm.details.city"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -63,8 +73,10 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                  <el-form-item :label="$t('common.pvcapacity') + '(kW)'" prop="details.systemCapacity">
-                    <el-input v-model.number="dataForm.details.systemCapacity" clearable></el-input>
+                  <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
+                    <el-input v-model.number="dataForm.details.systemCapacity" clearable>
+                      <span slot="suffix">kW</span>
+                    </el-input>
                   </el-form-item>
                 </el-col>
               </div>
@@ -187,7 +199,7 @@ export default {
         daylight: [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.name': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.type': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.country': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.country': [{ required: true, message: ' ', trigger: 'change' }],
         // 'details.city': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.price': [{ required: true, message: 'it is required', trigger: 'change' }],
@@ -410,6 +422,8 @@ export default {
     addressChange (val) {
       if (!val) {
         this.zoneInfo.timezones = []
+        this.dataForm.details.country = ''
+        this.dataForm.details.city = ''
       }
     }
   }
