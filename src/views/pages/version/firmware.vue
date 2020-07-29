@@ -48,7 +48,7 @@
             {{row.firmwareStatus == 1 ? '测试' : '发布'}}
           </template>
           <template v-slot:modelType="{row}">
-            {{this.translateDeviceType(row.modelType)}}
+            {{translateDeviceType(row.modelType)}}
           </template>
         </common-table>
       </func-bar>
@@ -56,7 +56,7 @@
     <div class="page-list">
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <import-dialog :visible.sync="importVisible"></import-dialog>
+    <import-dialog :visible.sync="importVisible" @refreshList="search"></import-dialog>
   </section>
 </template>
 <script>
@@ -72,7 +72,7 @@ export default {
       importVisible: false,
       searchForm: {
         firmwareVersion: '',
-        modelType: '',
+        modelType: 0,
         firmwareStatus: '',
         softType: ''
       },
@@ -87,12 +87,19 @@ export default {
   },
   computed: {
     releaseIds () {
-      let temp = this.selection.filter(v => v.firmwareStatus === 1)
-      return temp.map(v => v.firmwareID)
+      let isTest = this.selection.some(v => v.firmwareStatus !== 1)
+      if (!isTest) {
+        let temp = this.selection.filter(v => v.firmwareStatus === 1)
+        return temp.map(v => v.firmwareID)
+      }
+      return []
     },
     deleteIds () {
       return this.selection.map(v => v.firmwareID)
     }
+  },
+  created () {
+    this.search()
   },
   methods: {
     reset () {
@@ -102,18 +109,20 @@ export default {
         firmwareStatus: '',
         softType: ''
       }
+      this.search()
     },
     search () {
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
     getSelection (select) {
-      this.selection = []
+      this.selection = select
     },
     // 批量发布/批量删除
     async multiOptions (op) {
       let { result } = await this.$axios({
         url: '/v0/firmware/' + op,
+        method: 'post',
         data: {
           firmware: op === 'release' ? this.releaseIds : this.deleteIds
         }
@@ -126,7 +135,7 @@ export default {
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
-        url: '/v0/firmware​/list',
+        url: '/v0/firmware/list',
         method: 'post',
         data: {
           ...pagination,
@@ -134,7 +143,7 @@ export default {
         }
       })
       if (result) {
-        this.resultList = result.data || []
+        this.resultList = result.firmwares || []
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize

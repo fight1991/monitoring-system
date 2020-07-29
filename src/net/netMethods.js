@@ -23,7 +23,7 @@ const requests = {
       isLoad && closeLoading(store, tabId)
       if (res.errno === store.state.successCode) {
         checkParams && storage.setStorage(checkParams, res.result)
-        return { result: res.result }
+        return { result: res.result || true }
       }
       return { other: res }
     } catch (err) {
