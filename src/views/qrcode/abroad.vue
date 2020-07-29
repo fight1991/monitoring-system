@@ -136,21 +136,9 @@ export default {
     margin-left: 15px;
   }
 }
-.app-logo {
-  color: #52B32B;
-  font-size: 36px;
-}
 .app-link-container {
   height: 100%;
   width: 100%;
-}
-.load-logo {
-  font-size: 24px;
-  font-weight: bold;
-  margin-left: 12px;
-}
-.app-logo {
-  margin-right: 20px;
 }
 .android,.apple {
   // width: 80px;
