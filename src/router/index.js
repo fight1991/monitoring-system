@@ -6,10 +6,10 @@ import Login from '@/views/login/index.js'
 import Product from '@/views/product'
 import Inverter from '@/views/inverter'
 import BusinessRouter from '@/views/pages/index.js'
-import Qrcode from '@/views/qrcode'
-
 import storage from '@/util/storage'
+
 const Main = () => import(/* webpackChunkName: "bus-main" */ '../views/main.vue')
+const AppDownload = () => import(/* webpackChunkName: "downloadApp" */ '@/views/qrcode')
 const routes = [
   {
     path: '/',
@@ -20,6 +20,14 @@ const routes = [
       name: 'error-404'
     }
   }, {
+    path: '/app/download',
+    name: 'app-download',
+    meta: {
+      requiresAuth: false,
+      title: 'Download'
+    },
+    component: AppDownload
+  }, {
     path: '/bus/index',
     name: 'bus-index',
     component: Main,
@@ -28,7 +36,6 @@ const routes = [
 ]
 
 routes.push(...Error)
-routes.push(...Qrcode)
 routes.push(...Inverter)
 routes.push(...Product)
 routes.push(Login)
