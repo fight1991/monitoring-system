@@ -1,6 +1,6 @@
 <template>
   <section class="sys-main bg-c" v-setH:min="setDivH">
-    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="140px">
+    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
@@ -27,9 +27,19 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
+                <el-col :span="13">
+                  <el-form-item :label="$t('plant.country')" prop="details.country">
+                    <el-input disabled v-model="dataForm.details.country"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label-width="50px" :label="$t('plant.city')" prop="details.city">
+                    <el-input disabled v-model="dataForm.details.city"></el-input>
+                  </el-form-item>
+                </el-col>
                 <el-col :span="24">
                   <el-form-item :label="$t('plant.address')" prop="details.address">
-                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" v-model="dataForm.details.address" clearable></el-input>
+                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address" clearable></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -63,8 +73,10 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                  <el-form-item :label="$t('common.pvcapacity') + '(kW)'" prop="details.systemCapacity">
-                    <el-input v-model.number="dataForm.details.systemCapacity" clearable></el-input>
+                  <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
+                    <el-input v-model.number="dataForm.details.systemCapacity" clearable>
+                      <span slot="suffix">kW</span>
+                    </el-input>
                   </el-form-item>
                 </el-col>
               </div>
@@ -134,6 +146,7 @@ export default {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
       plantId: '', // 电站id
       appVersion: process.env.VUE_APP_VERSION,
+      isSelectMap: false,
       snIsPass: true,
       errVisible: false,
       searchLoading: false,
@@ -187,7 +200,7 @@ export default {
         daylight: [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.name': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.type': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.country': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.country': [{ required: true, message: ' ', trigger: 'change' }],
         // 'details.city': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.price': [{ required: true, message: 'it is required', trigger: 'change' }],
@@ -216,6 +229,7 @@ export default {
     this.opType = this.$route.meta.opType
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
+      this.isSelectMap = true
       // 数据初始化完成后, 再创建地图
       await this.getStationInfo(this.plantId)
     }
@@ -407,9 +421,17 @@ export default {
       }
       return true
     },
+    addressBlur () {
+      if (!this.isSelectMap) {
+        this.dataForm.details.address = ''
+      }
+    },
     addressChange (val) {
+      this.isSelectMap = false
       if (!val) {
         this.zoneInfo.timezones = []
+        this.dataForm.details.country = ''
+        this.dataForm.details.city = ''
       }
     }
   }

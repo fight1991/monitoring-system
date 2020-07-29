@@ -31,6 +31,7 @@ export default {
       // var placeSearch = new AMap.PlaceSearch({ map })
       AMap.event.addListener(autoComplete, 'select', (e) => {
         // TODO 针对选中的poi实现自己的功能
+        this.isSelectMap = true
         this.resetPosition()
         // placeSearch.search(e.poi.name)
         // 添加marker
