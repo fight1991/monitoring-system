@@ -4,6 +4,7 @@
     :title="'批量升级'"
     :modal-append-to-body="false"
     @close="closeDialog"
+    @open="getVersionInfo"
     :visible.sync="dialogVisible"
     width="550px">
     <el-form size="mini" ref="dataForm" :model="dataForm" :rules="rules" label-width="100px">
@@ -14,17 +15,27 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="设备型号" prop="version">
-            <el-select v-model="dataForm.version" clearable style="width:100%">
-              <el-option v-for="item in versionTypeList" :label="item" :value="item" :key="item"></el-option>
+          <el-form-item label="软件类别" prop="softType">
+            <el-select v-model="dataForm.softType" clearable style="width:100%" @change="softTypeChange">
+              <el-option v-for="item in solfTypeList" :label="item" :value="item" :key="item"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="软件版本" prop="softType">
-            <el-select v-model="dataForm.softType" clearable style="width:100%">
-              <el-option v-for="item in solfList" :label="item" :value="item" :key="item"></el-option>
+          <el-form-item label="软件版本" prop="version">
+            <el-select v-model="dataForm.version" clearable style="width:100%">
+              <el-option v-for="item in solfVersionList" :label="item.version" :value="item.version" :key="item.version+item.name"></el-option>
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="固件名称">
+            <el-input v-model="nameNote.name" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="备注">
+            <el-input v-model="nameNote.note" readonly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -43,17 +54,17 @@ export default {
     return {
       dialogVisible: false,
       typeList: [],
-      solfList: [ // 版本类型
+      solfTypeList: [ // 版本类型
         'master',
         'slave',
         'manager'
       ],
-      versionTypeList: [], // 设备型号
       dataForm: {
         taskName: '',
         softType: '',
         version: ''
       },
+      versionInfo: {},
       rules: {
         taskName: [{ required: true, message: 'it is required', trigger: 'blur' }],
         softType: [{ required: true, message: 'it is required', trigger: 'change' }],
@@ -68,7 +79,23 @@ export default {
   },
   props: ['sns', 'visible'],
   created () {},
-  mounted () {},
+  computed: {
+    solfVersionList () {
+      return this.versionInfo[this.dataForm.softType] || []
+    },
+    nameNote () {
+      let obj = { name: '', note: '' }
+      if (this.solfVersionList && this.solfVersionList.length > 0) {
+        console.log(this.solfVersionList)
+        let tempInfo = this.solfVersionList.find(v => v.version === this.dataForm.version)
+        if (tempInfo) {
+          obj.name = tempInfo.name
+          obj.note = tempInfo.note
+        }
+      }
+      return obj
+    }
+  },
   methods: {
     closeDialog () {
       this.$emit('update:visible', false)
@@ -85,6 +112,7 @@ export default {
       if (!flag) return
       let { result } = await this.$axios({
         url: '/v0/firmware/device/upgrade',
+        method: 'post',
         data: {
           ...this.dataForm,
           devices: this.sns
@@ -93,7 +121,21 @@ export default {
       if (result) {
         this.$message.success(this.$t('common.success'))
         this.dialogVisible = false
+        this.$emit('refreshList')
       }
+    },
+    // 获取固件版本信息
+    async getVersionInfo () {
+      let { result } = await this.$axios({
+        url: '/v0/firmware/device/version'
+      })
+      if (result) {
+        this.versionInfo = result
+      }
+    },
+    softTypeChange (val) {
+      this.dataForm.version = ''
+      console.log(this.versionInfo[val])
     }
   }
 }

@@ -2,10 +2,10 @@ export default {
   data () {
     return {
       statusList: [ // 0 全部 1 正常 2 故障  3离线
-        { status: 0, label: 'all' },
-        { status: 1, label: 'normal' },
-        { status: 2, label: 'abnormal' },
-        { status: 3, label: 'offline' }
+        { value: 0, label: 'all' },
+        { value: 1, label: 'normal' },
+        { value: 2, label: 'abnormal' },
+        { value: 3, label: 'offline' }
       ],
       tableHead: [
         {
@@ -17,7 +17,13 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          width: 100
+          width: 140
+        },
+        {
+          label: 'common.datacolSN',
+          prop: 'moduleSN',
+          checked: true,
+          width: 140
         },
         {
           label: 'invupgrade.invmodel',
@@ -44,12 +50,6 @@ export default {
           width: 100
         },
         {
-          label: 'common.datacolSN',
-          prop: 'moduleSN',
-          checked: true,
-          renderHeader: true
-        },
-        {
           label: 'plant.datacolType',
           prop: 'moduleType',
           checked: true,
@@ -66,7 +66,7 @@ export default {
           prop: 'deviceStatus',
           checked: true,
           width: 100,
-          slotName: 'status',
+          slotName: 'deviceStatus',
           fixed: 'right'
         }
       ]

@@ -56,7 +56,7 @@
     <div class="page-list">
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <import-dialog :visible.sync="importVisible" @refreshList="search"></import-dialog>
+    <import-dialog :visible.sync="importVisible" @refreshList="refreshList"></import-dialog>
   </section>
 </template>
 <script>
@@ -148,6 +148,10 @@ export default {
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
       }
+    },
+    refreshList () {
+      this.search()
+      this.selection = []
     },
     translateDeviceType (num) {
       switch (num) {
