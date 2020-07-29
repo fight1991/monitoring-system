@@ -39,7 +39,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item :label="$t('plant.address')" prop="details.address">
-                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" v-model="dataForm.details.address" clearable></el-input>
+                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address" clearable></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -146,6 +146,7 @@ export default {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
       plantId: '', // 电站id
       appVersion: process.env.VUE_APP_VERSION,
+      isSelectMap: false,
       snIsPass: true,
       errVisible: false,
       searchLoading: false,
@@ -228,6 +229,7 @@ export default {
     this.opType = this.$route.meta.opType
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
+      this.isSelectMap = true
       // 数据初始化完成后, 再创建地图
       await this.getStationInfo(this.plantId)
     }
@@ -419,7 +421,13 @@ export default {
       }
       return true
     },
+    addressBlur () {
+      if (!this.isSelectMap) {
+        this.dataForm.details.address = ''
+      }
+    },
     addressChange (val) {
+      this.isSelectMap = false
       if (!val) {
         this.zoneInfo.timezones = []
         this.dataForm.details.country = ''
