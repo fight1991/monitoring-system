@@ -75,7 +75,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="refreshList" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="device"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="device" :taskId="taskId"></updetail-dialog>
   </section>
@@ -98,7 +98,7 @@ export default {
         deviceSN: '',
         moduleSN: '',
         plantName: '',
-        deviceStatus: '',
+        deviceStatus: 0,
         deviceType: '',
         moduleType: '',
         deviceVersion: '',
@@ -106,7 +106,7 @@ export default {
         productType: ''
       },
       taskId: '',
-      resultList: [{ deviceSN: 12212 }],
+      resultList: [],
       selection: [],
       pagination: {
         pageSize: 50,
@@ -122,10 +122,22 @@ export default {
   },
   created () {
     eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
+    this.search()
   },
   methods: {
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        deviceSN: '',
+        moduleSN: '',
+        plantName: '',
+        deviceStatus: 0,
+        deviceType: '',
+        moduleType: '',
+        deviceVersion: '',
+        moduleVersion: '',
+        productType: ''
+      }
+      this.search()
     },
     search () {
       this.currentPage = 1
@@ -145,7 +157,7 @@ export default {
         }
       })
       if (result) {
-        this.resultList = result.data || []
+        this.resultList = result.devices || []
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
@@ -154,6 +166,10 @@ export default {
     openUpdetailDialog (id) {
       this.updetailVisible = true
       this.taskId = id
+    },
+    refreshList () {
+      this.search()
+      this.selection = []
     }
   }
 }

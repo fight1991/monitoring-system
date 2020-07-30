@@ -42,14 +42,14 @@
           </el-col>
           <el-col :span="22">
             <el-form-item label="设备类别" prop="modelType">
-              <el-select v-model="dataForm.modelType" clearable style="width:100%" @change="dataForm.softType = ''">
+              <el-select v-model="dataForm.modelType" clearable style="width:100%" @change="modelTypeChange">
                 <el-option v-for="item in deviceTypeList" :label="item.label" :value="item.value" :key="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="设备型号" prop="productType">
-              <el-select v-model="dataForm.productType" clearable style="width:100%">
+            <el-form-item label="产品系列" prop="productType">
+              <el-select v-model="dataForm.productType" clearable style="width:100%" multiple>
                 <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
@@ -88,7 +88,7 @@ export default {
         fileType: '',
         firmwareVersion: '',
         modelType: '',
-        productType: '',
+        productType: [],
         softType: '',
         note: ''
       },
@@ -143,7 +143,7 @@ export default {
         fileType: '',
         firmwareVersion: '',
         modelType: '',
-        productType: '',
+        productType: [],
         softType: '',
         note: ''
       }
@@ -152,7 +152,8 @@ export default {
     // 获取产品型号
     async getProductList () {
       let { result } = await this.$axios({
-        url: '/v0/firmware/products'
+        url: '/v0/firmware/products',
+        globalLoading: true
       })
       if (result) {
         this.allList = result
@@ -163,9 +164,11 @@ export default {
       this.$upload({
         url: '/v0/firmware/upload',
         data: formData,
+        globalLoading: true,
         success: res => {
           this.$message.success(this.$t('common.success'))
           this.dialogVisible = false
+          this.$emit('refreshList')
         }
       })
     },
@@ -187,10 +190,17 @@ export default {
       let formData = new FormData()
       formData.append('upfile', fileInfo)
       formData.append('md5', fileMd5)
-      Object.keys(this.dataForm).forEach(v => {
-        formData.append(v, this.dataForm[v])
+      let tempForm = JSON.parse(JSON.stringify(this.dataForm))
+      tempForm.productType = tempForm.productType.join()
+      Object.keys(tempForm).forEach(v => {
+        formData.append(v, tempForm[v])
       })
       this.uploadFirmware(formData)
+    },
+    // 设备类别change事件
+    modelTypeChange () {
+      this.dataForm.softType = ''
+      this.dataForm.productType = []
     }
   }
 }

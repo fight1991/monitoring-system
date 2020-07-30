@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container" v-loading="$store.state.loading">
+  <div class="login-container">
     <div class="header">
       <div class="login-logo flex-center">
         <img src="@/assets/logo.png" alt="">

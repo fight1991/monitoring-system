@@ -119,4 +119,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 > 2. this.$tab.push 同this.$router.push 在已有的页签中查找,有则激活,无则新增
 > 3. this.$tab.replace 替换已有页签,无则打开新页签
 > 4. this.$tab.back 关闭当前tab,打开指定tab(如果存在就刷新)
+
+## 全局loading和局部loading
+> 1. 非后台管理页面发送请求时默认开启全局loading
+> 2. 进入后台管理页面默认开启局部loading
+> 3. 若要在后台管理页面开启全局loading(使用dialog组件时会用到) 每个请求增加globalLoading: true
  

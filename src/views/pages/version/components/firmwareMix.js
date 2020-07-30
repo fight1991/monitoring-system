@@ -59,8 +59,7 @@ export default {
         {
           label: 'firmware.uptime',
           prop: 'uploadTime',
-          checked: true,
-          slotName: 'time'
+          checked: true
         }
       ]
     }

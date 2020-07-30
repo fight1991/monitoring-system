@@ -28,6 +28,9 @@
     border-color: @sys-border-input;
   }
 }
+.el-form-item__content > .el-input input[readonly] {
+  background-color: #f5f5f5;
+}
 .el-form-item__label {
   line-height: 26px!important;
   padding: 0 8px 0 0;
@@ -190,6 +193,7 @@
 }
 .el-loading-mask {
   background-color: rgba(0, 0, 0, .1);
+  z-index: 9999;
 }
 .echart-box {
   .el-loading-mask {
