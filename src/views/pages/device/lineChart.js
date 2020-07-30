@@ -1,3 +1,4 @@
+import { formatDate } from '@/util'
 export default {
   data () {
     return {
@@ -17,7 +18,7 @@ export default {
             let headLabel = ''
             let res = ''
             params.forEach(v => {
-              !headLabel && (headLabel = v.axisValueLabel)
+              !headLabel && (headLabel = formatDate(v.axisValue, 'HH:mm:ss MM-dd'))
               res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1] + 'kW'
             })
             return headLabel + res

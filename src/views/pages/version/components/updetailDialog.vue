@@ -90,6 +90,7 @@ export default {
     async getList (pagination) {
       let { result } = await this.$axios({
         url: '/v0/firmware/' + this.apiUrl + '/upgrade/detail',
+        globalLoading: true,
         method: 'post',
         data: {
           taskID: this.taskId,

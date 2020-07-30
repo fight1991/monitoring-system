@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading="$store.state.loading">
     <keep-alive :exclude="['router-login']">
       <router-view/>
     </keep-alive>
