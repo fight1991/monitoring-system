@@ -22,9 +22,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="软件版本" prop="version">
-            <el-select v-model="dataForm.version" clearable style="width:100%">
-              <el-option v-for="item in solfVersionList" :label="item.version" :value="item.version" :key="item.version+item.name"></el-option>
+          <el-form-item label="软件版本" prop="id">
+            <el-select v-model="dataForm.id" clearable style="width:100%">
+              <el-option v-for="item in solfVersionList" :label="item.version" :value="item.id" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -62,13 +62,13 @@ export default {
       dataForm: {
         taskName: '',
         softType: '',
-        version: ''
+        id: ''
       },
       versionInfo: {},
       rules: {
         taskName: [{ required: true, message: 'it is required', trigger: 'blur' }],
         softType: [{ required: true, message: 'it is required', trigger: 'change' }],
-        version: [{ required: true, message: 'it is required', trigger: 'change' }]
+        id: [{ required: true, message: 'it is required', trigger: 'change' }]
       }
     }
   },
@@ -86,8 +86,7 @@ export default {
     nameNote () {
       let obj = { name: '', note: '' }
       if (this.solfVersionList && this.solfVersionList.length > 0) {
-        console.log(this.solfVersionList)
-        let tempInfo = this.solfVersionList.find(v => v.version === this.dataForm.version)
+        let tempInfo = this.solfVersionList.find(v => v.id === this.dataForm.id)
         if (tempInfo) {
           obj.name = tempInfo.name
           obj.note = tempInfo.note
@@ -102,7 +101,7 @@ export default {
       this.dataForm = {
         taskName: '',
         softType: '',
-        version: ''
+        id: ''
       }
       this.$refs.dataForm.clearValidate()
     },
@@ -136,8 +135,7 @@ export default {
       }
     },
     softTypeChange (val) {
-      this.dataForm.version = ''
-      console.log(this.versionInfo[val])
+      this.dataForm.id = ''
     }
   }
 }
