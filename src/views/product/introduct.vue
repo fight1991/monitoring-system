@@ -93,10 +93,10 @@ export default {
       this.joinVisible = true
     },
     installerClick () {
-      // if (this.access) {
-      //   this.tips()
-      //   return
-      // }
+      if (this.access) {
+        this.tips()
+        return
+      }
       this.dialogTitle = this.$t('join.newInst')
       this.tag = 'installer'
       this.joinVisible = true
