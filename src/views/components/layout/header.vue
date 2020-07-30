@@ -25,10 +25,10 @@
         <span class="user-name flex-center">
           <!-- <i class="user-logo iconfont icon-user"></i> -->
           <div class="user-logo"><img :src="userLogo" alt=""></div>
-          <span>{{userInfo.user || ''}}</span>
+          <!-- <span>{{userInfo.user || ''}}</span> -->
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="reset">{{$t('login.resetPw')}}</el-dropdown-item>
+          <el-dropdown-item command="user">{{'个人中心'}}</el-dropdown-item>
           <el-dropdown-item command="logout" divided>{{$t('login.goOut')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -82,9 +82,16 @@ export default {
     userOption (op) {
       if (op === 'logout') {
         this.logout()
-      } else {
-        this.goResetPw()
       }
+      if (op === 'user') {
+        this.goUser()
+      }
+    },
+    // 跳转到个人中心页面
+    goUser () {
+      this.$router.push({
+        name: 'user-center'
+      })
     },
     // 修改密码
     goResetPw () {

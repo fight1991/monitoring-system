@@ -55,9 +55,6 @@ export default {
   },
   created () {
     link.$on('sendUser', this.getUserFromRegister)
-    if (this.$route.query.type === 'reset') { // 系统header>重置密码按钮>重置面板>重置成功>登录面板显示
-      this.dataForm.user = sessionStorage.getItem('username') || ''
-    }
   },
   computed: {},
   methods: {
