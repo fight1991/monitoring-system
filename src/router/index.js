@@ -9,6 +9,7 @@ import Product from '@/views/product'
 import Inverter from '@/views/inverter'
 import BusinessRouter from '@/views/pages'
 import Qrcode from '@/views/qrcode'
+import User from '@/views/user'
 
 const Main = () => import(/* webpackChunkName: "bus-main" */ '../views/main.vue')
 
@@ -34,6 +35,7 @@ routes.push(...Inverter)
 routes.push(...Product)
 routes.push(...Qrcode)
 routes.push(...Login)
+routes.push(...User)
 
 const router = new VueRouter({
   mode: 'history',

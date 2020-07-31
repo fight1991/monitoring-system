@@ -116,7 +116,6 @@ export function startLoading (store, tabId, globalLoading) {
     store.dispatch('setCurrentTabLoading', { tabId, flag: true })
   } else {
   // 全局loading
-    console.log(2112)
     store.commit('changeLoading', true)
   }
 }
