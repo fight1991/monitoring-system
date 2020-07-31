@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="header">
       <div class="login-logo flex-center">
-        <img src="@/assets/logo.png" alt="">
+        <!-- <img src="@/assets/logo.png" alt=""> -->
         <!-- <span>FoxESS</span> -->
       </div>
       <div class="header-right flex-center">
