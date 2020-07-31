@@ -84,10 +84,6 @@ export default {
     }
   },
   created () {
-    // 系统header按钮跳转过来
-    if (this.$route.query.type === 'reset') {
-      this.toggleStatus('resetPw')
-    }
     if (process.env.VUE_APP_VERSION === 'inside') {
       this.host = 'http://www.fox-ess.com.cn' // 国内官网
     }

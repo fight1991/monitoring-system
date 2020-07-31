@@ -79,6 +79,7 @@ export default {
       })
       autocomplete.addListener('place_changed', () => {
         marker.setVisible(false)
+        this.isSelectMap = true
         var place = autocomplete.getPlace()
         this.resetPosition()
         if (!place.geometry) {

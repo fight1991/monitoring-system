@@ -33,11 +33,11 @@
         </el-row>
       </el-form>
     </div>
-    <el-row class="find-btn" type="flex" justify="end">
+    <el-row class="find-btn" type="flex" justify="end" v-show="btnShow!=1">
       <span class="f12" @click="backLogin">{{$t('login.back')}}</span>
     </el-row>
     <el-row class="login-btn">
-      <el-button class="login-click" type="primary" @click="resetPassword">{{$t('login.resetPw')}}</el-button>
+      <el-button class="login-click reset-click" type="primary" @click="resetPassword">{{$t('login.resetPw')}}</el-button>
     </el-row>
   </div>
 </template>
@@ -77,7 +77,7 @@ export default {
       this.dataForm.user = sessionStorage.getItem('username') || ''
     }
   },
-  props: ['pageFlag'],
+  props: ['pageFlag', 'btnShow'],
   methods: {
     // 返回登录模块
     backLogin () {
@@ -107,14 +107,18 @@ export default {
         },
         success: res => {
           this.$message.success(this.$t('login.successMg2'))
-          link.$emit('sendUser', this.dataForm.user)
           this.dataForm = {
             user: '',
             newPassword: '',
             captcha: ''
           }
           this.clearTime()
-          this.backLogin()
+          if (this.btnShow === 1) {
+            this.$emit('close:visible', false)
+          } else {
+            link.$emit('sendUser', this.dataForm.user)
+            this.backLogin()
+          }
         }
       })
     }
@@ -125,5 +129,8 @@ export default {
   @import './public';
   .find-btn {
     padding-top: 5px;
+  }
+  .reset-click {
+    width: 100%;
   }
 </style>
