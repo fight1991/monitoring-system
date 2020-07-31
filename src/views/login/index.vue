@@ -175,7 +175,7 @@ export default {
       }
       .header-right {
         span {
-          color: @sys-main-header;
+          color: #287fca;
         }
       }
       display: flex;

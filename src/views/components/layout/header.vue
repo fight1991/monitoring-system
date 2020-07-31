@@ -1,7 +1,7 @@
 <template>
   <div class="head-container">
     <div class="logo fl">
-      <img :src="logoSrc">
+      <!-- <img :src="logoSrc"> -->
       <span>{{$t('monitor')}}</span>
     </div>
     <div class="login fr">

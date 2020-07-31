@@ -52,7 +52,7 @@ export default {
   height: 100%;
 }
 .main-header {
-  background-color: @sys-main-header;
+  background-color: #287fca;
 }
 .main-container {
   overflow: hidden;
