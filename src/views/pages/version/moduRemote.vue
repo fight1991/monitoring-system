@@ -44,10 +44,10 @@
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
-          <template v-slot:deviceStatus="{row}">
-            <i class="el-icon-success" v-show="row.deviceStatus==1"></i>
-            <i class="el-icon-error" v-show="row.deviceStatus==2"></i>
-            <i class="el-icon-remove" v-show="row.deviceStatus==3"></i>
+          <template v-slot:moduleStatus="{row}">
+            <i class="el-icon-success" v-show="row.moduleStatus==1"></i>
+            <i class="el-icon-error" v-show="row.moduleStatus==2"></i>
+            <i class="el-icon-remove" v-show="row.moduleStatus==3"></i>
           </template>
         </common-table>
       </func-bar>
@@ -60,7 +60,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="refreshList" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="module"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="module" :taskId="taskId"></updetail-dialog>
   </section>
@@ -88,7 +88,7 @@ export default {
         upgradeStatus: ''
       },
       taskId: '',
-      resultList: [{ deviceSN: 12212 }],
+      resultList: [],
       selection: [],
       pagination: {
         pageSize: 50,
@@ -104,10 +104,19 @@ export default {
   },
   created () {
     eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
+    this.search()
   },
   methods: {
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        moduleSN: '',
+        plantName: '',
+        moduleStatus: '',
+        moduleType: '',
+        version: '',
+        upgradeStatus: ''
+      }
+      this.search()
     },
     search () {
       this.currentPage = 1
@@ -127,7 +136,7 @@ export default {
         }
       })
       if (result) {
-        this.resultList = result.data || []
+        this.resultList = result.modules || []
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
@@ -136,6 +145,10 @@ export default {
     openUpdetailDialog (id) {
       this.updetailVisible = true
       this.taskId = id
+    },
+    refreshList () {
+      this.search()
+      this.selection = []
     }
   }
 }

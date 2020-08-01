@@ -147,7 +147,9 @@ export default {
         softType: '',
         note: ''
       }
-      this.$refs.dataForm.clearValidate()
+      this.$nextTick(() => {
+        this.$refs.dataForm.clearValidate()
+      })
     },
     // 获取产品型号
     async getProductList () {

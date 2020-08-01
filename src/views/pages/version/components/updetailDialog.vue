@@ -12,7 +12,7 @@
         <el-form-item>
           <el-row :gutter="15">
             <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" :placeholder="apiUrl=='device' ? '逆变器sn' : '模块sn'"></el-input>
+              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? '逆变器sn' : '模块sn'"></el-input>
             </el-col>
             <el-col :span="8" align="left">
               <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>

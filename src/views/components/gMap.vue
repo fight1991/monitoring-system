@@ -88,6 +88,7 @@ export default {
         }
         let script = document.createElement('script')
         script.type = 'text/javascript'
+        script.setAttribute('crossorigin', true)
         script.setAttribute('async', true)
         script.setAttribute('defer', true)
         script.src =
