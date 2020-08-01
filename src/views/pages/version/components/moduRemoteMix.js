@@ -45,10 +45,10 @@ export default {
         },
         {
           label: 'invupgrade.datastatus',
-          prop: 'deviceStatus',
+          prop: 'moduleStatus',
           checked: true,
           width: 100,
-          slotName: 'status',
+          slotName: 'moduleStatus',
           fixed: 'right'
         }
       ]

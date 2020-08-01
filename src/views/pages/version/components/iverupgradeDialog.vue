@@ -103,7 +103,9 @@ export default {
         softType: '',
         id: ''
       }
-      this.$refs.dataForm.clearValidate()
+      this.$nextTick(() => {
+        this.$refs.dataForm.clearValidate()
+      })
     },
     async upgradeBtn () {
       let flag = true
