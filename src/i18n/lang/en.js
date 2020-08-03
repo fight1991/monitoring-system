@@ -246,7 +246,8 @@ export default {
     version: 'Version',
     type: 'Vertion type',
     status: 'Approval status',
-    uptime: 'Upload time'
+    uptime: 'Upload time',
+    firmwareName: 'Firmware Name'
   },
   invupgrade: {
     invmodel: 'Inverter type',
