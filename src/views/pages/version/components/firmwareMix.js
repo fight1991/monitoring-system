@@ -35,6 +35,11 @@ export default {
       ],
       tableHead: [
         {
+          label: 'firmware.firmwareName',
+          prop: 'firmwareName',
+          checked: true
+        },
+        {
           label: 'firmware.devicetype',
           prop: 'modelType',
           checked: true,
