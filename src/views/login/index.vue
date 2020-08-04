@@ -193,7 +193,7 @@ export default {
     .content {
       min-height: 400px;
       // background: linear-gradient(40deg, #1174b6 40%, #2398dd 80%,#56b3e9);
-      background: url("../../assets/inverter-bg.jpg") no-repeat left center;
+      background: url("../../assets/inverter-bg.png") no-repeat left center;
       background-size: cover;
       flex: 1;
       position: relative;
@@ -225,7 +225,7 @@ export default {
       }
     }
     .login {
-      box-shadow: 0 0 10px #ddd;
+      // box-shadow: 0 0 10px #ddd;
       z-index: 6;
       position: absolute;
       right: 15%;
@@ -233,7 +233,7 @@ export default {
       // transform-origin: center;
       width: 450px;
       box-sizing: border-box;
-      background-color: #fff;
+      background-color: transparent;
       border-radius: 2px;
       padding: 20px 25px 25px;
       color: #999;
@@ -256,7 +256,6 @@ export default {
       }
     }
     .find-btn {
-      color: #3883c2;
       span {
         &:hover {
           color: @sys-main-header;
