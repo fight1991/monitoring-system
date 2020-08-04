@@ -163,7 +163,7 @@ export default {
   }
   .header-left {
     img {
-      width: 80px;
+      width: 110px;
     }
   }
   .company-name {

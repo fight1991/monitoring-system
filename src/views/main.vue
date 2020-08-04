@@ -53,6 +53,7 @@ export default {
 }
 .main-header {
   background-color: #212A39;
+  border-bottom: 1px solid #444850;
 }
 .main-container {
   overflow: hidden;
