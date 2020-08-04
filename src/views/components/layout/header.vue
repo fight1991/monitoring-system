@@ -1,8 +1,7 @@
 <template>
   <div class="head-container">
     <div class="logo fl">
-      <!-- <img :src="logoSrc"> -->
-      <span>{{$t('monitor')}}</span>
+      <img :src="logoSrc">
     </div>
     <div class="login fr">
       <!-- <el-dropdown
@@ -47,7 +46,7 @@ export default {
     return {
       isFullScreen: false,
       userLogo: require('@/assets/user-logo.png'),
-      logoSrc: require('@/assets/logo.png'),
+      logoSrc: require('@/assets/keda-logo-transparent.png'),
       lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
     }
   },
@@ -163,7 +162,7 @@ export default {
 .logo {
   height: 100%;
   img {
-    width: 40px;
+    width: 110px;
   }
   span {
     color: #fff;

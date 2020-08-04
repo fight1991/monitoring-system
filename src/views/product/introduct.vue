@@ -77,7 +77,7 @@ export default {
       dialogVisible: false,
       joinVisible: false,
       organList: [],
-      logoImg: require('@/assets/logo.png')
+      logoImg: require('@/assets/keda-logo-black.png')
     }
   },
   computed: {},
@@ -149,8 +149,7 @@ export default {
   .header {
     width: 80%;
     margin: 0 auto;
-    padding: 20px 40px;
-    margin-bottom: 20px;
+    padding: 10px 40px;
   }
   .header-right {
     .iconfont {
@@ -164,7 +163,7 @@ export default {
   }
   .header-left {
     img {
-      width: 50px;
+      width: 80px;
     }
   }
   .company-name {
