@@ -246,7 +246,8 @@ export default {
     version: '版本号',
     type: '版本类型',
     status: '审核状态',
-    uptime: '上传时间'
+    uptime: '上传时间',
+    firmwareName: '固件名称'
   },
   invupgrade: {
     invmodel: '逆变器机型',
