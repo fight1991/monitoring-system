@@ -1,7 +1,7 @@
 <template>
   <section>
     <el-row>
-      <div class="col">用户类型</div>
+      <div class="col">{{$t('user.type')}}</div>
       <div class="col">{{translateTools(access)}}</div>
     </el-row>
     <el-row class="flex-vertical-center">
@@ -10,11 +10,11 @@
           @command="getOpText"
           trigger="click">
           <span class="el-dropdown-link">
-            获取邀请码<i class="el-icon-arrow-down el-icon--right"></i>
+            {{$t('user.code')}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="成为安装商" @click.native="getInviteCode('installer')">安装商</el-dropdown-item>
-            <el-dropdown-item command="加入代理商" @click.native="getInviteCode('agent')" divided>代理商</el-dropdown-item>
+            <el-dropdown-item :command="$t('join.installer')" @click.native="getInviteCode('installer')">{{$t('user.installer')}}</el-dropdown-item>
+            <el-dropdown-item :command="$t('join.agent')" @click.native="getInviteCode('agent')" divided>{{$t('user.agent')}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>

@@ -301,6 +301,16 @@ export default {
     gridConsumption2: '用电2总电量',
     loads: '负载总电量'
   },
+  user: {
+    info: '用户信息',
+    account: '账号管理',
+    type: '用户类型',
+    code: '获取邀请码',
+    installer: '成为安装商',
+    agent: '加入代理商',
+    edit: '修改',
+    center: '个人中心'
+  },
   errorCode: {
     41200: '查询数据异常',
     41201: '服务运行异常',
