@@ -82,6 +82,7 @@ export default {
       let { path, name, query, params } = this.tabList.find(v => v.tabId === tabInfo.name)
       if (path === this.$route.path) return
       // 路由跳转, 带上tabId防止有自定义的tabId
+      delete params.refresh
       let tempParams = { ...params }
       tempParams.tabId = tabInfo.name
       this.$router.push({
