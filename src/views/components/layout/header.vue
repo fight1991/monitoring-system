@@ -28,7 +28,7 @@
           <!-- <span>{{userInfo.user || ''}}</span> -->
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="user">{{'个人中心'}}</el-dropdown-item>
+          <el-dropdown-item command="user">{{$t('user.center')}}</el-dropdown-item>
           <el-dropdown-item command="logout" divided>{{$t('login.goOut')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

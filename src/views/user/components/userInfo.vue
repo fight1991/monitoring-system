@@ -1,16 +1,16 @@
 <template>
   <section>
     <el-row>
-      <div class="col">用户名</div>
+      <div class="col">{{$t('login.username')}}</div>
       <div class="col">{{username}}</div>
     </el-row>
     <el-row>
-      <div class="col">密码</div>
+      <div class="col">{{$t('login.pw')}}</div>
       <div class="col">{{'***********'}}</div>
-      <div class="col edit" @click="pwVisible=true">修改</div>
+      <div class="col edit" @click="pwVisible=true">{{$t('user.edit')}}</div>
     </el-row>
     <el-dialog
-      title="修改密码"
+      :title="$t('user.edit')+$t('login.pw')"
       :modal-append-to-body="false"
       :visible.sync="pwVisible">
       <div class="flex-center">

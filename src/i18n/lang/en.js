@@ -301,6 +301,16 @@ export default {
     gridConsumption2: 'ConsumptionYield2',
     loads: 'LoadYield'
   },
+  user: {
+    info: 'User Info',
+    account: 'Account',
+    type: 'Role',
+    code: 'Get invitation code',
+    installer: 'Become an installer',
+    agent: 'Join an agent',
+    edit: 'Edit',
+    center: 'User profile'
+  },
   errorCode: {
     41200: 'Query data failed',
     41201: 'Server exception',

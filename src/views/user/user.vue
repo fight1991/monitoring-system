@@ -11,11 +11,11 @@
             :default-active="componentId">
             <el-menu-item index="user-info">
               <i class="iconfont icon-person-info"></i>
-              <span slot="title">个人资料</span>
+              <span slot="title">{{$t('user.info')}}</span>
             </el-menu-item>
             <el-menu-item index="account">
               <i class="iconfont icon-account-set"></i>
-              <span slot="title">账号管理</span>
+              <span slot="title">{{$t('user.account')}}</span>
             </el-menu-item>
           </el-menu>
         </div>
