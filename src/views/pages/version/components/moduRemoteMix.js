@@ -17,11 +17,11 @@ export default {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          width: 130
+          width: 150
         },
         {
           label: 'plant.datacolType',
-          prop: 'modelType',
+          prop: 'moduleType',
           checked: true,
           width: 130
         },
@@ -35,7 +35,7 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          width: 110
+          width: 140
         },
         {
           label: 'invupgrade.invmodel',
