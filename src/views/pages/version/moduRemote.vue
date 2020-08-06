@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     sns () {
-      return this.selection.map(v => v.deviceSN)
+      return this.selection.map(v => v.moduleSN)
     }
   },
   created () {
