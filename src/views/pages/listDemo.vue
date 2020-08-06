@@ -43,7 +43,7 @@
           <el-button size="mini" icon="el-icon-delete">批量发布</el-button>
           <el-button size="mini" icon="el-icon-delete">批量删除</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
         </common-table>
         <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
@@ -101,9 +101,6 @@ export default {
     },
     search () {
 
-    },
-    getSelection (select) {
-      this.selection = []
     },
     // 获取列表
     async getList (pagination) {

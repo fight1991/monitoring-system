@@ -56,11 +56,11 @@
 <script>
 /**
  *  @param :
- *  1. clearSelection --- 如果传过来的值是true时,清空所有选项,然后会自动改变父组件的值为false
  *  2. tableList -- 表格数据列表
  *  3. tableHeadData -- 表格表头数据
  *  4. selectBox --- 是否显示勾选框
  *  5. border --- 是否显示边框
+ *  6. select --- 向父组件传递选项值
  *  7. showNum -- 是否显示序号
  *  9. selectSingle -- 表格是否为单选
  *  10. tableHeight -- 表格高度 如果传入Height 定高, 否则自动设置成最大高
@@ -95,6 +95,12 @@ export default {
       type: Boolean,
       default: () => {
         return false
+      }
+    },
+    select: {
+      type: Array,
+      default: () => {
+        return []
       }
     },
     checked: {
@@ -148,10 +154,10 @@ export default {
     }
   },
   watch: {
-    clearSelection: function (newData) {
-      if (typeof newData === 'boolean' && newData) {
-        newData && this.$refs['commonTable'].clearSelection()
-        this.$emit('update:clearSelection', false)
+    select: function (newData) {
+      if (newData && newData.length === 0) {
+        this.selection = []
+        this.$refs['commonTable'] && this.$refs['commonTable'].clearSelection()
       }
     }
   },
@@ -168,7 +174,7 @@ export default {
       } else {
         this.selection = selection
       }
-      this.$emit('select', selection, row)
+      this.$emit('update:select', selection)
     },
     // 勾选选择框
     selectAllBox (selection) {
@@ -178,7 +184,7 @@ export default {
       } else {
         this.selection = selection
       }
-      this.$emit('select', this.selection)
+      this.$emit('update:select', this.selection)
     },
     // 点击表格行
     selectRow (row) {
@@ -192,7 +198,7 @@ export default {
           this.$refs['commonTable'].clearSelection()
           this.$refs['commonTable'].toggleRowSelection(row, true)
         }
-        this.$emit('select', this.selection)
+        this.$emit('update:select', this.selection)
         return
       }
       if (index > -1) {
@@ -203,7 +209,7 @@ export default {
         this.$refs['commonTable'].toggleRowSelection(row, true)
         this.selection.push(row)
       }
-      this.$emit('select', this.selection)
+      this.$emit('update:select', this.selection)
     },
     // 定义表头溢出省略号
     renderHead (h, { column }) {
