@@ -43,7 +43,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:moduleStatus="{row}">
             <i class="el-icon-success" v-show="row.moduleStatus==1"></i>
             <i class="el-icon-error" v-show="row.moduleStatus==2"></i>
@@ -60,7 +60,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="refreshList" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="search" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="module"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="module" :taskId="taskId"></updetail-dialog>
   </section>
@@ -121,9 +121,7 @@ export default {
     search () {
       this.currentPage = 1
       this.getList(this.pagination)
-    },
-    getSelection (select) {
-      this.selection = select
+      this.selection = []
     },
     // 获取列表
     async getList (pagination) {
@@ -145,10 +143,6 @@ export default {
     openUpdetailDialog (id) {
       this.updetailVisible = true
       this.taskId = id
-    },
-    refreshList () {
-      this.search()
-      this.selection = []
     }
   }
 }

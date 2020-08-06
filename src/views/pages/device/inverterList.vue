@@ -63,7 +63,7 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="inverterTableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="inverterTableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
@@ -148,9 +148,6 @@ export default {
     this.getStatusAll()
   },
   methods: {
-    getSelection (select) {
-      this.selection = select
-    },
     resetSearchForm () {
       this.searchForm = {
         status: 0,
@@ -168,6 +165,7 @@ export default {
     },
     search () {
       this.getInverterList(this.defaultPage)
+      this.selection = []
     },
     goToDetail (page, id) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
