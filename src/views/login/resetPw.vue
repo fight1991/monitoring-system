@@ -1,5 +1,6 @@
 <template>
   <div class="login login-register">
+    <slot></slot>
     <div class="form">
       <el-form ref="dataForm" :model="dataForm" label-position="top" :rules="loginRules">
         <el-row>

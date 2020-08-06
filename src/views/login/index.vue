@@ -24,11 +24,12 @@
       </div>
     </div>
     <div class="content">
-      <div class="keda-logo"><img :src="kedaLogo" alt=""></div>
       <div class="invert"></div>
       <transition name="zoom">
         <keep-alive>
-          <component :is="pageFlag" @toggleStatus="toggleStatus"></component>
+          <component :is="pageFlag" @toggleStatus="toggleStatus">
+            <div class="keda-logo"><img :src="kedaLogo" alt=""></div>
+          </component>
         </keep-alive>
       </transition>
     </div>
@@ -200,10 +201,6 @@ export default {
       display: flex;
       align-items: center;
       .keda-logo {
-        width: 400px;
-        position: absolute;
-        top: 0;
-        right: 15%;
         img {
           width: 100%;
         }
@@ -274,14 +271,14 @@ export default {
     }
   }
 @media only screen and(max-width:1080px) {
-  .login, .keda-logo{
+  .login {
     width: 380px!important;
     right: 5%;
   }
 }
   // 兼容手机端
 @media only screen and(max-width:768px) {
-  .login, .keda-logo{
+  .login {
     width: calc(100% - 20px)!important;
     margin: 0 10px;
     right: 0!important;
@@ -291,13 +288,13 @@ export default {
   }
 }
 @media only screen and(min-width:1080px) {
-  .login, .keda-logo{
+  .login {
     width: 480px!important;
     right: 5%!important;
   }
 }
 @media only screen and(min-width:1400px) {
-  .login, .keda-logo{
+  .login {
     width: 480px!important;
     right: 10%!important;
   }
