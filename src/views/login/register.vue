@@ -66,7 +66,7 @@
       :modal-append-to-body="false"
       :visible.sync="agreeVisible">
       <div class="iframe-view" v-loading="loading" :style="{'height': dialogH + 'px' }">
-        <iframe  @load="load" src="http://8.209.116.72/i18n/zh_CN/UserAgreement.html" frameborder="0" height="100%" width="100%"></iframe>
+        <iframe  @load="load" :src="agreeSrc" frameborder="0" height="100%" width="100%"></iframe>
       </div>
     </el-dialog>
   </div>
@@ -82,6 +82,7 @@ export default {
   mixins: [mixins],
   data () {
     return {
+      agreeSrc: '',
       dialogH: window.innerHeight - 100,
       agreeVisible: false,
       loading: false,
@@ -112,6 +113,8 @@ export default {
     window.addEventListener('resize', () => {
       this.dialogH = window.innerHeight - 100
     })
+    let vers = process.env.VUE_APP_VERSION === 'inside' ? 'zh_CN' : 'en'
+    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${vers}/UserAgreement.html`
   },
   beforeDestroy () {},
   methods: {
