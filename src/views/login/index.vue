@@ -201,6 +201,7 @@ export default {
       display: flex;
       align-items: center;
       .keda-logo {
+        margin-bottom: 10px;
         img {
           width: 100%;
         }
