@@ -1,7 +1,7 @@
 <template>
     <div class="flow-box" v-if="dot">
       <!-- 并网机动画 -->
-      <div class="flex" v-if="type==0">
+      <div class="flex" v-if="flowType==1">
         <div class="circle-line box-left">
           <div class="pv icon-pv"></div>
           <div class="inverter icon-inverter"></div>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <!-- AC单相储能机动画 -->
-      <div class="flex" v-if="type==1">
+      <div class="flex" v-if="flowType==3">
         <div class="circle-line box-left">
           <div class="pv icon-battery"></div>
           <div class="inverter icon-inverter"></div>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <!-- hybrid储能机动画 -->
-      <div class="flex hybrid" v-if="type==2">
+      <div class="flex hybrid" v-if="flowType==2">
         <div class="circle-line box-left">
           <div class="pv icon-pv"></div>
           <div class="inverter icon-inverter"></div>
@@ -76,8 +76,8 @@ export default {
     pvValue: {
       default: 0
     },
-    type: {
-      default: 0 // 0 并网机; 1 AC单相储能机 2 hybrid储能机;
+    flowType: {
+      default: 1 // 1 并网机; 2 hybrid储能机; 3 AC单相储能机
     }
   },
   created () {},
