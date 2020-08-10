@@ -39,7 +39,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item :label="$t('plant.address')" prop="details.address">
-                    <el-input ref="place-map" placeholder="请输入" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address" clearable></el-input>
+                    <el-input ref="place-map" :placeholder="$t('common.enter')" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address" clearable></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
