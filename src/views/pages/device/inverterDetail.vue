@@ -281,11 +281,12 @@ export default {
       if (result && result.length > 0) {
         let temp = []
         result.forEach((v, i) => {
-          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
+          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value), v.unit])
           temp.push({
             symbol: 'none',
             name: v.variable,
             data: tempData,
+            unit: v.unit,
             type: 'line',
             markPoint: {
               data: [

@@ -19,7 +19,7 @@ export default {
             let res = ''
             params.forEach(v => {
               !headLabel && (headLabel = formatDate(v.axisValue, 'HH:mm:ss MM-dd'))
-              res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1] + 'kW'
+              res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1] + v.data[2]
             })
             return headLabel + res
           }
@@ -31,7 +31,7 @@ export default {
           }
         },
         yAxis: {
-          name: 'kW',
+          name: '',
           type: 'value',
           splitLine: {
             lineStyle: {
