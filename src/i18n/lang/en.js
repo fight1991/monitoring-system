@@ -299,7 +299,11 @@ export default {
     feedin2: 'Feed-inYield2',
     gridConsumption: 'ConsumptionYield1',
     gridConsumption2: 'ConsumptionYield2',
-    loads: 'LoadYield'
+    loads: 'LoadYield',
+    chargeEnergyToTal: 'Charge',
+    dischargeEnergyToTal: 'Discharge',
+    batChargePower: 'Charge power',
+    batDischargePower: 'Discharge power'
   },
   user: {
     info: 'User Info',

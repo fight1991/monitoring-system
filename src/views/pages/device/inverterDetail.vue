@@ -162,8 +162,9 @@ export default {
     }
   },
   created () {
-    this.deviceId = this.$route.query.id
-    this.flowType = this.$route.query.flowType
+    let { id, flowType } = this.$route.query
+    this.deviceId = id
+    this.flowType = flowType
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
@@ -176,8 +177,14 @@ export default {
     }
   },
   mounted () {
-    this.$refs.lineBar.getLineData()
-    this.$refs.lineBar.getBarData()
+    let lineParams = null
+    let barParams = null
+    if (this.flowType !== 1) { // 电池业务
+      lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
+      barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
+    }
+    this.$refs.lineBar.getLineData('', lineParams)
+    this.$refs.lineBar.getBarData('', barParams)
   },
   watch: {
     wsIsOpen (newData) {

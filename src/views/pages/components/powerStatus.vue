@@ -25,9 +25,9 @@
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
         <div class="battery-box">
           <div class="battery-img">
-            <div class="percent-bg" :style="{'width': bPercent + '%'}"></div>
+            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}"></div>
           </div>
-          <div class="item battery-value">{{bPercent + '%'}}</div>
+          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
           <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{batteryInfo.power || 0}}</span>W</div>
           <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
           <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status)}}</span></div>

@@ -6,7 +6,7 @@ export default {
         power: { // 折线图表
           legend: {
             type: 'plain',
-            data: ['generationPower', 'feedinPower', 'loadsPower'],
+            data: [],
             bottom: 10,
             formatter: name => {
               return this.$t('chart.' + name)
