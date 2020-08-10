@@ -1,7 +1,7 @@
 <template>
     <div class="flow-box" v-if="dot">
       <!-- 并网机动画 -->
-      <div class="flex" v-if="type==0">
+      <div class="flex" v-if="flowType==1">
         <div class="circle-line box-left">
           <div class="pv icon-pv"></div>
           <div class="inverter icon-inverter"></div>
@@ -19,42 +19,44 @@
         </div>
       </div>
       <!-- AC单相储能机动画 -->
-      <div class="flex" v-if="type==1">
+      <div class="flex" v-if="flowType==3">
         <div class="circle-line box-left">
           <div class="pv icon-battery"></div>
           <div class="inverter icon-inverter"></div>
           <!-- 从电池流向负载 -->
-          <div class="dot1" v-show="false"></div>
+          <div class="dot1" v-show="path==1 || path==3 "></div>
           <!-- 从电池流向电网 -->
-          <div class="dot5" v-show="false"></div>
+          <div class="dot3" v-show="path==1 || path==2"></div>
         </div>
         <div class="circle-line box-right">
           <!-- 从电网流向负载 -->
-          <div class="dot2" v-show="false"></div>
+          <div class="dot2" v-show="path==4"></div>
           <!-- 从电网流向电池 -->
-          <div class="dot4" v-show="false"></div>
+          <div class="dot4" v-show="path==5"></div>
           <div class="grid icon-grid"></div>
           <div class="load icon-load"></div>
         </div>
       </div>
       <!-- hybrid储能机动画 -->
-      <div class="flex hybrid" v-if="type==2">
+      <div class="flex hybrid" v-if="flowType==2">
         <div class="circle-line box-left">
           <div class="pv icon-pv"></div>
           <div class="inverter icon-inverter"></div>
           <!-- 从pv流向电池 -->
-          <div class="dot1" v-show="false"></div>
+          <div class="dot1" v-show="path==1"></div>
           <!-- 从电池流向电网 -->
-          <div class="dot5" v-show="false"></div>
+          <div class="dot5" v-show="path==2"></div>
+          <!-- 从电池流向负载 -->
+          <div class="dot7" v-show="path==3"></div>
         </div>
         <div class="circle-line box-center">
           <div class="load icon-battery"></div>
         </div>
         <div class="circle-line box-right">
           <!-- 从电网流向负载 -->
-          <div class="dot2" v-show="false"></div>
+          <div class="dot2" v-show="path==5"></div>
           <!-- 从电网流向电池 -->
-          <div class="dot6" v-show="false"></div>
+          <div class="dot6" v-show="path==4"></div>
           <div class="grid icon-grid"></div>
           <div class="load icon-load"></div>
         </div>
@@ -76,8 +78,8 @@ export default {
     pvValue: {
       default: 0
     },
-    type: {
-      default: 0 // 0 并网机; 1 AC单相储能机 2 hybrid储能机;
+    flowType: {
+      default: 1 // 1 并网机; 2 hybrid储能机; 3 AC单相储能机
     }
   },
   created () {},
@@ -144,7 +146,7 @@ export default {
     text-align: center;
     transform: translateX(-10px)
   }
-  .dot1,.dot2,.dot3, .dot4, .dot5, .dot6{
+  .dot1,.dot2,.dot3, .dot4, .dot5, .dot6, .dot7{
     position: absolute;
     width: 12px;
     height: 12px;
@@ -164,7 +166,7 @@ export default {
     right: 0;
     transform: translate(50%,-50%);
   }
-  .dot5 {
+  .dot5, .dot7 {
     right: 0;
     bottom: 0;
     transform: translate(50%, 50%);
@@ -186,6 +188,9 @@ export default {
   }
   .dot6 {
     animation: dot6 2s linear infinite;
+  }
+  .dot7 {
+    animation: dot7 2s linear infinite;
   }
 }
 .hybrid {
@@ -280,6 +285,24 @@ export default {
   100% {
     right: 200%;
     top: 100%;
+  }
+}
+@keyframes dot7 {
+  0% {
+    right: 0;
+    bottom: 0;
+  }
+  33% {
+    bottom: 100%;
+    right: 0;
+  }
+  66% {
+    right: -100%;
+    bottom: 100%;
+  }
+  100% {
+    right: -100%;
+    bottom: 0;
   }
 }
 </style>
