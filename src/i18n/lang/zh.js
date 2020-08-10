@@ -299,7 +299,11 @@ export default {
     feedin2: '馈网2总电量',
     gridConsumption: '用电1总电量',
     gridConsumption2: '用电2总电量',
-    loads: '负载总电量'
+    loads: '负载总电量',
+    chargeEnergyToTal: '充电电量',
+    dischargeEnergyToTal: '放电电量',
+    batChargePower: '充电功率',
+    batDischargePower: '放电功率'
   },
   user: {
     info: '用户信息',

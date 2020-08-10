@@ -20,17 +20,17 @@
       </el-card>
     </div>
     <!-- 储能电池状态 -->
-    <div class="right">
+    <div class="right" v-if="flowType!=1">
       <el-card shadow="never">
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
         <div class="battery-box">
           <div class="battery-img">
-            <div class="percent-bg" :style="{'width': bPercent + '%'}"></div>
+            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}"></div>
           </div>
-          <div class="item battery-value">{{bPercent + '%'}}</div>
-          <div class="item battery-power">{{$t('common.power')}}: <span class="num">10</span>W</div>
+          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
+          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{batteryInfo.power || 0}}</span>W</div>
           <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
-          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{$t('common.offline')}}</span></div>
+          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status)}}</span></div>
         </div>
       </el-card>
     </div>
@@ -42,7 +42,9 @@ export default {
   components: { incomeItem },
   data () {
     return {
-      bPercent: 40
+      bPercent: 40,
+      batteryInfo: {},
+      flowType: 1
     }
   },
   props: {
@@ -66,8 +68,35 @@ export default {
       return 0
     }
   },
+  created () {
+    let { id, flowType } = this.$route.query
+    this.flowType = flowType
+    if (flowType > 1) { // 包含电池业务
+      this.getBaterryInfo(id)
+    }
+  },
   methods: {
-
+    // 获取电池设备信息
+    async getBaterryInfo (id) {
+      let { result } = await this.$axios({
+        url: '/device/battery/info',
+        data: {
+          id
+        }
+      })
+      this.batteryInfo = result || {}
+    },
+    translateStatus (val) {
+      //  -1离线 0休眠 1工作
+      switch (val) {
+        case 0:
+          return this.$t('common.sleep')
+        case 1:
+          return this.$t('common.run')
+        default:
+          return this.$t('common.offline')
+      }
+    }
   }
 }
 </script>

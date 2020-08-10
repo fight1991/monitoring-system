@@ -139,7 +139,7 @@ export default {
       return i
     },
     // 折现图表数据功率
-    async getLineData (id) {
+    async getLineData (id, variables) {
       this.chartLoading.power = true
       let params = {}
       if (this.type === 'plant') {
@@ -153,7 +153,7 @@ export default {
         method: 'post',
         data: {
           ...params,
-          variables: ['generationPower', 'feedinPower', 'loadsPower'],
+          variables: variables || ['generationPower', 'feedinPower', 'loadsPower'],
           timespan: 'day',
           beginDate: {
             year: new Date(this.powerDate).getFullYear(),
@@ -191,7 +191,7 @@ export default {
       return true
     },
     // 柱状图表数据;电量统计
-    async getBarData (id) {
+    async getBarData (id, variables) {
       // let dateArr = this.dateValue.split('-')
       this.chartLoading.elec = true
       let params = {}
@@ -207,7 +207,7 @@ export default {
         data: {
           ...params,
           reportType: this.reportType[this.dateType],
-          variables: ['feedin', 'generation', 'loads', 'gridConsumption'],
+          variables: variables || ['feedin', 'generation', 'loads', 'gridConsumption'],
           queryDate: {
             year: new Date(this.dateValue).getFullYear(),
             month: new Date(this.dateValue).getMonth() + 1,
