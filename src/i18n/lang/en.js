@@ -47,6 +47,7 @@ export default {
     remark: 'Remark'
   },
   common: {
+    enter: 'please enter',
     refresh: 'Refresh page',
     noData: 'No Data',
     tabOp: 'Tab operations',
