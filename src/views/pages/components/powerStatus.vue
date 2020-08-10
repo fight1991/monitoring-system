@@ -60,6 +60,8 @@ export default {
   },
   computed: {
     powerPercent () {
+      console.log(this.capacity, this.power)
+      if (this.power < 0) return 0
       if (this.capacity > 0) {
         let tempres = Math.ceil((this.power / this.capacity) * 100)
         if (tempres > 100) return 100

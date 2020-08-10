@@ -376,9 +376,9 @@ export default {
         if (this.flowType === 1) {
           tempPath = this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, feedinPower.value, gridConsumptionPower.value)
         } else if (this.flowType === 2) {
-          this.flowPth = this.getFlowPathFor2(pvValue, generationPower.value, feedinPower.value, invBatPower.value, meterPower.value)
+          tempPath = this.getFlowPathFor2(pvValue, generationPower.value, feedinPower.value, invBatPower.value, meterPower.value)
         } else {
-          this.flowPth = this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
+          tempPath = this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
         }
         this.flowPath = tempPath
       }
