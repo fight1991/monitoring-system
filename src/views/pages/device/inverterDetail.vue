@@ -368,10 +368,10 @@ export default {
         }
         if (this.flowType === 1) {
           tempPath = this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, feedinPower.value, gridConsumptionPower.value)
-        } else if (flowType === 2) {
-          this.flowPth = this.this.getFlowPathFor2(pvValue, generationPower.value, feedinPower.value, invBatPower.value, meterPower.value)
+        } else if (this.flowType === 2) {
+          this.flowPth = this.getFlowPathFor2(pvValue, generationPower.value, feedinPower.value, invBatPower.value, meterPower.value)
         } else {
-          this.flowPth = this.this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
+          this.flowPth = this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
         }
         this.flowPath = tempPath
       }
@@ -394,7 +394,24 @@ export default {
     },
     // 计算得出hybrid储能机流向图
     getFlowPathFor2 (pvPower, generationPower, feedinPower, invBatPower, meterPower) {
-
+      let flag0 = pvPower > 0 && invBatPower < 0
+      let flag1 = invBatPower > 0 && generationPower > 0 && meterPower && (feedinPower / meterPower) < 0
+      let flag2 = invBatPower > 0 && generationPower > 0 && (generationPower + meterPower) > 0
+      let flag3 = meterPower && (feedinPower / meterPower) > 0 && generationPower < 0 && invBatPower < 0
+      let flag4 = meterPower && (feedinPower / meterPower) > 0 && (generationPower + meterPower) > 0
+      if (flag0) {
+        return 1 // dot1显示
+      } else if (flag1) {
+        return 2 // dot5显示
+      } else if (flag2) {
+        return 3 // dot7显示
+      } else if (flag3) {
+        return 4 // dot6显示
+      } else if (flag4) {
+        return 5 // dot2 显示
+      } else {
+        return 0
+      }
     },
     // 计算得出ac单相储能机流向图
     getFlowPathFor3 (generationPower, meterPower, invBatPower) {
