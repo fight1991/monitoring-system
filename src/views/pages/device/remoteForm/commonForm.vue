@@ -12,7 +12,7 @@
           </template>
           <!-- switch组件 -->
           <template v-else-if="ele.elemType.uiType === 'switch'">
-            <el-form-item :label="ele.name">
+            <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
               <el-switch
                 v-model="dataForm[ele.key]"
                 active-color="#13ce66"
@@ -112,8 +112,8 @@ export default {
           trigger: 'blur'
         }, {
           type: 'number',
-          min: 3,
-          max: 6,
+          min: ele.range.lo,
+          max: ele.range.hi,
           message: 'it is valid',
           trigger: 'blur'
         }]

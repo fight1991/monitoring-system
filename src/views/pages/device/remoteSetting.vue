@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main bg-c">
+  <section class="sys-main bg-c" v-setH:min="setDivH">
     <div class="remote-set-tab">
       <el-tabs type="card" tab-position="left" v-model="tabName">
         <el-tab-pane v-for="item in tabList" :key="item.key" :label="item.name" :name="item.key">
