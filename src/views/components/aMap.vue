@@ -78,7 +78,6 @@ export default {
         }
         let script = document.createElement('script')
         script.type = 'text/javascript'
-        script.setAttribute('crossorigin', true)
         script.src =
           'https://webapi.amap.com/maps?v=1.4.15&key=' + this.ak + '&callback=onAMapCallback'
         script.onerror = () => {
