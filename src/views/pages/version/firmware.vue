@@ -12,7 +12,7 @@
             <el-col :span="4">
               <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devicetype')">
-                  <el-option v-for="item in modelTypeList" :label="item.label" :value="item.value" :key="item.value"></el-option>
+                  <el-option v-for="item in modelTypeList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -26,7 +26,7 @@
             <el-col :span="4">
               <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.firmwareStatus" clearable :placeholder="$t('firmware.status')">
-                  <el-option v-for="item in statusList" :label="item.label" :value="item.value" :key="item.value"></el-option>
+                  <el-option v-for="item in statusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>

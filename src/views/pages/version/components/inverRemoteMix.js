@@ -16,38 +16,32 @@ export default {
         {
           label: 'common.invertSn',
           prop: 'deviceSN',
-          checked: true,
-          width: 140
+          checked: true
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true,
-          width: 140
+          checked: true
         },
         {
           label: 'invupgrade.invmodel',
           prop: 'deviceType',
-          checked: true,
-          width: 120
+          checked: true
         },
         {
           label: 'invupgrade.master',
           prop: 'master',
-          checked: true,
-          width: 100
+          checked: true
         },
         {
           label: 'invupgrade.slave',
           prop: 'slave',
-          checked: true,
-          width: 100
+          checked: true
         },
         {
           label: 'invupgrade.arm',
           prop: 'manager',
-          checked: true,
-          width: 100
+          checked: true
         },
         {
           label: 'plant.datacolType',
@@ -58,14 +52,12 @@ export default {
         {
           label: 'invupgrade.dataversion',
           prop: 'moduleVersion',
-          width: 120,
           checked: true
         },
         {
           label: 'invupgrade.invstatus',
           prop: 'deviceStatus',
           checked: true,
-          width: 100,
           slotName: 'deviceStatus',
           fixed: 'right'
         }

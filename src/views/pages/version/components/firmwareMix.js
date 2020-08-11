@@ -8,28 +8,28 @@ export default {
       ],
       modelTypeList: [ // 设备类型
         {
-          label: '全部',
+          label: 'common.all',
           value: 0
         }, {
-          label: '逆变器',
+          label: 'common.invert',
           value: 1
         }, {
-          label: '模块',
+          label: 'common.module',
           value: 2
         }, {
-          label: '电池',
+          label: 'common.battery',
           value: 3
         }
       ],
       statusList: [ // 固件状态
         {
-          label: '全部',
+          label: 'common.all',
           value: 0
         }, {
-          label: '测试',
+          label: 'common.test',
           value: 1
         }, {
-          label: '发布',
+          label: 'common.rel',
           value: 2
         }
       ],

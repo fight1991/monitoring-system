@@ -57,6 +57,9 @@ export default {
     closeAll: 'Close all',
     closeOther: 'Close others',
     weather: 'Weather',
+    invert: 'Inverter',
+    module: 'Dataloggor',
+    battery: 'Battery',
     invertSn: 'Inverter sn',
     alarmType: 'Error type',
     common: 'common',
@@ -119,7 +122,10 @@ export default {
     unbind: 'Unbind',
     signal: 'Signal',
     sunny: 'Sunny',
-    wuxi: 'Wuxi Jiangsu'
+    wuxi: 'Wuxi Jiangsu',
+    test: 'Test',
+    rel: 'Release',
+    selFile: 'Select the file'
   },
   login: {
     product: 'PRODUCTS',
@@ -247,7 +253,12 @@ export default {
     type: 'Vertion type',
     status: 'Approval status',
     uptime: 'Upload time',
-    firmwareName: 'Firmware Name'
+    firmwareName: 'Firmware name',
+    hexbin: 'Note: Hex, bin files can only be uploaded',
+    fileType: 'File type',
+    Types: 'Types',
+    proLine: 'Product line',
+    SoftType: 'SoftType'
   },
   invupgrade: {
     invmodel: 'Inverter type',
@@ -309,6 +320,7 @@ export default {
     info: 'User Info',
     account: 'Account',
     type: 'Role',
+    invCode: 'Invitation code',
     code: 'Get invitation code',
     installer: 'Become an installer',
     agent: 'Join an agent',
