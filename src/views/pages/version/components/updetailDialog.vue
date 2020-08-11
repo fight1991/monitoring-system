@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="'升级详情'"
+    :title="$t('invupgrade.upDetail')"
     :modal-append-to-body="false"
     @open="search"
     @close="closeDialog"
@@ -12,7 +12,7 @@
         <el-form-item>
           <el-row :gutter="15">
             <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? '逆变器sn' : '模块sn'"></el-input>
+              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? $t('common.invertSn') : $t('common.datacolSN') "></el-input>
             </el-col>
             <el-col :span="8" align="left">
               <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
@@ -50,19 +50,19 @@ export default {
       },
       tableHead: [
         {
-          label: '逆变器sn',
+          label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true
         }, {
-          label: '升级前版本',
+          label: 'invupgrade.preVer',
           prop: 'before',
           checked: true
         }, {
-          label: '升级后版本',
+          label: 'invupgrade.upVer',
           prop: 'after',
           checked: true
         }, {
-          label: '升级状态',
+          label: 'invupgrade.status',
           prop: 'status',
           checked: true
         }
