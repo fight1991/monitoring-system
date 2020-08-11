@@ -58,6 +58,9 @@ export default {
     closeAll: '关闭全部',
     closeOther: '关闭其他',
     weather: '天气',
+    invert: '逆变器',
+    module: '模块',
+    battery: '电池',
     invertSn: '逆变器sn',
     alarmType: '报错类型',
     common: '一般',
@@ -120,7 +123,10 @@ export default {
     unbind: '批量解绑',
     signal: '信号',
     sunny: '晴天',
-    wuxi: '江苏无锡'
+    wuxi: '江苏无锡',
+    test: '测试',
+    rel: '发布',
+    selFile: '选择文件'
   },
   login: {
     product: '产品',
@@ -248,7 +254,12 @@ export default {
     type: '版本类型',
     status: '审核状态',
     uptime: '上传时间',
-    firmwareName: '固件名称'
+    firmwareName: '固件名称',
+    hexbin: '注: 只能上传hex, bin文件',
+    fileType: '文件类型',
+    Types: '设备类别',
+    proLine: '产品系列',
+    SoftType: '软件类别'
   },
   invupgrade: {
     invmodel: '逆变器机型',
@@ -310,6 +321,7 @@ export default {
     info: '用户信息',
     account: '账号管理',
     type: '用户类型',
+    invCode: '邀请码',
     code: '获取邀请码',
     installer: '成为安装商',
     agent: '加入代理商',
