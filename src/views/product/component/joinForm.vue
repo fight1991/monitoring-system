@@ -20,7 +20,7 @@
             <el-option v-for="(item, index) in organList" :value="item" :key="'index' + index" :label="item"></el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="邀请码" prop="code" label-width="100px">
+        <el-form-item :label="$t('user.invCode')" prop="code" label-width="130px">
           <el-input v-model="dataForm.code" clearable></el-input>
         </el-form-item>
       </el-col>
@@ -31,7 +31,7 @@
             <el-option v-for="(item, index) in organList" :value="item" :key="'index' + index" :label="item"></el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="邀请码" prop="code" label-width="100px">
+        <el-form-item :label="$t('user.invCode')" prop="code" label-width="130px">
           <el-input v-model="dataForm.code" clearable></el-input>
         </el-form-item>
       </el-col>

@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="'导入'"
+    :title="$t('common.import')"
     :modal-append-to-body="false"
     @close="closeDialog"
     @open="getProductList"
@@ -15,54 +15,54 @@
           :on-change="beforeUpload"
           action="http://127.0.0.1">
           <el-row class="btn">
-            <el-button size="mini" type="primary">选择文件</el-button>
+            <el-button size="mini" type="primary">{{$t('common.selFile')}}</el-button>
           </el-row>
-          <div slot="tip" class="el-upload__tip">注: 只能上传hex, bin文件</div>
+          <div slot="tip" class="el-upload__tip">{{$t('firmware.hexbin')}}</div>
         </el-upload>
         <div class="file-name">{{fileList && fileList[0] && fileList[0].name}}</div>
       </el-row>
-      <el-form size="mini" ref="dataForm" :model="dataForm" :rules="rules" label-width="100px">
+      <el-form size="mini" ref="dataForm" :model="dataForm" :rules="rules" label-width="140px">
         <el-row>
           <el-col :span="22">
-            <el-form-item label="固件名称" prop="firmwareName">
+            <el-form-item :label="$t('firmware.firmwareName')" prop="firmwareName">
               <el-input v-model="dataForm.firmwareName" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="文件类型" prop="fileType">
+            <el-form-item :label="$t('firmware.fileType')" prop="fileType">
               <el-select v-model="dataForm.fileType" clearable style="width:100%">
                 <el-option v-for="item in fileTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="固件版本" prop="firmwareVersion">
+            <el-form-item :label="$t('navBar.firmware')" prop="firmwareVersion">
               <el-input v-model="dataForm.firmwareVersion" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="设备类别" prop="modelType">
+            <el-form-item :label="$t('firmware.Types')" prop="modelType">
               <el-select v-model="dataForm.modelType" clearable style="width:100%" @change="modelTypeChange">
-                <el-option v-for="item in deviceTypeList" :label="item.label" :value="item.value" :key="item.value"></el-option>
+                <el-option v-for="item in deviceTypeList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="产品系列" prop="productType">
+            <el-form-item :label="$t('firmware.proLine')" prop="productType">
               <el-select v-model="dataForm.productType" clearable style="width:100%" multiple>
                 <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="软件类别" prop="softType" :rules="{ required: dataForm.modelType==1, message: 'it is required', trigger: 'change' }">
+            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: dataForm.modelType==1, message: 'it is required', trigger: 'change' }">
               <el-select v-model="dataForm.softType" :disabled="dataForm.modelType!=1" clearable style="width:100%">
                 <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item label="备注">
+            <el-form-item :label="$t('join.remark')">
               <el-input type="textarea" clearable v-model="dataForm.note"></el-input>
             </el-form-item>
           </el-col>
@@ -99,9 +99,9 @@ export default {
         'manager'
       ],
       deviceTypeList: [ // 设备类型
-        { label: '逆变器', value: 1 },
-        { label: '模块', value: 2 },
-        { label: '电池', value: 3 }
+        { label: 'common.invert', value: 1 },
+        { label: 'common.module', value: 2 },
+        { label: 'common.battery', value: 3 }
       ],
       allList: [],
       rules: {
