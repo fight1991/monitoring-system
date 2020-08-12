@@ -30,7 +30,7 @@
           <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
           <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{batteryInfo.power || 0}}</span>W</div>
           <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
-          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status)}}</span></div>
+          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
         </div>
       </el-card>
     </div>
@@ -80,20 +80,24 @@ export default {
     // 获取电池设备信息
     async getBaterryInfo (id) {
       let { result } = await this.$axios({
-        url: '/device/battery/info',
+        url: '/v0/device/battery/info',
         data: {
           id
         }
       })
       this.batteryInfo = result || {}
     },
-    translateStatus (val) {
+    translateStatus (val, power) {
       //  -1离线 0休眠 1工作
       switch (val) {
         case 0:
           return this.$t('common.sleep')
         case 1:
-          return this.$t('common.run')
+          if (power > 0) {
+            return this.$t('common.reCharge')
+          } else {
+            return this.$t('common.disCharge')
+          }
         default:
           return this.$t('common.offline')
       }

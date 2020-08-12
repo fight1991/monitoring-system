@@ -114,7 +114,7 @@ export default {
           type: 'number',
           min: ele.range.lo,
           max: ele.range.hi,
-          message: 'it is valid',
+          message: 'it is invalid',
           trigger: 'blur'
         }]
       } else {

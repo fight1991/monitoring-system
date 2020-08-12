@@ -96,6 +96,8 @@ export default {
     all: '全部',
     status: '状态',
     run: '运行',
+    reCharge: '充电',
+    disCharge: '放电',
     sleep: '休眠',
     gPower: '发电功率',
     gCon: '并网功率',
