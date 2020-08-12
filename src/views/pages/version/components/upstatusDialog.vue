@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="'升级状态'"
+    :title="$t('invupgrade.status')"
     :modal-append-to-body="false"
     @open="search"
     @close="$emit('update:visible', false)"
@@ -39,27 +39,27 @@ export default {
       },
       tableHead: [
         {
-          label: '任务名',
+          label: 'invupgrade.taskName',
           prop: 'taskName',
           checked: true
         }, {
-          label: '任务总数',
+          label: 'invupgrade.total',
           prop: 'total',
           checked: true
         }, {
-          label: '升级完成数量',
+          label: 'invupgrade.completed',
           prop: 'upgraded',
           checked: true
         }, {
-          label: '升级中数量',
+          label: 'invupgrade.upgrading',
           prop: 'upgrading',
           checked: true
         }, {
-          label: '升级失败数量',
+          label: 'invupgrade.failed',
           prop: 'failed',
           checked: true
         }, {
-          label: '操作',
+          label: 'common.operation',
           prop: 'op',
           slotName: 'op',
           checked: true
