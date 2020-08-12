@@ -430,7 +430,7 @@ export default {
         } else {
           return 2 // 只有dot3显示
         }
-      } else if (flag1 && meterPower > 0) {
+      } else if (flag1 && meterPower >= 0) {
         return 3 // dot1显示
       } else if (meterPower > 0 && (generationPower + meterPower) > 0) {
         return 4 // dot2显示
