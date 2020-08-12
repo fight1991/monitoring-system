@@ -95,7 +95,7 @@ router.beforeEach(async (to, from, next) => {
 })
 // 路由跳转之后
 router.afterEach((to, from) => {
-  document.title = to.meta.title || 'FoxESS'
+  document.title = to.meta.title || 'PV-HUB'
   let tabId = to.query.tabId || to.params.tabId || to.name
   let title = to.query.tabTitle || to.params.tabTitle || to.meta.title
   if (store.state.tabView && to.meta.component) {
