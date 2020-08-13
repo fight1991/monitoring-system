@@ -90,12 +90,12 @@
   </section>
 </template>
 <script>
-import todayAbnormal from '@/views/pages/plant/todayAbnormal'
+import todayAbnormal from '@/views/pages/components/todayAbnormal'
 import deviceStatus from '@/views/pages/components/powerStatus'
-import lineBar from '@/views/pages/components/lineBar/lineBar'
-import flowDialog from './flowDialog'
-import flowAnimate from './flowAnimate'
-import lineChart from './lineChart'
+import lineBar from '@/views/pages/components/lineBar'
+import flowDialog from './components/flowDialog'
+import flowAnimate from './components/flowAnimate'
+import lineChart from './mixins/lineChart'
 import storage from '@/util/storage'
 import { isJSON, formatDate, getTimespan } from '@/util'
 export default {
@@ -430,7 +430,7 @@ export default {
         } else {
           return 2 // 只有dot3显示
         }
-      } else if (flag1 && meterPower > 0) {
+      } else if (flag1 && meterPower >= 0) {
         return 3 // dot1显示
       } else if (meterPower > 0 && (generationPower + meterPower) > 0) {
         return 4 // dot2显示
@@ -444,7 +444,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../components/plantInvert';
+@import '../components/common/plantInvert';
 .flow-icon-more {
   font-size: 16px;
   font-weight: bold;
