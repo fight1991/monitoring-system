@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import resetPw from '@/views/login/resetPw'
+import resetPw from '@/views/login/components/resetPw'
 export default {
   name: 'user-info',
   components: { resetPw },

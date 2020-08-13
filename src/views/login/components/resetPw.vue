@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import mixins from './mixin'
+import mixins from '../mixin'
 import md5 from 'js-md5'
-import valid from './validate'
-import link from './link'
+import valid from '../common/validate'
+import link from '../common/link'
 export default {
   name: 'resetPw',
   mixins: [mixins],
@@ -127,7 +127,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  @import './public';
+  @import '../common/public';
   .find-btn {
     padding-top: 5px;
   }

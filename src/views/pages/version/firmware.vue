@@ -61,7 +61,7 @@
 </template>
 <script>
 import importDialog from './components/importDialog'
-import firmwareMix from './components/firmwareMix'
+import firmwareMix from './mixins/firmwareMix'
 export default {
   components: {
     importDialog

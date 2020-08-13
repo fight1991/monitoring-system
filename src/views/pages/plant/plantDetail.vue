@@ -105,10 +105,10 @@
   </section>
 </template>
 <script>
-import todayAbnormal from '@/views/pages/plant/todayAbnormal'
-import deviceList from './deviceList'
 import plantStatus from '@/views/pages/components/powerStatus'
-import lineBar from '@/views/pages/components/lineBar/lineBar'
+import lineBar from '@/views/pages/components/lineBar'
+import todayAbnormal from '@/views/pages/components/todayAbnormal'
+import deviceList from './deviceList'
 import { decodeData } from '@/util'
 export default {
   components: {
@@ -333,7 +333,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../components/plantInvert';
+@import '../components/common/plantInvert';
 .progress-container {
   height: 200px;
   display: flex;

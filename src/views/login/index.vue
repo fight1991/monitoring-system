@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import login from './login'
-import register from './register'
-import resetPw from './resetPw'
+import login from './components/login'
+import register from './components/register'
+import resetPw from './components/resetPw'
 import { judgeClient } from '@/util'
-import erweima from './qrcode/erweima'
+import erweima from './components/erweima'
 export default {
   name: 'router-login',
   components: {

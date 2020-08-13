@@ -10,7 +10,7 @@
   </section>
 </template>
 <script>
-import commonForm from './remoteForm/commonForm'
+import commonForm from './components/commonForm'
 export default {
   components: { commonForm },
   data () {

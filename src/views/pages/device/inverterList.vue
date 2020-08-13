@@ -99,7 +99,7 @@
   </section>
 </template>
 <script>
-import inverterTableHead from './inverterTableHead'
+import inverterTableHead from './mixins/inverterTableHead'
 export default {
   mixins: [inverterTableHead],
   data () {

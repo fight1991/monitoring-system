@@ -32,10 +32,10 @@
 <script>
 import md5 from 'js-md5'
 import { base64 } from '@/util'
-import mixins from './mixin'
-import valid from './validate'
+import mixins from '../mixin'
+import valid from '../common/validate'
 import storage from '@/util/storage'
-import link from './link'
+import link from '../common/link'
 export default {
   name: 'login',
   mixins: [mixins],
@@ -131,7 +131,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  @import './public';
+  @import '../common/public';
   .find-btn {
     color: #3883c2;
     font-size: 14px;
