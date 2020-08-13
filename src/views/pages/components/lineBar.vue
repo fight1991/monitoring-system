@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import echartData from './echartData'
+import echartData from './mixins/echartData'
 import { formatDate, getTimespan } from '@/util'
 export default {
   mixins: [echartData],

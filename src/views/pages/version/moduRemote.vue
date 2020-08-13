@@ -66,8 +66,8 @@
   </section>
 </template>
 <script>
-import moduRemoteMix from './components/moduRemoteMix'
-import { module as eventBus } from './components/eventBus'
+import moduRemoteMix from './mixins/moduRemoteMix'
+import { module as eventBus } from './common/eventBus'
 import upgradeDialog from './components/modupgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'

@@ -82,7 +82,7 @@
   </section>
 </template>
 <script>
-import reportTableHead from './reportTableHead'
+import reportTableHead from './mixins/reportTableHead'
 import multiDownload from './multiDownload'
 export default {
   mixins: [reportTableHead],

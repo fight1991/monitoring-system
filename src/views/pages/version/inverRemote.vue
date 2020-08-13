@@ -81,8 +81,8 @@
   </section>
 </template>
 <script>
-import inverRemoteMix from './components/inverRemoteMix'
-import { device as eventBus } from './components/eventBus'
+import inverRemoteMix from './mixins/inverRemoteMix'
+import { device as eventBus } from './common/eventBus'
 import upgradeDialog from './components/iverupgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'

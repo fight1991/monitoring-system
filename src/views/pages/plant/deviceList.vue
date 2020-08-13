@@ -48,7 +48,7 @@
   </section>
 </template>
 <script>
-import deviceTableHead from './deviceTableHead'
+import deviceTableHead from './mixins/deviceTableHead'
 export default {
   mixins: [deviceTableHead],
   data () {

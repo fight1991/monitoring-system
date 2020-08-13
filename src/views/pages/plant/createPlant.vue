@@ -134,7 +134,7 @@
 <script>
 import gMap from '@/views/components/gMap'
 import aMap from '@/views/components/aMap'
-import mapMethods from './mapMethods'
+import mapMethods from './mixins/mapMethods'
 export default {
   mixins: [mapMethods],
   components: {
