@@ -111,7 +111,7 @@ export default {
     position: absolute;
     width: 85px;
     height: 85px;
-    background-image: url('../../../assets/sprite/sprite.png');
+    background-image: url('../../../../assets/sprite/sprite.png');
     // transform: translate(-50%,-50%) scale(.6);
     z-index: 99;
     background-color: #fff;

@@ -20,17 +20,24 @@
       </el-card>
     </div>
     <!-- 储能电池状态 -->
-    <div class="right" v-if="flowType!=1">
+    <div class="right" v-if="flowType>1 && batShow">
       <el-card shadow="never">
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
         <div class="battery-box">
           <div class="battery-img">
-            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}"></div>
+            <div class="header"></div>
+            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}">
+              <div class="percent-bg-copy">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+              </div>
+            </div>
           </div>
           <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
-          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{batteryInfo.power || 0}}</span>W</div>
+          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{toFixed(batteryInfo.power) || 0}}</span>kW</div>
           <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
-          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status)}}</span></div>
+          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
         </div>
       </el-card>
     </div>
@@ -56,6 +63,9 @@ export default {
     },
     capacity: {
       default: 0
+    },
+    batShow: {
+      default: true
     }
   },
   computed: {
@@ -71,8 +81,8 @@ export default {
   },
   created () {
     let { id, flowType } = this.$route.query
-    this.flowType = flowType
     if (flowType > 1) { // 包含电池业务
+      this.flowType = flowType
       this.getBaterryInfo(id)
     }
   },
@@ -80,20 +90,24 @@ export default {
     // 获取电池设备信息
     async getBaterryInfo (id) {
       let { result } = await this.$axios({
-        url: '/device/battery/info',
+        url: '/v0/device/battery/info',
         data: {
           id
         }
       })
       this.batteryInfo = result || {}
     },
-    translateStatus (val) {
+    translateStatus (val, power) {
       //  -1离线 0休眠 1工作
       switch (val) {
         case 0:
           return this.$t('common.sleep')
         case 1:
-          return this.$t('common.run')
+          if (power > 0) {
+            return this.$t('common.reCharge')
+          } else {
+            return this.$t('common.disCharge')
+          }
         default:
           return this.$t('common.offline')
       }
@@ -116,26 +130,61 @@ export default {
   }
   .battery-box {
     height: 240px;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
     .battery-img {
+      position: relative;
       height: 80px;
-      margin: 0 auto;
-      // width: 100%;
       width: 180px;
-      padding: 6px 18px 6px 6px;
       box-sizing: border-box;
-      // border: 1px solid red;
-      background: url("../../../assets/battery.png") no-repeat;
-      background-size: 180px 100%;
+      box-shadow: 0 0 5px 2px #ddd;
+      border-radius: 5px 10px 10px 5px;
+      .header {
+        height: 25px;
+        width: 10px;
+        background-color: #ccc;
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        transform: translate(0, -50%);
+        border-radius: 0 5px 5px 0;
+      }
       .percent-bg {
-        background-color: #67C23A;
+        position: relative;
         height: 100%;
         transition: all 1s;
         border-radius: 6px;
-        box-shadow: 0 0 2px #67C23A;
+        background: linear-gradient(to right, #67C23A 0%, rgb(21, 226, 21) 100%);
+        box-shadow: 0 14px 28px rgba(33, 150, 243, 0), 0 10px 10px rgba(9, 188, 215, 0.08);
+        filter: hue-rotate(10deg);
+      }
+      .percent-bg-copy {
+        border-radius: 6px;
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 100%;
+        .wave {
+          position: absolute;
+          background: rgba(255, 255, 255, .8);
+          border-radius: 45% 47% 44% 42%;
+          height: 200px;
+          width: 200px;
+          right: -190px;
+          top: 50%;
+          transform: translate(0, -50%);
+          z-index: 1;
+          animation: wave 15s linear infinite;
+          &:nth-child(2) {
+            top: 40%;
+            border-radius: 42% 46% 43% 47%;
+            transform: translate(0, -50%) rotate(-135deg);
+          }
+          &:nth-child(3) {
+            top: 60%;
+            border-radius: 46% 46% 43% 40%;
+            transform: translate(0, -50%) rotate(135deg);
+          }
+        }
       }
     }
     .item {
@@ -182,6 +231,11 @@ export default {
     .number {
       color: #67C23A;
     }
+  }
+}
+@keyframes wave {
+  100% {
+    transform: translate(0, -50%) rotate(720deg);
   }
 }
 </style>

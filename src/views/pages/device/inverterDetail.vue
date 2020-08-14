@@ -6,11 +6,11 @@
         <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
           <div class="line-center">
-            <span>{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</span>
-            <span>{{$t('plant.name')}} : {{headInfo.plantName || ''}}</span>
-            <span>{{$t('common.datacolSN')}}  : {{headInfo.moduleSN || ''}}</span>
-            <span>{{$t('common.InvType')}}  : {{headInfo.deviceType || ''}}</span>
-            <span>{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</span>
+            <div class="text-cut" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
+            <div class="text-cut" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
+            <div class="text-cut" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
+            <div class="text-cut" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
+            <div class="text-cut" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -90,12 +90,12 @@
   </section>
 </template>
 <script>
-import todayAbnormal from '@/views/pages/plant/todayAbnormal'
+import todayAbnormal from '@/views/pages/components/todayAbnormal'
 import deviceStatus from '@/views/pages/components/powerStatus'
-import lineBar from '@/views/pages/components/lineBar/lineBar'
-import flowDialog from './flowDialog'
-import flowAnimate from './flowAnimate'
-import lineChart from './lineChart'
+import lineBar from '@/views/pages/components/lineBar'
+import flowDialog from './components/flowDialog'
+import flowAnimate from './components/flowAnimate'
+import lineChart from './mixins/lineChart'
 import storage from '@/util/storage'
 import { isJSON, formatDate, getTimespan } from '@/util'
 export default {
@@ -162,14 +162,16 @@ export default {
     }
   },
   created () {
-    let { id, flowType } = this.$route.query
+    let { id, flowType, status } = this.$route.query
     this.deviceId = id
     this.flowType = flowType
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    this.createWebsocket(this.getWsInfo)
+    if (status === 1) { // 设备状态为1 即正常建立websocket连接
+      this.createWebsocket(this.getWsInfo)
+    }
   },
   computed: {
     hasVarible () {
@@ -430,7 +432,7 @@ export default {
         } else {
           return 2 // 只有dot3显示
         }
-      } else if (flag1 && meterPower > 0) {
+      } else if (flag1 && meterPower >= 0) {
         return 3 // dot1显示
       } else if (meterPower > 0 && (generationPower + meterPower) > 0) {
         return 4 // dot2显示
@@ -444,7 +446,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../components/plantInvert';
+@import '../components/common/plantInvert';
 .flow-icon-more {
   font-size: 16px;
   font-weight: bold;

@@ -53,7 +53,7 @@
 </template>
 <script>
 import showItem from '../components/showItem'
-import plantTableHead from './plantTableHead'
+import plantTableHead from './mixins/plantTableHead'
 import { encodeData } from '@/util'
 import { mapState } from 'vuex'
 export default {

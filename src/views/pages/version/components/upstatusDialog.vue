@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import * as eventBus from './eventBus'
+import * as eventBus from '../common/eventBus'
 export default {
   components: {},
   data () {
