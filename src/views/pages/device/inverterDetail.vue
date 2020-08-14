@@ -6,11 +6,11 @@
         <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
           <div class="line-center">
-            <div class="line-content"><span class="text-key">{{$t('common.invertSn')}}</span> : <span class="text-value">{{headInfo.deviceSN || ''}}</span></div>
-            <div class="line-content text-cut" :title="headInfo.plantName || ''"><span class="text-key">{{$t('plant.name')}}</span> : <span class="text-value">{{headInfo.plantName || ''}}</span></div>
-            <div class="line-content"><span class="text-key">{{$t('common.datacolSN')}}</span> : <span class="text-value">{{headInfo.moduleSN || ''}}</span></div>
-            <div class="line-content"><span class="text-key">{{$t('common.InvType')}}</span> : <span class="text-value">{{headInfo.deviceType || ''}}</span></div>
-            <div class="line-content"><span class="text-key">{{$t('plant.equipSta')}}</span> : <span class="text-value">{{translateStatus(headInfo.status) || ''}}</span></div>
+            <div class="text-cut" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
+            <div class="text-cut" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
+            <div class="text-cut" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
+            <div class="text-cut" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
+            <div class="text-cut" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
