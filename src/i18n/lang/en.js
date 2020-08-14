@@ -126,7 +126,8 @@ export default {
     wuxi: 'Wuxi Jiangsu',
     test: 'Test',
     rel: 'Release',
-    selFile: 'Select the file'
+    selFile: 'Select the file',
+    upgrade: 'Upgrade'
   },
   login: {
     product: 'PRODUCTS',
@@ -280,8 +281,7 @@ export default {
     upgrading: 'Upgrading',
     failed: 'Failed',
     upDetail: 'Upgrade details',
-    preVer: 'Previous version',
-    upVer: 'Upgraded version'
+    curVer: 'Current version'
   },
   chart: {
     gridConsumptionPower: 'Grid Power',

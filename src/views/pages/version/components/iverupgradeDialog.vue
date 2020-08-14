@@ -42,7 +42,7 @@
     </el-form>
     <div class="flex-center">
       <el-button size="mini" @click="dialogVisible=false">{{$t('common.cancel')}}</el-button>
-      <el-button type="primary" size="mini" @click="upgradeBtn">{{'升级'}}</el-button>
+      <el-button type="primary" size="mini" @click="upgradeBtn">{{$t('common.upgrade')}}</el-button>
     </div>
   </el-dialog>
 </template>

@@ -54,11 +54,11 @@ export default {
           prop: 'deviceSN',
           checked: true
         }, {
-          label: 'invupgrade.preVer',
+          label: 'invupgrade.curVer',
           prop: 'before',
           checked: true
         }, {
-          label: 'invupgrade.upVer',
+          label: 'navBar.firmware',
           prop: 'after',
           checked: true
         }, {

@@ -126,7 +126,8 @@ export default {
     wuxi: '江苏无锡',
     test: '测试',
     rel: '发布',
-    selFile: '选择文件'
+    selFile: '选择文件',
+    upgrade: '升级'
   },
   login: {
     product: '产品',
@@ -280,8 +281,7 @@ export default {
     upgrading: '升级中数量',
     failed: '升级失败数量',
     upDetail: '升级详情',
-    preVer: '升级前版本',
-    upVer: '升级后版本'
+    curVer: '当前版本'
   },
   chart: {
     gridConsumptionPower: '电网功率',
