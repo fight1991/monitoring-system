@@ -82,13 +82,14 @@ export default {
       }
     },
     // 保存设置的参数
-    async saveBtn () {
+    async saveBtn (id, key) {
       let { result } = await this.$axios({
         url: '/v0/device/setting/set',
         method: 'post',
         data: {
-          key: this.keyWord,
-          id: this.id
+          id,
+          key,
+          values: this.dataForm
         }
       })
       if (result) {
