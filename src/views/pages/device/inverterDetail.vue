@@ -6,11 +6,11 @@
         <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
           <div class="line-center">
-            <span>{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</span>
-            <span>{{$t('plant.name')}} : {{headInfo.plantName || ''}}</span>
-            <span>{{$t('common.datacolSN')}}  : {{headInfo.moduleSN || ''}}</span>
-            <span>{{$t('common.InvType')}}  : {{headInfo.deviceType || ''}}</span>
-            <span>{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</span>
+            <div class="text-cut" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
+            <div class="text-cut" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
+            <div class="text-cut" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
+            <div class="text-cut" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
+            <div class="text-cut" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -162,14 +162,16 @@ export default {
     }
   },
   created () {
-    let { id, flowType } = this.$route.query
+    let { id, flowType, status } = this.$route.query
     this.deviceId = id
     this.flowType = flowType
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    this.createWebsocket(this.getWsInfo)
+    if (status === 1) { // 设备状态为1 即正常建立websocket连接
+      this.createWebsocket(this.getWsInfo)
+    }
   },
   computed: {
     hasVarible () {
@@ -423,18 +425,20 @@ export default {
     },
     // 计算得出ac单相储能机流向图
     getFlowPathFor3 (generationPower, meterPower, invBatPower) {
-      let flag1 = invBatPower > 0 && generationPower > 0
-      if (flag1 && meterPower < 0) {
-        if ((generationPower + meterPower) > 0) {
+      let min = -0.05
+      let max = 0.05
+      let flag1 = invBatPower > max && generationPower > max
+      if (flag1 && meterPower < min) {
+        if ((generationPower + meterPower) > max) {
           return 1 // dot1和dot3同时显示
         } else {
           return 2 // 只有dot3显示
         }
-      } else if (flag1 && meterPower >= 0) {
+      } else if (flag1 && meterPower >= max) {
         return 3 // dot1显示
-      } else if (meterPower > 0 && (generationPower + meterPower) > 0) {
+      } else if (meterPower > max && (generationPower + meterPower) > max) {
         return 4 // dot2显示
-      } else if (meterPower > 0 && generationPower < 0 && invBatPower < 0) {
+      } else if (meterPower > max && generationPower < min && invBatPower < min) {
         return 5 // dot4显示
       } else {
         return 0

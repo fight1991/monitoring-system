@@ -56,7 +56,7 @@
     </div>
     <!-- 电站状态 -->
     <div class="block">
-      <plant-status :incomeDetail="incomeDetail" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
+      <plant-status :incomeDetail="incomeDetail" :batShow="false" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
     </div>
     <!-- 功率 统计 设备列表 -->
     <div class="block mg-b15">
@@ -342,6 +342,9 @@ export default {
 }
 .status-text {
   padding: 2px 5px;
+}
+.plant-name span {
+  margin-right: 20px;
 }
 .weather {
   margin-right: 30px;
