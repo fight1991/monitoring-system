@@ -425,18 +425,20 @@ export default {
     },
     // 计算得出ac单相储能机流向图
     getFlowPathFor3 (generationPower, meterPower, invBatPower) {
-      let flag1 = invBatPower > 0 && generationPower > 0
-      if (flag1 && meterPower < 0) {
-        if ((generationPower + meterPower) > 0) {
+      let min = -0.05
+      let max = 0.05
+      let flag1 = invBatPower > max && generationPower > max
+      if (flag1 && meterPower < min) {
+        if ((generationPower + meterPower) > max) {
           return 1 // dot1和dot3同时显示
         } else {
           return 2 // 只有dot3显示
         }
-      } else if (flag1 && meterPower >= 0) {
+      } else if (flag1 && meterPower >= max) {
         return 3 // dot1显示
-      } else if (meterPower > 0 && (generationPower + meterPower) > 0) {
+      } else if (meterPower > max && (generationPower + meterPower) > max) {
         return 4 // dot2显示
-      } else if (meterPower > 0 && generationPower < 0 && invBatPower < 0) {
+      } else if (meterPower > max && generationPower < min && invBatPower < min) {
         return 5 // dot4显示
       } else {
         return 0
