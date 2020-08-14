@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      resultList: [{ taskName: 121212, taskID: 1212 }],
+      resultList: [],
       pagination: {
         pageSize: 50,
         currentPage: 1,

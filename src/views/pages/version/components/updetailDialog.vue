@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      resultList: [{ taskName: 121212 }],
+      resultList: [],
       pagination: {
         pageSize: 50,
         currentPage: 1,
@@ -54,11 +54,11 @@ export default {
           prop: 'deviceSN',
           checked: true
         }, {
-          label: 'invupgrade.preVer',
+          label: 'invupgrade.curVer',
           prop: 'before',
           checked: true
         }, {
-          label: 'invupgrade.upVer',
+          label: 'navBar.firmware',
           prop: 'after',
           checked: true
         }, {

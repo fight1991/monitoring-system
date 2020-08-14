@@ -20,7 +20,7 @@
       </el-card>
     </div>
     <!-- 储能电池状态 -->
-    <div class="right" v-if="flowType!=1">
+    <div class="right" v-if="flowType>1 && batShow">
       <el-card shadow="never">
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
         <div class="battery-box">
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
-          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{toFixed(batteryInfo.power) || 0}}</span>W</div>
+          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{toFixed(batteryInfo.power) || 0}}</span>kW</div>
           <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
           <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
         </div>
@@ -63,6 +63,9 @@ export default {
     },
     capacity: {
       default: 0
+    },
+    batShow: {
+      default: true
     }
   },
   computed: {
@@ -78,8 +81,8 @@ export default {
   },
   created () {
     let { id, flowType } = this.$route.query
-    this.flowType = flowType
     if (flowType > 1) { // 包含电池业务
+      this.flowType = flowType
       this.getBaterryInfo(id)
     }
   },
@@ -101,9 +104,9 @@ export default {
           return this.$t('common.sleep')
         case 1:
           if (power > 0) {
-            return this.$t('common.reCharge')
-          } else {
             return this.$t('common.disCharge')
+          } else {
+            return this.$t('common.reCharge')
           }
         default:
           return this.$t('common.offline')
@@ -154,6 +157,7 @@ export default {
         filter: hue-rotate(10deg);
       }
       .percent-bg-copy {
+        border-radius: 6px;
         overflow: hidden;
         position: absolute;
         left: 0;
