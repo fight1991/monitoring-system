@@ -72,7 +72,7 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="goToDetail('look', row.deviceID, row.flowType)"></i>
+              <i title="view" class="iconfont icon-look" @click="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
               <i title="remote setting" class="iconfont icon-remote-setting" @click="goToDetail('set', row.deviceID)"></i>
             </div>
           </template>
@@ -167,13 +167,14 @@ export default {
       this.getInverterList(this.defaultPage)
       this.selection = []
     },
-    goToDetail (page, id, flowType) {
+    goToDetail (page, id, flowType, status) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
       this.$tab.replace({
         name: routeName,
         query: {
           id,
-          flowType
+          flowType,
+          status
         }
       })
     },

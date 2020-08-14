@@ -6,11 +6,11 @@
         <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
           <div class="line-center">
-            <span>{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</span>
-            <span>{{$t('plant.name')}} : {{headInfo.plantName || ''}}</span>
-            <span>{{$t('common.datacolSN')}}  : {{headInfo.moduleSN || ''}}</span>
-            <span>{{$t('common.InvType')}}  : {{headInfo.deviceType || ''}}</span>
-            <span>{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</span>
+            <div class="line-content"><span class="text-key">{{$t('common.invertSn')}}</span> : <span class="text-value">{{headInfo.deviceSN || ''}}</span></div>
+            <div class="line-content text-cut" :title="headInfo.plantName || ''"><span class="text-key">{{$t('plant.name')}}</span> : <span class="text-value">{{headInfo.plantName || ''}}</span></div>
+            <div class="line-content"><span class="text-key">{{$t('common.datacolSN')}}</span> : <span class="text-value">{{headInfo.moduleSN || ''}}</span></div>
+            <div class="line-content"><span class="text-key">{{$t('common.InvType')}}</span> : <span class="text-value">{{headInfo.deviceType || ''}}</span></div>
+            <div class="line-content"><span class="text-key">{{$t('plant.equipSta')}}</span> : <span class="text-value">{{translateStatus(headInfo.status) || ''}}</span></div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -162,14 +162,16 @@ export default {
     }
   },
   created () {
-    let { id, flowType } = this.$route.query
+    let { id, flowType, status } = this.$route.query
     this.deviceId = id
     this.flowType = flowType
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    this.createWebsocket(this.getWsInfo)
+    if (status === 1) { // 设备状态为1 即正常建立websocket连接
+      this.createWebsocket(this.getWsInfo)
+    }
   },
   computed: {
     hasVarible () {
