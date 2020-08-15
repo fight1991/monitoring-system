@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-form size="mini" style="margin-left:20px" :model="dataForm" label-position="left" label-width="130px">
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="130px">
       <el-row v-for="(ele) in formItems" :key="ele.key">
         <el-col :span="14">
           <!-- input组件 -->
           <template v-if="ele.elemType.uiType === 'input'">
             <el-form-item :label="ele.name" :prop="ele.key"
               :rules="rangeValidInput(ele)">
-              <el-input v-model.number="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
+              <el-input v-model="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
             </el-form-item>
           </template>
           <!-- switch组件 -->
@@ -16,6 +16,8 @@
               <el-switch
                 v-model="dataForm[ele.key]"
                 active-color="#13ce66"
+                active-value="true"
+                inactive-value="false"
                 inactive-color="#ff4949">
               </el-switch>
             </el-form-item>
@@ -82,13 +84,16 @@ export default {
       }
     },
     // 保存设置的参数
-    async saveBtn (id, key) {
+    async saveBtn () {
+      let flag = true
+      this.$refs.dataForm.validate(valid => (flag = valid))
+      if (!flag) return
       let { result } = await this.$axios({
         url: '/v0/device/setting/set',
         method: 'post',
         data: {
-          id,
-          key,
+          id: this.id,
+          key: this.keyWord,
           values: this.dataForm
         }
       })
@@ -104,6 +109,19 @@ export default {
     rangeValidSelect (ele) {
       return [{ required: true, message: 'it is required', trigger: 'change' }]
     },
+    // 表单校验方法
+    rangeValid (rule, value, callback, ele) {
+      if (ele.range) {
+        let { lo, hi } = ele.range
+        let tempVal = Number(value)
+        if (isNaN(tempVal) || tempVal < lo || tempVal > hi) {
+          let str = lo + '~' + hi
+          callback(new Error('it is invalid ' + str))
+          return
+        }
+      }
+      callback()
+    },
     // input表单校验
     rangeValidInput (ele) {
       if (ele.range && ele.range.enable) {
@@ -112,10 +130,9 @@ export default {
           message: 'it is required',
           trigger: 'blur'
         }, {
-          type: 'number',
-          min: ele.range.lo,
-          max: ele.range.hi,
-          message: 'it is invalid',
+          // min: ele.range.lo,
+          // max: ele.range.hi,
+          validator: (rule, value, callback) => this.rangeValid(rule, value, callback, ele),
           trigger: 'blur'
         }]
       } else {
