@@ -2,7 +2,7 @@
   <div>
     <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="130px">
       <el-row v-for="(ele) in formItems" :key="ele.key">
-        <el-col :span="14">
+        <el-col :span="16">
           <!-- input组件 -->
           <template v-if="ele.elemType.uiType === 'input'">
             <el-form-item :label="ele.name" :prop="ele.key"
@@ -14,6 +14,7 @@
           <template v-else-if="ele.elemType.uiType === 'switch'">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
               <el-switch
+                @change="singleBtn(ele.key, 'switch')"
                 v-model="dataForm[ele.key]"
                 active-color="#13ce66"
                 active-value="true"
@@ -31,11 +32,14 @@
             </el-form-item>
           </template>
         </el-col>
+        <el-col :span="4" :offset="1" v-show="!isBlock && ele.elemType.uiType!='switch'">
+          <el-button type="success" size="mini" icon="el-icon-edit" circle @click="singleBtn(ele.key)"></el-button>
+        </el-col>
       </el-row>
     </el-form>
     <el-row>
       <el-col :span="14" align="center">
-        <el-button size="mini" type="primary" @click="saveBtn">保存</el-button>
+        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.save')}}</el-button>
       </el-col>
     </el-row>
   </div>
@@ -55,6 +59,10 @@ export default {
       default () {
         return []
       }
+    },
+    isBlock: { // 整体提交或单条提交
+      type: Boolean,
+      default: true
     },
     keyWord: {
       type: String,
@@ -83,17 +91,34 @@ export default {
         })
       }
     },
-    // 保存设置的参数
-    async saveBtn () {
+    // 单条编辑
+    singleBtn (key, uiType) {
+      if (this.isBlock) return
+      if (uiType) {
+        this.submitForm(key)
+        return
+      }
+      this.$refs.dataForm.validateField(key, (err) => {
+        if (!err) { // 校验通过
+          this.submitForm(key)
+        }
+      })
+    },
+    // 整体提交保存设置的参数
+    saveBtn () {
       let flag = true
       this.$refs.dataForm.validate(valid => (flag = valid))
       if (!flag) return
+      this.submitForm()
+    },
+    // 表单提交api
+    async submitForm (key) {
       let { result } = await this.$axios({
         url: '/v0/device/setting/set',
         method: 'post',
         data: {
           id: this.id,
-          key: this.keyWord,
+          key: key || this.keyWord,
           values: this.dataForm
         }
       })
