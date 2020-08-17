@@ -56,7 +56,7 @@ export default {
           checked: true
         },
         {
-          label: 'firmware.sType',
+          label: 'firmware.SoftType',
           prop: 'softType',
           checked: true
         },
