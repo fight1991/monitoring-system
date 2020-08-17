@@ -57,6 +57,7 @@ import register from './components/register'
 import resetPw from './components/resetPw'
 import { judgeClient } from '@/util'
 import erweima from './components/erweima'
+import storage from '@/util/storage'
 export default {
   name: 'router-login',
   components: {
@@ -87,6 +88,11 @@ export default {
     if (process.env.VUE_APP_VERSION === 'inside') {
       this.host = 'http://www.fox-ess.com.cn' // 国内官网
     }
+    let langInfo = storage.getStorage('lang')
+    if (langInfo) {
+      this.$i18n.locale = langInfo
+      this.lang = langInfo === 'en' ? 'English' : '中文'
+    }
   },
   methods: {
     // 切换登录还是注册
@@ -97,6 +103,7 @@ export default {
       this.$i18n.locale = lang
       this.lang = lang === 'en' ? 'English' : '中文'
       this.$store.commit('toggleLang', lang)
+      storage.setStorage('lang', lang)
     },
     // 手机app二维码下载
     downloadApp () {

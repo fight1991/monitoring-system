@@ -47,6 +47,7 @@ export default {
     remark: '备注'
   },
   common: {
+    save: '保存',
     enter: '请输入',
     refresh: '刷新此页面',
     noData: '暂无数据',
