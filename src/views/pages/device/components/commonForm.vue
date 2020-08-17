@@ -94,13 +94,15 @@ export default {
     // 单条编辑
     singleBtn (key, uiType) {
       if (this.isBlock) return
+      let tempForm = {}
+      tempForm[key] = this.dataForm[key]
       if (uiType) {
-        this.submitForm(key)
+        this.submitForm(key, tempForm)
         return
       }
       this.$refs.dataForm.validateField(key, (err) => {
         if (!err) { // 校验通过
-          this.submitForm(key)
+          this.submitForm(key, tempForm)
         }
       })
     },
@@ -112,14 +114,14 @@ export default {
       this.submitForm()
     },
     // 表单提交api
-    async submitForm (key) {
+    async submitForm (key, form) {
       let { result } = await this.$axios({
         url: '/v0/device/setting/set',
         method: 'post',
         data: {
           id: this.id,
           key: key || this.keyWord,
-          values: this.dataForm
+          values: form || this.dataForm
         }
       })
       if (result) {
