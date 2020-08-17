@@ -18,7 +18,7 @@
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.type')">
+                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.dseries')">
                   <el-option v-for="item in versionList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>

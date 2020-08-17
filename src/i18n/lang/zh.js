@@ -255,7 +255,8 @@ export default {
   firmware: {
     devicetype: '设备类型',
     version: '版本号',
-    type: '版本类型',
+    dseries: '设备系列',
+    sType: '软件类别',
     status: '审核状态',
     uptime: '上传时间',
     firmwareName: '固件名称',

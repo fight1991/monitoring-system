@@ -255,7 +255,8 @@ export default {
   firmware: {
     devicetype: 'Inverter type',
     version: 'Version',
-    type: 'Vertion type',
+    dseries: 'Equipment series',
+    sType: 'Software type',
     status: 'Approval status',
     uptime: 'Upload time',
     firmwareName: 'Firmware name',

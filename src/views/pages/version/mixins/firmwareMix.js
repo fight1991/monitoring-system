@@ -51,8 +51,13 @@ export default {
           checked: true
         },
         {
-          label: 'firmware.type',
+          label: 'firmware.dseries',
           prop: 'productType',
+          checked: true
+        },
+        {
+          label: 'firmware.sType',
+          prop: 'softType',
           checked: true
         },
         {
