@@ -128,7 +128,10 @@ export default {
     },
     // 表单placeHoler
     placeholderText (ele) {
-      return ele.range.lo + '~' + ele.range.hi + ' ' + ele.unit
+      if (ele.range) {
+        return ele.range.lo + '~' + ele.range.hi + ' ' + ele.unit
+      }
+      return ''
     },
     // 选择框表单校验
     rangeValidSelect (ele) {
