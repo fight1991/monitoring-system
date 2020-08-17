@@ -47,6 +47,7 @@ export default {
     remark: 'Remarks'
   },
   common: {
+    time: 'Time',
     save: 'Done',
     enter: 'please enter',
     refresh: 'Refresh page',
