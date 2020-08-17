@@ -68,7 +68,7 @@ router.beforeEach(async (to, from, next) => {
   if (_this.$options.store.state.isFirst) {
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
-      store.state.lang = langInfo
+      store.commit('toggleLang', langInfo)
       i18n.locale = langInfo
     }
     // 用户信息查询
