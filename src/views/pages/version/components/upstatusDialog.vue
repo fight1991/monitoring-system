@@ -59,6 +59,10 @@ export default {
           prop: 'failed',
           checked: true
         }, {
+          label: 'common.time',
+          prop: 'time',
+          checked: true
+        }, {
           label: 'common.operation',
           prop: 'op',
           slotName: 'op',
