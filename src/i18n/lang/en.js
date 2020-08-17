@@ -47,6 +47,7 @@ export default {
     remark: 'Remarks'
   },
   common: {
+    checked: 'Checked :',
     time: 'Time',
     save: 'Done',
     enter: 'please enter',

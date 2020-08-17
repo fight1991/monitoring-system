@@ -47,6 +47,7 @@ export default {
     remark: '备注'
   },
   common: {
+    checked: '已选择项数 :',
     time: '时间',
     save: '保存',
     enter: '请输入',
