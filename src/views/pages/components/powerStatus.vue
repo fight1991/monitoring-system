@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
-          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{toFixed(batteryInfo.power) || 0}}</span>kW</div>
+          <div class="item battery-power" :title="Math.abs(batteryInfo.power) || ''">{{$t('common.power')}}: <span class="num">{{toFixed(batteryInfo.power) || 0}}</span>kW</div>
           <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
           <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
         </div>
@@ -70,9 +70,8 @@ export default {
   },
   computed: {
     powerPercent () {
-      if (this.power < 0) return 0
       if (this.capacity > 0) {
-        let tempres = Math.ceil((this.power / this.capacity) * 100)
+        let tempres = Math.ceil((Math.abs(this.power) / this.capacity) * 100)
         if (tempres > 100) return 100
         return tempres
       }
@@ -120,7 +119,7 @@ export default {
   display: flex;
   .right {
     margin-left: 10px;
-    width: 230px;
+    width: 250px;
     // height: 321px;
     // box-sizing: border-box;
     // padding: 10px;
@@ -132,8 +131,8 @@ export default {
     height: 240px;
     .battery-img {
       position: relative;
-      height: 80px;
-      width: 180px;
+      height: 90px;
+      width: 200px;
       box-sizing: border-box;
       box-shadow: 0 0 5px 2px #ddd;
       border-radius: 5px 10px 10px 5px;
@@ -173,7 +172,7 @@ export default {
           top: 50%;
           transform: translate(0, -50%);
           z-index: 1;
-          animation: wave 15s linear infinite;
+          animation: wave 13s linear infinite;
           &:nth-child(2) {
             top: 40%;
             border-radius: 42% 46% 43% 47%;
@@ -200,6 +199,9 @@ export default {
       text-indent: 25px;
     }
     .battery-power {
+      &:hover {
+        cursor: pointer;
+      }
       .num {
         color: #FDB201;
         margin: 0 5px 0 15px;

@@ -2,7 +2,8 @@
 <template>
 <!-- eslint-disable vue/valid-v-bind -->
   <div style="position:relative">
-  <!--  自定义表头显示项目数 -->
+    <span class="num-count" v-show="selectBox && selection.length>0">{{$t('common.checked')}}<span class="num">{{selection.length}}</span></span>
+    <!--  自定义表头显示项目数 -->
     <el-popover popper-class="tableBtn-popper" v-if="checked">
       <ul>
         <li v-for="(value,key) in tableHeadData" :key="'index' + key">
@@ -232,5 +233,14 @@ export default {
 }
 </script>
 <style scoped lang="less">
-
+.num-count {
+  position: absolute;
+  left: 5px;
+  top: -20px;
+  font-size: 12px;
+  .num {
+    color: @sys-main-header;
+    margin: 0 5px;
+  }
+}
 </style>

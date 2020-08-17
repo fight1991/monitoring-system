@@ -4,7 +4,7 @@
     <template v-if="firstMenuShow">
       <el-menu-item :index="menuItem.path" v-show="menuPemission()">
         <i v-if="menuItem.icon" :class="'iconfont '+ menuItem.icon"></i>
-        <span slot="title">{{$t('navBar.'+menuItem.meta.title) || ''}}</span>
+        <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{i18nNavBarMethod(menuItem.meta.title)}}</span>
       </el-menu-item>
     </template>
     <!-- 有二级菜单 -->
@@ -12,7 +12,7 @@
       <el-submenu v-show="menuPemission(menuItem)" :index="menuItem.path" popper-class="sidebar-pop">
         <template slot="title">
           <i v-if="menuItem.icon" :class="'iconfont '+ menuItem.icon"></i>
-          <span slot="title">{{$t('navBar.'+menuItem.meta.title) || ''}}</span>
+          <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{i18nNavBarMethod(menuItem.meta.title)}}</span>
         </template>
 
         <template v-for="child in menuItem.children">
@@ -25,7 +25,7 @@
           <template v-else>
             <el-menu-item v-show="menuPemission(child, 'chidl')" :key="child.path" :index="child.path">
               <i v-if="child.icon" :class="'iconfont '+ child.icon"></i>
-              <span slot="title">{{$t('navBar.'+child.meta.title) || ''}}</span>
+              <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{$t('navBar.'+child.meta.title) || ''}}</span>
             </el-menu-item>
           </template>
         </template>
@@ -58,6 +58,9 @@ export default {
     menuPemission (obj = this.menuItem, hh) {
       let { meta } = obj
       return !meta.permission || (meta.permission && meta.permission.includes(this.access))
+    },
+    i18nNavBarMethod (title) {
+      return this.$t('navBar.' + title) || ''
     }
   }
 }
@@ -67,5 +70,9 @@ export default {
 .iconfont {
   margin-right: 10px;
   font-size: 18px;
+}
+.sub-title {
+  display: inline-block;
+  max-width: 110px;
 }
 </style>

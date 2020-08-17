@@ -46,13 +46,12 @@ export default {
     },
     // 保留2位有效小数
     toFixed (data, num = 2) {
-      if (!data) return 0
-      let tempNum = data.toFixed(num)
-      if (Number(tempNum) > 0) {
-        return tempNum
-      } else {
+      if (!data || isNaN(Number(data))) return 0
+      let temp = Number(data)
+      if (Math.abs(temp) < 0.01) { // 防止出现-0.002 --> -0.00
         return 0
       }
+      return temp.toFixed(num)
     }
   }
 }

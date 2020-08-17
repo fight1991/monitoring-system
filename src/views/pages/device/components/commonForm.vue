@@ -7,7 +7,13 @@
           <template v-if="ele.elemType.uiType === 'input'">
             <el-form-item :label="ele.name" :prop="ele.key"
               :rules="rangeValidInput(ele)">
-              <el-input v-model="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
+              <el-popover
+                popper-class="remote-popper"
+                placement="right"
+                trigger="click">
+                <span>{{placeholderText(ele)}}</span>
+                <el-input slot="reference" v-model="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
+              </el-popover>
             </el-form-item>
           </template>
           <!-- switch组件 -->

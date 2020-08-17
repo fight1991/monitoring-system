@@ -71,7 +71,7 @@ export default {
           label: 'common.operation',
           prop: '',
           checked: true,
-          width: '100',
+          width: '120',
           slotName: 'op',
           fixed: 'right'
         }

@@ -56,6 +56,13 @@ export default {
   },
   created () {
     link.$on('sendUser', this.getUserFromRegister)
+    let tempAccount = storage.getStorage('account')
+    if (tempAccount) {
+      this.dataForm.user = tempAccount
+      this.$nextTick(() => {
+        this.$refs.password && this.$refs.password.$refs.input.focus()
+      })
+    }
   },
   computed: {},
   methods: {
@@ -106,6 +113,7 @@ export default {
             return
           }
           storage.setStorage('token', result.token)
+          storage.setStorage('account', tempData.user)
           // 存储权限信息
           this.$store.commit('setAccess', result.access)
           let path = '/'
