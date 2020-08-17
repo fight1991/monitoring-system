@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router'
 import store from '@/store'
 import storage from '@/util/storage'
+import i18n from '@/i18n'
 
 // 路由地址
 import Error from '@/views/error'
@@ -65,6 +66,11 @@ router.beforeEach(async (to, from, next) => {
   }
   // 第一次进入系统需要获取权限状态和用户信息(刷新地址栏)
   if (_this.$options.store.state.isFirst) {
+    let langInfo = storage.getStorage('lang')
+    if (langInfo) {
+      store.state.lang = langInfo
+      i18n.locale = langInfo
+    }
     // 用户信息查询
     let { result: userInfo } = await _this.$axios({ url: '/v0/user/info' })
     // 权限查询

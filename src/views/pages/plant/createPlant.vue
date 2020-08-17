@@ -74,7 +74,7 @@
                 </el-col>
                 <el-col :span="24">
                   <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
-                    <el-input v-model.number="dataForm.details.systemCapacity" clearable>
+                    <el-input v-model="dataForm.details.systemCapacity" clearable>
                       <span slot="suffix">kW</span>
                     </el-input>
                   </el-form-item>
@@ -206,7 +206,7 @@ export default {
         'details.price': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.systemCapacity': [
           { required: true, message: 'it is required', trigger: 'blur' },
-          { message: 'it is invalid', type: 'number', trigger: 'blur' }
+          { message: 'it is invalid', pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
         ],
         'details.postcode': [{ required: true, message: 'it is required', trigger: 'blur' }]
       },

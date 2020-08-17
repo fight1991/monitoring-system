@@ -47,6 +47,7 @@ export default {
     remark: 'Remark'
   },
   common: {
+    save: 'Done',
     enter: 'please enter',
     refresh: 'Refresh page',
     noData: 'No Data',
