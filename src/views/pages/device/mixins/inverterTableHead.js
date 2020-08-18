@@ -7,14 +7,12 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          renderHeader: true,
           width: 150
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          renderHeader: true,
           width: 160
         },
         {
@@ -26,28 +24,28 @@ export default {
           label: 'invupgrade.invmodel',
           prop: 'deviceType',
           checked: true,
-          width: 110
+          width: 120
         },
         {
           label: 'common.gPower',
           prop: 'power',
           checked: true,
           slotName: 'power',
-          renderHeader: true
+          width: 100
         },
         {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
           slotName: 'generationToday',
-          renderHeader: true
+          width: 100
         },
         {
           label: 'plant.genTot',
           prop: 'generationTotal',
           checked: true,
           slotName: 'generationTotal',
-          renderHeader: true
+          width: 100
         },
         {
           label: 'plant.gridtime',

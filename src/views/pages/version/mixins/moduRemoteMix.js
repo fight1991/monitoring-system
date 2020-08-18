@@ -14,6 +14,11 @@ export default {
           checked: true
         },
         {
+          label: 'common.invertSn',
+          prop: 'deviceSN',
+          checked: true
+        },
+        {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true
@@ -26,11 +31,6 @@ export default {
         {
           label: 'invupgrade.dataversion',
           prop: 'moduleVersion',
-          checked: true
-        },
-        {
-          label: 'common.invertSn',
-          prop: 'deviceSN',
           checked: true
         },
         {
