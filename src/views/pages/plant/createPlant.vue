@@ -384,7 +384,6 @@ export default {
           if (this.$route.meta.title === 'plantL') {
             backName = 'bus-data-view'
           }
-          this.$message.success(this.$t('common.success'))
           this.$tab.back({
             name: backName
           })
