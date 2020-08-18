@@ -48,6 +48,7 @@
         <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
     </div>
+    
   </section>
 </template>
 <script>

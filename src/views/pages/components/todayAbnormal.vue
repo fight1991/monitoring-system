@@ -19,8 +19,8 @@
       @opened="search"
       @close="closeDialog"
       :visible.sync="dialogVisible"
-      width="700px">
-      <div class="content">
+      width="750px">
+      <div class="container flex-column-between" v-setH:min="setDivH-250">
         <search-bar>
           <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
             <el-form-item v-if="type==='plant'">
@@ -38,15 +38,12 @@
           </el-form>
         </search-bar>
         <func-bar>
-          <el-table size="mini" :height="400" :data="resultList" border>
-            <el-table-column :label="$t('common.invertSn')" prop="deviceSN" v-if="type==='plant'"></el-table-column>
-            <el-table-column :label="$t('common.alarmType')" prop="alarmType"></el-table-column>
-            <el-table-column :label="$t('plant.errorCode')" prop="code"></el-table-column>
-            <el-table-column :label="$t('plant.errorName')" prop="content"></el-table-column>
-            <el-table-column :label="$t('plant.reportTime')" prop="time"></el-table-column>
-          </el-table>
-          <page-box :pagination.sync="pagination" @change="getList"></page-box>
+          <common-table :tableHeadData="tableHead" :tableList="resultList">
+          </common-table>
         </func-bar>
+        <div class="page-box">
+          <page-box :pagination.sync="pagination" @change="getList"></page-box>
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -95,6 +92,29 @@ export default {
           value: 8,
           label: 'alarm'
         }
+      ],
+      tableHead: [
+        {
+          label: 'common.invertSn',
+          prop: 'deviceSN',
+          checked: false
+        }, {
+          label: 'common.alarmType',
+          prop: 'alarmType',
+          checked: true
+        }, {
+          label: 'plant.errorCode',
+          prop: 'code',
+          checked: true
+        }, {
+          label: 'plant.errorName',
+          prop: 'content',
+          checked: true
+        }, {
+          label: 'plant.reportTime',
+          prop: 'time',
+          checked: true
+        }
       ]
     }
   },
@@ -115,6 +135,11 @@ export default {
   watch: {
     visible: function (newData) {
       this.dialogVisible = newData
+    }
+  },
+  created () {
+    if (this.type === 'plant') {
+      this.tableHead[0].checked = true
     }
   },
   methods: {
@@ -140,6 +165,7 @@ export default {
       let { result } = await this.$axios({
         method: 'post',
         url: `/v0/${this.type}/alarm/today/detail`,
+        globalLoading: true,
         data: {
           ...params,
           ...pagination,

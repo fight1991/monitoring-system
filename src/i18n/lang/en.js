@@ -101,7 +101,7 @@ export default {
     run: 'Running',
     reCharge: 'Recharging',
     disCharge: 'Working',
-    sleep: 'Sleeping',
+    sleep: 'Idle',
     gPower: 'Power now',
     gCon: 'grid-connect',
     pDiss: 'power dissipation',

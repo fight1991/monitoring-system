@@ -103,9 +103,10 @@
   }
   .el-table__header th>.cell{
     text-align: center;
-    color: @sys-main-text;
-    font-size: 14px;
+    // color: @sys-main-text;
+    color: rgba(0,0,0,.85);
     font-weight: 400;
+    line-height: 16px;
   }
   .el-table__empty-block {
     align-items: inherit;
@@ -410,6 +411,9 @@
     height: 100%;
     .el-tabs__header {
       margin-bottom: 0;
+      .el-tabs__nav-next, .el-tabs__nav-prev {
+        line-height: 36px;
+      }
       &.is-top {
         background-color: #fff;
         padding-right: 60px;
