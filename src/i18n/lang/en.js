@@ -100,7 +100,7 @@ export default {
     status: 'Status',
     run: 'Running',
     reCharge: 'Recharging',
-    disCharge: 'Discharging',
+    disCharge: 'Working',
     sleep: 'Idle',
     gPower: 'Power now',
     gCon: 'grid-connect',
