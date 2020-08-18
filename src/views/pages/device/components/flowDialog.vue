@@ -7,7 +7,7 @@
     @close="closeDialog"
     :visible.sync="dialogVisible"
     width="700px">
-    <div class="no-data" v-if="tabList.length<1">No Data</div>
+    <div class="no-data" v-if="tabList.length<1">{{$t('common.noData')}}</div>
     <el-tabs v-model="activeName" type="card" v-else>
       <el-tab-pane
         :label="item.blockName"
