@@ -61,7 +61,7 @@
           <el-popover
             popper-class="money-popper"
             placement="right"
-            title="List"
+            :title="$t('common.list')"
             width="100"
             trigger="hover">
             <p v-for="item in incomeDetail.earnings.cumulate" :key="item.currency">
