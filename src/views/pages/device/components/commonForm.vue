@@ -39,13 +39,13 @@
           </template>
         </el-col>
         <el-col :span="4" :offset="1" v-show="!isBlock && ele.elemType.uiType!='switch'">
-          <el-button type="success" size="mini" icon="el-icon-edit" circle @click="singleBtn(ele.key)"></el-button>
+          <el-button type="success" size="mini" icon="iconfont icon-carry-out" circle @click="singleBtn(ele.key)"></el-button>
         </el-col>
       </el-row>
     </el-form>
     <el-row>
       <el-col :span="14" align="center">
-        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.save')}}</el-button>
+        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
       </el-col>
     </el-row>
   </div>
