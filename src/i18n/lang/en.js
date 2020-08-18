@@ -47,6 +47,7 @@ export default {
     remark: 'Remarks'
   },
   common: {
+    timeout: 'Time out',
     list: 'List',
     checked: 'Checked :',
     time: 'Time',
