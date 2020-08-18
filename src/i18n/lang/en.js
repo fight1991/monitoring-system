@@ -47,6 +47,7 @@ export default {
     remark: 'Remarks'
   },
   common: {
+    list: 'List',
     checked: 'Checked :',
     time: 'Time',
     save: 'Done',
@@ -99,7 +100,7 @@ export default {
     all: 'All',
     status: 'Status',
     run: 'Running',
-    reCharge: 'Recharging',
+    reCharge: 'Charging',
     disCharge: 'Working',
     sleep: 'Idle',
     gPower: 'Power now',
