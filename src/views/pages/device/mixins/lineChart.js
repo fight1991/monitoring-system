@@ -6,11 +6,22 @@ export default {
         legend: {
           type: 'plain',
           data: [],
-          bottom: 0,
+          bottom: 10,
           formatter: name => {
             return this.$t('chart.' + name)
           }
         },
+        grid: [{
+          height: '50%'
+        }],
+        dataZoom: [{
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          top: '80%',
+          start: 0,
+          end: 100
+        }],
         tooltip: {
           trigger: 'axis',
           showContent: true,
@@ -28,6 +39,11 @@ export default {
           type: 'time',
           splitLine: {
             show: false
+          },
+          axisLabel: {
+            formatter: function (value) {
+              return formatDate(value, 'HH:mm:ss') + '\n' + formatDate(value, 'MM-dd')
+            }
           }
         },
         yAxis: {

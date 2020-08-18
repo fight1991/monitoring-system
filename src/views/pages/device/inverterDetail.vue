@@ -84,7 +84,7 @@
           </el-date-picker>
         </div>
       </el-row>
-      <el-echart :loading="chartLoading" :datas="lineChart" height="300px"></el-echart>
+      <el-echart :loading="chartLoading" :datas="lineChart" height="350px"></el-echart>
     </div>
     <flow-dialog :visible.sync="flowDialog" :tabList="flowDetail"></flow-dialog>
   </section>
@@ -257,6 +257,12 @@ export default {
       })
       if (result) {
         this.options = result.variables || []
+        // 设置初始值 // 输出功率
+        let tempV = this.options.filter(v => v === 'generationPower')
+        if (tempV.length > 0) {
+          this.multiValue = tempV
+          this.selectChange()
+        }
       }
     },
     // 多折线图表
