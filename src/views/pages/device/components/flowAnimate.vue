@@ -91,6 +91,19 @@ export default {
 .flow-box {
   width: 95%;
 }
+.box-right::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  border: 1px solid #67C23A;
+  background-color: #fff;
+  box-shadow: 0px 0px 4px 1px #ccc;
+}
 .circle-line {
   height: 150px;
   position: relative;
