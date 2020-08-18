@@ -73,7 +73,7 @@
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
               <i title="view" class="iconfont icon-look" @click="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
-              <i title="remote setting" class="iconfont icon-remote-setting" @click="goToDetail('set', row.deviceID)"></i>
+              <i title="remote setting" class="iconfont icon-remote-setting" v-if="row.status==1" @click="goToDetail('set', row.deviceID)"></i>
             </div>
           </template>
           <template v-slot:power="{row}">
