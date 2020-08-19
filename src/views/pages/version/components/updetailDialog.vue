@@ -12,7 +12,7 @@
         <el-form-item>
           <el-row :gutter="15">
             <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? $t('common.invertSn') : $t('common.datacolSN') "></el-input>
+              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? $t('common.invertSn') : $t('common.datacolSN')"></el-input>
             </el-col>
             <el-col :span="8" align="left">
               <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
@@ -76,7 +76,11 @@ export default {
       this.searchForm.deviceSN = ''
     }
   },
-  created () {},
+  created () {
+    if (this.apiUrl === 'module') {
+      this.tableHead[0].label = 'common.datacolSN'
+    }
+  },
   mounted () {},
   methods: {
     search () {

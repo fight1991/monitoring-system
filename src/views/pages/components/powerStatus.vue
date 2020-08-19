@@ -102,7 +102,7 @@ export default {
         case 0:
           return this.$t('common.sleep')
         case 1:
-          if (power > 0) {
+          if (power >= 0) {
             return this.$t('common.disCharge')
           } else {
             return this.$t('common.reCharge')
