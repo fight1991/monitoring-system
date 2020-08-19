@@ -2,7 +2,7 @@
   <section>
     <el-row>
       <div class="col">{{$t('user.type')}}</div>
-      <div class="col">{{translateTools(access)}}</div>
+      <div class="col border-b">{{translateTools(access)}}</div>
     </el-row>
     <el-row class="flex-vertical-center" v-if="access==3">
       <div class="col">
