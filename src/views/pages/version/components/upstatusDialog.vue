@@ -6,7 +6,7 @@
     @open="search"
     @close="$emit('update:visible', false)"
     :visible.sync="dialogVisible"
-    width="750px">
+    width="80%">
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
@@ -61,12 +61,14 @@ export default {
         }, {
           label: 'common.time',
           prop: 'time',
-          checked: true
+          checked: true,
+          width: 220
         }, {
           label: 'common.operation',
           prop: 'op',
           slotName: 'op',
-          checked: true
+          checked: true,
+          fixed: 'right'
         }
       ]
     }

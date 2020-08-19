@@ -16,12 +16,14 @@ export default {
         {
           label: 'common.invertSn',
           prop: 'deviceSN',
-          checked: true
+          checked: true,
+          width: 130
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true
+          checked: true,
+          width: 140
         },
         {
           label: 'plant.datacolType',

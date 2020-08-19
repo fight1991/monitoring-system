@@ -6,7 +6,7 @@
     @open="search"
     @close="closeDialog"
     :visible.sync="dialogVisible"
-    width="750px">
+    width="80%">
     <div class="search-form">
       <el-form size="mini" label-width="0px" :model="searchForm">
         <el-form-item>
