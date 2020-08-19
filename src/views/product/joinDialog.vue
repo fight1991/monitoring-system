@@ -10,7 +10,7 @@
       <join-form ref="form" :tag="$attrs.tag" :organList="organList"></join-form>
     </div>
     <div class="foot-btn flex-center">
-      <el-button size="mini" @click="cancelForm">{{$t('common.cancel')}}</el-button>
+      <el-button size="mini" @click="cancelBtn">{{$t('common.cancel')}}</el-button>
       <el-button size="mini" type="primary" @click="joinSome">{{$t('common.register')}}</el-button>
     </div>
   </el-dialog>
@@ -23,12 +23,7 @@ export default {
   },
   data () {
     return {
-      dialogVisible: false,
-      accessInfo: {
-        user: 1,
-        installer: 2,
-        agent: 3
-      }
+      dialogVisible: false
     }
   },
   props: {
