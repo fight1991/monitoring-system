@@ -27,7 +27,7 @@
           <div class="battery-img">
             <div class="header"></div>
             <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}">
-              <div class="percent-bg-copy">
+              <div :class="{'percent-bg-copy': true, 'none': batteryInfo.soc==100}">
                 <div class="wave"></div>
                 <div class="wave"></div>
                 <div class="wave"></div>
@@ -115,6 +115,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.none {
+  display: none;
+}
 .status-box {
   display: flex;
   .right {
