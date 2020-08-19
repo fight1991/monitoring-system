@@ -3,7 +3,7 @@ export default {
   path: '/bus/alarm',
   name: 'bus-alarm',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'alarmM'
   },
   children: [
@@ -11,7 +11,7 @@ export default {
       path: '/bus/alarm/realTime',
       name: 'bus-alarm-realTime',
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'alarmTime',
         component: () => import(/* webpackChunkName: "bus-alarm-realTime" */ '@/views/pages/demo')
       }
@@ -20,7 +20,7 @@ export default {
       path: '/bus/alarm/history',
       name: 'bus-alarm-history',
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'alarmHistory',
         component: () => import(/* webpackChunkName: "bus-alarm-history" */ '@/views/pages/demo')
       }
