@@ -164,12 +164,12 @@ export default {
   created () {
     let { id, flowType, status } = this.$route.query
     this.deviceId = id
-    this.flowType = flowType
+    this.flowType = Number(flowType)
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    if (status === 1) { // 设备状态为1 即正常建立websocket连接
+    if (Number(status) === 1) { // 设备状态为1 即正常建立websocket连接
       this.createWebsocket(this.getWsInfo)
     }
   },
@@ -181,7 +181,7 @@ export default {
   mounted () {
     let lineParams = null
     let barParams = null
-    if (this.flowType !== 1) { // 电池业务
+    if (this.flowType > 1) { // 电池业务
       lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
       barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
