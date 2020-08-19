@@ -45,7 +45,7 @@
         </el-row>
         <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:firmwareStatus="{row}">
-            {{row.firmwareStatus == 1 ? '测试' : '发布'}}
+            {{row.firmwareStatus == 1 ? $t('common.test') : $t('common.rel')}}
           </template>
           <template v-slot:modelType="{row}">
             {{translateDeviceType(row.modelType)}}
@@ -150,11 +150,11 @@ export default {
     translateDeviceType (num) {
       switch (num) {
         case 1 :
-          return '逆变器'
+          return this.$t('common.invert')
         case 2:
-          return '模块'
+          return this.$t('common.module')
         default:
-          return '电池'
+          return this.$t('common.battery')
       }
     }
   }

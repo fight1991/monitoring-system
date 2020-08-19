@@ -47,6 +47,7 @@ export default {
     remark: '备注'
   },
   common: {
+    timeout: '超时',
     list: '列表',
     checked: '已选择项数 :',
     time: '时间',

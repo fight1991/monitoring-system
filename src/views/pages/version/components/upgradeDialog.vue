@@ -16,7 +16,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$t('firmware.SoftType')" prop="softType">
-            <el-select v-model="dataForm.softType" clearable style="width:100%">
+            <el-select v-model="dataForm.softType" clearable style="width:100%" @change="softTypeChange">
               <el-option v-for="item in solfTypeList" :label="item" :value="item" :key="item"></el-option>
             </el-select>
           </el-form-item>
@@ -31,6 +31,13 @@
         <el-col :span="24">
           <el-form-item :label="$t('firmware.firmwareName')">
             <el-input v-model="nameNote.name" readonly></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item :label="$t('common.timeout')" prop="timeout">
+            <el-input v-model.number="dataForm.timeout" placeholder="3 ~ 40min">
+              <span slot="suffix">min</span>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -53,16 +60,22 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      solfTypeList: ['wifi', 'gprs', 'lan'], // 软件类别
-      versionTypeList: [], // 软件版本
+      typeList: [],
       dataForm: {
         taskName: '',
+        softType: '',
         id: '',
-        softType: ''
+        timeout: 3
       },
       versionInfo: {},
       rules: {
-        taskName: [{ required: true, message: 'it is required', trigger: 'blur' }]
+        taskName: [{ required: true, message: 'it is required', trigger: 'blur' }],
+        softType: [{ required: true, message: 'it is required', trigger: 'change' }],
+        id: [{ required: true, message: 'it is required', trigger: 'change' }],
+        timeout: [
+          { required: true, message: 'it is required', trigger: 'blur' },
+          { type: 'number', min: 3, max: 40, message: 'it is invalid 3 ~ 40min', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -71,11 +84,18 @@ export default {
       this.dialogVisible = newData
     }
   },
-  props: ['sns', 'visible'],
+  props: ['sns', 'visible', 'type'],
   created () {},
   computed: {
     solfVersionList () {
       return this.versionInfo[this.dataForm.softType] || []
+    },
+    solfTypeList () { // 软件类别
+      if (this.type === 'device') {
+        return ['master', 'slave', 'manager']
+      } else {
+        return ['wifi', 'gprs', 'lan']
+      }
     },
     nameNote () {
       let obj = { name: '', note: '' }
@@ -94,7 +114,9 @@ export default {
       this.$emit('update:visible', false)
       this.dataForm = {
         taskName: '',
-        version: ''
+        softType: '',
+        id: '',
+        timeout: 3
       }
       this.$nextTick(() => {
         this.$refs.dataForm.clearValidate()
@@ -105,12 +127,12 @@ export default {
       this.$refs.dataForm.validate(valid => (flag = valid))
       if (!flag) return
       let { result } = await this.$axios({
-        url: '/v0/firmware/module/upgrade',
+        url: `/v0/firmware/${this.type}/upgrade`,
         method: 'post',
         globalLoading: true,
         data: {
           ...this.dataForm,
-          modules: this.sns
+          devices: this.sns
         }
       })
       if (result) {
@@ -122,12 +144,15 @@ export default {
     // 获取固件版本信息
     async getVersionInfo () {
       let { result } = await this.$axios({
-        url: '/v0/firmware/module/version',
+        url: `/v0/firmware/${this.type}/version`,
         globalLoading: true
       })
       if (result) {
         this.versionInfo = result
       }
+    },
+    softTypeChange (val) {
+      this.dataForm.id = ''
     }
   }
 }

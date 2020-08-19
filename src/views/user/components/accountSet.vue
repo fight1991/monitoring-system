@@ -2,39 +2,49 @@
   <section>
     <el-row>
       <div class="col">{{$t('user.type')}}</div>
-      <div class="col">{{translateTools(access)}}</div>
+      <div class="col border-b">{{translateTools(access)}}</div>
     </el-row>
-    <el-row class="flex-vertical-center">
+    <el-row class="flex-vertical-center" v-if="access==3">
       <div class="col">
         <el-dropdown
-          @command="getOpText"
           trigger="click">
           <span class="el-dropdown-link">
             {{$t('user.code')}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="$t('join.installer')" @click.native="getInviteCode('installer')">{{$t('user.installer')}}</el-dropdown-item>
-            <el-dropdown-item :command="$t('join.agent')" @click.native="getInviteCode('agent')" divided>{{$t('user.agent')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="getInviteCode('installer')">{{$t('join.installer')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="getInviteCode('agent')" divided>{{$t('join.agent')}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="col getCode">
-        <span></span>
-        <el-input size="mini" v-model="invitCode" readOnly>
-          <span slot="suffix">{{opText}}</span>
-        </el-input>
+        {{opText}}
+        <!-- <el-input size="mini" v-model="invitCode" readOnly>
+          <span slot="suffix"></span>
+        </el-input> -->
       </div>
     </el-row>
+    <el-row v-if="access==2">
+      <el-button size="mini" type="primary" @click="joinVisible=true">{{$t('user.installer')}}</el-button>
+    </el-row>
+    <join-dialog
+      :visible.sync="joinVisible"
+      :title="$t('user.installer')"
+      tag="installer">
+    </join-dialog>
   </section>
 </template>
 
 <script>
+import joinDialog from '@/views/product/joinDialog'
 export default {
   name: 'user-info',
+  components: { joinDialog },
   data () {
     return {
       invitCode: '',
-      opText: this.$t('common.select')
+      opText: '',
+      joinVisible: false
     }
   },
   created () {},
@@ -59,11 +69,8 @@ export default {
         }
       })
       if (result) {
-        this.invitCode = result.code || ''
+        this.opText = result.code || ''
       }
-    },
-    getOpText (command) {
-      this.opText = command
     }
   }
 }
@@ -80,6 +87,8 @@ export default {
   }
   .getCode {
     width: 200px;
+    height: 22px;
+    border-bottom: 1px solid #ccc;
   }
   .edit {
     color: @sys-main-header;

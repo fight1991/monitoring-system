@@ -75,7 +75,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="search" type="device" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="device"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="device" :taskId="taskId"></updetail-dialog>
   </section>
@@ -83,7 +83,7 @@
 <script>
 import inverRemoteMix from './mixins/inverRemoteMix'
 import { device as eventBus } from './common/eventBus'
-import upgradeDialog from './components/iverupgradeDialog'
+import upgradeDialog from './components/upgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
 export default {
