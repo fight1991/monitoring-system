@@ -2,11 +2,11 @@
   <section>
     <el-row>
       <div class="col">{{$t('login.username')}}</div>
-      <div class="col">{{username}}</div>
+      <div class="col border-b">{{username}}</div>
     </el-row>
     <el-row>
       <div class="col">{{$t('login.pw')}}</div>
-      <div class="col">{{'***********'}}</div>
+      <div class="col border-b">{{'***********'}}</div>
       <div class="col edit" @click="pwVisible=true">{{$t('user.edit')}}</div>
     </el-row>
     <el-dialog

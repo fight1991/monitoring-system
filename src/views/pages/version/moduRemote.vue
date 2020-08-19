@@ -60,7 +60,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="search" type="module" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="module"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="module" :taskId="taskId"></updetail-dialog>
   </section>
@@ -68,7 +68,7 @@
 <script>
 import moduRemoteMix from './mixins/moduRemoteMix'
 import { module as eventBus } from './common/eventBus'
-import upgradeDialog from './components/modupgradeDialog'
+import upgradeDialog from './components/upgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
 export default {
