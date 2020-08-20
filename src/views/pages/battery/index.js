@@ -3,7 +3,7 @@ export default {
   path: '/bus/battery',
   name: 'bus-battery',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'batteryM',
     component: () => import(/* webpackChunkName: "bus-battery" */ '@/views/pages/demo')
   }

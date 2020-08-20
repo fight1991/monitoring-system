@@ -20,23 +20,23 @@
       @close="closeDialog"
       :visible.sync="dialogVisible"
       width="750px">
+      <search-bar>
+        <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
+          <el-form-item v-if="type==='plant'">
+            <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-select v-model="searchForm.alarmType" :placeholder="$t('common.alarmType')">
+              <el-option v-for="item in alarmTypeList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
+            <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+          </el-form-item>
+        </el-form>
+      </search-bar>
       <div class="container flex-column-between" v-setH:min="setDivH-250">
-        <search-bar>
-          <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
-            <el-form-item v-if="type==='plant'">
-              <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-select v-model="searchForm.alarmType" :placeholder="$t('common.alarmType')">
-                <el-option v-for="item in alarmTypeList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
-            </el-form-item>
-          </el-form>
-        </search-bar>
         <func-bar>
           <common-table :tableHeadData="tableHead" :tableList="resultList">
           </common-table>

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="130px">
-      <el-row v-for="(ele) in formItems" :key="ele.key">
-        <el-col :span="16">
+  <div class="remote-set">
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="200px">
+      <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
+        <div class="col-left">
           <!-- input组件 -->
           <template v-if="ele.elemType.uiType === 'input'">
             <el-form-item :label="ele.name" :prop="ele.key"
@@ -37,14 +37,14 @@
               </el-select>
             </el-form-item>
           </template>
-        </el-col>
-        <el-col :span="4" :offset="1" v-show="!isBlock && ele.elemType.uiType!='switch'">
+        </div>
+        <div class="col-right" v-show="!isBlock && ele.elemType.uiType!='switch'">
           <el-button type="success" size="mini" icon="iconfont icon-carry-out" circle @click="singleBtn(ele.key)"></el-button>
-        </el-col>
+        </div>
       </el-row>
     </el-form>
-    <el-row>
-      <el-col :span="14" align="center">
+    <el-row style="width:350px">
+      <el-col align="center">
         <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
       </el-col>
     </el-row>
@@ -132,6 +132,9 @@ export default {
       })
       if (result) {
         this.$message.success(this.$t('common.success'))
+        if (key) {
+          this.getFormValueByKey(this.id, this.keyWord)
+        }
       }
     },
     // 表单placeHoler
@@ -180,4 +183,7 @@ export default {
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
+.col-right {
+  margin-left: 10px;
+}
 </style>

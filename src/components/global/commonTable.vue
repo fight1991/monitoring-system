@@ -78,10 +78,8 @@ export default {
     }
   },
   props: {
-    maxHeight: {
-      default () {
-        return window.innerHeight - this.$store.state.tableH
-      }
+    lowsNum: { // 根据查询条件行数计算表格剩下的高度
+      default: 1
     },
     height: {
       default: ''
@@ -150,7 +148,7 @@ export default {
       }
       return {
         prop: 'max-height',
-        value: this.maxHeight
+        value: window.innerHeight - this.$store.state.tableH - (this.lowsNum - 1) * 50
       }
     }
   },

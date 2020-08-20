@@ -3,7 +3,7 @@ export default {
   path: '/bus/dataView',
   name: 'bus-data-view',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'board',
     page: 'board',
     component: () => import(/* webpackChunkName: "bus-plant-detail" */ '@/views/pages/plant/plantDetail')
