@@ -1,7 +1,7 @@
 <template>
   <section class="sys-main">
     <!-- 电站名称区域 -->
-    <div class="block bg-c mg-b15">
+    <div class="block show-shadow bg-c mg-b15">
       <div class="plant-head flex-between">
         <div class="plant-box flex-vertical-center">
           <div class="plant-name flex-center">
@@ -59,7 +59,7 @@
       <plant-status :incomeDetail="incomeDetail" :batShow="false" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
     </div>
     <!-- 功率 统计 设备列表 -->
-    <div class="block mg-b15">
+    <div class="block show-shadow mg-b15">
       <line-bar :id="plantId" :type="'plant'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
@@ -78,7 +78,7 @@
           <today-abnormal :todayFault="todayFault" :id="plantId" :type="'plant'"></today-abnormal>
         </el-col>
         <el-col :span="12">
-          <el-card shadow="never" class="no-bottom">
+          <el-card  class="no-bottom">
             <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
             <div class="progress-container">
               <div class="progress-line">

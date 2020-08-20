@@ -1,7 +1,7 @@
 <template>
   <section class="sys-main">
     <!-- 电站名称区域 -->
-    <div class="block bg-c mg-b15">
+    <div class="block bg-c show-shadow mg-b15">
       <div class="plant-head clearfix">
         <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
@@ -37,7 +37,7 @@
           <today-abnormal :todayFault="todayFault" :type="'device'" :id="deviceId" :contentH="250"></today-abnormal>
         </el-col>
         <el-col :span="16">
-          <el-card shadow="never">
+          <el-card >
             <div class="title border-line" slot="header">
               <!-- Flow graph -->
               {{$t('inverter.powerFD')}}
@@ -51,7 +51,7 @@
       </el-row>
     </div>
     <!-- 功率折线图和电量统计柱状图 -->
-    <div class="container-bottom bg-c">
+    <div class="container-bottom show-shadow bg-c">
       <line-bar :id="deviceId" :type="'device'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
@@ -60,7 +60,7 @@
       </line-bar>
     </div>
     <!-- 多选折线图 -->
-    <div class="container-bottom bg-c">
+    <div class="container-bottom bg-c show-shadow">
       <el-row class="select-line">
         <div class="flex-between">
           <div class="select-box">

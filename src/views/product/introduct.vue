@@ -13,7 +13,7 @@
     <!-- 内容区域 -->
     <div class="content">
       <div class="banxin">
-        <el-card shadow="always">
+        <el-card show-shadow="always">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item name="1">
             <template slot="title">
