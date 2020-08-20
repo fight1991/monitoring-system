@@ -27,7 +27,8 @@ export default {
     afterSale: '售后管理',
     remoteUp: '远程升级',
     infoSys: '消息系统',
-    relog: '日志系统'
+    relog: '日志系统',
+    userCenter: '个人中心'
   },
   join: {
     joinUs: '加入我们',

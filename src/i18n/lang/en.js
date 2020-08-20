@@ -27,7 +27,8 @@ export default {
     afterSale: 'After sales',
     remoteUp: 'Promotion',
     infoSys: 'Message',
-    relog: 'Relog'
+    relog: 'Relog',
+    userCenter: 'User profile'
   },
   join: {
     joinUs: 'JOIN US',

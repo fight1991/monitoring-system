@@ -3,7 +3,7 @@ export default {
   path: '/bus/factory',
   name: 'bus-factory',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'factM',
     component: () => import(/* webpackChunkName: "bus-factory" */ '@/views/pages/demo')
   }

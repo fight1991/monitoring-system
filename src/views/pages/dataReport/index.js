@@ -3,7 +3,7 @@ export default {
   path: '/bus/dataReport',
   name: 'bus-dataReport',
   meta: {
-    permission: [3],
+    permission: [3, 255],
     title: 'data',
     component: () => import(/* webpackChunkName: "bus-dataReport" */ '@/views/pages/dataReport/reportList')
   }
