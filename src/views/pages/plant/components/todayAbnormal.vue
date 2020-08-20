@@ -1,6 +1,6 @@
 <template>
   <div style="width:100%">
-    <el-card shadow="never" class="no-bottom">
+    <el-card  class="no-bottom">
       <div class="title border-line" slot="header">
         {{$t('plant.todayAb')}}
         <i class="fr el-icon-more" @click="dialogVisible=true"></i>
@@ -19,7 +19,7 @@
       @opened="search"
       @close="closeDialog"
       :visible.sync="dialogVisible"
-      width="700px">
+      width="80%">
       <div class="content">
         <search-bar>
           <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">

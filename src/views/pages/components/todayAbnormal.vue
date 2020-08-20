@@ -1,6 +1,6 @@
 <template>
   <div style="width:100%">
-    <el-card shadow="never" class="no-bottom">
+    <el-card  class="no-bottom">
       <div class="title border-line" slot="header">
         {{$t('plant.todayAb')}}
         <i class="fr el-icon-more" @click="dialogVisible=true"></i>

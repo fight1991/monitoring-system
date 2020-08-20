@@ -39,12 +39,12 @@
           </div>
         </div>
       </div>
-      <el-card shadow="never" class="no-bottom">
+      <el-card  class="no-bottom">
         <div class="title border-line" slot="header">{{$t('plant.statusGer')}}</div>
         <income-item :incomeDetail="incomeDetail"></income-item>
       </el-card>
     </div>
-    <div class="right bg-c">
+    <div class="right show-shadow bg-c">
       <div class="weather-content flex-around">
         <div class="time-info">
           <div class="time">{{timeInfo.time}}</div>
@@ -189,14 +189,16 @@ export default {
     margin-right: 10px;
     .top-item {
       .items {
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
         cursor: pointer;
         padding: 10px 20px;
         background-color: #fff;
         box-sizing: border-box;
         width: 24%;
+        transition: all .5s linear;
         &:hover {
           box-shadow: 0 4px 6px rgba(0,0,0,.2);
-          transition: all .5s ease-in-out;
+          transform: translateY(-3px);
         }
         .iconfont {
           font-size: 36px;

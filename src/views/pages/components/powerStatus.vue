@@ -1,7 +1,7 @@
 <template>
   <div class="status-box">
     <div class="left">
-      <el-card shadow="never" class="card-no-padding">
+      <el-card  class="card-no-padding">
         <div class="title border-line" slot="header">{{title}}</div>
         <el-row class="current-kw">
           <el-col :span="8">
@@ -21,7 +21,7 @@
     </div>
     <!-- 储能电池状态 -->
     <div class="right" v-if="flowType>1 && batShow">
-      <el-card shadow="never">
+      <el-card >
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
         <div class="battery-box">
           <div class="battery-img">

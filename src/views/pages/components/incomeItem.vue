@@ -125,7 +125,8 @@ export default {
     }
     .icon-img {
       overflow: hidden;
-      width: 100px;
+      width: 30%;
+      text-align: center;
       padding: 0 10px;
     }
     .plant-text, .plant-money {
