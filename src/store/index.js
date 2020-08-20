@@ -6,7 +6,7 @@ export default new Vuex.Store({
   state: {
     rightsTxt: `Copyright ©${new Date().getFullYear()} `,
     version: process.env.VUE_APP_VERSION, // app版本 国外版, 国内版
-    tableH: 320, // 表格高度
+    tableH: 330, // 表格高度
     successCode: 0, // 业务成功状态码
     isFirst: true, // 是否第一次进入系统
     lang: language, // 语言

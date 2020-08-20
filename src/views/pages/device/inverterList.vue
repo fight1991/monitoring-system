@@ -63,7 +63,7 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="inverterTableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="inverterTableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
