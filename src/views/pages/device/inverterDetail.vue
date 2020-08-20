@@ -1,7 +1,7 @@
 <template>
   <section class="sys-main">
     <!-- 电站名称区域 -->
-    <div class="block bg-c show-shadow mg-b15">
+    <div class="block bg-c show-shadow mg-b12">
       <div class="plant-head clearfix">
         <div class="plant-name flex-center">
           <i class="iconfont icon-nibianqi"></i>
@@ -32,7 +32,7 @@
     <device-status :incomeDetail="incomeDetail" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.equipSta')"></device-status>
     <!-- 今日异常 流向图 -->
     <div class="block">
-      <el-row :gutter="15">
+      <el-row :gutter="12">
         <el-col :span="8">
           <today-abnormal :todayFault="todayFault" :type="'device'" :id="deviceId" :contentH="250"></today-abnormal>
         </el-col>
