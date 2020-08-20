@@ -1,7 +1,7 @@
 <template>
-  <div class="container-top mg-b10">
+  <div class="container-top mg-b12">
     <div class="left">
-      <div class="top-item flex-between mg-b10">
+      <div class="top-item flex-between mg-b12">
         <div class="items flex-around" @click="selectStatus(0)">
           <i class="iconfont icon-sum"></i>
           <div class="items-right">
