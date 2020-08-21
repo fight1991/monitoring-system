@@ -126,13 +126,19 @@ export default {
       let flag = true
       this.$refs.dataForm.validate(valid => (flag = valid))
       if (!flag) return
+      let params = {}
+      if (this.type === 'device') {
+        params.devices = this.sns
+      } else {
+        params.modules = this.sns
+      }
       let { result } = await this.$axios({
         url: `/v0/firmware/${this.type}/upgrade`,
         method: 'post',
         globalLoading: true,
         data: {
           ...this.dataForm,
-          devices: this.sns
+          ...params
         }
       })
       if (result) {
