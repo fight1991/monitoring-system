@@ -5,7 +5,7 @@
         <div class="circle-line box-left">
           <div class="pv icon-pv"></div>
           <div class="inverter icon-inverter"></div>
-          <div class="pv-text">PV&nbsp;:&nbsp;{{pvValue}}</div>
+          <div class="pv-text">PV&nbsp;:&nbsp;{{toFixed(pvValue)}}</div>
           <!-- 从PV流向负载 -->
           <div class="dot1" v-show="path==2 || path==1"></div>
           <!-- 从PV流向电网 -->
