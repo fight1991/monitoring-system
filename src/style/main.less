@@ -592,11 +592,13 @@
   }
 }
 .el-select-dropdown__list {
-  .el-select-dropdown__item:nth-child(n+2) {
+  .el-select-dropdown__item {
     font-size: 12px;
     line-height: 28px;
     height: 28px;
-    border-top: 1px solid #ccc;
+    &:nth-child(n+2) {
+      border-top: 1px solid #ccc;
+    }
   }
 }
 .map-popper {
