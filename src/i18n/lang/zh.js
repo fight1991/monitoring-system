@@ -48,6 +48,7 @@ export default {
     remark: '备注'
   },
   common: {
+    keyword: '请输入关键字',
     timeout: '超时',
     list: '列表',
     checked: '已选择项数 :',
@@ -196,6 +197,7 @@ export default {
     city: '城市',
     address: '地址',
     map: '地图',
+    searchP: '在地图上查找地址',
     price: '电价',
     cancel: '取消',
     new: '创建',

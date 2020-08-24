@@ -28,8 +28,11 @@
     border-color: @sys-border-input;
   }
 }
+.el-input.is-disabled .el-input__inner {
+  background-color: #ebebeb;
+}
 .el-form-item__content > .el-input input[readonly] {
-  background-color: #f5f5f5;
+  background-color: #ebebeb;
 }
 .el-form-item__label {
   line-height: 26px!important;
@@ -191,6 +194,88 @@
     color: gray;
     background-color: #d8d8d8;
     border-color: transparent;
+  }
+}
+.sys-form-style {
+  .input-form {
+    border-top: 1px solid #b7b7b7;
+    .el-form-item--mini.el-form-item, 
+    .el-form-item--small.el-form-item {
+      margin-bottom: 0;
+    }
+    .el-form-item__error {
+      color: white;
+      font-size: 12px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #F56C6C;
+      z-index: 2;
+      padding: 5px 5px;
+      min-width: 20px;
+      line-height: 18px;
+      border-radius: 2px; 
+    }
+    .el-form-item__error:after{
+      border: solid transparent;
+      content: ' ';
+      height: 0;
+      position: absolute;
+      width: 0;
+      border-width: 6px;
+      border-bottom-color: #F56C6C;
+      // bottom: 25px;
+      left: 10px;
+      top: 0;
+      margin-top: -9px;
+    }
+    .el-input--mini .el-input__inner, 
+    .el-range-editor--mini.el-input__inner {
+      // height: 27px!important;
+      // line-height: 27px;
+      border-top: 0;
+      // border-right: 1px solid #b7b7b7!important;
+      border-radius: 0;
+      border-bottom-color: transparent;
+      border-left: 0;
+      border-right: 0;
+      &:focus {
+        border-bottom-color:transparent;
+      }
+    }
+    .el-form-item__label {
+      text-align: right;
+      float: left;
+      font-size: 12px;
+      color: #080808;
+      padding: 0 2px 0 0;
+      box-sizing: border-box;
+      border-top: 0;
+      border-left: 0;
+      line-height: 28px!important;
+    }
+    .el-form-item--mini .el-form-item__content {
+      // line-height: 26px;
+      // height: 26px;
+      border-left: 1px solid #b7b7b7;
+      border-right: 1px solid #b7b7b7;
+      &>.el-input {
+        padding: 0 2px 1px;
+        box-sizing: border-box;
+      }
+      &>.el-select {
+        padding: 0 2px 1px;
+        box-sizing: border-box;
+      }
+    }
+    .el-col {
+      padding: 0;
+      border-bottom: 1px solid #b7b7b7;
+      // border-right: 1px solid #b7b7b7;
+      &:nth-child(2n+1) {
+        border-left: 1px solid #b7b7b7;
+      }
+    }
   }
 }
 .dropDown-upload {
@@ -505,4 +590,15 @@
   .el-card__body {
     padding: 20px 0;
   }
+}
+.el-select-dropdown__list {
+  .el-select-dropdown__item:nth-child(n+2) {
+    font-size: 12px;
+    line-height: 28px;
+    height: 28px;
+    border-top: 1px solid #ccc;
+  }
+}
+.map-popper {
+  z-index: 666!important;
 }

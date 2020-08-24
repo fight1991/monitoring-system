@@ -24,7 +24,7 @@ export default {
     },
     // 初始化高德地图
     initAMap ({ AMap, map }) {
-      let $input = this.$refs['place-map'].$refs['input']
+      let $input = this.$refs['place-map']
       var autoComplete = new AMap.Autocomplete({
         input: $input
       })
@@ -47,6 +47,7 @@ export default {
             this.initGaodeForm(lat, lng, country, province, city)
           }
         })
+        document.documentElement.click()
       })
       // 编辑电站时初始化地图
       if (this.opType === 'edit') {
@@ -64,7 +65,7 @@ export default {
     // 初始化谷歌地图
     initGoogleMap ({ map }) {
       let google = window.google
-      let $input = this.$refs['place-map'].$refs['input']
+      let $input = this.$refs['place-map']
       let componentForm = {
         locality: 'long_name', // 市
         administrative_area_level_1: 'short_name', // 省
@@ -109,6 +110,7 @@ export default {
         }
         marker.setPosition(place.geometry.location)
         marker.setVisible(true)
+        document.documentElement.click()
       })
       if (this.opType === 'edit') {
         let { x, y } = this.dataForm.position

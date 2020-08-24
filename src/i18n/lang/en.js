@@ -48,6 +48,7 @@ export default {
     remark: 'Remarks'
   },
   common: {
+    keyword: 'Key words',
     timeout: 'Time out',
     list: 'List',
     checked: 'Checked :',
@@ -195,7 +196,8 @@ export default {
     country: 'Country',
     city: 'City',
     address: 'Address',
-    map: 'map',
+    map: 'Map',
+    searchP: 'searching for places on the map',
     price: 'Electricity price',
     cancel: 'Cancel',
     new: 'Create',

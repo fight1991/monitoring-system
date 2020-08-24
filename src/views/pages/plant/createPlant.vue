@@ -1,93 +1,100 @@
 <template>
-  <section class="sys-main bg-c" v-setH:min="setDivH">
+  <section class="sys-main sys-form-style bg-c" v-setH:min="setDivH">
     <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
-          <el-row :gutter="20">
-            <el-col :span="14">
-              <div class="input-form">
-                <el-col :span="24">
-                  <el-form-item :label="$t('join.agent')" prop="agent">
-                    <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
-                      <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('plant.name')" prop="details.name">
-                    <el-input v-model="dataForm.details.name" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('plant.type')" prop="details.type">
-                    <el-select v-model="dataForm.details.type" style="width:100%" :placeholder="$t('common.select')">
-                      <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
-                      <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="13">
-                  <el-form-item :label="$t('plant.country')" prop="details.country">
-                    <el-input disabled v-model="dataForm.details.country"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="11">
-                  <el-form-item label-width="50px" :label="$t('plant.city')" prop="details.city">
-                    <el-input disabled v-model="dataForm.details.city"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('plant.address')" prop="details.address">
-                    <el-input ref="place-map" :placeholder="$t('common.enter')" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('common.zone')" prop="timezone">
-                    <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
-                      <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24" v-if="hasSummerTime">
-                  <el-form-item :label="$t('plant.summerTime')" prop="daylight">
-                    <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
-                      <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('common.postcode')" prop="details.postcode">
-                    <el-input v-model="dataForm.details.postcode" clearable></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('plant.price')" prop="details.price">
-                    <el-select v-model="dataForm.details.price" style="width:100%" :placeholder="$t('common.select')">
-                      <el-option
-                        v-for="item in powerList"
-                        :key="item.id" :value="item.name"
-                        :label="item.name + '-' + item.description">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                  <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
-                    <el-input v-model="dataForm.details.systemCapacity" clearable>
-                      <span slot="suffix">kWp</span>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-              </div>
+          <div class="input-form">
+            <el-col :span="12">
+              <el-form-item :label="$t('join.agent')" prop="agent">
+                <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
+                  <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
+                </el-select>
+              </el-form-item>
             </el-col>
-            <el-col :span="10">
-              <div class="map-place">
-                <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
-                <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
-              </div>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.name')" prop="details.name">
+                <el-input v-model="dataForm.details.name" clearable></el-input>
+              </el-form-item>
             </el-col>
-          </el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.type')" prop="details.type">
+                <el-select v-model="dataForm.details.type" style="width:100%" :placeholder="$t('common.select')">
+                  <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
+                  <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.country')" prop="details.country">
+                <el-input disabled v-model="dataForm.details.country"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.city')" prop="details.city">
+                <el-input disabled v-model="dataForm.details.city"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.address')" prop="details.address">
+                <div class="flex-vertical-center" style="padding:1px;box-sizing:border-box;">
+                  <el-input v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')"></el-input>
+                  <el-popover
+                    @show="importMap()"
+                    popper-class="map-popper"
+                    placement="bottom"
+                    trigger="click">
+                    <i slot="reference" class="map-icon el-icon-location-information"></i>
+                    <div class="map-place">
+                      <div class="input-box flex-vertical-center">
+                        <span class="key-word">{{$t('common.keyword')}}</span>
+                        <input class="native-input" ref="place-map" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address">
+                      </div>
+                      <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
+                      <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
+                    </div>
+                  </el-popover>
+                </div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('common.zone')" prop="timezone">
+                <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
+                  <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="hasSummerTime">
+              <el-form-item :label="$t('plant.summerTime')" prop="daylight">
+                <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
+                  <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('common.postcode')" prop="details.postcode">
+                <el-input v-model="dataForm.details.postcode" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.price')" prop="details.price">
+                <el-select v-model="dataForm.details.price" style="width:100%" :placeholder="$t('common.select')">
+                  <el-option
+                    v-for="item in powerList"
+                    :key="item.id" :value="item.name"
+                    :label="item.name + '-' + item.description">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
+                <el-input v-model="dataForm.details.systemCapacity" clearable>
+                  <span slot="suffix">kWp</span>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </div>
         </div>
       </div>
       <div class="title equipment border-line">{{$t('plant.epBind')}} <i class="el-add-icon el-icon-circle-plus-outline" @click="deviceAdd"></i></div>
@@ -95,15 +102,13 @@
         <el-row :gutter="10" v-for="(item, index) in dataForm.devices" :key="'index'+index">
           <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
           <el-col :span="12">
-            <el-form-item :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="{required:true, message: 'sn is invalid', trigger: 'blur'}">
+            <el-form-item label-width="90px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="{required:true, message: 'sn is invalid', trigger: 'blur'}">
               <el-input v-model="item.sn" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4" style="padding-left:0px">
             <span class="op-icon">
               <i class="iconfont icon-delete" @click="deviceDelete(index)"></i>
-              <!-- <i class="fr iconfont icon-add" @click="deviceAdd" v-show="index==0"></i> -->
-              <!-- v-show="!(index==0 && deleteBtn)" -->
               <i class="el-icon-error" v-show="item.isPass === 0"></i>
             </span>
           </el-col>
@@ -200,8 +205,8 @@ export default {
         daylight: [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.name': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.type': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.country': [{ required: true, message: ' ', trigger: 'change' }],
-        // 'details.city': [{ required: true, message: 'it is required', trigger: 'blur' }],
+        'details.country': [{ required: false, message: 'it is required', trigger: 'change' }],
+        'details.city': [{ required: false, message: 'it is required', trigger: 'blur' }],
         'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.price': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.systemCapacity': [
@@ -233,7 +238,7 @@ export default {
       // 数据初始化完成后, 再创建地图
       await this.getStationInfo(this.plantId)
     }
-    this.importMap()
+    // this.importMap()
   },
   watch: {
     '$store.state.lang': async function () {
@@ -425,9 +430,10 @@ export default {
         this.dataForm.details.address = ''
       }
     },
-    addressChange (val) {
+    addressChange (e) {
       this.isSelectMap = false
-      if (!val) {
+      console.log(e.target.value)
+      if (!e.target.value) {
         this.zoneInfo.timezones = []
         this.dataForm.details.country = ''
         this.dataForm.details.city = ''
@@ -437,6 +443,16 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.map-icon {
+  font-size: 22px;
+  color: @sys-main-header;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: all 1s;
+  &:hover {
+    transform: scale(1.2);
+  }
+}
 .title {
   margin: 15px 10px;
   font-size: 14px;
@@ -446,6 +462,35 @@ export default {
 }
 .col-container {
   padding: 0 30px;
+  display: flex;
+  .input-form {
+    flex: 1;
+  }
+}
+.map-place {
+  height: 300px;
+  width: 400px;
+  position: relative;
+  .input-box {
+    box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 667;
+    padding: 10px;
+    font-size: 12px;
+    background-color: #fff;
+    .key-word {
+      background-color: #e9ecef;
+      border: 1px solid #ced4da;
+      border-right: none;
+    }
+    .native-input, .key-word{
+      box-sizing: border-box;
+      height: 24px;
+      padding: 2px;
+    }
+  }
 }
 .devices-box {
   padding: 0 40px;
@@ -493,8 +538,5 @@ export default {
   color: #F56C6C;
   padding: 5px 10px;
 }
-.map-place {
-  height: 355px;
-  box-shadow: 0 0 4px 1px #ddd;
-}
+
 </style>
