@@ -75,7 +75,7 @@
                 <el-col :span="24">
                   <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
                     <el-input v-model="dataForm.details.systemCapacity" clearable>
-                      <span slot="suffix">kW</span>
+                      <span slot="suffix">kWp</span>
                     </el-input>
                   </el-form-item>
                 </el-col>
