@@ -2,6 +2,7 @@ export default {
   data () {
     return {
       countryShortName: '',
+      timer: null,
       gMapAdress: { // 谷歌地图暂存容器
         country: '', // 国家
         administrative_area_level_1: '', // 省
@@ -47,7 +48,9 @@ export default {
             this.initGaodeForm(lat, lng, country, province, city)
           }
         })
-        document.documentElement.click()
+        this.timer = setTimeout(() => {
+          document.documentElement.click()
+        }, 300)
       })
       // 编辑电站时初始化地图
       if (this.opType === 'edit') {
@@ -110,7 +113,9 @@ export default {
         }
         marker.setPosition(place.geometry.location)
         marker.setVisible(true)
-        document.documentElement.click()
+        this.timer = setTimeout(() => {
+          document.documentElement.click()
+        }, 300)
       })
       if (this.opType === 'edit') {
         let { x, y } = this.dataForm.position

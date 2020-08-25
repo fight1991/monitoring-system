@@ -113,6 +113,7 @@ export default {
     total: '总数',
     plant: '电站',
     more: '更多',
+    currency: '币种',
     onSta: '在线状态',
     plantsName: '电站名称',
     InvType: '逆变器型号',

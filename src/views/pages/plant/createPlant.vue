@@ -13,8 +13,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item :label="$t('plant.country')" prop="details.country">
+                <el-input disabled v-model="dataForm.details.country"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('plant.name')" prop="details.name">
                 <el-input v-model="dataForm.details.name" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.city')" prop="details.city">
+                <el-input disabled v-model="dataForm.details.city"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -26,42 +36,33 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('plant.country')" prop="details.country">
-                <el-input disabled v-model="dataForm.details.country"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('plant.city')" prop="details.city">
-                <el-input disabled v-model="dataForm.details.city"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('plant.address')" prop="details.address">
-                <div class="flex-vertical-center" style="padding:1px;box-sizing:border-box;">
-                  <el-input v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')"></el-input>
-                  <el-popover
-                    @show="importMap()"
-                    popper-class="map-popper"
-                    placement="bottom"
-                    trigger="click">
-                    <i slot="reference" class="map-icon el-icon-location-information"></i>
-                    <div class="map-place">
-                      <div class="input-box flex-vertical-center">
-                        <span class="key-word">{{$t('common.keyword')}}</span>
-                        <input class="native-input" ref="place-map" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address">
-                      </div>
-                      <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
-                      <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
-                    </div>
-                  </el-popover>
-                </div>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item :label="$t('common.zone')" prop="timezone">
                 <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('plant.address')" prop="details.address">
+                <el-input class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
+                  <span slot="suffix">
+                    <el-popover
+                      @show="importMap()"
+                      popper-class="map-popper"
+                      placement="bottom"
+                      trigger="click">
+                      <i slot="reference" class="map-icon el-icon-location-information"></i>
+                      <div class="map-place">
+                        <div class="input-box flex-vertical-center">
+                          <span class="key-word">{{$t('common.keyword')}}</span>
+                          <input class="native-input" ref="place-map" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address">
+                        </div>
+                        <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
+                        <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
+                      </div>
+                    </el-popover>
+                  </span>
+                </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" v-if="hasSummerTime">
@@ -77,15 +78,24 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('plant.price')" prop="details.price">
-                <el-select v-model="dataForm.details.price" style="width:100%" :placeholder="$t('common.select')">
-                  <el-option
-                    v-for="item in powerList"
-                    :key="item.id" :value="item.name"
-                    :label="item.name + '-' + item.description">
-                  </el-option>
-                </el-select>
-              </el-form-item>
+              <el-col :span="14" class="no-border">
+                <el-form-item :label="$t('plant.price')" prop="details.price">
+                  <el-input v-model="dataForm.details.price" clearable>
+                    <span slot="suffix">/kWh</span>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10" class="no-border">
+                <el-form-item :label="$t('common.currency')" label-width="70px" prop="details.currency">
+                  <el-select default-first-option v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
+                    <el-option
+                      v-for="item in currencyList"
+                      :key="item" :value="item"
+                      :label="item">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
@@ -99,18 +109,20 @@
       </div>
       <div class="title equipment border-line">{{$t('plant.epBind')}} <i class="el-add-icon el-icon-circle-plus-outline" @click="deviceAdd"></i></div>
       <div class="devices-box">
-        <el-row :gutter="10" v-for="(item, index) in dataForm.devices" :key="'index'+index">
+        <el-row :gutter="10">
           <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
-          <el-col :span="12">
-            <el-form-item label-width="90px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="{required:true, message: 'sn is invalid', trigger: 'blur'}">
-              <el-input v-model="item.sn" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" style="padding-left:0px">
-            <span class="op-icon">
-              <i class="iconfont icon-delete" @click="deviceDelete(index)"></i>
-              <i class="el-icon-error" v-show="item.isPass === 0"></i>
-            </span>
+          <el-col :md="12" :lg="8" v-for="(item, index) in dataForm.devices" :key="'index'+index">
+            <el-col :span="20">
+              <el-form-item label-width="80px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="[{required:true, message: 'sn is invalid', trigger: 'blur'}, {validator: checkSameItem, trigger: 'blur'}]">
+                <el-input v-model="item.sn" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" style="padding-left:0px">
+              <span class="op-icon">
+                <i class="iconfont icon-delete" @click="deviceDelete(index, item.sn)"></i>
+                <i class="el-icon-error" v-show="item.isPass === 0"></i>
+              </span>
+            </el-col>
           </el-col>
         </el-row>
       </div>
@@ -184,6 +196,7 @@ export default {
           city: '',
           address: '',
           price: '',
+          currency: '',
           capacity: '',
           quantity: '',
           stationID: '',
@@ -208,42 +221,43 @@ export default {
         'details.country': [{ required: false, message: 'it is required', trigger: 'change' }],
         'details.city': [{ required: false, message: 'it is required', trigger: 'blur' }],
         'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.price': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.currency': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.price': [
+          { required: true, message: 'it is required', trigger: 'blur' },
+          { message: 'it is invalid', pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+        ],
         'details.systemCapacity': [
           { required: true, message: 'it is required', trigger: 'blur' },
           { message: 'it is invalid', pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
         ],
         'details.postcode': [{ required: true, message: 'it is required', trigger: 'blur' }]
       },
-      powerList: [
-        { id: '3', name: 'CNY' }
-      ]
+      currencyList: []
     }
   },
   async created () {
-    if (this.access > 1) {
-      await this.getPriceList()
-      await this.getAgentList()
-      // 复制模板
-      this.countryList = await this.getCountryList()
-    }
-    this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
-  },
-  async mounted () {
-    // 页面类型 add / edit
     this.opType = this.$route.meta.opType
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
       this.isSelectMap = true
-      // 数据初始化完成后, 再创建地图
-      await this.getStationInfo(this.plantId)
+      this.getStationInfo(this.plantId)
     }
+    if (this.access > 1) {
+      await this.getCurrencyList()
+      await this.getAgentList()
+      if (this.opType === 'add') {
+        this.dataForm.details.currency = this.currencyList[0] || ''
+      }
+    }
+    // 复制模板
+    this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
+  },
+  mounted () {
     // this.importMap()
   },
-  watch: {
-    '$store.state.lang': async function () {
-      this.access > 1 && this.$route.name === 'bus-plant-add' && (this.countryList = await this.getCountryList())
-    }
+  watch: {},
+  beforeDestroy () {
+    this.timer && clearTimeout(this.timer)
   },
   computed: {
     deleteBtn () { // 绑定的设备length为1 且 设备序列号或注册码为空不显示删除按钮
@@ -282,13 +296,13 @@ export default {
         this.dataForm.agent = result.default || ''
       }
     },
-    // 获取电价列表
-    async getPriceList () {
+    // 获取币种列表
+    async getCurrencyList () {
       let { result } = await this.$axios({
-        url: '/v0/plant/earnings/pricelist'
+        url: '/v0/plant/earnings/currency'
       })
       if (result && result.length > 0) {
-        this.powerList = result
+        this.currencyList = result
       }
       return true
     },
@@ -307,8 +321,8 @@ export default {
       }
     },
     // 设备删除
-    async deviceDelete (index) {
-      let res = await this.$confirm(this.$t('common.tips2'), this.$t('common.tip'), {
+    async deviceDelete (index, sn) {
+      let res = await this.$confirm(this.$t('common.tips2') + ' ' + sn, this.$t('common.tip'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
@@ -349,6 +363,18 @@ export default {
       if (!res) return
       this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
       this.$refs.dataForm.clearValidate()
+    },
+    // 校验输入的sn是否已存在
+    checkSameItem (rule, value, callback) {
+      if (!value) {
+        callback()
+      }
+      let isExist = this.dataForm.devices.filter(v => v.sn === value)
+      if (isExist && isExist.length > 1) {
+        callback(new Error('the sn already exists'))
+        return
+      }
+      callback()
     },
     // 确认按钮
     async confirmBtn () {
@@ -447,7 +473,7 @@ export default {
   font-size: 22px;
   color: @sys-main-header;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 3px 10px 0;
   transition: all 1s;
   &:hover {
     transform: scale(1.2);
@@ -493,7 +519,7 @@ export default {
   }
 }
 .devices-box {
-  padding: 0 40px;
+  padding: 0 30px;
 }
 .op-icon {
   display: block;
