@@ -111,7 +111,7 @@
       <div class="devices-box">
         <el-row :gutter="10">
           <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
-          <el-col :md="12" :lg="8" v-for="(item, index) in dataForm.devices" :key="'index'+index">
+          <el-col :lg="8" :md="12" v-for="(item, index) in dataForm.devices" :key="'index'+index">
             <el-col :span="20">
               <el-form-item label-width="80px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="[{required:true, message: 'sn is invalid', trigger: 'blur'}, {validator: checkSameItem, trigger: 'blur'}]">
                 <el-input v-model="item.sn" clearable></el-input>
