@@ -36,10 +36,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('common.zone')" prop="timezone">
-                <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
-                  <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
-                </el-select>
+              <el-form-item :label="$t('common.postcode')" prop="details.postcode">
+                <el-input v-model="dataForm.details.postcode" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -72,9 +70,11 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('common.postcode')" prop="details.postcode">
-                <el-input v-model="dataForm.details.postcode" clearable></el-input>
+             <el-col :span="12">
+              <el-form-item :label="$t('common.zone')" prop="timezone">
+                <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
+                  <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">

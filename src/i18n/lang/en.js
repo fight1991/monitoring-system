@@ -20,7 +20,7 @@ export default {
     inverUp: 'Inverter Remote Upgrade',
     moduleUp: 'Dataloggor Remote Upgrade',
     data: 'Data Report',
-    alarmM: 'Alarm',
+    alarmM: 'Error list',
     alarmTime: 'Realtime',
     alarmHistory: 'History',
     factM: 'Factory',

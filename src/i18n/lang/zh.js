@@ -20,7 +20,7 @@ export default {
     inverUp: '逆变器远程升级',
     moduleUp: '模块远程升级',
     data: '数据报表',
-    alarmM: '告警管理',
+    alarmM: '报错记录',
     alarmTime: '实时告警',
     alarmHistory: '历史告警查询',
     factM: '工厂管理',
