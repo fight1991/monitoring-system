@@ -5,29 +5,19 @@
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
           <div class="input-form">
-            <el-col :span="12">
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('join.agent')" prop="agent">
                 <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('plant.country')" prop="details.country">
-                <el-input disabled v-model="dataForm.details.country"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.name')" prop="details.name">
                 <el-input v-model="dataForm.details.name" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('plant.city')" prop="details.city">
-                <el-input disabled v-model="dataForm.details.city"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.type')" prop="details.type">
                 <el-select v-model="dataForm.details.type" style="width:100%" :placeholder="$t('common.select')">
                   <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
@@ -35,12 +25,22 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :sm="12" :lg="8">
+              <el-form-item :label="$t('plant.country')" prop="details.country">
+                <el-input disabled v-model="dataForm.details.country"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :sm="12" :lg="8">
+              <el-form-item :label="$t('plant.city')" prop="details.city">
+                <el-input disabled v-model="dataForm.details.city"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.postcode')" prop="details.postcode">
                 <el-input v-model="dataForm.details.postcode" clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.address')" prop="details.address">
                 <el-input class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
                   <span slot="suffix">
@@ -63,45 +63,43 @@
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12" v-if="hasSummerTime">
+            <el-col :sm="12" :lg="8" v-if="hasSummerTime">
               <el-form-item :label="$t('plant.summerTime')" prop="daylight">
                 <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-             <el-col :span="12">
+             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.zone')" prop="timezone">
                 <el-select v-model="dataForm.timezone" filterable :disabled="!zoneIsShow" style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="item in zoneInfo.timezones" :key="item" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-col :span="14" class="no-border">
-                <el-form-item :label="$t('plant.price')" prop="details.price">
-                  <el-input v-model="dataForm.details.price" clearable>
-                    <span slot="suffix">/kWh</span>
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10" class="no-border">
-                <el-form-item :label="$t('common.currency')" label-width="70px" prop="details.currency">
-                  <el-select default-first-option v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
-                    <el-option
-                      v-for="item in currencyList"
-                      :key="item" :value="item"
-                      :label="item">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-col>
-            <el-col :span="12">
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
                 <el-input v-model="dataForm.details.systemCapacity" clearable>
                   <span slot="suffix">kWp</span>
                 </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :sm="12" :lg="8">
+              <el-form-item :label="$t('plant.price')" prop="details.price">
+                <el-input v-model="dataForm.details.price" clearable>
+                  <span slot="suffix">/kWh</span>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :sm="12" :lg="8">
+              <el-form-item :label="$t('common.currency')" prop="details.currency">
+                <el-select default-first-option v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
+                  <el-option
+                    v-for="item in currencyList"
+                    :key="item" :value="item"
+                    :label="item">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </div>
@@ -111,7 +109,7 @@
       <div class="devices-box">
         <el-row :gutter="10">
           <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
-          <el-col :lg="8" :md="12" v-for="(item, index) in dataForm.devices" :key="'index'+index">
+          <el-col :lg="8" :sm="12" v-for="(item, index) in dataForm.devices" :key="'index'+index">
             <el-col :span="20">
               <el-form-item label-width="80px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="[{required:true, message: 'sn is invalid', trigger: 'blur'}, {validator: checkSameItem, trigger: 'blur'}]">
                 <el-input v-model="item.sn" clearable></el-input>
