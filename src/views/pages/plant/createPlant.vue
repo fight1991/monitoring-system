@@ -19,7 +19,7 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.type')" prop="details.type">
-                <el-select v-model="dataForm.details.type" style="width:100%" :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.details.type" style="width:100%" filterable default-first-option :placeholder="$t('common.select')">
                   <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
                   <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
                 </el-select>
@@ -93,7 +93,7 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.currency')" prop="details.currency">
-                <el-select default-first-option v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
+                <el-select default-first-option filterable v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
                   <el-option
                     v-for="item in currencyList"
                     :key="item" :value="item"
