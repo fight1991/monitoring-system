@@ -171,7 +171,7 @@ export default {
     errorMg1: 'Username or Email is invalid',
     errorMg2: 'Mobile number is invalid',
     errorMg3: 'Email is invalid',
-    errorMg4: 'Mobile number is invalid',
+    errorMg4: 'Account is invalid',
     errorMg5: 'Password is invalid',
     errorMg6: 'Please enter 4-digit verification code',
     tips1: '4-20 characters, composed of English letters and numbers',
