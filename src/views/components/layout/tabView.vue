@@ -25,7 +25,7 @@
           <el-scrollbar wrap-class="tab-scrollbar-wrapper" v-loading="item.loadingNum > 0">
             <div class="tab-content" v-if="item.isShow">
               <component :is="item.components[item.components.length-1]"></component>
-              <div v-show="index>0" class="copy-right" v-text="$store.state.rightsTxt + $t('login.allRight')"></div>
+              <div v-show="index>0" class="copy-right" v-text="$store.state.rightsTxt + 'PvHub,All rights reserved'"></div>
             </div>
           </el-scrollbar>
           <!-- 组件内容区域结束 -->
