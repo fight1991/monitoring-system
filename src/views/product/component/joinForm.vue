@@ -50,10 +50,10 @@ export default {
         moduleSN: ''
       },
       rules: {
-        organNameS: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        organNameM: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        moduleSN: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        code: [{ required: true, message: 'it is required', trigger: 'blur' }]
+        organNameS: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        organNameM: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        moduleSN: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        code: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
       }
     }
   },

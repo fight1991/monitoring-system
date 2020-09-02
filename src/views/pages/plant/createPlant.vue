@@ -1,10 +1,10 @@
 <template>
-  <section class="sys-maim bg-c" v-setH:min="setDivH">
+  <section class="sys-main bg-c" v-setH:min="setDivH">
     <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
-          <div class="input-form">
+          <el-row :gutter="60" class="input-form">
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('join.agent')" prop="agent">
                 <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
@@ -102,7 +102,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          </div>
+          </el-row>
         </div>
       </div>
       <div class="title equipment border-line">{{$t('plant.epBind')}} <i class="el-add-icon el-icon-circle-plus-outline" @click="deviceAdd"></i></div>
@@ -111,7 +111,7 @@
           <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
           <el-col :lg="8" :sm="12" v-for="(item, index) in dataForm.devices" :key="'index'+index">
             <el-col :span="20">
-              <el-form-item label-width="80px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="[{required:true, message: 'sn is invalid', trigger: 'blur'}, {validator: checkSameItem, trigger: 'blur'}]">
+              <el-form-item label-width="80px" :label="$t('plant.sn')" :prop="'devices.'+index+'.sn'" :rules="[{required:true, message: messageValid('require'), trigger: 'blur'}, {validator: checkSameItem, trigger: 'blur'}]">
                 <el-input v-model="item.sn" clearable></el-input>
               </el-form-item>
             </el-col>
@@ -211,24 +211,24 @@ export default {
         isPass: 1
       },
       rules: {
-        agent: [{ required: true, message: 'it is required', trigger: 'change' }],
-        timezone: [{ required: true, message: 'it is required', trigger: 'change' }],
-        daylight: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        'details.name': [{ required: true, message: 'it is required', trigger: 'blur' }],
-        'details.type': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.country': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.city': [{ required: true, message: 'it is required', trigger: 'blur' }],
-        'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.currency': [{ required: true, message: 'it is required', trigger: 'change' }],
+        agent: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        timezone: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        daylight: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.name': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.type': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        'details.country': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        'details.city': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.address': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        'details.currency': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
         'details.price': [
-          { required: true, message: 'it is required', trigger: 'blur' },
-          { message: 'it is invalid', pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+          { required: true, message: this.messageValid('require'), trigger: 'blur' },
+          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
         ],
         'details.systemCapacity': [
-          { required: true, message: 'it is required', trigger: 'blur' },
-          { message: 'it is invalid', pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+          { required: true, message: this.messageValid('require'), trigger: 'blur' },
+          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
         ],
-        'details.postcode': [{ required: true, message: 'it is required', trigger: 'blur' }]
+        'details.postcode': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
       },
       currencyList: []
     }
@@ -369,7 +369,7 @@ export default {
       }
       let isExist = this.dataForm.devices.filter(v => v.sn === value)
       if (isExist && isExist.length > 1) {
-        callback(new Error('the sn already exists'))
+        callback(new Error(this.$t('plant.snIsExist')))
         return
       }
       callback()
@@ -484,8 +484,10 @@ export default {
 .foot-btn {
   padding: 20px 0;
 }
+.devices-box,.col-container {
+  padding: 0 50px;
+}
 .col-container {
-  padding: 0 30px;
   display: flex;
   .input-form {
     flex: 1;
@@ -515,9 +517,6 @@ export default {
       padding: 2px;
     }
   }
-}
-.devices-box {
-  padding: 0 30px;
 }
 .op-icon {
   display: block;

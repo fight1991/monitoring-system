@@ -48,6 +48,8 @@ export default {
     remark: '备注'
   },
   common: {
+    require: '必填',
+    valid: '格式或类型错误',
     keyword: '请输入关键字',
     timeout: '超时',
     list: '列表',
@@ -189,6 +191,7 @@ export default {
     summerTime: '夏令时',
     crePlant: '创建电站',
     sn: '序列号',
+    snIsExist: 'SN 已经存在',
     key: '注册码',
     plantSet: '电站设置',
     epBind: '设备绑定',

@@ -48,6 +48,8 @@ export default {
     remark: 'Remarks'
   },
   common: {
+    require: "it's required",
+    valid: "it's invalid",
     keyword: 'Key words',
     timeout: 'Time out',
     list: 'List',
@@ -189,6 +191,7 @@ export default {
     summerTime: 'Summer time',
     crePlant: 'New plant',
     sn: 'SN',
+    snIsExist: 'the sn already exists',
     key: 'KEY',
     plantSet: 'Plant',
     epBind: 'Equipment',

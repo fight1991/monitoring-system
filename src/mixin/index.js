@@ -52,6 +52,10 @@ export default {
         return 0
       }
       return temp.toFixed(num)
+    },
+    // 校验提示
+    messageValid (type) {
+      return this.$t('common.' + type)
     }
   }
 }
