@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main sys-form-style bg-c" v-setH:min="setDivH">
+  <section class="sys-maim bg-c" v-setH:min="setDivH">
     <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
@@ -216,8 +216,8 @@ export default {
         daylight: [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.name': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.type': [{ required: true, message: 'it is required', trigger: 'change' }],
-        'details.country': [{ required: false, message: 'it is required', trigger: 'change' }],
-        'details.city': [{ required: false, message: 'it is required', trigger: 'blur' }],
+        'details.country': [{ required: true, message: 'it is required', trigger: 'change' }],
+        'details.city': [{ required: true, message: 'it is required', trigger: 'blur' }],
         'details.address': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.currency': [{ required: true, message: 'it is required', trigger: 'change' }],
         'details.price': [
