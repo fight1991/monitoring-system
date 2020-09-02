@@ -1,6 +1,6 @@
 <template>
-  <section class="sys-main bg-c" v-setH:min="setDivH">
-    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="120px">
+  <section class="sys-main sys-form-style-label bg-c" v-setH:min="setDivH">
+    <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="110px">
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
@@ -30,6 +30,13 @@
                 <el-input disabled v-model="dataForm.details.country"></el-input>
               </el-form-item>
             </el-col>
+            <!-- <el-col :sm="12" :lg="8">
+              <el-form-item :label="$t('plant.country')" prop="details.country">
+                <el-select v-model="dataForm.details.country" filterable style="width:100%" @change="getZoneList" :placeholder="$t('common.select')">
+                  <el-option v-for="item in countryList" :key="item.code" :value="item.name" :label="item.name"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col> -->
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.city')" prop="details.city">
                 <el-input disabled v-model="dataForm.details.city"></el-input>
@@ -243,6 +250,7 @@ export default {
     if (this.access > 1) {
       await this.getCurrencyList()
       await this.getAgentList()
+      // this.countryList = await this.getCountryList()
       if (this.opType === 'add') {
         this.dataForm.details.currency = this.currencyList[0] || ''
       }
@@ -471,7 +479,7 @@ export default {
   font-size: 22px;
   color: @sys-main-header;
   cursor: pointer;
-  padding: 3px 10px 0;
+  padding: 3px 5px 0;
   transition: all 1s;
   &:hover {
     transform: scale(1.2);
