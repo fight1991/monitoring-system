@@ -44,25 +44,23 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.address')" prop="details.address">
-                <el-input class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
-                  <span slot="suffix">
-                    <el-popover
-                      @show="importMap()"
-                      popper-class="map-popper"
-                      placement="bottom"
-                      trigger="click">
-                      <i slot="reference" class="map-icon el-icon-location-information"></i>
-                      <div class="map-place">
-                        <div class="input-box flex-vertical-center">
-                          <span class="key-word">{{$t('common.keyword')}}</span>
-                          <input class="native-input" ref="place-map" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address">
-                        </div>
-                        <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
-                        <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
-                      </div>
-                    </el-popover>
-                  </span>
-                </el-input>
+                <el-popover
+                  @show="importMap()"
+                  popper-class="map-popper"
+                  placement="bottom"
+                  trigger="click">
+                  <el-input slot="reference" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
+                    <span slot="suffix"><i class="map-icon el-icon-location-information"></i></span>
+                  </el-input>
+                  <div class="map-place">
+                    <div class="input-box flex-vertical-center">
+                      <span class="key-word">{{$t('common.keyword')}}</span>
+                      <input class="native-input" ref="place-map" @change="addressChange" @blur="addressBlur" v-model="dataForm.details.address">
+                    </div>
+                    <g-map ref="googleMap" :autoGps="opType=='add'" v-if="appVersion=='abroad'"></g-map>
+                    <a-map ref="gaodeMap" v-else :autoGps="opType=='add'"></a-map>
+                  </div>
+                </el-popover>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
