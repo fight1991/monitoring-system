@@ -26,6 +26,7 @@ export default {
     // 初始化高德地图
     initAMap ({ AMap, map }) {
       let $input = this.$refs['place-map']
+      $input.focus()
       var autoComplete = new AMap.Autocomplete({
         input: $input
       })
@@ -69,6 +70,7 @@ export default {
     initGoogleMap ({ map }) {
       let google = window.google
       let $input = this.$refs['place-map']
+      $input.focus()
       let componentForm = {
         locality: 'long_name', // 市
         administrative_area_level_1: 'short_name', // 省
