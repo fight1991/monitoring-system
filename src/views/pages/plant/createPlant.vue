@@ -43,11 +43,6 @@
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
-              <el-form-item :label="$t('common.postcode')" prop="details.postcode">
-                <el-input v-model="dataForm.details.postcode" clearable></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.address')" prop="details.address">
                 <el-input class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
                   <span slot="suffix">
@@ -68,6 +63,11 @@
                     </el-popover>
                   </span>
                 </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :sm="12" :lg="8">
+              <el-form-item :label="$t('common.postcode')" prop="details.postcode">
+                <el-input v-model="dataForm.details.postcode" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8" v-if="hasSummerTime">
