@@ -45,7 +45,7 @@ export default {
               return formatDate(value, 'HH:mm:ss')
             }
           },
-          maxInterval: 3600 * 1000
+          maxInterval: 3600 * 1000 * 2
         },
         yAxis: {
           name: '',

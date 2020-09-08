@@ -44,7 +44,7 @@ export default {
             },
             // min: () => new Date(new Date().setHours(0, 0, 0, 0)).getTime(), // 0点
             // max: () => new Date(new Date().setHours(24, 0, 0, 0)).getTime() - 1, // 24点
-            maxInterval: 3600 * 1000
+            maxInterval: 3600 * 1000 * 2
           },
           grid: [{
             height: '50%'

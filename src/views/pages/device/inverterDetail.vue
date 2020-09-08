@@ -44,7 +44,7 @@
               <i class="fr el-icon-more flow-icon-more" @click="flowDialog=true"></i>
             </div>
             <div class="flow-map flex-center" style="height:250px">
-              <flow-animate :flowType="flowType" :path="flowPath" :pvValue="pvTotal"></flow-animate>
+              <flow-animate :flowType="flowType" :path="flowPath" :wsData="wsData"></flow-animate>
             </div>
           </el-card>
         </el-col>
@@ -115,6 +115,7 @@ export default {
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       flowDetail: [],
       pvTotal: 0,
+      wsData: {},
       ws: null,
       wsIsOpen: false,
       todayFault: 0,
@@ -170,7 +171,7 @@ export default {
     this.getAbnormalStatus()
     this.getDeviceEarns()
     if (Number(status) === 1) { // 设备状态为1 即正常建立websocket连接
-      this.createWebsocket(this.getWsInfo)
+      // this.createWebsocket(this.getWsInfo)
     }
   },
   computed: {
@@ -372,80 +373,131 @@ export default {
         let data = res.data
         let pvValue = 0
         let tempPath = 1000
-        this.pvTotal = 0
-        let { pvPower, generationPower, loadsPower, feedinPower, gridConsumptionPower, meterPower, invBatPower } = data
+        let pvTotal = 0
+        let { pvPower, generationPower, loadsPower, feedinPower, meterPower, invBatPower, gridConsumptionPower } = data
         if (pvPower && pvPower.length > 0) {
           // pvPower不可能为负值, 只需判断是否有>0的即可
           let flag = pvPower.some(v => v.value > 0)
           flag && (pvValue = 1)
           pvPower.forEach(v => {
-            this.pvTotal += v.value
+            pvTotal += v.value
           })
         }
+        let tempObj = {
+          pv: pvTotal || 0,
+          load: loadsPower.value || 0,
+          bat: invBatPower.value || 0,
+          inverter: generationPower.value || 0,
+          grid: meterPower.value || 0
+        }
         if (this.flowType === 1) {
-          tempPath = this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, feedinPower.value, gridConsumptionPower.value)
+          let tempPower = gridConsumptionPower.value - feedinPower.value
+          tempObj.grid = tempPower
+          tempPath = this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, tempPower, feedinPower.value)
         } else if (this.flowType === 2) {
-          tempPath = this.getFlowPathFor2(pvValue, generationPower.value, feedinPower.value, invBatPower.value, meterPower.value)
+          tempPath = this.getFlowPathFor2(pvValue, generationPower.value, invBatPower.value, meterPower.value)
         } else {
           tempPath = this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
         }
+        this.wsData = tempObj
         this.flowPath = tempPath
       }
     },
     // 计算得出并网机流向图路径
-    getFlowPathFor1 (pvValue, generationPower, loadsPower, feedinPower, gridConsumptionPower) {
-      let tag1 = pvValue > 0 && generationPower > 0 && (feedinPower + generationPower) > 0
-      let tag2 = pvValue > 0 && generationPower > 0 && (feedinPower + generationPower) < 0
-      if (tag1 && feedinPower < 0) {
-        return 1
-      } else if (tag1 && feedinPower > 0) {
+    getFlowPathFor1 (pvValue, generationPower, loadsPower, tempP, feedinPower) {
+      // tempP = gridConsumptionPower - feedinPower
+      // 1. pv --> load
+      let flag1 = pvValue > 0 && generationPower > 0 && (feedinPower + generationPower) > 0
+      // 2. pv --> grid
+      let flag2 = pvValue > 0 && generationPower > 0 && tempP < 0
+      // 3. grid --> load
+      let flag3 = tempP > 0 && (feedinPower + generationPower) > 0
+      if (flag1 && flag2) {
         return 2
-      } else if (tag2 && feedinPower < 0) {
+      } else if (flag1 && flag3) {
+        return 5
+      } else if (flag1) {
+        return 1
+      } else if (flag2) {
         return 3
-      } else if (feedinPower > 0 && (generationPower + feedinPower) > 0) {
+      } else if (flag3) {
         return 4
       } else {
         return 0
       }
     },
     // 计算得出hybrid储能机流向图
-    getFlowPathFor2 (pvPower, generationPower, feedinPower, invBatPower, meterPower) {
-      let flag0 = pvPower > 0 && invBatPower < 0
-      let flag1 = invBatPower > 0 && generationPower > 0 && meterPower && (feedinPower / meterPower) < 0
-      let flag2 = invBatPower > 0 && generationPower > 0 && (generationPower + meterPower) > 0
-      let flag3 = meterPower && (feedinPower / meterPower) > 0 && generationPower < 0 && invBatPower < 0
-      let flag4 = meterPower && (feedinPower / meterPower) > 0 && (generationPower + meterPower) > 0
-      if (flag0) {
-        return 1 // dot1显示
+    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower) {
+      // 1 pv --> bat
+      let flag1 = pvPower > 0 && invBatPower < 0 && generationPower <= 0
+      // 2 pv --> grid
+      let flag2 = pvPower > 0 && generationPower > 0 && meterPower < 0
+      // 3 pv --> load
+      let flag3 = pvPower > 0 && generationPower > 0 && (generationPower + meterPower) > 0
+      // 5 bat --> grid
+      let flag5 = invBatPower > 0 && generationPower > 0 && meterPower < 0
+      // 6 bat --> load
+      let flag6 = invBatPower > 0 && generationPower > 0 && (generationPower + meterPower) > 0
+      // 8 grid --> load
+      let flag8 = meterPower > 0 && (generationPower + meterPower) > 0
+      // 9 grid --> bat
+      let flag9 = meterPower > 0 && generationPower < 0 && invBatPower < 0
+      if (flag1 && flag9) {
+        return 11 // pv和grid同时流向电池
+      } else if (flag3 && flag8) {
+        return 14 // pv和grid同时流向负载
+      } else if (flag6 && flag8) {
+        return 15 // bat和grid同时流向负载
+      } else if (flag1 && flag8) {
+        return 13 // pv流向电池 电网流向负载
       } else if (flag1) {
-        return 2 // dot5显示
+        return 1 // dot1显示
+      } else if (flag2 && flag3) {
+        return 2 // dot8 dot9显示
       } else if (flag2) {
-        return 3 // dot7显示
+        return 3 // dot8显示
       } else if (flag3) {
-        return 4 // dot6显示
-      } else if (flag4) {
-        return 5 // dot2 显示
+        return 4 // dot9显示
+      } else if (flag5 && flag6) {
+        return 7 // dot5 dot7同时显示
+      } else if (flag5) {
+        return 5 // dot5 显示
+      } else if (flag6) {
+        return 6 // dot7 显示
+      } else if (flag8 && flag9) {
+        return 8 // dot2 dot6同时显示
+      } else if (flag8) {
+        return 9 // dot2显示
+      } else if (flag9) {
+        return 10 // dot6显示
       } else {
         return 0
       }
     },
     // 计算得出ac单相储能机流向图
     getFlowPathFor3 (generationPower, meterPower, invBatPower) {
-      let min = -0.05
-      let max = 0.05
-      let flag1 = invBatPower > max && generationPower > max
-      if (flag1 && meterPower < min) {
-        if ((generationPower + meterPower) > max) {
-          return 1 // dot1和dot3同时显示
-        } else {
-          return 2 // 只有dot3显示
-        }
-      } else if (flag1 && meterPower >= max) {
-        return 3 // dot1显示
-      } else if (meterPower > max && (generationPower + meterPower) > max) {
-        return 4 // dot2显示
-      } else if (meterPower > max && generationPower < min && invBatPower < min) {
-        return 5 // dot4显示
+      // 1. bat --> grid
+      let flag1 = invBatPower > 0 && generationPower > 0 && meterPower < 0
+      // 2. bat --> load
+      let flag2 = invBatPower > 0 && generationPower > 0 && (generationPower + meterPower > 0)
+      // 3. grid --> load
+      let flag3 = meterPower > 0 && (generationPower + meterPower) > 0
+      // 4. grid --> bat
+      let flag4 = meterPower > 0 && generationPower < 0 && invBatPower < 0
+      if (flag1 && flag2) {
+        return 1
+      } else if (flag3 && flag4) {
+        return 6
+      } else if (flag1 && flag3) {
+        return 7
+      } else if (flag1) {
+        return 2
+      } else if (flag2) {
+        return 3
+      } else if (flag3) {
+        return 4
+      } else if (flag4) {
+        return 5
       } else {
         return 0
       }
