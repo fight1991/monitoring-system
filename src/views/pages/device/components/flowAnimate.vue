@@ -73,14 +73,14 @@
           <!-- pv -- inverter -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
           <!-- bat -- inverter -->
-          <div :class="{'flow-column': true, 'self': true, 'arrow-t': path.box_center_right==2, 'arrow-b': path.box_center_right==-2}">
+          <div :class="{'flow-column': true, 'self': true, 'arrow-t': path.box_left_right==2, 'arrow-b': path.box_left_right==-2}">
           </div>
         </div>
         <div class="circle-line box-center">
           <!-- invert -- node -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
           <!-- load -- node -->
-          <div :class="{'flow-column': true, 'arrow-t':box_center_right==2}"></div>
+          <div :class="{'flow-column': true, 'arrow-b':path.box_center_right==-2}"></div>
         </div>
         <div class="circle-line box-right">
           <!-- grid -- node -->
