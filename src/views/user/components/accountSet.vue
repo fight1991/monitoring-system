@@ -4,7 +4,7 @@
       <div class="col">{{$t('user.type')}}</div>
       <div class="col border-b">{{translateTools(access)}}</div>
     </el-row>
-    <el-row class="flex-vertical-center" v-if="access==3">
+    <el-row class="flex-vertical-center" v-if="access>=3">
       <div class="col">
         <el-dropdown
           trigger="click">
@@ -24,7 +24,7 @@
         </el-input> -->
       </div>
     </el-row>
-    <el-row v-if="access==2">
+    <el-row v-if="access==2 || access==255">
       <el-button size="mini" type="primary" @click="joinVisible=true">{{$t('user.installer')}}</el-button>
     </el-row>
     <join-dialog
