@@ -139,11 +139,11 @@ export default {
   left: 0;
   top: 0;
   transform: translate3d(-50%, -50%, 0);
-  height: 8px;
-  width: 8px;
+  height: 10px;
+  width: 10px;
   border-radius: 50%;
   border: 1px solid #67C23A;
-  background-color: #fff;
+  background: radial-gradient(#fff, green);
   box-shadow: 0px 0px 4px 1px purple;
   z-index: 10;
 }
