@@ -392,17 +392,17 @@ export default {
         if (this.flowType === 1) {
           let tempPower = gridConsumptionPower.value - feedinPower.value
           tempObj.grid = tempPower
-          this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, tempPower, feedinPower.value)
+          this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, tempPower)
         } else if (this.flowType === 2) {
-          this.getFlowPathFor2(pvValue, generationPower.value, invBatPower.value, meterPower.value)
+          this.getFlowPathFor2(pvValue, generationPower.value, invBatPower.value, meterPower.value, loadsPower.value)
         } else {
-          this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
+          this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value, loadsPower.value)
         }
         this.wsData = tempObj
       }
     },
     // 计算得出并网机流向图路径, 流动状态: 1向右 -1向左 2向上 -2向下 0 静止
-    getFlowPathFor1 (pvValue, generationPower, loadsPower, tempP, feedinPower) {
+    getFlowPathFor1 (pvValue, generationPower, loadsPower, tempP) {
       // tempP = gridConsumptionPower - feedinPower
       let tempObj = {
         box_left_top: 0,
@@ -422,13 +422,13 @@ export default {
       if (tempP < 0) {
         tempObj.box_right_top = 1
       }
-      if (generationPower + feedinPower > 0) {
+      if (loadsPower > 0) {
         tempObj.box_center_right = -2
       }
       this.flowPath = tempObj
     },
     // 计算得出hybrid储能机流向图
-    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower) {
+    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower) {
       let tempObj = {
         box_left_top: 0,
         box_left_right: 0,
@@ -457,13 +457,13 @@ export default {
       if (meterPower < 0) {
         tempObj.box_right_top = 1
       }
-      if (generationPower + meterPower) {
+      if (loadsPower) {
         tempObj.box_center_right = -2
       }
       this.flowPath = tempObj
     },
     // 计算得出ac单相储能机流向图
-    getFlowPathFor3 (generationPower, meterPower, invBatPower) {
+    getFlowPathFor3 (generationPower, meterPower, invBatPower, loadsPower) {
       let tempObj = {
         box_left_top: 0,
         box_center_top: 0,
@@ -488,7 +488,7 @@ export default {
       if (meterPower < 0) {
         tempObj.box_right_top = 1
       }
-      if (generationPower + meterPower > 0) {
+      if (loadsPower > 0) {
         tempObj.box_center_right = -2
       }
       this.flowPath = tempObj
