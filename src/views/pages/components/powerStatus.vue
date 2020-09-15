@@ -23,6 +23,23 @@
     <div class="right" v-if="flowType>1 && batShow">
       <el-card >
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
+        <!-- 电池使用和离线状态动画 -->
+        <div class="battery-box">
+          <div class="battery-img">
+            <div class="header"></div>
+            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}">
+              <div :class="{'percent-bg-copy': true, 'none': batteryInfo.soc==100}">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+              </div>
+            </div>
+          </div>
+          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
+          <div class="item battery-power" :title="Math.abs(batteryInfo.power) || ''">{{$t('common.power')}}: <span class="num">{{Math.abs(toFixed(batteryInfo.power)) || 0}}</span>kW</div>
+          <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
+          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
+        </div>
         <!-- 电池充电动画 -->
         <div class="g-container">
           <div class="g-datas">
