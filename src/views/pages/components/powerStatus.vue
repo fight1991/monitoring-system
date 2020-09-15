@@ -23,29 +23,12 @@
     <div class="right" v-if="flowType>1 && batShow">
       <el-card >
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
-        <!-- 电池使用和离线状态动画 -->
-        <div class="battery-box">
-          <div class="battery-img">
-            <div class="header"></div>
-            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}">
-              <div :class="{'percent-bg-copy': true, 'none': batteryInfo.soc==100}">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-              </div>
-            </div>
-          </div>
-          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
-          <div class="item battery-power" :title="Math.abs(batteryInfo.power) || ''">{{$t('common.power')}}: <span class="num">{{Math.abs(toFixed(batteryInfo.power)) || 0}}</span>kW</div>
-          <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
-          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
-        </div>
         <!-- 电池充电动画 -->
-        <div class="g-container">
+        <div class="g-container" v-show="isCharging">
           <div class="g-datas">
             <div class="g-percent">{{(batteryInfo.soc || 0) + '%'}}</div>
             <!-- <div class="g-power">{{toFixed(batteryInfo.power)}}</div> -->
-            <div class="g-status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</div>
+            <div class="g-status">{{translateStatus(batteryInfo.status, batteryInfo.power) + toFixed(batteryInfo.power) + 'kW'}}</div>
           </div>
           <div class="g-contrast">
             <div class="g-circle"></div>
@@ -62,6 +45,23 @@
               <li></li>
             </ul>
           </div>
+        </div>
+        <!-- 电池使用中和离线状态动画 -->
+        <div class="battery-box" v-show="!isCharging">
+          <div class="battery-img">
+            <div class="header"></div>
+            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}">
+              <div :class="{'percent-bg-copy': true, 'none': batteryInfo.soc==100}">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+              </div>
+            </div>
+          </div>
+          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
+          <div class="item battery-power" :title="Math.abs(batteryInfo.power) || ''">{{$t('common.power')}}: <span class="num">{{Math.abs(toFixed(batteryInfo.power)) || 0}}</span>kW</div>
+          <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
+          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
         </div>
       </el-card>
     </div>
@@ -100,6 +100,10 @@ export default {
         return tempres
       }
       return 0
+    },
+    isCharging () {
+      let { status, power } = this.batteryInfo
+      return Number(status) === 1 && power < 0
     }
   },
   created () {
@@ -260,6 +264,11 @@ export default {
     .status {
       margin: 0 5px 0 15px;
     }
+  }
+}
+@keyframes wave {
+  100% {
+    transform: translate(0, -50%) rotate(720deg);
   }
 }
 .g-datas {
