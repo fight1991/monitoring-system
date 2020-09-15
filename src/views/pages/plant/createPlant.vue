@@ -297,7 +297,9 @@ export default {
       if (result) {
         this.agentList = result.agents || []
         // 设置默认值
-        this.dataForm.agent = result.default || ''
+        if (this.opType === 'add') {
+          this.dataForm.agent = result.default || ''
+        }
       }
     },
     // 获取币种列表
