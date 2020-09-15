@@ -175,6 +175,93 @@ export default {
     }
   }
 }
+.battery-box {
+  height: 240px;
+  .battery-img {
+    position: relative;
+    height: 90px;
+    width: 200px;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px 2px #ddd;
+    border-radius: 5px 10px 10px 5px;
+    .header {
+      height: 25px;
+      width: 10px;
+      background-color: #ccc;
+      position: absolute;
+      top: 50%;
+      right: -10px;
+      transform: translate(0, -50%);
+      border-radius: 0 5px 5px 0;
+    }
+    .percent-bg {
+      position: relative;
+      height: 100%;
+      transition: all 1s;
+      border-radius: 6px;
+      background: linear-gradient(to right, #67C23A 0%, rgb(21, 226, 21) 100%);
+      box-shadow: 0 14px 28px rgba(33, 150, 243, 0), 0 10px 10px rgba(9, 188, 215, 0.08);
+      filter: hue-rotate(10deg);
+    }
+    .percent-bg-copy {
+      border-radius: 6px;
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 100%;
+      .wave {
+        position: absolute;
+        background: rgba(255, 255, 255, .8);
+        border-radius: 45% 47% 44% 42%;
+        height: 200px;
+        width: 200px;
+        right: -190px;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 1;
+        animation: wave 13s linear infinite;
+        &:nth-child(2) {
+          top: 40%;
+          border-radius: 42% 46% 43% 47%;
+          transform: translate(0, -50%) rotate(-135deg);
+        }
+        &:nth-child(3) {
+          top: 60%;
+          border-radius: 46% 46% 43% 40%;
+          transform: translate(0, -50%) rotate(135deg);
+        }
+      }
+    }
+  }
+  .item {
+    padding: 15px 0;
+  }
+  .battery-value {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .battery-power,.battery-status {
+    width: 100%;
+    text-indent: 25px;
+  }
+  .battery-power {
+    &:hover {
+      cursor: pointer;
+    }
+    .num {
+      color: #FDB201;
+      margin: 0 5px 0 15px;
+      font-size: 18px;
+    }
+  }
+  .battery-status {
+    .status {
+      margin: 0 5px 0 15px;
+    }
+  }
+}
 .g-datas {
   position: absolute;
   left: 50%;
