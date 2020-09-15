@@ -23,21 +23,28 @@
     <div class="right" v-if="flowType>1 && batShow">
       <el-card >
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
-        <div class="battery-box">
-          <div class="battery-img">
-            <div class="header"></div>
-            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}">
-              <div :class="{'percent-bg-copy': true, 'none': batteryInfo.soc==100}">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-              </div>
-            </div>
+        <div class="g-container">
+          <div class="g-number">98.7%</div>
+          <div class="g-contrast">
+            <div class="g-circle"></div>
+            <ul class="g-bubbles">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
           </div>
-          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
-          <div class="item battery-power" :title="Math.abs(batteryInfo.power) || ''">{{$t('common.power')}}: <span class="num">{{Math.abs(toFixed(batteryInfo.power)) || 0}}</span>kW</div>
-          <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
-          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
         </div>
       </el-card>
     </div>
@@ -241,6 +248,112 @@ export default {
 @keyframes wave {
   100% {
     transform: translate(0, -50%) rotate(720deg);
+  }
+}
+.g-number {
+  position: absolute;
+  width: 300px;
+  top: 27%;
+  text-align: center;
+  font-size: 32px;
+  z-index: 10;
+  color: #fff;
+}
+.g-container {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: auto;
+}
+.g-contrast {
+  filter: contrast(15) hue-rotate(0);
+  width: 300px;
+  height: 400px;
+  background-color: #000;
+  overflow: hidden;
+  animation: hueRotate 10s infinite linear;
+}
+.g-circle {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  box-sizing: border-box;
+  filter: blur(8px);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0);
+    width: 200px;
+    height: 200px;
+    background-color: #00ff6f;
+    border-radius: 42% 38% 62% 49% / 45%;
+    animation: rotate 10s infinite linear;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    width: 176px;
+    height: 176px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #000;
+    z-index: 10;
+  }
+}
+.g-bubbles {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 100px;
+  height: 40px;
+  transform: translate(-50%, 0);
+  border-radius: 100px 100px 0 0;
+  background-color: #00ff6f;
+  filter: blur(5px);
+}
+li {
+  position: absolute;
+  border-radius: 50%;
+  background: #00ff6f;
+}
+// @for $i from 0 through 15 {
+//   li:nth-child(#{$i}) {
+//     $width: 15 + random(15) + px;
+//     left: 15 + random(70) + px;
+//     top: 50%;
+//     transform: translate(-50%, -50%);
+//     width: $width;
+//     height: $width;
+//     animation: moveToTop #{random(6) + 3}s ease-in-out -#{random(5000)/1000}s infinite;
+//   }
+// }
+
+@keyframes rotate {
+  50% {
+    border-radius: 45% / 42% 38% 58% 49%;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(720deg);
+  }
+}
+
+@keyframes moveToTop {
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .1;
+    transform: translate(-50%, -180px);
+  }
+}
+
+@keyframes hueRotate {
+  100% {
+    filter: contrast(15) hue-rotate(360deg);
   }
 }
 </style>
