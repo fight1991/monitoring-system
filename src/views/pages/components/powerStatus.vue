@@ -23,10 +23,13 @@
     <div class="right" v-if="flowType>1 && batShow">
       <el-card >
         <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
+        <!-- 电池充电动画 -->
         <div class="g-container">
-          <div class="g-datas g-number">98.7%</div>
-          <div class="g-datas g-number">98.7%</div>
-          <div class="g-datas g-number">98.7%</div>
+          <div class="g-datas">
+            <div class="g-percent">{{(batteryInfo.soc || 0) + '%'}}</div>
+            <!-- <div class="g-power">{{toFixed(batteryInfo.power)}}</div> -->
+            <div class="g-status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</div>
+          </div>
           <div class="g-contrast">
             <div class="g-circle"></div>
             <ul class="g-bubbles">
@@ -155,18 +158,21 @@ export default {
     }
   }
 }
-.g-number {
+.g-datas {
   position: absolute;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, -50%);
   // width: 300px;
-  top: 30px;
+  top: 72px;
   text-align: center;
-  font-size: 20px;
+  font-size: 12px;
   z-index: 10;
   color: #00ff6f;
   filter: contrast(15) hue-rotate(0);
   animation: hueRotate 10s infinite linear;
+}
+.g-percent {
+  font-size: 22px;
 }
 .g-container {
   position: relative;
@@ -235,7 +241,7 @@ li {
 @for $i from 1 through 10 {
   li:nth-child(#{$i}) {
     $width: 10 + random(10) + px;
-    left: random(60) + px;
+    left: 10 + random(50) + px;
     top: 50%;
     transform: translate(-50%, -50%);
     width: $width;
