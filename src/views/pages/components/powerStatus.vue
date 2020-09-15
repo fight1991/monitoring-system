@@ -359,7 +359,7 @@ li {
     transform: translate(-50%, -50%);
     width: $width;
     height: $width;
-    animation: moveToTop #{random(4) + 1}s ease-in-out -#{random(4000)/1000}s infinite;
+    animation: moveToTop #{random(3) + 1}s ease-in-out -#{random(4000)/1000}s infinite;
   }
 }
 @keyframes rotate {
