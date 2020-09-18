@@ -370,7 +370,7 @@ export default {
     41804: 'Email format is illegal',
     41805: 'Account does not exist',
     41806: 'Unsupported contact information',
-    41807: 'Wrong user name or password',
+    41807: 'Username or Password is wrong',
     41808: 'Token is invalid',
     41809: 'Illegal token',
     41810: 'User has logged in elsewhere',
