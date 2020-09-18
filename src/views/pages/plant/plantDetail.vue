@@ -1,50 +1,65 @@
 <template>
   <section class="sys-main">
     <!-- 电站名称区域 -->
-    <div class="block bg-c mg-b15">
-      <div class="plant-head clearfix">
-        <div class="plant-name flex-center fl">
-          <i class="iconfont icon-fadianzhan"></i>
-          <div v-if="pageFlag==='detail'">
-            <span>{{$t('plant.name')}} : {{plantHeadInfo.plantName}}</span>
-            <span>{{$t('plant.country')}} : {{plantHeadInfo.country}}</span>
-            <span>{{$t('plant.city')}} : {{plantHeadInfo.city}}</span>
+    <div class="block show-shadow bg-c mg-b12">
+      <div class="plant-head flex-between">
+        <div class="plant-box flex-vertical-center">
+          <div class="plant-name flex-center">
+            <i class="iconfont icon-fadianzhan"></i>
+            <div v-if="pageFlag==='detail'">
+              <span>{{$t('plant.name')}} : {{plantHeadInfo.plantName}}</span>
+              <span>{{$t('plant.country')}} : {{plantHeadInfo.country}}</span>
+              <span>{{$t('plant.city')}} : {{plantHeadInfo.city}}</span>
+            </div>
+            <div v-else>
+              <span>{{$t('common.plantsName')}} </span>
+            </div>
+            <div class="select-area flex-center" v-if="pageFlag==='board'">
+              <i class="arrow el-icon-caret-left" v-if="switchBtnShow && plantIndex > 0" @click="switchPlant('reduce')"></i>
+              <!-- 电站名称切换 -->
+              <el-select size="mini" @change="getCommonRequest" v-model="plantId" :placeholder="$t('common.select')">
+                <el-option v-for="item in plantList" :label="item.plantName" :value="item.stationID" :key="item.stationID"></el-option>
+              </el-select>
+              <i class="arrow el-icon-caret-right" v-if="switchBtnShow && plantIndex < plantList.length -1" @click="switchPlant('add')"></i>
+            </div>
           </div>
-          <div v-else>
-            <span>{{$t('common.plantsName')}} </span>
-          </div>
-          <div class="select-area flex-center" v-if="pageFlag==='board'">
-            <i class="arrow el-icon-caret-left" v-if="switchBtnShow && plantIndex > 0" @click="switchPlant('reduce')"></i>
-            <!-- 电站名称切换 -->
-            <el-select size="mini" @change="getCommonRequest" v-model="plantId" :placeholder="$t('common.select')">
-              <el-option v-for="item in plantList" :label="item.plantName" :value="item.stationID" :key="item.stationID"></el-option>
-            </el-select>
-            <i class="arrow el-icon-caret-right" v-if="switchBtnShow && plantIndex < plantList.length -1" @click="switchPlant('add')"></i>
+          <div class="plant-link" v-if="access==1" @click="golinkSn">
+            <el-button size="mini" icon="el-icon-link">{{$t('navBar.linkSn')}}</el-button>
           </div>
         </div>
-        <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
-        <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
+        <div class="right-box flex-vertical-center">
+          <div class="weather flex-vertical-center">
+            <div class="weather-img"><i class="iconfont icon-qing" style="font-size:30px"></i></div>
+            <div class="weather-text">{{$t('common.sunny')}}</div>
+            <div class="weather-temper">27℃</div>
+            <div class="weather-place flex-center"><i class="iconfont icon-dizhi"></i>&nbsp;{{$t('common.wuxi')}}</div>
+          </div>
+          <div class="pull-icon">
+            <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
+            <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
+          </div>
+        </div>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
-        <el-row :gutter="10">
-          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</el-col>
-          <el-col :span="6" v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</el-col>
-          <el-col :span="6">{{$t('join.installer')}}  : {{installer.account || '-'}}</el-col>
-          <el-col :span="6">{{$t('common.contact')}}  : {{installer.phone || '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.user')}} : {{users.account || '-'}}</el-col>
-          <el-col :span="6">{{$t('common.contact')}}  : {{users.phone || '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</el-col>
-          <el-col :span="6">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</el-col>
-        </el-row>
+        <div class="line-collapse line-collapse-plant">
+          <span v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</span>
+          <span v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</span>
+          <span>{{$t('join.installer')}}  : {{installer.account || '-'}}</span>
+          <span>{{$t('common.contact')}}  : {{installer.phone || '-'}}</span>
+          <span>{{$t('plant.user')}} : {{users.account || '-'}}</span>
+          <span>{{$t('common.contact')}}  : {{users.phone || '-'}}</span>
+          <span>{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</span>
+          <span class="text-cut" :title="plants.createdDate || '-'">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</span>
+          <span class="text-cut" :title="plants.address || '-'">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</span>
+        </div>
       </div>
     </div>
     <!-- 电站状态 -->
     <div class="block">
-      <plant-status :incomeDetail="incomeDetail" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
+      <plant-status :incomeDetail="incomeDetail" :batShow="false" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
     </div>
     <!-- 功率 统计 设备列表 -->
-    <div class="block mg-b15">
+    <div class="block show-shadow mg-b12">
       <line-bar :id="plantId" :type="'plant'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
@@ -58,12 +73,12 @@
     </div>
     <!-- 今日异常 设备状态区域 -->
     <div class="block" v-if="access!=1">
-      <el-row :gutter="15">
+      <el-row :gutter="12">
         <el-col :span="12">
           <today-abnormal :todayFault="todayFault" :id="plantId" :type="'plant'"></today-abnormal>
         </el-col>
         <el-col :span="12">
-          <el-card shadow="never" class="no-bottom">
+          <el-card  class="no-bottom">
             <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
             <div class="progress-container">
               <div class="progress-line">
@@ -90,10 +105,10 @@
   </section>
 </template>
 <script>
-import todayAbnormal from '@/views/pages/plant/todayAbnormal'
-import deviceList from './deviceList'
 import plantStatus from '@/views/pages/components/powerStatus'
-import lineBar from '@/views/pages/components/lineBar/lineBar'
+import lineBar from '@/views/pages/components/lineBar'
+import todayAbnormal from '@/views/pages/components/todayAbnormal'
+import deviceList from './deviceList'
 import { decodeData } from '@/util'
 export default {
   components: {
@@ -187,6 +202,12 @@ export default {
   },
   beforeDestroy () {},
   methods: {
+    // 关联用户sndialog
+    golinkSn () {
+      this.$tab.push({
+        name: 'bus-plant-linkSn'
+      })
+    },
     // 顶部展开
     headCollapse () {
       this.collapse = !this.collapse
@@ -312,7 +333,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../components/plantInvert';
+@import '../components/common/plantInvert';
 .progress-container {
   height: 200px;
   display: flex;
@@ -321,5 +342,25 @@ export default {
 }
 .status-text {
   padding: 2px 5px;
+}
+.plant-name span {
+  margin-right: 20px;
+}
+.weather {
+  margin-right: 30px;
+  .weather-text, .weather-place {
+    color: #666;
+    margin: 0 10px;
+  }
+  .weather-temper {
+    font-size: 16px;
+  }
+  .weather-place i{
+    color: #FFA28D;
+    font-size: 16px;
+  }
+  .weather-img {
+    color: #FDB201;
+  }
 }
 </style>

@@ -82,13 +82,12 @@ export default {
   background-color: @sys-aside-bg;
 }
 .main-container {
-  height: 100%;
+  overflow: hidden;
 }
 .main-tab {
   padding: 0;
 }
 .main-aside {
   border-right: 1px solid #ccc;
-  height: 100%;
 }
 </style>

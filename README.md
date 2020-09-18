@@ -74,16 +74,25 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 >     5、引用其他来源组件库、js库、css库产生的非规范命名的除外；
 >  4. src各目录作用：  
 >     assets：src/assets/静态文件；
->     components：自定义的公共组件；
->     directives：自定义指令；
+>     components：一般放置全局自定义的公共组件；
+>     directives：全局自定义指令；
 >     filters：全局过滤器；
+>     mixin: 全局混入参数
 >     mock：前期模拟网络接口返回数据；
 >     net: 网络请求方法封装；
 >     router/index.js：路由总控；
 >     router/tabMethods: 页签跳转方法
 >     store：全局状态管理；
 >     views：功能模块页面；
+>         components: 页面之间的公共组件
 >         pages: 业务功能页面;
+>              page1: .....
+>                    components: 局部页面的公共组件
+>                    mixins: 局部页面的混入
+>                    common: 放置公共js和less文件
+>              page2: .....
+>              page3: .....
+>              page4: .....
 >         error：系统错误页面；
 >         login: 登录/注册页面
 >         inverter: 逆变器其他页面
@@ -119,4 +128,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 > 2. this.$tab.push 同this.$router.push 在已有的页签中查找,有则激活,无则新增
 > 3. this.$tab.replace 替换已有页签,无则打开新页签
 > 4. this.$tab.back 关闭当前tab,打开指定tab(如果存在就刷新)
+
+## 全局loading和局部loading
+> 1. 非后台管理页面发送请求时默认开启全局loading
+> 2. 进入后台管理页面默认开启局部loading
+> 3. 若要在后台管理页面开启全局loading(使用dialog组件时会用到) 每个请求增加globalLoading: true
  

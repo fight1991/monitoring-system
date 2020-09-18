@@ -6,48 +6,44 @@
           <el-row :gutter="15">
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" clearable :placeholder="$t('common.invertSn')"></el-input>
+                <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" clearable :placeholder="$t('common.datacolSN')"></el-input>
+                <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" clearable :placeholder="$t('common.plant')"></el-input>
+                <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" clearable v-model="searchForm.status" :placeholder="$t('plant.equipSta')">
-                  <el-option v-for="(item,index) in statusList" :label="item" :value="item" :key="item + index"></el-option>
+                <el-select style="width:100%" clearable v-model="searchForm.deviceStatus" :placeholder="$t('plant.equipSta')">
+                  <el-option v-for="item in statusList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.status" :placeholder="$t('invupgrade.invmodel')">
-                  <el-option v-for="(item,index) in statusList" :label="item" :value="item" :key="item + index"></el-option>
-                </el-select>
+                <el-input v-model="searchForm.deviceType" clearable :placeholder="$t('invupgrade.invmodel')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.status" :placeholder="$t('plant.datacolType')">
-                  <el-option v-for="(item,index) in statusList" :label="item" :value="item" :key="item + index"></el-option>
-                </el-select>
+                <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" :placeholder="$t('invupgrade.invversion')"></el-input>
+                <el-input v-model="searchForm.deviceVersion" :placeholder="$t('invupgrade.invversion')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" :placeholder="$t('invupgrade.dataversion')"></el-input>
+                <el-input v-model="searchForm.moduleVersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
@@ -59,10 +55,15 @@
       </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-shengji">{{$t('invupgrade.upgrade')}}</el-button>
-          <el-button size="mini" icon="iconfont icon-chakan">{{$t('invupgrade.upstatus')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+          <template v-slot:deviceStatus="{row}">
+            <i class="el-icon-success" v-show="row.deviceStatus==1"></i>
+            <i class="el-icon-error" v-show="row.deviceStatus==2"></i>
+            <i class="el-icon-remove" v-show="row.deviceStatus==3"></i>
+          </template>
         </common-table>
       </func-bar>
     </div>
@@ -74,108 +75,79 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
+    <upgrade-dialog @refreshList="search" type="device" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="device"></upstatus-dialog>
+    <updetail-dialog :visible.sync="updetailVisible" apiUrl="device" :taskId="taskId"></updetail-dialog>
   </section>
 </template>
 <script>
+import inverRemoteMix from './mixins/inverRemoteMix'
+import { device as eventBus } from './common/eventBus'
+import upgradeDialog from './components/upgradeDialog'
+import updetailDialog from './components/updetailDialog'
+import upstatusDialog from './components/upstatusDialog'
 export default {
+  components: { upgradeDialog, upstatusDialog, updetailDialog },
+  mixins: [inverRemoteMix],
   data () {
     return {
-      searchForm: {},
-      versionList: [], // 版本类型
-      typeList: [], // 设备类型
-      statusList: [], // 审核状态
+      upgradeVisible: false,
+      updetailVisible: false,
+      upstatusVisible: false,
+      searchForm: {
+        deviceSN: '',
+        moduleSN: '',
+        plantName: '',
+        deviceStatus: 0,
+        deviceType: '',
+        moduleType: '',
+        deviceVersion: '',
+        moduleVersion: '',
+        productType: ''
+      },
+      taskId: '',
       resultList: [],
       selection: [],
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
-      },
-      tableHead: [
-        {
-          label: 'common.plant',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'common.invertSn',
-          prop: 'type',
-          checked: true,
-          width: 100
-        },
-        {
-          label: 'invupgrade.invmodel',
-          prop: 'type',
-          checked: true,
-          width: 120
-        },
-        {
-          label: 'invupgrade.master',
-          prop: 'type',
-          checked: true,
-          width: 100
-        },
-        {
-          label: 'invupgrade.slave',
-          prop: 'time',
-          checked: true,
-          width: 100
-        },
-        {
-          label: 'invupgrade.arm',
-          prop: 'time',
-          checked: true,
-          width: 100
-        },
-        {
-          label: 'common.datacolSN',
-          prop: 'time',
-          checked: true,
-          renderHeader: true
-        },
-        {
-          label: 'plant.datacolType',
-          prop: 'time',
-          checked: true,
-          renderHeader: true
-        },
-        {
-          label: 'invupgrade.invversion',
-          prop: 'time',
-          checked: true,
-          renderHeader: true
-        },
-        {
-          label: 'invupgrade.dataversion',
-          prop: 'time',
-          checked: true,
-          renderHeader: true
-        },
-        {
-          label: 'invupgrade.invstatus',
-          prop: 'time',
-          checked: true,
-          slotName: 'status',
-          renderHeader: true,
-          fixed: 'right'
-        }
-      ]
+      }
     }
+  },
+  computed: {
+    sns () {
+      return this.selection.map(v => v.deviceSN)
+    }
+  },
+  created () {
+    eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
+    this.search()
   },
   methods: {
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        deviceSN: '',
+        moduleSN: '',
+        plantName: '',
+        deviceStatus: 0,
+        deviceType: '',
+        moduleType: '',
+        deviceVersion: '',
+        moduleVersion: '',
+        productType: ''
+      }
+      this.search()
     },
     search () {
-
-    },
-    getSelection (select) {
+      this.currentPage = 1
+      this.getList(this.pagination)
       this.selection = []
     },
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
-        url: '/v0/module/list',
+        url: '/v0/firmware/device/list',
         method: 'post',
         data: {
           ...pagination,
@@ -183,11 +155,15 @@ export default {
         }
       })
       if (result) {
-        this.resultList = result.data || []
+        this.resultList = result.devices || []
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
       }
+    },
+    openUpdetailDialog (id) {
+      this.updetailVisible = true
+      this.taskId = id
     }
   }
 }

@@ -1,91 +1,67 @@
 <template>
-  <section class="sys-main bg-c">
+  <section class="sys-main bg-c" v-setH:min="setDivH">
     <div class="remote-set-tab">
-      <el-tabs type="card" tab-position="left" v-model="tabName">
-        <el-tab-pane :label="item.label" v-for="item in tabList" :key="item.id" :name="item.id">
-          <component :is="item.component"></component>
+      <el-tabs type="card" tab-position="left" v-model="tabName" @tab-click="tabClickBtn">
+        <el-tab-pane v-for="item in tabList" :key="item.key" :label="item.name" :name="item.key">
+          <common-form :ref="'form'+item.key" :isBlock="item.block" :formItems="item.properties" :keyWord="item.key" :id="id"></common-form>
         </el-tab-pane>
       </el-tabs>
     </div>
   </section>
 </template>
 <script>
-import baseForm from './remoteForm/baseForm'
-import hightForm from './remoteForm/highForm'
-import startParams from './remoteForm/startParams'
-
+import commonForm from './components/commonForm'
 export default {
-  components: {
-    baseForm,
-    hightForm,
-    startParams
-  },
+  components: { commonForm },
   data () {
     return {
-      tabName: '1',
-      tabList: [
-        {
-          id: '1',
-          label: '基本配置',
-          component: 'baseForm'
-        },
-        {
-          id: '2',
-          label: '高级配置',
-          component: 'hightForm'
-        },
-        {
-          id: '3',
-          label: '启动参数',
-          component: 'startParams'
-        },
-        {
-          id: '4',
-          label: '电网电压',
-          component: 'baseForm'
-        },
-        {
-          id: '5',
-          label: '电网频率',
-          component: 'baseForm'
-        },
-        {
-          id: '6',
-          label: '过频降载',
-          component: 'baseForm'
-        },
-        {
-          id: '7',
-          label: '无功参数',
-          component: 'baseForm'
-        },
-        {
-          id: '8',
-          label: 'DCI配置',
-          component: 'baseForm'
-        },
-        {
-          id: '9',
-          label: '有功参数',
-          component: 'baseForm'
-        },
-        {
-          id: '10',
-          label: 'AC过压降载',
-          component: 'baseForm'
-        },
-        {
-          id: '11',
-          label: '电表参数',
-          component: 'baseForm'
+      id: '',
+      tabName: '',
+      tabList: []
+    }
+  },
+  async created () {
+    this.id = this.$route.query.id
+    await this.getTabList()
+    if (this.tabList.length > 0) {
+      this.tabName = this.tabList[0].key
+      // 初始化默认tabName下的表单数据
+      this.$nextTick(() => {
+        // 在v-for下绑定ref返回的是一个数组
+        let tempDom = this.$refs['form' + this.tabName]
+        if (tempDom && tempDom.length > 0) {
+          let $commonForm = this.$refs['form' + this.tabName][0]
+          $commonForm.getFormValueByKey(this.id, this.tabName)
         }
-      ]
+      })
+    }
+  },
+  async mounted () {},
+  methods: {
+    // 获取tab结构
+    async getTabList () {
+      let { result } = await this.$axios({
+        url: '/v0/device/setting/ui',
+        data: {
+          id: this.id
+        }
+      })
+      if (result && result.parameters) {
+        this.tabList = result.parameters
+      }
+      return true
+    },
+    // 点击tab
+    tabClickBtn ({ name }) {
+      this.$nextTick(() => {
+        this.$refs['form' + name][0].getFormValueByKey(this.id, name)
+      })
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .remote-set-tab {
-  padding: 30px 40px;
+  padding: 30px 0 30px 30px;
 }
 </style>

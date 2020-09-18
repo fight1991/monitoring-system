@@ -1,11 +1,11 @@
 <template>
-  <div class="container-top mg-b10">
+  <div class="container-top mg-b12">
     <div class="left">
-      <div class="top-item flex-between mg-b10">
+      <div class="top-item flex-between mg-b12">
         <div class="items flex-around" @click="selectStatus(0)">
           <i class="iconfont icon-sum"></i>
           <div class="items-right">
-            <div>{{$t('common.total')}}</div>
+            <div class="text-cut">{{$t('common.total')}}</div>
             <div>
               <span class="num">{{plantStatus.total}}</span>
             </div>
@@ -14,7 +14,7 @@
         <div class="items flex-around" @click="selectStatus(1)">
           <i class="iconfont icon-normal"></i>
           <div class="items-right">
-            <div>{{$t('common.normal')}}</div>
+            <div class="text-cut">{{$t('common.normal')}}</div>
             <div>
               <span class="num">{{plantStatus.normal}}</span>
             </div>
@@ -23,7 +23,7 @@
         <div class="items flex-around" @click="selectStatus(2)">
           <i class="iconfont icon-fault"></i>
           <div class="items-right">
-            <div>{{$t('common.abnormal')}}</div>
+            <div class="text-cut">{{$t('common.abnormal')}}</div>
             <div>
               <span class="num">{{plantStatus.abnormal}}</span>
             </div>
@@ -32,19 +32,19 @@
         <div class="items flex-around" @click="selectStatus(3)">
           <i class="iconfont icon-offline"></i>
           <div class="items-right">
-            <div>{{$t('common.offline')}}</div>
+            <div class="text-cut">{{$t('common.offline')}}</div>
             <div>
               <span class="num">{{plantStatus.offline}}</span>
             </div>
           </div>
         </div>
       </div>
-      <el-card shadow="never" class="no-bottom">
+      <el-card  class="no-bottom">
         <div class="title border-line" slot="header">{{$t('plant.statusGer')}}</div>
         <income-item :incomeDetail="incomeDetail"></income-item>
       </el-card>
     </div>
-    <div class="right bg-c">
+    <div class="right show-shadow bg-c">
       <div class="weather-content flex-around">
         <div class="time-info">
           <div class="time">{{timeInfo.time}}</div>
@@ -55,27 +55,28 @@
           <div class="weather-text">22℃</div>
         </div>
       </div>
-      <div class="map-content" style="width:100%;">
-        <g-map v-if="lang=='en' && gMapNormal" @gMapError="gMapError"></g-map>
-        <b-map v-else></b-map>
+      <div class="map-content">
+        <g-map ref="googleMap" v-if="appInvar=='abroad' && gMapNormal" :autoGps="false" @gMapError="gMapError"></g-map>
+        <a-map ref="gaodeMap" v-else :autoGps="false"></a-map>
       </div>
     </div>
   </div>
 </template>
 <script>
 import incomeItem from './incomeItem'
+import gMap from '@/views/components/gMap'
+import aMap from '@/views/components/aMap'
 import { formatDate } from '@/util'
-const bMap = () => import('./bMap')
-const gMap = () => import('./gMap')
 export default {
   name: 'show-item',
   components: {
     incomeItem,
-    bMap,
-    gMap
+    gMap,
+    aMap
   },
   data () {
     return {
+      appInvar: process.env.VUE_APP_VERSION,
       gMapNormal: true,
       timer: null,
       plantStatus: {
@@ -188,14 +189,16 @@ export default {
     margin-right: 10px;
     .top-item {
       .items {
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
         cursor: pointer;
         padding: 10px 20px;
         background-color: #fff;
         box-sizing: border-box;
         width: 24%;
+        transition: all .5s linear;
         &:hover {
           box-shadow: 0 4px 6px rgba(0,0,0,.2);
-          transition: all .5s ease-in-out;
+          transform: translateY(-3px);
         }
         .iconfont {
           font-size: 36px;

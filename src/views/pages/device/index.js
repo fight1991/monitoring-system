@@ -3,7 +3,7 @@ export default {
   path: '/bus/device',
   name: 'bus-device',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'deviceM'
   },
   children: [
@@ -11,7 +11,7 @@ export default {
       path: '/bus/device/inverter',
       name: 'bus-device-inverter',
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'invertM',
         component: () => import(/* webpackChunkName: "bus-device-inverter" */ '@/views/pages/device/inverterList')
       }
@@ -20,7 +20,7 @@ export default {
       path: '/bus/device/module',
       name: '/bus-device-module',
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'moduleM',
         component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/device/moduleList')
       }
@@ -28,8 +28,9 @@ export default {
     {
       path: '/bus/device/battery',
       name: '/bus-device-battery',
+      hidden: true,
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'batteryM',
         component: () => import(/* webpackChunkName: "bus-device-battery" */ '@/views/pages/demo')
       }
@@ -39,7 +40,7 @@ export default {
       name: 'bus-device-inverterDetail',
       hidden: true,
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'invertD',
         component: () => import(/* webpackChunkName: "bus-device-inverterDetail" */ '@/views/pages/device/inverterDetail')
       }
@@ -49,7 +50,7 @@ export default {
       name: 'bus-device-remoteSetting',
       hidden: true,
       meta: {
-        permission: [1, 2, 3],
+        permission: [1, 2, 3, 255],
         title: 'remoteS',
         component: () => import(/* webpackChunkName: "bus-device-remoteSetting" */ '@/views/pages/device/remoteSetting')
       }

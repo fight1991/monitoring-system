@@ -1,12 +1,16 @@
 import VueRouter from 'vue-router'
 import store from '@/store'
+import storage from '@/util/storage'
+import i18n from '@/i18n'
 
+// 路由地址
 import Error from '@/views/error'
-import Login from '@/views/login/index.js'
+import Login from '@/views/login'
 import Product from '@/views/product'
 import Inverter from '@/views/inverter'
-import BusinessRouter from '@/views/pages/index.js'
-import storage from '@/util/storage'
+import BusinessRouter from '@/views/pages'
+import Qrcode from '@/views/qrcode'
+import User from '@/views/user'
 
 const Main = () => import(/* webpackChunkName: "bus-main" */ '../views/main.vue')
 
@@ -14,14 +18,12 @@ const routes = [
   {
     path: '/',
     redirect: '/bus/index'
-  },
-  {
+  }, {
     path: '*',
     redirect: {
       name: 'error-404'
     }
-  },
-  {
+  }, {
     path: '/bus/index',
     name: 'bus-index',
     component: Main,
@@ -32,7 +34,9 @@ const routes = [
 routes.push(...Error)
 routes.push(...Inverter)
 routes.push(...Product)
-routes.push(Login)
+routes.push(...Qrcode)
+routes.push(...Login)
+routes.push(...User)
 
 const router = new VueRouter({
   mode: 'history',
@@ -41,14 +45,17 @@ const router = new VueRouter({
 // 登录校验、放行 注意: 有些cdn路由版本 地址栏输入路由地址时会加载2次
 router.beforeEach(async (to, from, next) => {
   let _this = router.app
-  // 不需权限,直接放行 /login,/error-xx等
+  // 登录页直接放行
+  if (to.path === '/login') {
+    storage.removeStorage('token')
+    storage.removeLoginInfo()
+    storage.clearSession()
+    _this.$options.store.state.isFirst = true
+    next()
+    return
+  }
+  // 不需权限,直接放行,/error-xx等
   if (to.meta.requiresAuth === false) {
-    if (to.path === '/login') {
-      storage.removeStorage('token')
-      storage.removeLoginInfo()
-      storage.clearSession()
-      _this.$options.store.state.isFirst = true
-    }
     next()
     return
   }
@@ -59,6 +66,11 @@ router.beforeEach(async (to, from, next) => {
   }
   // 第一次进入系统需要获取权限状态和用户信息(刷新地址栏)
   if (_this.$options.store.state.isFirst) {
+    let langInfo = storage.getStorage('lang')
+    if (langInfo) {
+      store.commit('toggleLang', langInfo)
+      i18n.locale = langInfo
+    }
     // 用户信息查询
     let { result: userInfo } = await _this.$axios({ url: '/v0/user/info' })
     // 权限查询
@@ -80,7 +92,9 @@ router.beforeEach(async (to, from, next) => {
       next('/product/index')
       return
     }
-    _this.$message.error('No permissions!')
+    if (store.state.access >= 0) {
+      _this.$message.error('No permissions!')
+    }
     return
   }
   next()

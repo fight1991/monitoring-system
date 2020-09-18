@@ -1,4 +1,4 @@
-export default {
+export default [{
   path: '/login',
   name: 'login',
   meta: {
@@ -6,4 +6,4 @@ export default {
     requiresAuth: false
   },
   component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue')
-}
+}]

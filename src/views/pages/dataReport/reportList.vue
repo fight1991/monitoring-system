@@ -35,23 +35,61 @@
       <!-- 列表查询区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
+          <el-button size="mini" v-show="false" icon="iconfont icon-multi-download" @click="multiVisible=true">批量下载</el-button>
+          <el-button size="mini" v-show="access==3 || access==255" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
+          <template v-slot:etoday="{row}">
+            {{toFixed(row.etoday)}}
+          </template>
+          <template v-slot:generation="{row}">
+            {{toFixed(row.generation)}}
+          </template>
+          <template v-slot:pv1Volt="{row}">
+            {{toFixed(row.pv1Volt)}}
+          </template>
+          <template v-slot:pv2Volt="{row}">
+            {{toFixed(row.pv2Volt)}}
+          </template>
+          <template v-slot:pv1Current="{row}">
+            {{toFixed(row.pv1Current)}}
+          </template>
+          <template v-slot:pv2Current="{row}">
+            {{toFixed(row.pv2Current)}}
+          </template>
+          <template v-slot:feedinPower="{row}">
+            {{toFixed(row.feedinPower)}}
+          </template>
+          <template v-slot:generationPower="{row}">
+            {{toFixed(row.generationPower)}}
+          </template>
+          <template v-slot:RVolt="{row}">
+            {{toFixed(row.RVolt)}}
+          </template>
+          <template v-slot:RCurrent="{row}">
+            {{toFixed(row.RCurrent)}}
+          </template>
+           <template v-slot:RFreq="{row}">
+            {{toFixed(row.RFreq)}}
+          </template>
         </common-table>
       </func-bar>
     </div>
     <div class="page-list">
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
+    <multi-download :visible.sync="multiVisible"></multi-download>
   </section>
 </template>
 <script>
-import reportTableHead from './reportTableHead'
+import reportTableHead from './mixins/reportTableHead'
+import multiDownload from './multiDownload'
 export default {
   mixins: [reportTableHead],
+  components: { multiDownload },
   data () {
     return {
+      multiVisible: false,
       downloadUrl: '',
       selection: [],
       times: [],
@@ -111,7 +149,8 @@ export default {
       // this.search()
     },
     search () {
-      this.getList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     goToDetail (page, id) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'

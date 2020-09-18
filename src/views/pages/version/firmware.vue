@@ -6,27 +6,27 @@
           <el-row :gutter="15">
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.version" clearable :placeholder="$t('firmware.version')"></el-input>
+                <el-input v-model="searchForm.firmwareVersion" clearable :placeholder="$t('firmware.version')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.type" clearable :placeholder="$t('firmware.devicetype')">
-                  <el-option v-for="item in typeList" :label="item.label" :value="item.status" :key="item.status"></el-option>
+                <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devicetype')">
+                  <el-option v-for="item in modelTypeList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.moduleType" clearable :placeholder="$t('firmware.type')">
-                  <el-option v-for="(item,index) in versionList" :label="item" :value="item" :key="item + index"></el-option>
+                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.dseries')">
+                  <el-option v-for="item in versionList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.status" clearable :placeholder="$t('firmware.status')">
-                  <el-option v-for="(item,index) in statusList" :label="item" :value="item" :key="item + index"></el-option>
+                <el-select style="width:100%" v-model="searchForm.firmwareStatus" clearable :placeholder="$t('firmware.status')">
+                  <el-option v-for="item in statusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -39,78 +39,101 @@
       </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-import">{{$t('common.import')}}</el-button>
-          <el-button size="mini" icon="iconfont icon-fabu">{{$t('common.release')}}</el-button>
-          <el-button size="mini" icon="el-icon-delete">{{$t('common.delete')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-import" @click="importVisible=true">{{$t('common.import')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-fabu" :disabled="releaseIds.length==0" @click="multiOptions('release')">{{$t('common.release')}}</el-button>
+          <el-button size="mini" icon="el-icon-delete" :disabled="deleteIds.length==0" @click="multiOptions('delete')">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+          <template v-slot:firmwareStatus="{row}">
+            {{row.firmwareStatus == 1 ? $t('common.test') : $t('common.rel')}}
+          </template>
+          <template v-slot:modelType="{row}">
+            {{translateDeviceType(row.modelType)}}
+          </template>
         </common-table>
       </func-bar>
     </div>
     <div class="page-list">
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
+    <import-dialog :visible.sync="importVisible" @refreshList="search"></import-dialog>
   </section>
 </template>
 <script>
+import importDialog from './components/importDialog'
+import firmwareMix from './mixins/firmwareMix'
 export default {
+  components: {
+    importDialog
+  },
+  mixins: [firmwareMix],
   data () {
     return {
-      searchForm: {},
-      versionList: [], // 版本类型
-      typeList: [], // 设备类型
-      statusList: [], // 审核状态
+      importVisible: false,
+      searchForm: {
+        firmwareVersion: '',
+        modelType: 0,
+        firmwareStatus: '',
+        softType: ''
+      },
       resultList: [],
       selection: [],
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
-      },
-      tableHead: [
-        {
-          label: 'firmware.devicetype',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.version',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.type',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.status',
-          prop: 'type',
-          checked: true
-        },
-        {
-          label: 'firmware.uptime',
-          prop: 'time',
-          checked: true,
-          slotName: 'time'
-        }
-      ]
+      }
     }
+  },
+  computed: {
+    releaseIds () {
+      let isTest = this.selection.some(v => v.firmwareStatus !== 1)
+      if (!isTest) {
+        let temp = this.selection.filter(v => v.firmwareStatus === 1)
+        return temp.map(v => v.firmwareID)
+      }
+      return []
+    },
+    deleteIds () {
+      return this.selection.map(v => v.firmwareID)
+    }
+  },
+  created () {
+    this.search()
   },
   methods: {
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        firmwareVersion: '',
+        modelType: '',
+        firmwareStatus: '',
+        softType: ''
+      }
+      this.search()
     },
     search () {
-
-    },
-    getSelection (select) {
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
       this.selection = []
+    },
+    // 批量发布/批量删除
+    async multiOptions (op) {
+      let { result } = await this.$axios({
+        url: '/v0/firmware/' + op,
+        method: 'post',
+        data: {
+          firmware: op === 'release' ? this.releaseIds : this.deleteIds
+        }
+      })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.search()
+      }
     },
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$axios({
-        url: '/v0/module/list',
+        url: '/v0/firmware/list',
         method: 'post',
         data: {
           ...pagination,
@@ -118,10 +141,20 @@ export default {
         }
       })
       if (result) {
-        this.resultList = result.data || []
+        this.resultList = result.firmwares || []
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
+      }
+    },
+    translateDeviceType (num) {
+      switch (num) {
+        case 1 :
+          return this.$t('common.invert')
+        case 2:
+          return this.$t('common.module')
+        default:
+          return this.$t('common.battery')
       }
     }
   }

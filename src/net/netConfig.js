@@ -23,16 +23,16 @@ export class MethodAll {
   constructor (params) {
     this.params = params
   }
-  async $all (store, isLoad) {
+  async $all (store, isLoad, globalLoading) {
     let res = null
     let tabId = store.state.tab.currentTab
     try {
-      isLoad && startLoading(store, tabId)
+      isLoad && startLoading(store, tabId, globalLoading)
       res = await Promise.all(this.params)
-      isLoad && closeLoading(store, tabId)
+      isLoad && closeLoading(store, tabId, globalLoading)
       return res
     } catch (err) {
-      isLoad && closeLoading(store, tabId)
+      isLoad && closeLoading(store, tabId, globalLoading)
       return false
     }
   }

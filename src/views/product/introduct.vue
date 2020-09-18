@@ -13,7 +13,7 @@
     <!-- 内容区域 -->
     <div class="content">
       <div class="banxin">
-        <el-card shadow="always">
+        <el-card show-shadow="always">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item name="1">
             <template slot="title">
@@ -93,10 +93,10 @@ export default {
       this.joinVisible = true
     },
     installerClick () {
-      // if (this.access) {
-      //   this.tips()
-      //   return
-      // }
+      if (this.access) {
+        this.tips()
+        return
+      }
       this.dialogTitle = this.$t('join.newInst')
       this.tag = 'installer'
       this.joinVisible = true

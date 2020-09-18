@@ -35,6 +35,7 @@ export default {
           sameTab.isShow = false
           sameTab.timer = setTimeout(() => {
             sameTab.isShow = true
+            delete payLoad.params.refresh
             clearTimeout(sameTab.timer)
           }, 0)
         } else {
@@ -59,6 +60,7 @@ export default {
       state.tabList.splice(index, 1)
       if (tabId === state.currentTab) { // 如果关闭的是当前活动的页签,激活相邻页签(路由跳转)
         let { name, query, params } = activeTabInfo
+        delete params.refresh
         router.push({
           name,
           query,

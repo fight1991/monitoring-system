@@ -1,0 +1,3 @@
+import Vue from 'vue'
+export const device = new Vue()
+export const module = new Vue()

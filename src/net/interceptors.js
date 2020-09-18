@@ -15,7 +15,7 @@ export default {
     // ajax异步请求
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
     config.headers['token'] = storage.getStorage('token')
-    config.headers['lang'] = store.state.lang
+    config.headers['lang'] = store.state.lang === 'zh' ? 'zh_CN' : 'en'
     return config
   },
   // 请求发送失败之前
@@ -26,6 +26,7 @@ export default {
   onResponseResolve: function (response) {
     // 业务报错
     if (response.data.errno !== store.state.successCode) {
+      let errTxt = i18n.t('errorCode.' + response.data.errno)
       // token不合法的报错
       if ([41808, 41809, 41810].includes(response.data.errno)) {
         // message只提示一次
@@ -33,7 +34,7 @@ export default {
         tips = true
         Message({
           type: 'error',
-          message: i18n.t('errorCode.' + response.data.errno),
+          message: errTxt,
           duration: 2000,
           onClose: () => {
             tips = false
@@ -51,7 +52,7 @@ export default {
         })
       } else { // 其他业务报错
         if (tips) return response.data
-        Message.error(i18n.t('errorCode.' + response.data.errno))
+        Message.error(response.data.errno + '-' + errTxt)
       }
     }
     return response.data

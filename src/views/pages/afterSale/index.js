@@ -3,7 +3,7 @@ export default {
   path: '/bus/afterSale',
   name: 'bus-afterSale',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'afterSale',
     component: () => import(/* webpackChunkName: "bus-afterSale" */ '@/views/pages/demo')
   }

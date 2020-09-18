@@ -2,8 +2,11 @@
 import Pagination from './global/pagination'
 import SearchBar from './global/searchBar'
 import FuncBar from './global/funcBar'
-// import CommonTable from './global/commonTable'
 
+/**
+ * 以懒加载的方式加载如下组件
+ * 注意: 许多嵌套的懒加载组件，那么网页中的元素会分先后渲染，层次不齐
+ */
 const Echart = () => import(/* webpackChunkName: "echarts" */ './global/echart')
 const CommonTable = () => import(/* webpackChunkName: "common-table" */ './global/commonTable')
 

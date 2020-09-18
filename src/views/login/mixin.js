@@ -1,4 +1,4 @@
-import valid from './validate'
+import valid from './common/validate'
 import { mapState } from 'vuex'
 export default {
   data () {

@@ -1,7 +1,7 @@
 <template>
   <div class="head-container">
     <div class="login fr">
-      <el-dropdown
+      <!-- <el-dropdown
         trigger="click"
         @command="toggleLang"
         placement="top-start">
@@ -13,23 +13,24 @@
           <el-dropdown-item command="zh">中文</el-dropdown-item>
           <el-dropdown-item command="en" divided>English</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
       <el-dropdown
         @command="userOption"
         trigger="click"
         placement="top-start">
-        <span class="user-name">
-          <i class="user-logo iconfont icon-user"></i>
-          <span>{{userInfo.user || ''}}</span>
+        <span class="user-name flex-center">
+          <!-- <i class="user-logo iconfont icon-user"></i> -->
+          <div class="user-logo"><img :src="userLogo" alt=""></div>
+          <!-- <span>{{userInfo.user || ''}}</span> -->
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="reset">{{$t('login.resetPw')}}</el-dropdown-item>
+          <el-dropdown-item command="user">{{$t('user.center')}}</el-dropdown-item>
           <el-dropdown-item command="logout" divided>{{$t('login.goOut')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- <span class="info"><i class="iconfont icon-info"></i></span> -->
-      <span class="fullscreen" v-show="!isFullScreen" @click="screenClick('enter')" :title="$t('common.enterFull')"><i class="iconfont icon-enter-fullScreen"></i></span>
-      <span class="fullscreen" v-show="isFullScreen" @click="screenClick('out')" :title="$t('common.outFull')"><i class="iconfont icon-out-fullScreen"></i></span>
+      <!-- <span class="fullscreen" v-show="!isFullScreen" @click="screenClick('enter')" :title="$t('common.enterFull')"><i class="iconfont icon-enter-fullScreen"></i></span>
+      <span class="fullscreen" v-show="isFullScreen" @click="screenClick('out')" :title="$t('common.outFull')"><i class="iconfont icon-out-fullScreen"></i></span> -->
     </div>
   </div>
 </template>
@@ -41,7 +42,9 @@ export default {
   data () {
     return {
       isFullScreen: false,
-      lang: '中文'
+      userLogo: require('@/assets/user-logo.png'),
+      logoSrc: require('@/assets/logo.png'),
+      lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
     }
   },
   computed: {
@@ -75,9 +78,16 @@ export default {
     userOption (op) {
       if (op === 'logout') {
         this.logout()
-      } else {
-        this.goResetPw()
       }
+      if (op === 'user') {
+        this.goUser()
+      }
+    },
+    // 跳转到个人中心页面
+    goUser () {
+      this.$router.push({
+        name: 'user-center'
+      })
     },
     // 修改密码
     goResetPw () {
@@ -135,6 +145,10 @@ export default {
   }
   .user-logo {
     padding-right: 5px;
+    width: 35px;
+    img {
+      width: 100%;
+    }
   }
   .info {
     padding: 0 20px;

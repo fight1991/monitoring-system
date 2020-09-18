@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container" v-loading="$store.state.loading">
+  <div class="login-container">
     <div class="header">
       <div class="login-logo flex-center">
         <img src="@/assets/logo.png" alt="">
@@ -7,10 +7,12 @@
       </div>
       <div class="header-right flex-center">
         <el-dropdown
+          trigger="click"
           @command="toggleLang"
           placement="top-start">
           <span class="lang flex-center">
             <i class="iconfont icon-yuyan"></i>
+            <!-- <span>{{lang}}</span> -->
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -18,27 +20,11 @@
             <el-dropdown-item command="en" divided>English</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown
-          placement="top-start">
-          <span class="app-downLoad flex-center">
-            <i class="iconfont icon-app"></i>
-            <i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>app-downLoad</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <erweima></erweima>
       </div>
     </div>
     <div class="content">
-      <!-- <div class="bg"><img src="@/assets/login-bg.png" alt=""></div> -->
       <div class="invert"></div>
-      <!-- <div class="sys-text">
-        <p class="top">SYSTEM MONITORING</p>
-        <div class="down">
-          <p>ANYTIME<br/>ANYWHERE</p>
-        </div>
-      </div> -->
       <transition name="zoom">
         <keep-alive>
           <component :is="pageFlag" @toggleStatus="toggleStatus"></component>
@@ -48,47 +34,64 @@
     <div class="footer">
       <div class="footer-content">
         <p class="flex-center some-link">
-          <el-link type="info" href="https://www.fox-ess.com/" target="_blank">{{$t('login.site')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="http://8.209.116.72/i18n/zh_CN/UserAgreement.html" target="_blank">{{$t('login.useTerm')}}</el-link>
-          <i class="gap">-</i>
-          {{$t('login.product')}}
-          <span class="gap">:</span>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.sSeries')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.eSeries')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.tSeries')}}</el-link>
-          <i class="gap">-</i>
-          <el-link type="info" href="https://fox-ess.com/single-phase/" target="_blank">{{$t('login.acStore')}}</el-link>
+          <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
+          <i class="shuxian"></i>
+          <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
+          <i class="shuxian"></i>
+          <el-link type="info" :href="apiUrl + '/i18n/zh_CN/UserAgreement.html'" target="_blank">{{$t('login.useTerm')}}</el-link>
+          <i class="shuxian" v-if="version=='inside'"></i>
+          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
         </p>
-        <p>{{$store.state.rightsTxt + $t('login.allRight')}}</p>
+        <p class="flex-center">
+          <span class="beian" v-if="version=='inside'"></span>
+          <span class="beian-num" v-if="version=='inside'">苏公网安备 32021402001297号</span>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import login from './login'
-import register from './register'
-import resetPw from './resetPw'
+import login from './components/login'
+import register from './components/register'
+import resetPw from './components/resetPw'
+import { judgeClient } from '@/util'
+import erweima from './components/erweima'
+import storage from '@/util/storage'
 export default {
   name: 'router-login',
   components: {
     login,
     register,
-    resetPw
+    resetPw,
+    erweima
   },
   data () {
     return {
       pageFlag: 'login', // 注册和密码公用页面
-      lang: '中文'
+      lang: '中文',
+      sysFlag: judgeClient(), // android ios pc
+      // andrImg: require('@/assets/android-app.png'),
+      // iosImg: require('@/assets/ios-app.png'),
+      qrcode: location.origin + '/app/download',
+      size: 110,
+      host: 'https://www.fox-ess.com', // 国外官网
+      apiUrl: process.env.VUE_APP_WWW // 资源地址
+    }
+  },
+  computed: {
+    version () { // 判断是国内版本还是国外版本
+      return this.$store.state.version
     }
   },
   created () {
-    // 系统header按钮跳转过来
-    if (this.$route.query.type === 'reset') {
-      this.toggleStatus('resetPw')
+    if (process.env.VUE_APP_VERSION === 'inside') {
+      this.host = 'http://www.fox-ess.com.cn' // 国内官网
+    }
+    let langInfo = storage.getStorage('lang')
+    if (langInfo) {
+      this.$i18n.locale = langInfo
+      this.lang = langInfo === 'en' ? 'English' : '中文'
     }
   },
   methods: {
@@ -99,6 +102,16 @@ export default {
     toggleLang (lang) {
       this.$i18n.locale = lang
       this.lang = lang === 'en' ? 'English' : '中文'
+      this.$store.commit('toggleLang', lang)
+      storage.setStorage('lang', lang)
+    },
+    // 手机app二维码下载
+    downloadApp () {
+      let url = process.env.VUE_APP_ANDROID
+      if (this.sysFlag === 'ios') {
+        url = process.env.VUE_APP_APPLE
+      }
+      window.open(url, '_blank')
     }
   }
 }
@@ -107,14 +120,31 @@ export default {
 .some-link {
   flex-wrap: wrap;
 }
+.app-img {
+  padding: 5px 5px 0 5px;
+  box-shadow: 0 0 10px #f1f1f1;
+}
+
+.beian {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/government.png') no-repeat;
+}
+.beian-num {
+  margin: 0 5px;
+  text-decoration: none;
+  color: #939393;
+}
 .gap {
   margin: 0 5px;
 }
-.login-logo {
-  width: 50px;
-  img {
-    width: 100%;
-  }
+.shuxian {
+  display: block;
+  height: 10px;
+  width: 1px;
+  border-right: 1px solid #999;
+  margin: 0 5px;
 }
   .login-container {
     // background: url("../../assets/inverter-bg.png") no-repeat left center;
@@ -130,7 +160,7 @@ export default {
     }
     .footer-content {
       font-size: 12px;
-      color: #999;
+      color: #939393;
       text-align:center;
       // width: 1000px;
       // margin: 0 auto;
@@ -148,21 +178,21 @@ export default {
         color: @sys-main-header;
         font-weight: bold;
       }
-      .header-right span{
-        color: @sys-main-header;
+      .header-right {
+        span {
+          color: @sys-main-header;
+        }
       }
       display: flex;
       justify-content: space-between;
       padding: 10px 20px;
       font-size: 22px;
-      .app-downLoad, .lang {
-        cursor: pointer;
-      }
       .lang {
-        margin-right: 10px;
-      }
-      .iconfont {
-        font-size: 32px;
+        cursor: pointer;
+        margin-right: 15px;
+        .iconfont {
+          font-size: 32px;
+        }
       }
     }
     .content {
@@ -256,6 +286,9 @@ export default {
     width: calc(100% - 20px)!important;
     margin: 0 10px;
     right: 0!important;
+  }
+  .login-container .header {
+    padding-left: 0;
   }
   .content .bg {
     display: none;

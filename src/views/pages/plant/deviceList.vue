@@ -20,12 +20,21 @@
       </search-bar>
       <!-- 列表查询区域 -->
       <func-bar>
-        <common-table :tableHeadData="deviceTableHead" :tableList="resultList" :height="195">
+        <common-table :tableHeadData="deviceTableHead" :tableList="resultList" :height="200">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
             <i class="el-icon-error" v-show="row.status==2"></i>
             <i class="el-icon-remove" v-show="row.status==3"></i>
+          </template>
+          <template v-slot:power="{row}">
+            {{toFixed(row.power)}}
+          </template>
+          <template v-slot:generationToday="{row}">
+            {{toFixed(row.generationToday)}}
+          </template>
+          <template v-slot:generationTotal="{row}">
+            {{toFixed(row.generationTotal)}}
           </template>
         </common-table>
         <div class="states-row">
@@ -39,7 +48,7 @@
   </section>
 </template>
 <script>
-import deviceTableHead from './deviceTableHead'
+import deviceTableHead from './mixins/deviceTableHead'
 export default {
   mixins: [deviceTableHead],
   data () {

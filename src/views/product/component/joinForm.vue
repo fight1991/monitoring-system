@@ -9,7 +9,7 @@
       </el-col>
       <!-- 安装商选择代理商 多选 -->
       <el-col :span="24" v-if="tag=='installer'">
-        <el-form-item :label="$t('join.agent')" prop="organNameM" label-width="100px">
+        <!-- <el-form-item :label="$t('join.agent')" prop="organNameM" label-width="100px">
           <el-select
             class="agent-multi"
             :popper-append-to-body="false"
@@ -19,14 +19,20 @@
             :placeholder="$t('common.select')" style="width:100%;">
             <el-option v-for="(item, index) in organList" :value="item" :key="'index' + index" :label="item"></el-option>
           </el-select>
+        </el-form-item> -->
+        <el-form-item :label="$t('user.invCode')" prop="code" label-width="130px">
+          <el-input v-model="dataForm.code" clearable></el-input>
         </el-form-item>
       </el-col>
       <!-- 代理商选择代理商 单选 -->
       <el-col :span="24" v-if="tag=='agent'">
-        <el-form-item :label="$t('join.agent')" prop="organNameS" label-width="100px">
+        <!-- <el-form-item :label="$t('join.agent')" prop="organNameS" label-width="100px">
           <el-select v-model="dataForm.organNameS" :placeholder="$t('common.select')" style="width:100%;">
             <el-option v-for="(item, index) in organList" :value="item" :key="'index' + index" :label="item"></el-option>
           </el-select>
+        </el-form-item> -->
+        <el-form-item :label="$t('user.invCode')" prop="code" label-width="130px">
+          <el-input v-model="dataForm.code" clearable></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -36,17 +42,18 @@
 export default {
   data () {
     return {
-      dialogVisible: false,
       dataForm: {
         organNameS: '',
         organNameM: [],
+        code: '',
         organType: '',
         moduleSN: ''
       },
       rules: {
-        organNameS: [{ required: true, message: 'Authorizer is required', trigger: 'blur' }],
-        organNameM: [{ required: true, message: 'Authorizer is required', trigger: 'blur' }],
-        moduleSN: [{ required: true, message: 'sn is required', trigger: 'blur' }]
+        organNameS: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        organNameM: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        moduleSN: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        code: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
       }
     }
   },
@@ -58,6 +65,7 @@ export default {
         organNameS: '',
         organNameM: [],
         organType: '',
+        code: '',
         moduleSN: ''
       }
     },

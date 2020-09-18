@@ -63,7 +63,7 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="inverterTableHead" @select="getSelection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="inverterTableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
@@ -72,9 +72,18 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="goToDetail('look', row.deviceID)"></i>
-              <i title="remote setting" class="iconfont icon-remote-setting" @click="goToDetail('set', row.deviceID)"></i>
+              <i title="view" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
+              <i title="remote setting" class="iconfont icon-remote-setting" v-if="row.status!=3" @click.stop="goToDetail('set', row.deviceID)"></i>
             </div>
+          </template>
+          <template v-slot:power="{row}">
+            {{toFixed(row.power)}}
+          </template>
+          <template v-slot:generationToday="{row}">
+            {{toFixed(row.generationToday)}}
+          </template>
+          <template v-slot:generationTotal="{row}">
+            {{toFixed(row.generationTotal)}}
           </template>
         </common-table>
       </func-bar>
@@ -90,7 +99,7 @@
   </section>
 </template>
 <script>
-import inverterTableHead from './inverterTableHead'
+import inverterTableHead from './mixins/inverterTableHead'
 export default {
   mixins: [inverterTableHead],
   data () {
@@ -112,7 +121,12 @@ export default {
         deviceType: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
+        currentPage: 1,
+        total: 0
+      },
+      defaultPage: {
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -134,9 +148,6 @@ export default {
     this.getStatusAll()
   },
   methods: {
-    getSelection (select) {
-      this.selection = select
-    },
     resetSearchForm () {
       this.searchForm = {
         status: 0,
@@ -153,14 +164,17 @@ export default {
       this.search()
     },
     search () {
-      this.getInverterList(this.$store.state.pagination)
+      this.getInverterList(this.defaultPage)
+      this.selection = []
     },
-    goToDetail (page, id) {
+    goToDetail (page, id, flowType, status) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
       this.$tab.replace({
         name: routeName,
         query: {
-          id
+          id,
+          flowType,
+          status
         }
       })
     },

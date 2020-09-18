@@ -10,7 +10,7 @@
       <join-form ref="form" :tag="$attrs.tag" :organList="organList"></join-form>
     </div>
     <div class="foot-btn flex-center">
-      <el-button size="mini" @click="cancelForm">{{$t('common.cancel')}}</el-button>
+      <el-button size="mini" @click="cancelBtn">{{$t('common.cancel')}}</el-button>
       <el-button size="mini" type="primary" @click="joinSome">{{$t('common.register')}}</el-button>
     </div>
   </el-dialog>
@@ -23,12 +23,7 @@ export default {
   },
   data () {
     return {
-      dialogVisible: false,
-      accessInfo: {
-        user: 1,
-        installer: 2,
-        agent: 3
-      }
+      dialogVisible: false
     }
   },
   props: {
@@ -66,11 +61,12 @@ export default {
       let flag = true
       this.$refs.form.$refs.dataForm.validate(valid => (flag = valid))
       if (!flag) return
-      let { organNameS, organNameM, moduleSN } = this.$refs.form.dataForm
+      let { organNameS, organNameM, moduleSN, code } = this.$refs.form.dataForm
       let tempData = {
         moduleSN: '',
         organName: [],
-        organType: ''
+        organType: '',
+        code: ''
       }
       tempData.organType = this.$attrs.tag
       if (this.$attrs.tag === 'user') {
@@ -78,9 +74,11 @@ export default {
       }
       if (this.$attrs.tag === 'installer') {
         tempData.organName = organNameM
+        tempData.code = code
       }
       if (this.$attrs.tag === 'agent') {
         tempData.organName = organNameS
+        tempData.code = code
       }
       this.$post({
         url: '/v0/organs/join',

@@ -21,13 +21,13 @@ export default {
       let value = ''
       switch (Number(num)) {
         case 1:
-          value = '正常'
+          value = this.$t('common.normal')
           break
         case 2:
-          value = '故障'
+          value = this.$t('common.abnormal')
           break
         default:
-          value = '离线'
+          value = this.$t('common.offline')
           break
       }
       return value
@@ -43,6 +43,19 @@ export default {
       } else {
         return []
       }
+    },
+    // 保留2位有效小数
+    toFixed (data, num = 2) {
+      if (!data || isNaN(Number(data))) return 0
+      let temp = Number(data)
+      if (Math.abs(temp) < 0.01) { // 防止出现-0.002 --> -0.00
+        return 0
+      }
+      return temp.toFixed(num)
+    },
+    // 校验提示
+    messageValid (type) {
+      return this.$t('common.' + type)
     }
   }
 }

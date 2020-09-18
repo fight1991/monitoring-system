@@ -1,68 +1,78 @@
 <template>
   <div class="income-details flex">
     <div class="content-item flex-around">
-      <div class="icon-img">
-        <i class="icon icon-plant-day hidden-sm-and-down"></i>
+      <div class="icon-img hidden-md-and-down">
+        <i class="icon icon-plant-day"></i>
       </div>
-      <div class="plant-text text-cut">
-        {{$t('plant.genTod')}} (kwh)
-      </div>
-      <div class="plant-money text-cut txt-c">
-        {{dataFormate(incomeDetail.generation.today)}}
-      </div>
-    </div>
-    <div class="content-item flex-around">
-      <div class="icon-img">
-        <i class="icon icon-plant-month hidden-sm-and-down"></i>
-      </div>
-      <div class="plant-text text-cut">
-        {{$t('plant.genMon')}} (kwh)
-      </div>
-      <div class="plant-money text-cut">
-        {{dataFormate(incomeDetail.generation.month)}}
+      <div class="detail-box">
+        <div class="plant-money txt-c text-cut">
+          {{toFixed(incomeDetail.generation.today)}}
+        </div>
+        <div class="plant-text text-cut">
+          {{$t('plant.genTod')}} (kW·h)
+        </div>
       </div>
     </div>
     <div class="content-item flex-around">
-      <div class="icon-img">
-        <i class="icon icon-plant-total hidden-sm-and-down"></i>
+      <div class="icon-img hidden-md-and-down">
+        <i class="icon icon-plant-month"></i>
       </div>
-      <div class="plant-text text-cut">
-        {{$t('plant.genTot')}} (kwh)
+      <div class="detail-box">
+        <div class="plant-money text-cut">
+          {{toFixed(incomeDetail.generation.month)}}
+        </div>
+        <div class="plant-text text-cut">
+          {{$t('plant.genMon')}} (kW·h)
+        </div>
       </div>
-      <div class="plant-money text-cut txt-c">
-        {{dataFormate(incomeDetail.generation.cumulate)}}
+    </div>
+    <div class="content-item flex-around">
+      <div class="icon-img hidden-md-and-down">
+        <i class="icon icon-plant-total"></i>
+      </div>
+      <div class="detail-box">
+        <div class="plant-money text-cut txt-c">
+          {{toFixed(incomeDetail.generation.cumulate)}}
+        </div>
+        <div class="plant-text text-cut">
+          {{$t('plant.genTot')}} (kW·h)
+        </div>
       </div>
     </div>
     <div class="content-item flex-around" v-if="incomeDetail.currencyCount <= 1">
-      <div class="icon-img">
-        <i class="icon icon-incomeT hidden-sm-and-down"></i>
+      <div class="icon-img hidden-md-and-down">
+        <i class="icon icon-incomeT"></i>
       </div>
-      <div class="plant-text text-cut">
-        {{$t('plant.earnTot')}} ({{incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']}})
-      </div>
-      <div class="plant-money text-cut plant-money-green">
-        {{incomeDetail.earnings.cumulate[0] && dataFormate(incomeDetail.earnings.cumulate[0]['value'])}}
+      <div class="detail-box">
+        <div class="plant-money text-cut plant-money-green">
+          {{incomeDetail.earnings.cumulate[0] && toFixed(incomeDetail.earnings.cumulate[0]['value'])}}
+        </div>
+        <div class="plant-text text-cut">
+          {{$t('plant.earnTot')}} ({{incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']}})
+        </div>
       </div>
     </div>
     <div class="content-item flex-around" v-else>
-      <div class="icon-img">
-        <i class="icon icon-incomeT hidden-sm-and-down"></i>
+      <div class="icon-img hidden-md-and-down">
+        <i class="icon icon-incomeT"></i>
       </div>
-      <div class="plant-text text-cut">
-        {{$t('plant.earnTot')}}
-      </div>
-      <div class="plant-money text-cut plant-money-green">
-        <el-popover
-          popper-class="money-popper"
-          placement="right"
-          title="List"
-          width="100"
-          trigger="hover">
-          <p v-for="item in incomeDetail.earnings.cumulate" :key="item.currency">
-            {{item.currency + ' : ' + dataFormate(item.value)}}
-          </p>
-          <i class="iconfont icon-look moneny-detail" slot="reference"></i>
-        </el-popover>
+      <div class="detail-box">
+        <div class="plant-money text-cut plant-money-green">
+          <el-popover
+            popper-class="money-popper"
+            placement="right"
+            :title="$t('common.list')"
+            width="100"
+            trigger="hover">
+            <p v-for="item in incomeDetail.earnings.cumulate" :key="item.currency">
+              {{item.currency + ' : ' + toFixed(item.value)}}
+            </p>
+            <i class="iconfont icon-look moneny-detail" slot="reference"></i>
+          </el-popover>
+        </div>
+        <div class="plant-text text-cut">
+          {{$t('plant.earnTot')}}
+        </div>
       </div>
     </div>
   </div>
@@ -96,11 +106,7 @@ export default {
       }
     }
   },
-  methods: {
-    dataFormate (num) { // 数据格式化
-      return (num).toLocaleString()
-    }
-  }
+  methods: {}
 }
 </script>
 <style lang="less" scoped>
@@ -114,15 +120,23 @@ export default {
     &:nth-child(2n+1) {
       border-right: 1px solid #f5f5f5;
     }
+    .detail-box {
+      flex: 1;
+    }
     .icon-img {
       overflow: hidden;
+      width: 30%;
+      text-align: center;
+      padding: 0 10px;
     }
-    .icon-img, .plant-text, .plant-money {
-      width: 33%;
+    .plant-text, .plant-money {
+      // width: 33%;
+      padding: 5px;
       text-align: center;
     }
     .plant-money {
       color: #FFC245;
+      font-size: 16px;
       font-weight: bold;
     }
     .txt-c {
