@@ -2,7 +2,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      setDivH: window.innerHeight - 130 // 容器高度
+      setDivH: window.innerHeight - 116 // 容器高度
     }
   },
   created () {

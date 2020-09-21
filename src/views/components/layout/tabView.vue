@@ -128,11 +128,17 @@ export default {
 .tab-container {
   position: relative;
   .tab-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 40px;
+    height: 30px;
+    overflow: hidden;
     border-left: 1px solid #E4E7ED;
     line-height: 30px;
-    text-align: center;
+    // text-align: center;
     position: absolute;
+    z-index: 5;
     right: 0;
     top: 0;
   }

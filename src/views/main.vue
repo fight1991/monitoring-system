@@ -11,7 +11,7 @@
         </div>
       </el-aside>
       <el-container class="main-container">
-        <el-header class="main-header" height="50px">
+        <el-header class="main-header" height="40px">
           <layout-header></layout-header>
         </el-header>
         <el-main class="main-tab">
@@ -73,7 +73,12 @@ export default {
   height: 100%;
 }
 .main-header {
-  background-color: @sys-main-header;
+  // background-color: @sys-main-header;
+  background-color: #fff;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .09);
+  padding: 0 10px;
 }
 .aside-box {
   display: flex;

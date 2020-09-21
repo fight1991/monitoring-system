@@ -505,6 +505,9 @@
     height: 100%;
     .el-tabs__header {
       margin-bottom: 0;
+      border: none;
+      box-shadow: 0 1px 4px #ccc;
+      z-index: 2;
       .el-tabs__nav-next, .el-tabs__nav-prev {
         line-height: 36px;
       }
@@ -527,14 +530,15 @@
     .el-tabs__item {
       padding: 0 15px!important;
       font-size: 12px;
-      line-height: 35px;
+      line-height: 30px;
       border-bottom: none;
-      height: 35px;
+      height: 30px;
       .el-icon-close {
         line-height: 14px;
       }
-      &.is-active {
-        font-weight: bold;
+      &.is-active:not(#tab-tab-index) {
+        color: #fff;
+        background-color: #42b983;
       }
     }
     .el-tabs__nav {

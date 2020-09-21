@@ -1,36 +1,27 @@
 <template>
   <div class="head-container">
-    <div class="login fr">
-      <!-- <el-dropdown
-        trigger="click"
-        @command="toggleLang"
-        placement="top-start">
-        <span class="lang">
-          <span>{{lang}}</span>
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="zh">中文</el-dropdown-item>
-          <el-dropdown-item command="en" divided>English</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
+    <div class="left-box flex-vertical-center">
+      <div class="pull-icon"><i class="el-icon-s-unfold"></i></div>
+      <div class="bread-navigator">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/bus/index' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="item in routerArray" :key="item">{{$t('navBar.' + item)}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+    </div>
+    <div class="login">
       <el-dropdown
         @command="userOption"
         trigger="click"
         placement="top-start">
         <span class="user-name flex-center">
-          <!-- <i class="user-logo iconfont icon-user"></i> -->
           <div class="user-logo"><img :src="userLogo" alt=""></div>
-          <!-- <span>{{userInfo.user || ''}}</span> -->
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="user">{{$t('user.center')}}</el-dropdown-item>
           <el-dropdown-item command="logout" divided>{{$t('login.goOut')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- <span class="info"><i class="iconfont icon-info"></i></span> -->
-      <!-- <span class="fullscreen" v-show="!isFullScreen" @click="screenClick('enter')" :title="$t('common.enterFull')"><i class="iconfont icon-enter-fullScreen"></i></span>
-      <span class="fullscreen" v-show="isFullScreen" @click="screenClick('out')" :title="$t('common.outFull')"><i class="iconfont icon-out-fullScreen"></i></span> -->
     </div>
   </div>
 </template>
@@ -43,19 +34,26 @@ export default {
     return {
       isFullScreen: false,
       userLogo: require('@/assets/user-logo.png'),
-      logoSrc: require('@/assets/logo.png'),
       lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.userInfo
-    })
+    }),
+    routerArray () {
+      if (this.$route.name === 'tab-index') {
+        return []
+      }
+      let temp = this.$route.matched.map(v => v.meta.title)
+      return temp.length > 1 ? temp.slice(1) : temp
+    }
   },
   created () {
     window.addEventListener('resize', () => {
       !document.fullscreen && (this.isFullScreen = false)
     })
+    console.log(this.$route)
   },
   methods: {
     // 切换全屏
@@ -127,6 +125,21 @@ export default {
 .head-container {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.left-box {
+  height: 100%;
+  .el-icon-s-unfold {
+    font-size: 22px;
+  }
+  .pull-icon {
+    margin-right: 15px;
+  }
+  .el-breadcrumb {
+    font-size: 12px;
+  }
 }
 .login {
   height: 100%;
@@ -144,8 +157,10 @@ export default {
     margin-right: 10px;
   }
   .user-logo {
-    padding-right: 5px;
-    width: 35px;
+    margin-right: 5px;
+    width: 32px;
+    box-shadow: 0 0 5px 2px #ccc;
+    border-radius: 50%;
     img {
       width: 100%;
     }
