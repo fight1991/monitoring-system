@@ -86,7 +86,6 @@ export default {
     }
   },
   created () {
-    alert(this.version)
     if (this.version === 'inside') {
       this.host = 'http://www.fox-ess.com.cn' // 国内官网
     }
