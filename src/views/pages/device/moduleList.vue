@@ -38,14 +38,14 @@
             <el-button size="mini" icon="iconfont icon-import" :disabled="access!=255">{{$t('common.import')}}</el-button>
             <el-dropdown-menu slot="dropdown">
               <!-- 模板下载 -->
-              <el-dropdown-item command="d">{{$t('common.download')}}</el-dropdown-item>
+              <el-dropdown-item command="d">{{$t('common.downloadT')}}</el-dropdown-item>
               <!-- 导入 -->
               <el-upload
                 :show-file-list="false"
                 class="dropDown-upload"
                 :http-request="beforeUpload"
                 action="http://127.0.0.1">
-                <el-dropdown-item command="e" divided>{{$t('common.import')}}</el-dropdown-item>
+                <el-dropdown-item command="e" divided>{{$t('common.import') + 'SN'}}</el-dropdown-item>
               </el-upload>
             </el-dropdown-menu>
           </el-dropdown>
@@ -180,7 +180,7 @@ export default {
     },
     // 模板下载
     downloadModule () {
-      window.open('http://www.foxesscloud.com/template/modules.csv', '_blank')
+      window.open(process.env.VUE_APP_WWW + '/c/v0/module/template/modules.csv', '_blank')
     },
     // 读取文件信息
     beforeUpload ({ file }) {

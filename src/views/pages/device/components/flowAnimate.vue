@@ -36,7 +36,7 @@
             <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat) + ' kW'}}</span>
           </div>
           <div class="inverter icon-inverter">
-            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+            <span class="data-text inverter-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
           </div>
           <!-- bat -- invert -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1, 'arrow-l': path.box_left_top==-1}"></div>
@@ -203,10 +203,13 @@ export default {
     left: 50%;
     color: green;
     font-size: 12px;
-    width: 120px;
+    white-space:nowrap;
     text-align: center;
     transform: translate3d(-50%, 0, 0);
     animation: jump 2s linear infinite;
+  }
+  .inverter-text {
+    bottom: 86px;
   }
 }
 .flow-row,.flow-column {
