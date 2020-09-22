@@ -203,7 +203,6 @@ export default {
     left: 50%;
     color: green;
     font-size: 12px;
-    // width: 100px;
     white-space:nowrap;
     text-align: center;
     transform: translate3d(-50%, 0, 0);
