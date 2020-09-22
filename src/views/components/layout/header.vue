@@ -1,7 +1,7 @@
 <template>
   <div class="head-container">
     <div class="left-box flex-vertical-center">
-      <div class="pull-icon"><i class="el-icon-s-unfold"></i></div>
+      <div class="pull-icon" @click="toggleMenu"><i :class="{'el-icon-s-unfold':$store.state.collapse,'el-icon-s-fold':!$store.state.collapse}"></i></div>
       <div class="bread-navigator">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/bus/index' }">首页</el-breadcrumb-item>
@@ -97,6 +97,9 @@ export default {
         // document.documentElement.requestFullscreen.call('dom') // 是dom元素全屏
       }
     },
+    toggleMenu () {
+      this.$store.commit('changeCollapse')
+    },
     // 切换语言
     toggleLang (lang) {
       this.$i18n.locale = lang
@@ -165,9 +168,10 @@ export default {
 }
 .left-box {
   height: 100%;
-  .el-icon-s-unfold {
+  .el-icon-s-unfold, .el-icon-s-fold{
     font-size: 22px;
     font-weight: 200;
+    cursor: pointer;
   }
   .pull-icon {
     margin-right: 15px;
@@ -181,17 +185,6 @@ export default {
   display: flex;
   align-items: center;
   color: #fff;
-  .system-set {
-    color: @sys-main-text;
-    font-size: 24px;
-    margin-right: 30px;
-    cursor: pointer;
-    // background-color: pink;
-    transition: all .5s;
-    &:hover {
-      transform: rotate(90deg) scale(1.2);
-    }
-  }
   .el-dropdown {
     color: #fff;
   }
@@ -200,7 +193,7 @@ export default {
   }
   .lang, .user-name {
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 15px;
   }
   .user-logo {
     margin-right: 5px;
