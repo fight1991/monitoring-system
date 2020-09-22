@@ -64,8 +64,8 @@ export default {
       areaNum: [ { num: '+86', contry: 'china' } ],
       rules: {
         organName: [{ required: true, message: '', trigger: 'blur' }],
-        'details.country': [{ required: true, message: 'country is required', trigger: 'blur' }],
-        'details.address': [{ required: true, message: 'address is required', trigger: 'blur' }]
+        'details.country': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.address': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
       }
     }
   },

@@ -151,6 +151,7 @@ export default {
         deviceSN: '',
         alarmType: 0
       }
+      this.search()
     },
     search () {
       this.getList(this.$store.state.pagination)

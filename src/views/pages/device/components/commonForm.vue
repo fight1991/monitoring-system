@@ -146,7 +146,7 @@ export default {
     },
     // 选择框表单校验
     rangeValidSelect (ele) {
-      return [{ required: true, message: 'it is required', trigger: 'change' }]
+      return [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
     },
     // 表单校验方法
     rangeValid (rule, value, callback, ele) {
@@ -155,7 +155,7 @@ export default {
         let tempVal = Number(value)
         if (isNaN(tempVal) || tempVal < lo || tempVal > hi) {
           let str = lo + '~' + hi
-          callback(new Error('it is invalid ' + str))
+          callback(new Error(this.messageValid('valid') + ' ' + str))
           return
         }
       }
@@ -166,7 +166,7 @@ export default {
       if (ele.range && ele.range.enable) {
         return [{
           required: true,
-          message: 'it is required',
+          message: this.messageValid('require'),
           trigger: 'blur'
         }, {
           // min: ele.range.lo,
@@ -175,7 +175,7 @@ export default {
           trigger: 'blur'
         }]
       } else {
-        return [{ required: true, message: 'it is required', trigger: 'blur' }]
+        return [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
       }
     }
   }

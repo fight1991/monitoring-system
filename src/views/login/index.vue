@@ -38,7 +38,7 @@
           <i class="shuxian"></i>
           <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
           <i class="shuxian"></i>
-          <el-link type="info" :href="apiUrl + '/i18n/zh_CN/UserAgreement.html'" target="_blank">{{$t('login.useTerm')}}</el-link>
+          <el-link type="info" :href="agreeSrc" target="_blank">{{$t('login.useTerm')}}</el-link>
           <i class="shuxian" v-if="version=='inside'"></i>
           <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
         </p>
@@ -70,6 +70,7 @@ export default {
     return {
       pageFlag: 'login', // 注册和密码公用页面
       lang: '中文',
+      agreeSrc: '',
       sysFlag: judgeClient(), // android ios pc
       // andrImg: require('@/assets/android-app.png'),
       // iosImg: require('@/assets/ios-app.png'),
@@ -85,7 +86,7 @@ export default {
     }
   },
   created () {
-    if (process.env.VUE_APP_VERSION === 'inside') {
+    if (this.version === 'inside') {
       this.host = 'http://www.fox-ess.com.cn' // 国内官网
     }
     let langInfo = storage.getStorage('lang')
@@ -93,6 +94,8 @@ export default {
       this.$i18n.locale = langInfo
       this.lang = langInfo === 'en' ? 'English' : '中文'
     }
+    let vers = this.version === 'inside' ? 'zh_CN' : 'en'
+    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${vers}/UserAgreement.html`
   },
   methods: {
     // 切换登录还是注册

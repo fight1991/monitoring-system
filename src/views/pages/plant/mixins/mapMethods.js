@@ -2,6 +2,7 @@ export default {
   data () {
     return {
       countryShortName: '',
+      timer: null,
       gMapAdress: { // 谷歌地图暂存容器
         country: '', // 国家
         administrative_area_level_1: '', // 省
@@ -24,7 +25,8 @@ export default {
     },
     // 初始化高德地图
     initAMap ({ AMap, map }) {
-      let $input = this.$refs['place-map'].$refs['input']
+      let $input = this.$refs['place-map']
+      $input.focus()
       var autoComplete = new AMap.Autocomplete({
         input: $input
       })
@@ -47,6 +49,9 @@ export default {
             this.initGaodeForm(lat, lng, country, province, city)
           }
         })
+        this.timer = setTimeout(() => {
+          document.documentElement.click()
+        }, 300)
       })
       // 编辑电站时初始化地图
       if (this.opType === 'edit') {
@@ -64,7 +69,8 @@ export default {
     // 初始化谷歌地图
     initGoogleMap ({ map }) {
       let google = window.google
-      let $input = this.$refs['place-map'].$refs['input']
+      let $input = this.$refs['place-map']
+      $input.focus()
       let componentForm = {
         locality: 'long_name', // 市
         administrative_area_level_1: 'short_name', // 省
@@ -109,6 +115,9 @@ export default {
         }
         marker.setPosition(place.geometry.location)
         marker.setVisible(true)
+        this.timer = setTimeout(() => {
+          document.documentElement.click()
+        }, 300)
       })
       if (this.opType === 'edit') {
         let { x, y } = this.dataForm.position

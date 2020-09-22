@@ -3,62 +3,94 @@
       <!-- 并网机动画 -->
       <div class="flex" v-if="flowType==1">
         <div class="circle-line box-left">
-          <div class="pv icon-pv"></div>
-          <div class="inverter icon-inverter"></div>
-          <div class="pv-text">PV&nbsp;:&nbsp;{{pvValue}}</div>
-          <!-- 从PV流向负载 -->
-          <div class="dot1" v-show="path==2 || path==1"></div>
-          <!-- 从PV流向电网 -->
-          <div class="dot3" v-show="path==2 || path==3"></div>
+          <div class="pv icon-pv">
+            <span class="data-text">PV&nbsp;:&nbsp;{{toFixed(wsData.pv) + ' kW'}}</span>
+          </div>
+          <div class="inverter icon-inverter">
+            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+          </div>
+          <!-- pv -- invert -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
+        </div>
+        <div class="circle-line box-center">
+          <!-- invert -- node -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1}"></div>
+          <!-- load -- node -->
+          <div :class="{'flow-column': true, 'arrow-t':path.box_center_right==2}"></div>
         </div>
         <div class="circle-line box-right">
-          <!-- 从电网流向负载 -->
-          <div class="dot2" v-show="path==4"></div>
-          <div class="grid icon-grid"></div>
-          <div class="load icon-load"></div>
+          <!-- node -- grid -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
+          <div class="grid icon-grid">
+            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid) + ' kW'}}</span>
+          </div>
+          <div class="load icon-load">
+            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load) + ' kW'}}</span>
+          </div>
         </div>
       </div>
       <!-- AC单相储能机动画 -->
       <div class="flex" v-if="flowType==3">
         <div class="circle-line box-left">
-          <div class="pv icon-battery"></div>
-          <div class="inverter icon-inverter"></div>
-          <!-- 从电池流向负载 -->
-          <div class="dot1" v-show="path==1 || path==3 "></div>
-          <!-- 从电池流向电网 -->
-          <div class="dot3" v-show="path==1 || path==2"></div>
+          <div class="pv icon-battery">
+            <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat) + ' kW'}}</span>
+          </div>
+          <div class="inverter icon-inverter">
+            <span class="data-text inverter-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+          </div>
+          <!-- bat -- invert -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1, 'arrow-l': path.box_left_top==-1}"></div>
+        </div>
+        <div class="circle-line box-center">
+          <!-- invert -- node -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
+          <!-- node -- load -->
+          <div :class="{'flow-column': true, 'arrow-b': path.box_center_right==-2}"></div>
         </div>
         <div class="circle-line box-right">
-          <!-- 从电网流向负载 -->
-          <div class="dot2" v-show="path==4"></div>
-          <!-- 从电网流向电池 -->
-          <div class="dot4" v-show="path==5"></div>
-          <div class="grid icon-grid"></div>
-          <div class="load icon-load"></div>
+          <!-- node -- grid -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
+          <div class="grid icon-grid">
+            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid) + ' kW'}}</span>
+          </div>
+          <div class="load icon-load">
+            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load) + ' kW'}}</span>
+          </div>
         </div>
       </div>
       <!-- hybrid储能机动画 -->
       <div class="flex hybrid" v-if="flowType==2">
         <div class="circle-line box-left">
-          <div class="pv icon-pv"></div>
-          <div class="inverter icon-inverter"></div>
-          <!-- 从pv流向电池 -->
-          <div class="dot1" v-show="path==1"></div>
-          <!-- 从电池流向电网 -->
-          <div class="dot5" v-show="path==2"></div>
-          <!-- 从电池流向负载 -->
-          <div class="dot7" v-show="path==3"></div>
+          <div class="pv icon-pv">
+            <span class="data-text">PV&nbsp;:&nbsp;{{toFixed(wsData.pv) + ' kW'}}</span>
+          </div>
+          <div class="inverter icon-inverter">
+            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+          </div>
+          <div class="battery icon-battery">
+            <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat) + ' kW'}}</span>
+          </div>
+          <!-- pv -- inverter -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
+          <!-- bat -- inverter -->
+          <div :class="{'flow-column': true, 'self': true, 'arrow-t': path.box_left_right==2, 'arrow-b': path.box_left_right==-2}">
+          </div>
         </div>
         <div class="circle-line box-center">
-          <div class="load icon-battery"></div>
+          <!-- invert -- node -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
+          <!-- load -- node -->
+          <div :class="{'flow-column': true, 'arrow-b':path.box_center_right==-2}"></div>
         </div>
         <div class="circle-line box-right">
-          <!-- 从电网流向负载 -->
-          <div class="dot2" v-show="path==5"></div>
-          <!-- 从电网流向电池 -->
-          <div class="dot6" v-show="path==4"></div>
-          <div class="grid icon-grid"></div>
-          <div class="load icon-load"></div>
+          <!-- grid -- node -->
+          <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
+          <div class="grid icon-grid">
+            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid) + ' kW'}}</span>
+          </div>
+          <div class="load icon-load">
+            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load) + ' kW'}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -73,10 +105,10 @@ export default {
   },
   props: {
     path: {
-      default: 0
+      default: () => {}
     },
-    pvValue: {
-      default: 0
+    wsData: {
+      default: () => {}
     },
     flowType: {
       default: 1 // 1 并网机; 2 hybrid储能机; 3 AC单相储能机
@@ -88,38 +120,53 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.column-line::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 0;
+  height: 150px;
+  width: 1px;
+  border-right: 1px solid #67C23A;
+}
 .flow-box {
   width: 95%;
+  // border-top: 1px solid #67C23A;
 }
 .box-right::after {
   content: '';
   position: absolute;
   left: 0;
   top: 0;
-  transform: translate(-50%, -50%);
-  height: 6px;
-  width: 6px;
+  transform: translate3d(-50%, -50%, 0);
+  height: 10px;
+  width: 10px;
   border-radius: 50%;
   border: 1px solid #67C23A;
-  background-color: #fff;
-  box-shadow: 0px 0px 4px 1px #ccc;
+  background: radial-gradient(#fff, green);
+  box-shadow: 0px 0px 4px 1px purple;
+  z-index: 10;
+}
+.hybrid {
+  .circle-line {
+    .battery {
+      right: -85px;
+      bottom: 0;
+      transform: translateY(50%);
+    }
+  }
+  .flow-column.self {
+    right: -45px;
+  }
 }
 .circle-line {
+  width: 33.33%;
   height: 150px;
   position: relative;
-  &:first-child {
-    border-top: 1px solid #67C23A;
-    width: 66%;
-  }
-  &:last-child {
-    width: 33%;
-    border: 1px solid #67C23A;
-    border-right: none;
-    border-bottom: none;
-  }
   .pv,
   .load,
   .grid,
+  .battery,
   .inverter {
     position: absolute;
     width: 85px;
@@ -132,190 +179,160 @@ export default {
   .pv {
     top: 0;
     left: 0;
-    transform: translate(-10px,-50%);
+    transform: translate3d(-10px,-50%, 0);
   }
   .inverter {
     top: 0;
-    right: 50px;
-    transform: translate(0, -50%)
+    right: -85px;
+    transform: translate3d(0, -50%, 0)
   }
   .grid {
     top: 0;
     right: 0;
-    transform: translate(10px, -50%)
+    transform: translate3d(10px, -50%, 0)
   }
   .load {
     bottom: 0;
     left: 0;
-    transform: translate(-50%, 50%)
+    transform: translate3d(-50%, 50%, 0)
   }
-  .pv-text {
+  .data-text {
+    background-color: #fff;
     position: absolute;
-    top: 50%;
-    left: 0;
-    color: #67C23A;
-    font-size: 16px;
-    width: 85px;
+    bottom: -14px;
+    left: 50%;
+    color: green;
+    font-size: 12px;
+    white-space:nowrap;
     text-align: center;
-    transform: translateX(-10px)
+    transform: translate3d(-50%, 0, 0);
+    animation: jump 2s linear infinite;
   }
-  .dot1,.dot2,.dot3, .dot4, .dot5, .dot6, .dot7{
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid greenyellow;
-    background-color: #67C23A;
-    box-shadow: 0px 0px 4px 1px #FDB201;
-    z-index: 66;
-  }
-  .dot1,.dot3 {
-    top: 0;
-    left: 0;
-    transform: translate(-50%,-50%);
-  }
-  .dot2, .dot4, .dot6 {
-    top: 0;
-    right: 0;
-    transform: translate(50%,-50%);
-  }
-  .dot5, .dot7 {
-    right: 0;
-    bottom: 0;
-    transform: translate(50%, 50%);
-  }
-  .dot1 {
-    animation: dot1 2s linear infinite;
-  }
-  .dot2 {
-    animation: dot2 2s linear infinite;
-  }
-  .dot3 {
-    animation: dot3 2s linear infinite;
-  }
-  .dot4 {
-    animation: dot4 2s linear infinite;
-  }
-  .dot5 {
-    animation: dot5 2s linear infinite;
-  }
-  .dot6 {
-    animation: dot6 2s linear infinite;
-  }
-  .dot7 {
-    animation: dot7 2s linear infinite;
+  .inverter-text {
+    bottom: 86px;
   }
 }
-.hybrid {
-  .box-left {
-    border-right: 1px solid #67C23A;
+.flow-row,.flow-column {
+  border-radius: 3px;
+  overflow: hidden;
+}
+.flow-row {
+  width: 100%;
+  position: absolute;
+  // padding: 1px;
+  top: -3px;
+  right: 0;
+  box-shadow: 0px 0px 4px 1px #ccc;
+  &::before, &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
   }
-  .box-center {
-    border-top: 1px solid #67C23A;
+  // .line_1, .line_2 {
+  //   width: 100%;
+  //   height: 3px;
+  // }
+  &.arrow-r {
+    &::before {
+      background-image: repeating-linear-gradient(45deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::after {
+      background-image: repeating-linear-gradient(135deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::before, &::after {
+      animation: flow_r 2s linear infinite;
+    }
   }
-  .circle-line {
-    width: 33.3%;
-    .inverter {
-      right: 0;
-      transform: translate(50%, -50%);
+  &.arrow-l {
+    &::before {
+      background-image: repeating-linear-gradient(135deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::after {
+      background-image: repeating-linear-gradient(45deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::before, &::after {
+      animation: flow_l 2s linear infinite;
     }
   }
 }
-@keyframes dot1 {
+.flow-column {
+  height: 100%;
+  display: flex;
+  position: absolute;
+  box-shadow: 0px 0px 4px 1px #ccc;
+  top: 0;
+  right: -3px;
+  &::before, &::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 3px;
+  }
+  // .line_1, .line_2 {
+  //   height: 100%;
+  //   width: 3px;
+  // }
+  &.arrow-t {
+    &::before {
+      background-image: repeating-linear-gradient(135deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::after {
+      background-image: repeating-linear-gradient(-135deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::before, &::after {
+      animation: flow_t 2s linear infinite;
+    }
+  }
+  &.arrow-b {
+    &::before {
+      background-image: repeating-linear-gradient(45deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::after {
+      background-image: repeating-linear-gradient(-45deg, white, white 5px, #67C23A 5px, #67C23A 7px);
+    }
+    &::before, &::after {
+      animation: flow_b 2s linear infinite;
+    }
+  }
+}
+@keyframes flow_l {
   0% {
-    left: 0;
-    top: 0;
+  }
+  100% {
+    background-position:-100px 0;
+  }
+}
+@keyframes flow_r {
+  0% {
+  }
+  100% {
+    background-position:100px 0;
+  }
+}
+@keyframes flow_t {
+  0% {
+  }
+  100% {
+    background-position: 0 -100px;
+  }
+}
+@keyframes flow_b {
+  0% {
+  }
+  100% {
+    background-position: 0 100px;
+  }
+}
+@keyframes jump {
+  0% {
+    transform: translate3d(-50%, 5px, 0);
   }
   50% {
-    top: 0;
-    left: 100%;
+    transform: translate3d(-50%, 0px, 0);
   }
   100% {
-    left: 100%;
-    top: 100%;
-  }
-}
-@keyframes dot2 {
-  0% {
-    right: 0;
-    top: 0;
-  }
-  50% {
-    top: 0;
-    right: 100%;
-  }
-  100% {
-    right: 100%;
-    top: 100%;
-  }
-}
-@keyframes dot4 {
-  0% {
-    right: 0;
-    top: 0;
-  }
-  100% {
-    right: 300%;
-  }
-}
-@keyframes dot3 {
-  0% {
-    left: 0;
-    top: 0;
-  }
-  50% {
-    top: 0;
-    left: 100%;
-  }
-  100% {
-    left: 150%;
-    top: 0;
-  }
-}
-@keyframes dot5 {
-  0% {
-    right: 0;
-    bottom: 0;
-  }
-  50% {
-    bottom: 100%;
-    right: 0;
-  }
-  100% {
-    right: -200%;
-    bottom: 100%;
-  }
-}
-@keyframes dot6 {
-  0% {
-    right: 0;
-    top: 0;
-  }
-  50% {
-    top: 0;
-    right: 200%;
-  }
-  100% {
-    right: 200%;
-    top: 100%;
-  }
-}
-@keyframes dot7 {
-  0% {
-    right: 0;
-    bottom: 0;
-  }
-  33% {
-    bottom: 100%;
-    right: 0;
-  }
-  66% {
-    right: -100%;
-    bottom: 100%;
-  }
-  100% {
-    right: -100%;
-    bottom: 0;
+    transform: translate3d(-50%, 5px, 0);
   }
 }
 </style>

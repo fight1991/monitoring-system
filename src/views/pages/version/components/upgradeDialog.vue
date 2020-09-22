@@ -69,12 +69,12 @@ export default {
       },
       versionInfo: {},
       rules: {
-        taskName: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        softType: [{ required: true, message: 'it is required', trigger: 'change' }],
-        id: [{ required: true, message: 'it is required', trigger: 'change' }],
+        taskName: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        softType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        id: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
         timeout: [
-          { required: true, message: 'it is required', trigger: 'blur' },
-          { type: 'number', min: 3, max: 40, message: 'it is invalid 3 ~ 40min', trigger: 'blur' }
+          { required: true, message: this.messageValid('require'), trigger: 'blur' },
+          { type: 'number', min: 3, max: 40, message: this.messageValid('valid') + ' 3 ~ 40min', trigger: 'blur' }
         ]
       }
     }
