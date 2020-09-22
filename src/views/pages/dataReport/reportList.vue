@@ -36,7 +36,7 @@
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" v-show="false" icon="iconfont icon-multi-download" @click="multiVisible=true">批量下载</el-button>
-          <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
+          <el-button size="mini" v-show="access==3 || access==255" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
           <template v-slot:etoday="{row}">

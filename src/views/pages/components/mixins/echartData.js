@@ -31,9 +31,20 @@ export default {
             },
             axisLabel: {
               formatter: function (value) {
-                return formatDate(value, 'HH:mm:ss') + '\n' + formatDate(value, 'MM-dd')
+                return formatDate(value, 'HH:mm:ss')
+                // let temp = formatDate(value, 'HH')
+                // if (temp.includes('0')) {
+                //   return temp.slice(1)
+                // }
+                // if (value === new Date(new Date().setHours(24, 0, 0, 0)).getTime() - 1) {
+                //   return '24'
+                // }
+                // return temp
               }
-            }
+            },
+            // min: () => new Date(new Date().setHours(0, 0, 0, 0)).getTime(), // 0点
+            // max: () => new Date(new Date().setHours(24, 0, 0, 0)).getTime() - 1, // 24点
+            maxInterval: 3600 * 1000 * 2
           },
           grid: [{
             height: '50%'

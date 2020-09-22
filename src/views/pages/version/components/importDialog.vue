@@ -55,7 +55,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: dataForm.modelType==1, message: 'it is required', trigger: 'change' }">
+            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: dataForm.modelType==1, message: this.messageValid('require'), trigger: 'change' }">
               <el-select v-model="dataForm.softType" :disabled="dataForm.modelType!=1" clearable style="width:100%">
                 <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
@@ -105,11 +105,11 @@ export default {
       ],
       allList: [],
       rules: {
-        firmwareName: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        fileType: [{ required: true, message: 'it is required', trigger: 'change' }],
-        firmwareVersion: [{ required: true, message: 'it is required', trigger: 'blur' }],
-        modelType: [{ required: true, message: 'it is required', trigger: 'change' }],
-        productType: [{ required: true, message: 'it is required', trigger: 'change' }]
+        firmwareName: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        fileType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        firmwareVersion: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        modelType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        productType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
       }
     }
   },

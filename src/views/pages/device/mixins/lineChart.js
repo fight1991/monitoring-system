@@ -42,9 +42,10 @@ export default {
           },
           axisLabel: {
             formatter: function (value) {
-              return formatDate(value, 'HH:mm:ss') + '\n' + formatDate(value, 'MM-dd')
+              return formatDate(value, 'HH:mm:ss')
             }
-          }
+          },
+          maxInterval: 3600 * 1000 * 2
         },
         yAxis: {
           name: '',

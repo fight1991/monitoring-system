@@ -175,6 +175,7 @@ export default {
     async unbindMulti () {
       let { result } = await this.$axios({
         url: '/v0/module/disable',
+        method: 'post',
         data: {
           modules: this.bindIds
         }

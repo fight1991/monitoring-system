@@ -28,6 +28,7 @@ export default {
     {
       path: '/bus/device/battery',
       name: '/bus-device-battery',
+      hidden: true,
       meta: {
         permission: [1, 2, 3, 255],
         title: 'batteryM',

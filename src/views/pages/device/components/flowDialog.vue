@@ -6,7 +6,7 @@
     @opened="search"
     @close="closeDialog"
     :visible.sync="dialogVisible"
-    width="700px">
+    width="750px">
     <div class="no-data" v-if="tabList.length<1">{{$t('common.noData')}}</div>
     <el-tabs v-model="activeName" type="card" v-else>
       <el-tab-pane
@@ -16,12 +16,16 @@
         :key="item.blockName">
         <div class="block-item" v-setH:max="setDivH - 100">
           <el-row class="block-head">
-            <el-col :span="12">Variable</el-col>
-            <el-col :span="12">Value</el-col>
+            <el-col :span="8">Variable</el-col>
+            <el-col :span="6">Value</el-col>
+            <el-col :span="4">Unit</el-col>
+            <el-col :span="6">Time</el-col>
           </el-row>
           <el-row v-for="item2 in item.values" :key="item2.variable">
-            <el-col :span="12">{{item2.variable}}</el-col>
-            <el-col :span="12">{{toFixed(item2.value)}}</el-col>
+            <el-col :span="8">{{item2.variable}}</el-col>
+            <el-col :span="6">{{toFixed(item2.value)}}</el-col>
+            <el-col :span="4">{{item2.unit}}</el-col>
+            <el-col :span="6">{{item2.time}}</el-col>
           </el-row>
         </div>
       </el-tab-pane>
@@ -108,7 +112,7 @@ export default {
     height: 36px;
     border-bottom: 1px solid #ccc;
     padding: 8px 5px;
-    &:nth-child(2n + 1) {
+    &:nth-child(-n + 3) {
       border-right: 1px solid #ccc;
     }
   }
