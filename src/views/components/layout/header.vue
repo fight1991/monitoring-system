@@ -10,9 +10,9 @@
       </div>
     </div>
     <div class="right-box flex-vertical-center">
-      <div class="system-set" @click="setDrawerShow=true">
+      <!-- <div class="system-set" @click="setDrawerShow=true">
         <i class="el-icon-setting"></i>
-      </div>
+      </div> -->
       <el-dropdown
         @command="userOption"
         trigger="click"

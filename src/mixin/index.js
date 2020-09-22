@@ -7,7 +7,7 @@ export default {
   },
   created () {
     window.addEventListener('resize', () => {
-      this.setDivH = window.innerHeight - 130
+      this.setDivH = window.innerHeight - 116
     })
   },
   computed: {
