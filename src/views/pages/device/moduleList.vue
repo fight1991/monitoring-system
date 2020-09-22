@@ -35,7 +35,7 @@
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-dropdown @command="commandDrop" trigger="click">
-            <el-button size="mini" icon="iconfont icon-import" :disabled="false">{{$t('common.import')}}</el-button>
+            <el-button size="mini" icon="iconfont icon-import" :disabled="access!=255">{{$t('common.import')}}</el-button>
             <el-dropdown-menu slot="dropdown">
               <!-- 模板下载 -->
               <el-dropdown-item command="d">{{$t('common.downloadT')}}</el-dropdown-item>
