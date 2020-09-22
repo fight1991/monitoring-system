@@ -9,7 +9,10 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="login">
+    <div class="right-box flex-vertical-center">
+      <div class="system-set" @click="setDrawerShow=true">
+        <i class="el-icon-setting"></i>
+      </div>
       <el-dropdown
         @command="userOption"
         trigger="click"
@@ -23,6 +26,32 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <!-- 系统设置 -->
+    <el-drawer
+      title="系统设置"
+      append-to-body
+      :visible.sync="setDrawerShow"
+      :with-header="false">
+      <div class="system-setBox">
+        <div class="title">系统布局配置</div>
+        <div class="content">
+          <el-row>
+            <el-col :span="12">主题色</el-col>
+            <el-col :span="12">
+              <el-color-picker size="mini" v-model="primaryColor"></el-color-picker>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              开启Tabs-View
+            </el-col>
+            <el-col :span="12">
+              <el-switch v-model="tabModule"></el-switch>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -32,6 +61,9 @@ export default {
   name: 'layout-header',
   data () {
     return {
+      tabModule: false,
+      primaryColor: '#409EFF',
+      setDrawerShow: false,
       isFullScreen: false,
       userLogo: require('@/assets/user-logo.png'),
       lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
@@ -53,7 +85,6 @@ export default {
     window.addEventListener('resize', () => {
       !document.fullscreen && (this.isFullScreen = false)
     })
-    console.log(this.$route)
   },
   methods: {
     // 切换全屏
@@ -129,10 +160,14 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+.system-setBox {
+  padding: 30px 10px;
+}
 .left-box {
   height: 100%;
   .el-icon-s-unfold {
     font-size: 22px;
+    font-weight: 200;
   }
   .pull-icon {
     margin-right: 15px;
@@ -141,11 +176,22 @@ export default {
     font-size: 12px;
   }
 }
-.login {
+.right-box {
   height: 100%;
   display: flex;
   align-items: center;
   color: #fff;
+  .system-set {
+    color: @sys-main-text;
+    font-size: 24px;
+    margin-right: 30px;
+    cursor: pointer;
+    // background-color: pink;
+    transition: all .5s;
+    &:hover {
+      transform: rotate(90deg) scale(1.2);
+    }
+  }
   .el-dropdown {
     color: #fff;
   }
