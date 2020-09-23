@@ -4,8 +4,7 @@
       <el-aside class="main-aside" :width="$store.state.collapse ? '64px': '200px'">
         <div class="aside-box">
           <div class="logo">
-            <!-- <img :src="logoSrc"> -->
-            <span v-show="!$store.state.collapse">{{$t('monitor')}}</span>
+            <img :src="logoSrc">
           </div>
           <layout-aside></layout-aside>
         </div>
@@ -36,6 +35,7 @@ export default {
   data () {
     return {
       // logoSrc: require('@/assets/logo.png')
+      logoSrc: require('@/assets/keda-logo-transparent.png')
     }
   },
   created () {
@@ -57,16 +57,17 @@ export default {
   display: flex;
   align-items: center;
   height: 50px;
-  padding-left: 10px;
+  width: 200px;
+  padding: 0 35px 0 8px;
   background-color: rgba(255,255,255,.1);
   box-sizing: border-box;
-  img {
-    width: 40px;
-  }
   span {
     color: #f5f5f5;
     margin-left: 15px;
     font-size: 16px;
+  }
+  img {
+    width: 100%;
   }
 }
 .outside-container {

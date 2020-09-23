@@ -65,8 +65,7 @@ export default {
       primaryColor: '#409EFF',
       setDrawerShow: false,
       isFullScreen: false,
-      userLogo: require('@/assets/user-logo.png'),
-      logoSrc: require('@/assets/keda-logo-transparent.png')
+      userLogo: require('@/assets/user-logo.png')
     }
   },
   computed: {
