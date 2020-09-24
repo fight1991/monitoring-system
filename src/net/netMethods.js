@@ -8,10 +8,11 @@ let { instance: upLoadInstance } = new MethodBase(process.env.VUE_APP_FILE)
 
 const requests = {
   // 返回 promise
-  async $axios ({ url, data = {}, method = 'get', isLoad = true, globalLoading = false, checkParams }) {
+  async $axios ({ url, data = {}, method = 'get', isLoad = true, checkParams }) {
     let params = method === 'get' ? { params: data } : data
     // 无论resolve还是reject都返回一个结果
     let tabId = store.state.tab.currentTab
+    let globalLoading = store.state.isGlobalLoading
     try {
       if (checkParams) { // 检查本地是否有缓存
         if (storage.getStorage(checkParams)) {
@@ -34,16 +35,19 @@ const requests = {
   },
   // 多个并发请求
   $all: {
-    promise (promiseArr, isLoad = true, globalLoading = false) { // 入参为promise对象,处理并发请求 async修饰的函数返回promise
+    promise (promiseArr, isLoad = true) { // 入参为promise对象,处理并发请求 async修饰的函数返回promise
+      let globalLoading = store.state.isGlobalLoading
       return new MethodAll(promiseArr).$all(store, isLoad, globalLoading)
     },
-    url (urlArr, isLoad = true, globalLoading = false) {
+    url (urlArr, isLoad = true) {
+      let globalLoading = store.state.isGlobalLoading
       return new MethodAll(urlArr.map(v => commonInstance.get(v))).$all(store, isLoad, globalLoading)
     }
   },
   // 自定义请求
-  $get ({ url, data = {}, success, other, error, isLoad = true, globalLoading = false }) {
+  $get ({ url, data = {}, success, other, error, isLoad = true }) {
     let tabId = store.state.tab.currentTab
+    let globalLoading = store.state.isGlobalLoading
     isLoad && startLoading(store, tabId, globalLoading)
     commonInstance.get(url, {
       params: data
@@ -56,8 +60,9 @@ const requests = {
       isLoad && closeLoading(store, tabId, globalLoading)
     })
   },
-  $post ({ url, data = {}, success, other, error, isLoad = true, globalLoading = false }) {
+  $post ({ url, data = {}, success, other, error, isLoad = true }) {
     let tabId = store.state.tab.currentTab
+    let globalLoading = store.state.isGlobalLoading
     isLoad && startLoading(store, tabId, globalLoading)
     commonInstance.post(url, data)
       .then(res => {
@@ -71,8 +76,9 @@ const requests = {
         isLoad && closeLoading(store, tabId, globalLoading)
       })
   },
-  $upload ({ url, data = {}, success, error, isLoad = true, globalLoading = false }) {
+  $upload ({ url, data = {}, success, error, isLoad = true }) {
     let tabId = store.state.tab.currentTab
+    let globalLoading = store.state.isGlobalLoading
     isLoad && startLoading(store, tabId, globalLoading)
     upLoadInstance.post(url, data, {
       headers: {

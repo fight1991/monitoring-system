@@ -6,7 +6,6 @@ import i18n from '@/i18n'
 // 路由地址
 import Error from '@/views/error'
 import Login from '@/views/login'
-import Product from '@/views/product'
 import Inverter from '@/views/inverter'
 import BusinessRouter from '@/views/pages'
 import Qrcode from '@/views/qrcode'
@@ -33,7 +32,6 @@ const routes = [
 
 routes.push(...Error)
 routes.push(...Inverter)
-routes.push(...Product)
 routes.push(...Qrcode)
 routes.push(...Login)
 routes.push(...User)
@@ -44,13 +42,16 @@ const router = new VueRouter({
 })
 // 登录校验、放行 注意: 有些cdn路由版本 地址栏输入路由地址时会加载2次
 router.beforeEach(async (to, from, next) => {
+  // 访问store router.app.$options.store
   let _this = router.app
+  // 是否是开启全局loading
+  store.commit('changeLoadingStatus', to.path.includes('bus'))
   // 登录页直接放行
   if (to.path === '/login') {
     storage.removeStorage('token')
     storage.removeLoginInfo()
     storage.clearSession()
-    _this.$options.store.state.isFirst = true
+    store.state.isFirst = true
     next()
     return
   }
@@ -65,7 +66,7 @@ router.beforeEach(async (to, from, next) => {
     return
   }
   // 第一次进入系统需要获取权限状态和用户信息(刷新地址栏)
-  if (_this.$options.store.state.isFirst) {
+  if (store.state.isFirst) {
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
       store.commit('toggleLang', langInfo)
@@ -76,25 +77,19 @@ router.beforeEach(async (to, from, next) => {
     // 权限查询
     let { result: accessStatus } = await _this.$axios({ url: '/v0/user/access' })
     if (userInfo) {
-      _this.$options.store.commit('setUserInfo', userInfo)
+      store.commit('setUserInfo', userInfo)
       storage.setUserInfo(userInfo)
     }
     if (accessStatus && typeof accessStatus.access === 'number') {
-      _this.$options.store.commit('setAccess', accessStatus.access)
+      store.commit('setAccess', accessStatus.access)
     }
     if (userInfo || accessStatus) {
-      _this.$options.store.commit('changeFirst', false)
+      store.commit('changeFirst', false)
     }
   }
   // 路由跳转鉴别权限
   if (!(to.meta.permission && to.meta.permission.includes(store.state.access))) {
-    if (store.state.access === 0) { // 游客
-      next('/product/index')
-      return
-    }
-    if (store.state.access >= 0) {
-      _this.$message.error('No permissions!')
-    }
+    _this.$message.error('No permissions!')
     return
   }
   next()

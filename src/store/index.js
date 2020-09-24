@@ -22,6 +22,7 @@ const state = {
   loading: false,
   loadingNum: 0, // 全局loading数量计数, 防止一个请求没有回来被另一个请求关掉了
   tabView: true, // 是否开启页签模式
+  isGlobalLoading: false, // 是否进入后台管理(business)页面, 是的话设置适当的loading范围
   pagination: {
     pageSize: 10,
     currentPage: 1,
@@ -50,6 +51,9 @@ const mutations = {
       state.loadingNum = 0
       state.loading = false
     }
+  },
+  changeLoadingStatus (state, type) {
+    state.isGlobalLoading = type
   },
   changeCollapse (state) {
     state.collapse = !state.collapse
