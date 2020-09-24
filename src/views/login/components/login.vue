@@ -91,6 +91,10 @@ export default {
     // 打开注册组件/密码找回
     registerBtn (type) {
       this.clearTime()
+      if (type === 'register') {
+        this.$router.push('/signUp')
+        return
+      }
       this.$emit('toggleStatus', type)
     },
     // 登录

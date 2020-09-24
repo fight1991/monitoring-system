@@ -1,0 +1,291 @@
+<template>
+  <section class='sign-up'>
+    <div class="bg-wall"></div>
+    <div class="content-box">
+      <ul class="tab-header">
+        <li
+          v-for="(item, index) in tabsList"
+          :class="{active: item.active}"
+          :key="item.id">
+          <span class="step-num">{{index + 1}}</span>
+          {{item.label}}
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div v-show="stepIndex==0" class="tab-item choose-role" @click="chooseRole">
+          <div class="role" data-role="1">终端用户</div>
+          <div class="role" data-role="2">安装商</div>
+          <div class="role" data-role="3">代理商</div>
+        </div>
+        <div v-show="stepIndex==1" class="tab-item">
+          <div class="base-info">
+            <component ref="baseInfo" :is="$options.components.register"></component>
+            <el-row style="width:100%" type="flex" justify="end">
+              <div class="btn">
+                <el-button style="width: 100%" type="primary" size="mini" @click="checkBaseForm">下一步</el-button>
+              </div>
+            </el-row>
+            <el-row style="width:100%" type="flex" justify="end">
+              <div class="f12 rechoose" @click="stepIndex=0">重新选择用户类型</div>
+            </el-row>
+          </div>
+        </div>
+        <div v-show="stepIndex==2" class="tab-item">
+          <div class="all-info">
+            <userForm ref="endForm" v-if="currentRole==1"></userForm>
+            <installerForm ref="endForm" v-if="currentRole==2"></installerForm>
+            <agentForm ref="endForm" v-if="currentRole==3"></agentForm>
+            <el-row v-if="currentRole==3" style="width:100%" type="flex" justify="end">
+              <div class="btn">
+                <el-button style="width: 100%" type="primary" size="mini" @click="endNextBtn">下一步</el-button>
+              </div>
+            </el-row>
+            <el-button v-else style="width: 100%; margin-top:10px" type="primary" size="mini" @click="endNextBtn">下一步</el-button>
+          </div>
+        </div>
+        <div v-show="stepIndex==3" class="tab-item">
+          <div class="success-icon"><i class="el-icon-success"></i></div>
+          <div class="flex-center">
+            <span class="sign-up-text">注册成功!</span>
+            <span class="go-login" @click="$router.replace('/login')">去登录</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { deepCopy } from '@/util'
+import register from './components/register'
+import userForm from './components/userForm'
+import agentForm from './components/agentForm'
+import installerForm from './components/installerForm'
+export default {
+  components: { register, userForm, agentForm, installerForm },
+  data () {
+    return {
+      stepIndex: 0,
+      currentRole: 1, // 选择的用户类型
+      tabHeader: [
+        {
+          id: 'type',
+          label: '选择用户类型',
+          active: true
+        },
+        {
+          id: 'account',
+          label: '注册账户',
+          active: false
+        },
+        {
+          id: 'info',
+          label: '完善信息',
+          active: false
+        },
+        {
+          id: 'done',
+          label: '注册完成',
+          active: false
+        }
+      ]
+    }
+  },
+  created () {},
+  mounted () {},
+  computed: {
+    tabsList () {
+      return this.tabHeader.map((v, i) => {
+        i <= this.stepIndex ? v.active = true : v.active = false
+        return v
+      })
+    },
+    roleName () {
+      switch (this.currentRole) {
+        case 2:
+          return 'installer'
+        case 3:
+          return 'agent'
+        default:
+          return 'user'
+      }
+    }
+  },
+  methods: {
+    // 选择用户类型
+    chooseRole (e) {
+      let role = e.target.dataset.role
+      if (!role) return
+      this.currentRole = Number(role)
+      console.log(this.currentRole)
+      this.stepIndex = 1
+    },
+    // 上一步
+    prevStep () {
+      this.stepIndex--
+    },
+    // 下一步
+    nextStep () {
+      this.stepIndex++
+    },
+    // 校验基本信息表单
+    checkBaseForm () {
+      let res = this.$refs.baseInfo.checkBaseInfo()
+      if (res) {
+        this.nextStep()
+      }
+    },
+    // 步骤3中的下一步
+    endNextBtn () {
+      // 校验完善信息的表单
+      let res = this.$refs.endForm.checkForm()
+      if (!res) return
+      // 发送请求
+      this.submitTotalForm()
+    },
+    // 表单提交
+    async submitTotalForm () {
+      let accountInfo = deepCopy(this.$refs.baseInfo.dataForm)
+      let dataForm = deepCopy(this.$refs.endForm.baseForm)
+      accountInfo.type = this.roleName
+      let dataKey = this.roleName + 'Info'
+      let { result } = await this.$axios({
+        url: '/v1/user/register',
+        method: 'post',
+        data: {
+          accountInfo,
+          [dataKey]: dataForm
+        }
+      })
+      if (result) {
+        localStorage.setItem('account', accountInfo.account)
+        this.nextStep()
+      }
+    }
+  }
+}
+</script>
+<style lang='less'>
+//@import url(); 引入公共css类
+.sign-up {
+  overflow-y: auto;
+  height: 100%;
+  .bg-wall {
+    height: 280px;
+    background: linear-gradient(to bottom, #d3ebf5 0%, #fafcfd 30%);
+  }
+  .choose-role {
+    box-sizing: border-box;
+    padding-top: 100px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .content-box {
+    box-shadow: 0 2px 2px 0px rgba(0,0,0,.1);
+    margin: -200px auto 0;
+    width: 800px;
+    // margin-top: 100px;
+    .tab-header {
+      display: flex;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      li {
+        // font-size: 16px;
+        list-style: none;
+        width: 50%;
+        text-align: center;
+        padding: 10px 0;
+        color: #fff;
+        background-color: #a7acb5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: 1px solid #ccc;
+        &:last-child {
+          border-right: none;
+        }
+        .step-num {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          text-align: center;
+          margin-right: 15px;
+          line-height: 18px;
+          border: 1px solid #fff;
+        }
+        &.active {
+          background-color: @sys-main-header;
+        }
+      }
+    }
+    .tab-content {
+      height: 500px;
+      background-color: #fff;
+    }
+    .base-info, .all-info{
+      padding-top: 30px;
+      margin: 0 auto;
+    }
+    .base-info {
+      width: 380px;
+    }
+    .all-info {
+      width: 380px;
+    }
+    .tab-item {
+      .sign-up-text {
+        font-weight: 700;
+        padding-right:10px;
+      }
+      .go-login {
+        color: @sys-main-header;
+        cursor: pointer;
+      }
+      .success-icon {
+        padding-top: 20px;
+        font-size: 80px;
+        text-align: center;
+        color: #67C23A;
+      }
+      .btn {
+        width: 260px;
+        box-sizing: border-box;
+        margin: 20px 0 15px;
+      }
+      .rechoose {
+        width: 260px;
+        text-align: center;
+        color: @sys-main-header;
+        cursor: pointer;
+      }
+      height: 100%;
+      .role {
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        line-height: 150px;
+        color: #fff;
+        transition: all .5s;
+        cursor: pointer;
+        text-shadow: 1px 1px 1px #444;
+        &:hover {
+          transform: translateY(-8px) scale(1.1);
+          box-shadow: 2px 4px 5px 2px #ccc;
+        }
+        &:nth-child(1) {
+          background: #0091ea;
+        }
+        &:nth-child(2) {
+          background: #41b883;
+        }
+        &:nth-child(3) {
+          background: #FD803E;
+        }
+      }
+    }
+  }
+}
+
+</style>

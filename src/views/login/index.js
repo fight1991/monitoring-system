@@ -6,4 +6,12 @@ export default [{
     requiresAuth: false
   },
   component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue')
+}, {
+  path: '/signUp',
+  name: '',
+  meta: {
+    title: 'signUp',
+    requiresAuth: false
+  },
+  component: () => import(/* webpackChunkName: "signUp" */ '@/views/login/signUp')
 }]

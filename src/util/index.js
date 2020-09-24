@@ -251,3 +251,7 @@ export function getTimespan (time) {
   let res = Date.parse(timeStr.replace('-', '/').replace('-', '/'))
   return res
 }
+// 深拷贝
+export function deepCopy (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
