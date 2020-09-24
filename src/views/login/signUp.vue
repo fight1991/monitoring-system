@@ -13,9 +13,18 @@
       </ul>
       <div class="tab-content">
         <div v-show="stepIndex==0" class="tab-item choose-role" @click="chooseRole">
-          <div class="role" data-role="1">终端用户</div>
-          <div class="role" data-role="2">安装商</div>
-          <div class="role" data-role="3">代理商</div>
+          <div class="role" data-role="1">
+            <div class="role-icon"><i class="iconfont icon-end-user"></i></div>
+            <div class="role-txt">终端用户</div>
+          </div>
+          <div class="role" data-role="2">
+            <div class="role-icon"><i class="iconfont icon-installer"></i></div>
+            <div class="role-txt">安装商</div>
+          </div>
+          <div class="role" data-role="3">
+            <div class="role-icon"><i class="iconfont icon-agent"></i></div>
+            <div class="role-txt">代理商</div>
+          </div>
         </div>
         <div v-show="stepIndex==1" class="tab-item">
           <div class="base-info">
@@ -115,6 +124,7 @@ export default {
     // 选择用户类型
     chooseRole (e) {
       let role = e.target.dataset.role
+      console.log(e)
       if (!role) return
       this.currentRole = Number(role)
       console.log(this.currentRole)
@@ -172,7 +182,7 @@ export default {
   height: 100%;
   .bg-wall {
     height: 280px;
-    background: linear-gradient(to bottom, #d3ebf5 0%, #fafcfd 30%);
+    background: linear-gradient(to bottom, #d3ebf5 0%, #fafcfd 40%);
   }
   .choose-role {
     box-sizing: border-box;
@@ -263,25 +273,52 @@ export default {
       height: 100%;
       .role {
         width: 150px;
-        height: 150px;
+        height: 170px;
+        border: 1px solid #f5f5f5;
         text-align: center;
-        line-height: 150px;
         color: #fff;
+        border-radius: 3px;
         transition: all .5s;
         cursor: pointer;
+        color: #fff;
         text-shadow: 1px 1px 1px #444;
-        &:hover {
-          transform: translateY(-8px) scale(1.1);
-          box-shadow: 2px 4px 5px 2px #ccc;
-        }
-        &:nth-child(1) {
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+        &:nth-child(1) .role-txt {
           background: #0091ea;
         }
-        &:nth-child(2) {
+        &:nth-child(2) .role-txt {
           background: #41b883;
         }
-        &:nth-child(3) {
+        &:nth-child(3) .role-txt {
           background: #FD803E;
+        }
+        .iconfont {
+          font-size: 80px;
+        }
+        .role-icon,.role-txt{
+          pointer-events: none;
+        }
+        .role-icon {
+          height: 140px;
+          line-height: 140px;
+        }
+        .role-txt {
+          height: 30px;
+          line-height: 30px;
+          color: #fff;
+        }
+        &:hover {
+          transform: translateY(-8px) scale(1.1);
+          box-shadow: 1px 4px 5px 2px #ccc;
+        }
+        &:nth-child(1) {
+          color: #0091ea;
+        }
+        &:nth-child(2) {
+          color: #41b883;
+        }
+        &:nth-child(3) {
+          color: #FD803E;
         }
       }
     }
