@@ -45,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
   // 访问store router.app.$options.store
   let _this = router.app
   // 是否是开启全局loading
-  store.commit('changeLoadingStatus', to.path.includes('bus'))
+  store.commit('changeLoadingStatus', !to.path.includes('bus'))
   // 登录页直接放行
   if (to.path === '/login') {
     storage.removeStorage('token')
