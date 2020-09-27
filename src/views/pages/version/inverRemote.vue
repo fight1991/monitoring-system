@@ -28,22 +28,36 @@
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-input v-model="searchForm.deviceType" clearable :placeholder="$t('invupgrade.invmodel')"></el-input>
+                <!-- 产品系列 -->
+                <el-select style="width:100%" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
+                  <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item>
+                <!-- 设备型号 -->
+                <el-select style="width:100%" remote filterable :disabled="!searchForm.productType" clearable v-model="searchForm.deviceType" :placeholder="$t('invupgrade.invmodel')">
+                  <el-option v-for="item in deviceTypeList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item prop="softType">
+                <el-select :placeholder="$t('firmware.SoftType')" v-model="searchForm.softType" clearable style="width:100%">
+                  <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <!-- 逆变器软件版本 -->
+              <el-form-item>
+                <el-input v-model="searchForm.deviceVersion" clearable :placeholder="$t('invupgrade.invversion')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
                 <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <el-input v-model="searchForm.deviceVersion" :placeholder="$t('invupgrade.invversion')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleVersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
@@ -101,10 +115,16 @@ export default {
         deviceStatus: '',
         deviceType: '',
         moduleType: '',
+        softType: '',
         deviceVersion: '',
-        moduleVersion: '',
-        productType: ''
+        productType: '' // 产品/设备系列
       },
+      allList: [],
+      softTypeList: [ // 软件类别
+        'master',
+        'slave',
+        'manager'
+      ],
       taskId: '',
       resultList: [],
       selection: [],
@@ -118,11 +138,26 @@ export default {
   computed: {
     sns () {
       return this.selection.map(v => v.deviceSN)
+    },
+    productTypeList () { // 产品型号列表
+      let tempList = this.allList.find(v => v.modelType === 1)
+      if (tempList) {
+        return tempList.productType
+      }
+      return []
+    },
+    deviceTypeList () { // 设备型号
+      let tempList = this.allList.find(v => v.modelType === 1)
+      if (tempList && this.searchForm.productType) {
+        return tempList.deviceType[this.searchForm.productType]
+      }
+      return []
     }
   },
   created () {
     eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
     this.search()
+    this.getProductList()
   },
   methods: {
     reset () {
@@ -164,6 +199,15 @@ export default {
     openUpdetailDialog (id) {
       this.updetailVisible = true
       this.taskId = id
+    },
+    // 获取产品型号
+    async getProductList () {
+      let { result } = await this.$axios({
+        url: '/v0/firmware/products'
+      })
+      if (result) {
+        this.allList = result
+      }
     }
   }
 }
