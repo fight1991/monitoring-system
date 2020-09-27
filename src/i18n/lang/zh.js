@@ -277,6 +277,10 @@ export default {
     SoftType: '软件类别'
   },
   invupgrade: {
+    wait: '等待升级',
+    deliver: '传输中',
+    upping: '升级中',
+    upFail: '升级失败',
     invmodel: '逆变器机型',
     invversion: '逆变器软件版本',
     dataversion: '模块软件版本',

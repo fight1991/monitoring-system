@@ -28,7 +28,14 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-input v-model="searchForm.version" :placeholder="$t('invupgrade.dataversion')"></el-input>
+                <el-input v-model="searchForm.moduleVtersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item>
+                <el-select style="width:100%" clearable v-model="searchForm.upgradeStatus" :placeholder="$t('invupgrade.status')">
+                  <el-option v-for="item in upStatusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
@@ -82,9 +89,9 @@ export default {
       searchForm: {
         moduleSN: '',
         plantName: '',
-        moduleStatus: 0,
+        moduleStatus: '',
         moduleType: '',
-        version: '',
+        moduleVtersion: '',
         upgradeStatus: ''
       },
       taskId: '',
@@ -94,7 +101,33 @@ export default {
         pageSize: 50,
         currentPage: 1,
         total: 0
-      }
+      },
+      upStatusList: [ // 0全部,1等待升级,2传输中,3升级中,4升级失败,5升级超时
+        {
+          label: 'common.all',
+          value: 0
+        },
+        {
+          label: 'invupgrade.wait',
+          value: 1
+        },
+        {
+          label: 'invupgrade.deliver',
+          value: 2
+        },
+        {
+          label: 'invupgrade.upping',
+          value: 3
+        },
+        {
+          label: 'invupgrade.upFail',
+          value: 4
+        },
+        {
+          label: 'common.timeout',
+          value: 5
+        }
+      ]
     }
   },
   computed: {
@@ -111,9 +144,9 @@ export default {
       this.searchForm = {
         moduleSN: '',
         plantName: '',
-        moduleStatus: 0,
+        moduleStatus: '',
         moduleType: '',
-        version: '',
+        moduleVtersion: '',
         upgradeStatus: ''
       }
       this.search()

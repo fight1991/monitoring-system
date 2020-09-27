@@ -277,6 +277,10 @@ export default {
     SoftType: 'Software type'
   },
   invupgrade: {
+    wait: 'Waiting for upgrade',
+    deliver: 'Delivering',
+    upping: 'Upgrading',
+    upFail: 'Failure',
     invmodel: 'Inverter model',
     invversion: 'Inverter software version',
     dataversion: 'Datalogger firmware version',
