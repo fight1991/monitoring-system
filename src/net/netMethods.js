@@ -8,20 +8,20 @@ let { instance: upLoadInstance } = new MethodBase(process.env.VUE_APP_FILE)
 
 const requests = {
   // 返回 promise
-  async $axios ({ url, data = {}, method = 'get', isLoad = true, checkParams }) {
+  async $axios ({ url, data = {}, method = 'get', isLoad = true, checkParams, globalLoading }) {
     let params = method === 'get' ? { params: data } : data
     // 无论resolve还是reject都返回一个结果
     let tabId = store.state.tab.currentTab
-    let globalLoading = store.state.isGlobalLoading
+    let loadingStatus = globalLoading || store.state.isGlobalLoading
     try {
       if (checkParams) { // 检查本地是否有缓存
         if (storage.getStorage(checkParams)) {
           return { result: storage.getStorage(checkParams) }
         }
       }
-      isLoad && startLoading(store, tabId, globalLoading)
+      isLoad && startLoading(store, tabId, loadingStatus)
       let res = await commonInstance[method](url, params)
-      isLoad && closeLoading(store, tabId, globalLoading)
+      isLoad && closeLoading(store, tabId, loadingStatus)
       if (res.errno === store.state.successCode) {
         checkParams && storage.setStorage(checkParams, res.result)
         return { result: res.result || true }
@@ -35,20 +35,20 @@ const requests = {
   },
   // 多个并发请求
   $all: {
-    promise (promiseArr, isLoad = true) { // 入参为promise对象,处理并发请求 async修饰的函数返回promise
-      let globalLoading = store.state.isGlobalLoading
-      return new MethodAll(promiseArr).$all(store, isLoad, globalLoading)
+    promise (promiseArr, isLoad = true, globalLoading) { // 入参为promise对象,处理并发请求 async修饰的函数返回promise
+      let loadingStatus = globalLoading || store.state.isGlobalLoading
+      return new MethodAll(promiseArr).$all(store, isLoad, loadingStatus)
     },
-    url (urlArr, isLoad = true) {
-      let globalLoading = store.state.isGlobalLoading
-      return new MethodAll(urlArr.map(v => commonInstance.get(v))).$all(store, isLoad, globalLoading)
+    url (urlArr, isLoad = true, globalLoading) {
+      let loadingStatus = globalLoading || store.state.isGlobalLoading
+      return new MethodAll(urlArr.map(v => commonInstance.get(v))).$all(store, isLoad, loadingStatus)
     }
   },
   // 自定义请求
-  $get ({ url, data = {}, success, other, error, isLoad = true }) {
+  $get ({ url, data = {}, success, other, error, isLoad = true, globalLoading }) {
     let tabId = store.state.tab.currentTab
-    let globalLoading = store.state.isGlobalLoading
-    isLoad && startLoading(store, tabId, globalLoading)
+    let loadingStatus = globalLoading || store.state.isGlobalLoading
+    isLoad && startLoading(store, tabId, loadingStatus)
     commonInstance.get(url, {
       params: data
     }).then(res => {
@@ -57,13 +57,13 @@ const requests = {
       if (process.env.NODE_ENV === 'development') console.log('api is ' + url, err)
       error && error(err)
     }).finally(() => {
-      isLoad && closeLoading(store, tabId, globalLoading)
+      isLoad && closeLoading(store, tabId, loadingStatus)
     })
   },
-  $post ({ url, data = {}, success, other, error, isLoad = true }) {
+  $post ({ url, data = {}, success, other, error, isLoad = true, globalLoading }) {
     let tabId = store.state.tab.currentTab
-    let globalLoading = store.state.isGlobalLoading
-    isLoad && startLoading(store, tabId, globalLoading)
+    let loadingStatus = globalLoading || store.state.isGlobalLoading
+    isLoad && startLoading(store, tabId, loadingStatus)
     commonInstance.post(url, data)
       .then(res => {
         bussinessBundle(res, other, success, store)
@@ -73,13 +73,13 @@ const requests = {
         error && error(err)
       })
       .finally(() => {
-        isLoad && closeLoading(store, tabId, globalLoading)
+        isLoad && closeLoading(store, tabId, loadingStatus)
       })
   },
-  $upload ({ url, data = {}, success, error, isLoad = true }) {
+  $upload ({ url, data = {}, success, error, isLoad = true, globalLoading }) {
     let tabId = store.state.tab.currentTab
-    let globalLoading = store.state.isGlobalLoading
-    isLoad && startLoading(store, tabId, globalLoading)
+    let loadingStatus = globalLoading || store.state.isGlobalLoading
+    isLoad && startLoading(store, tabId, loadingStatus)
     upLoadInstance.post(url, data, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -89,7 +89,7 @@ const requests = {
     }).catch(err => {
       error && error(err)
     }).finally(() => {
-      isLoad && closeLoading(store, tabId, globalLoading)
+      isLoad && closeLoading(store, tabId, loadingStatus)
     })
   }
 }
