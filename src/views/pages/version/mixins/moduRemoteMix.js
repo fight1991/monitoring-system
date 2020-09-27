@@ -2,10 +2,10 @@ export default {
   data () {
     return {
       statusList: [ // 0 全部 1 正常 2 故障  3离线
-        { status: 0, label: 'all' },
-        { status: 1, label: 'normal' },
-        { status: 2, label: 'abnormal' },
-        { status: 3, label: 'offline' }
+        { value: 0, label: 'all' },
+        { value: 1, label: 'normal' },
+        { value: 2, label: 'abnormal' },
+        { value: 3, label: 'offline' }
       ],
       tableHead: [
         {

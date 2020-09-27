@@ -82,7 +82,7 @@ export default {
       searchForm: {
         moduleSN: '',
         plantName: '',
-        moduleStatus: '',
+        moduleStatus: 0,
         moduleType: '',
         version: '',
         upgradeStatus: ''
@@ -111,7 +111,7 @@ export default {
       this.searchForm = {
         moduleSN: '',
         plantName: '',
-        moduleStatus: '',
+        moduleStatus: 0,
         moduleType: '',
         version: '',
         upgradeStatus: ''

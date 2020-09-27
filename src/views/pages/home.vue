@@ -36,7 +36,14 @@ export default {
       letter-spacing: 3px;
       text-align: center;
       text-shadow: 1px 1px greenyellow, -1px -1px greenyellow,1px -1px greenyellow, -1px 1px greenyellow;
+      animation: welcomeAnimate 5s linear infinite;
+      filter: contrast(15) hue-rotate(0);
     }
+  }
+}
+@keyframes welcomeAnimate {
+  100% {
+    filter: contrast(15) hue-rotate(360deg);
   }
 }
 </style>
