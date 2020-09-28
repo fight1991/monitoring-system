@@ -15,8 +15,8 @@
             <el-input v-model="searchForm.name" :placeholder="$t('common.plantsName')" clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-            <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+            <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+            <search-button type="success" icon="icon-search" @click="search"></search-button>
           </el-form-item>
         </el-form>
       </search-bar>

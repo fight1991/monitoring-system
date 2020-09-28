@@ -21,26 +21,29 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleVtersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-select style="width:100%" clearable v-model="searchForm.upgradeStatus" :placeholder="$t('invupgrade.status')">
-                  <el-option v-for="item in upStatusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
+            <template v-if="showHsearch">
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleVtersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-select style="width:100%" clearable v-model="searchForm.upgradeStatus" :placeholder="$t('invupgrade.status')">
+                    <el-option v-for="item in upStatusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -50,7 +53,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:moduleStatus="{row}">
             <i class="el-icon-success" v-show="row.moduleStatus==1"></i>
             <i class="el-icon-error" v-show="row.moduleStatus==2"></i>

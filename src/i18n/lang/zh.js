@@ -139,7 +139,9 @@ export default {
     test: '测试',
     rel: '发布',
     selFile: '选择文件',
-    upgrade: '升级'
+    upgrade: '升级',
+    closeHsearch: '返回普通查询',
+    openHsearch: '高级查询'
   },
   login: {
     product: '产品',

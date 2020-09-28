@@ -139,7 +139,9 @@ export default {
     test: 'Test',
     rel: 'Release',
     selFile: 'Select File',
-    upgrade: 'Upgrade'
+    upgrade: 'Upgrade',
+    closeHsearch: 'General conditions',
+    openHsearch: 'More conditions'
   },
   login: {
     product: 'PRODUCTS',

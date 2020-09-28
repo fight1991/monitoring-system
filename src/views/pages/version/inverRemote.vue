@@ -26,43 +26,46 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <!-- 产品系列 -->
-                <el-select style="width:100%" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
-                  <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <!-- 设备型号 -->
-                <el-select style="width:100%" remote filterable :disabled="!searchForm.productType" clearable v-model="searchForm.deviceType" :placeholder="$t('invupgrade.invmodel')">
-                  <el-option v-for="item in deviceTypeList" :label="item" :value="item" :key="item"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item prop="softType">
-                <el-select :placeholder="$t('firmware.SoftType')" v-model="searchForm.softType" clearable style="width:100%">
-                  <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <!-- 逆变器软件版本 -->
-              <el-form-item>
-                <el-input v-model="searchForm.deviceVersion" clearable :placeholder="$t('invupgrade.invversion')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+            <template v-if="showHsearch">
+              <el-col :span="4">
+                <el-form-item>
+                  <!-- 产品系列 -->
+                  <el-select style="width:100%" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
+                    <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item>
+                  <!-- 设备型号 -->
+                  <el-select style="width:100%" remote filterable :disabled="!searchForm.productType" clearable v-model="searchForm.deviceType" :placeholder="$t('invupgrade.invmodel')">
+                    <el-option v-for="item in deviceTypeList" :label="item" :value="item" :key="item"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item prop="softType">
+                  <el-select :placeholder="$t('firmware.SoftType')" v-model="searchForm.softType" clearable style="width:100%">
+                    <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <!-- 逆变器软件版本 -->
+                <el-form-item>
+                  <el-input v-model="searchForm.deviceVersion" clearable :placeholder="$t('invupgrade.invversion')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
+                </el-form-item>
+              </el-col>
+            </template>
+            <el-col :span="6" align="left" class="btn-box">
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -72,7 +75,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:deviceStatus="{row}">
             <i class="el-icon-success" v-show="row.deviceStatus==1"></i>
             <i class="el-icon-error" v-show="row.deviceStatus==2"></i>
@@ -213,4 +216,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

@@ -2,6 +2,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      showHsearch: false, // 是否显示高级查询
       setDivH: window.innerHeight - 116 // 容器高度
     }
   },
