@@ -193,7 +193,8 @@ export default {
   .content-box {
     box-shadow: 0 2px 2px 0px rgba(0,0,0,.1);
     margin: -200px auto 0;
-    width: 800px;
+    width: 70%;
+    min-width: 800px;
     // margin-top: 100px;
     .tab-header {
       display: flex;
