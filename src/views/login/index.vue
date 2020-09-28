@@ -53,7 +53,6 @@
 
 <script>
 import login from './components/login'
-import register from './components/register'
 import resetPw from './components/resetPw'
 import { judgeClient } from '@/util'
 import erweima from './components/erweima'
@@ -62,7 +61,6 @@ export default {
   name: 'router-login',
   components: {
     login,
-    register,
     resetPw,
     erweima
   },

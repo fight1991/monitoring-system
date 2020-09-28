@@ -125,15 +125,30 @@ export default {
       callback()
     },
     // 校验用户基本信息
-    checkBaseInfo () {
+    async checkBaseInfo () {
       if (!this.isAgreen) {
         this.$message.warning('尚未勾选服务条款!')
         return false
       }
-      let res = false
-      this.$refs.dataForm.validate(v => (res = v))
-      return res
+      let res1 = false
+      this.$refs.dataForm.validate(v => (res1 = v))
+      if (!res1) return false
       // 还需要校验账户有没有注册过
+      let res2 = await this.checkAccountExsit()
+      console.log(res2)
+      return res2
+    },
+    // 发送请求校验用户是否已经注册过
+    async checkAccountExsit () {
+      let { result } = await this.$axios({
+        url: '/v0/user/check',
+        method: 'post',
+        data: {
+          account: this.dataForm.account,
+          email: this.dataForm.email
+        }
+      })
+      return result
     },
     // 注册按钮
     goRegister () {

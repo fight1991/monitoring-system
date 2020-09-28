@@ -28,7 +28,7 @@
         </div>
         <div v-show="stepIndex==1" class="tab-item">
           <div class="base-info">
-            <component ref="baseInfo" :is="$options.components.register"></component>
+            <component ref="baseInfo" :is="$options.components.baseForm"></component>
             <el-row style="width:100%" type="flex" justify="end">
               <div class="btn">
                 <el-button style="width: 100%" type="primary" size="mini" @click="checkBaseForm">下一步</el-button>
@@ -66,12 +66,13 @@
 
 <script>
 import { deepCopy } from '@/util'
-import register from './components/register'
+import md5 from 'js-md5'
+import baseForm from './components/baseForm'
 import userForm from './components/userForm'
 import agentForm from './components/agentForm'
 import installerForm from './components/installerForm'
 export default {
-  components: { register, userForm, agentForm, installerForm },
+  components: { baseForm, userForm, agentForm, installerForm },
   data () {
     return {
       stepIndex: 0,
@@ -124,10 +125,8 @@ export default {
     // 选择用户类型
     chooseRole (e) {
       let role = e.target.dataset.role
-      console.log(e)
       if (!role) return
       this.currentRole = Number(role)
-      console.log(this.currentRole)
       this.stepIndex = 1
     },
     // 上一步
@@ -139,8 +138,8 @@ export default {
       this.stepIndex++
     },
     // 校验基本信息表单
-    checkBaseForm () {
-      let res = this.$refs.baseInfo.checkBaseInfo()
+    async checkBaseForm () {
+      let res = await this.$refs.baseInfo.checkBaseInfo()
       if (res) {
         this.nextStep()
       }
@@ -157,6 +156,7 @@ export default {
     async submitTotalForm () {
       let accountInfo = deepCopy(this.$refs.baseInfo.dataForm)
       let dataForm = deepCopy(this.$refs.endForm.baseForm)
+      accountInfo.password = md5(accountInfo.password)
       accountInfo.type = this.roleName
       let dataKey = this.roleName + 'Info'
       let { result } = await this.$axios({
