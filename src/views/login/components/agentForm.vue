@@ -2,8 +2,8 @@
   <div class="errTip-right">
     <el-row type="flex" style="margin-bottom:15px" justify="center">
       <el-radio-group v-model="agentRadio" size="mini" @change="resetFormValid">
-        <el-radio :label="1">创建</el-radio>
-        <el-radio :label="2">加入</el-radio>
+        <el-radio :label="1">{{$t('join.create')}}</el-radio>
+        <el-radio :label="2">{{$t('join.join')}}</el-radio>
       </el-radio-group>
     </el-row>
     <el-form size="mini" :model="baseForm" ref="baseForm" label-width="120px" :rules="formRule">

@@ -8,7 +8,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="售后组织标识码">
+          <el-form-item :label="$t('join.code')">
             <el-input v-model="baseForm.code"></el-input>
           </el-form-item>
         </el-col>

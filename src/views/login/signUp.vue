@@ -8,22 +8,22 @@
           :class="{active: item.active}"
           :key="item.id">
           <span class="step-num">{{index + 1}}</span>
-          {{item.label}}
+          {{$t(item.label)}}
         </li>
       </ul>
       <div class="tab-content">
         <div v-show="stepIndex==0" class="tab-item choose-role" @click="chooseRole">
           <div class="role" data-role="1">
             <div class="role-icon"><i class="iconfont icon-end-user"></i></div>
-            <div class="role-txt">终端用户</div>
+            <div class="role-txt">{{$t('join.endUser')}}</div>
           </div>
           <div class="role" data-role="2">
             <div class="role-icon"><i class="iconfont icon-installer"></i></div>
-            <div class="role-txt">安装商</div>
+            <div class="role-txt">{{$t('join.installer')}}</div>
           </div>
           <div class="role" data-role="3">
             <div class="role-icon"><i class="iconfont icon-agent"></i></div>
-            <div class="role-txt">代理商</div>
+            <div class="role-txt">{{$t('join.agent')}}</div>
           </div>
         </div>
         <div v-show="stepIndex==1" class="tab-item">
@@ -31,11 +31,11 @@
             <component ref="baseInfo" :is="$options.components.baseForm"></component>
             <el-row style="width:100%" type="flex" justify="end">
               <div class="btn">
-                <el-button style="width: 100%" type="primary" size="mini" @click="checkBaseForm">下一步</el-button>
+                <el-button style="width: 100%" type="primary" size="mini" @click="checkBaseForm">{{$t('join.next')}}</el-button>
               </div>
             </el-row>
             <el-row style="width:100%" type="flex" justify="end">
-              <div class="f12 rechoose" @click="stepIndex=0">重新选择用户类型</div>
+              <div class="f12 rechoose" @click="stepIndex=0">{{$t('join.reselUser')}}</div>
             </el-row>
           </div>
         </div>
@@ -46,17 +46,17 @@
             <agentForm ref="endForm" v-if="currentRole==3"></agentForm>
             <el-row v-if="currentRole==3" style="width:100%" type="flex" justify="end">
               <div class="btn">
-                <el-button style="width: 100%" type="primary" size="mini" @click="endNextBtn">下一步</el-button>
+                <el-button style="width: 100%" type="primary" size="mini" @click="endNextBtn">{{$t('join.next')}}</el-button>
               </div>
             </el-row>
-            <el-button v-else style="width: 100%; margin-top:10px" type="primary" size="mini" @click="endNextBtn">下一步</el-button>
+            <el-button v-else style="width: 100%; margin-top:10px" type="primary" size="mini" @click="endNextBtn">{{$t('join.next')}}</el-button>
           </div>
         </div>
         <div v-show="stepIndex==3" class="tab-item">
           <div class="success-icon"><i class="el-icon-success"></i></div>
           <div class="flex-center">
-            <span class="sign-up-text">注册成功!</span>
-            <span class="go-login" @click="$router.replace('/login')">去登录</span>
+            <span class="sign-up-text">{{$t('join.regSucc')}}</span>
+            <span class="go-login" @click="$router.replace('/login')">{{$t('join.login')}}</span>
           </div>
         </div>
       </div>
@@ -80,22 +80,22 @@ export default {
       tabHeader: [
         {
           id: 'type',
-          label: '选择用户类型',
+          label: 'join.selUser',
           active: true
         },
         {
           id: 'account',
-          label: '注册账户',
+          label: 'join.regACC',
           active: false
         },
         {
           id: 'info',
-          label: '完善信息',
+          label: 'join.perInfor',
           active: false
         },
         {
           id: 'done',
-          label: '注册完成',
+          label: 'join.regCom',
           active: false
         }
       ]

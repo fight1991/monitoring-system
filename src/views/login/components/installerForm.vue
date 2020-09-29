@@ -3,17 +3,17 @@
     <el-form size="mini" :model="baseForm" ref="baseForm" :rules="formRule">
       <el-row>
         <el-col :span="24">
-          <el-form-item prop="name" label="安装商名称">
+          <el-form-item prop="name" :label="$t('join.installer')">
             <el-input v-model="baseForm.name"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="代理商标识码">
+          <el-form-item :label="$t('join.agentCode')">
             <el-input v-model="baseForm.code"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="联系电话">
+          <el-form-item :label="$t('join.phone')">
             <el-input v-model="baseForm.phone"></el-input>
           </el-form-item>
         </el-col>
