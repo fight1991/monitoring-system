@@ -45,7 +45,17 @@ export default {
     companyName: '代理商名称',
     email: '邮箱',
     phone: '手机号',
-    remark: '备注'
+    remark: '备注',
+    selUser: '选择用户类型',
+    regACC: '注册账户',
+    perInfor: '完善信息',
+    regCom: '注册完成',
+    next: '下一步',
+    reselUser: '重新选择用户类型',
+    regSucc: '注册成功!',
+    login: '去登录',
+    agentCode: '代理商标识码',
+    code: '售后组织标识码'
   },
   common: {
     require: '必填',
@@ -352,11 +362,16 @@ export default {
     account: '账号管理',
     type: '用户类型',
     invCode: '邀请码',
-    code: '获取邀请码',
+    code: '生成邀请码',
     installer: '成为安装商',
     agent: '加入代理商',
     edit: '修改',
-    center: '个人中心'
+    center: '个人中心',
+    assoInAg: '关联代理商/安装商',
+    inAgCode: '代理商/安装商代码',
+    inCode: '安装商代码',
+    assoAg: '关联代理商',
+    agCode: '代理商代码'
   },
   errorCode: {
     41200: '查询数据异常',

@@ -45,7 +45,17 @@ export default {
     companyName: 'Company Name',
     email: 'Email',
     phone: 'Mobile Phone',
-    remark: 'Remarks'
+    remark: 'Remarks',
+    selUser: 'Select user type',
+    regACC: 'Register account',
+    perInfor: 'Perfect information',
+    regCom: 'Registr complete',
+    next: 'Next',
+    reselUser: 'Reselect user type',
+    regSucc: 'Successful !',
+    login: 'To log in',
+    agentCode: 'Agent code',
+    code: 'Installer/agent code'
   },
   common: {
     require: "it's required",
@@ -356,7 +366,12 @@ export default {
     installer: 'Become an installer',
     agent: 'Join an agent',
     edit: 'Edit',
-    center: 'User profile'
+    center: 'User profile',
+    assoInAg: 'Associated installer/agent',
+    inAgCode: 'Installer/agent code',
+    inCode: 'Installer code',
+    assoAg: 'Associated agent',
+    agCode: 'Agent code'
   },
   errorCode: {
     41200: 'Query data failed',
