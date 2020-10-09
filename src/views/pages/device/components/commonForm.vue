@@ -10,6 +10,7 @@
               <el-popover
                 popper-class="remote-popper"
                 placement="right"
+                :disabled="!placeholderText(ele)"
                 trigger="click">
                 <span>{{placeholderText(ele)}}</span>
                 <el-input slot="reference" v-model="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
