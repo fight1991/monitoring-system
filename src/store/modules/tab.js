@@ -23,6 +23,22 @@ const getters = {
   }
 }
 const mutations = {
+  // 添加新的页签, 需要另外指定tabId
+  ADD_NEW_TAB ({ name, tabId = '', isShow = true, query = {}, params = {}, loadingNum = 0 }) {},
+  // 刷新已经存在的页签
+  REFRESH_EXIST_TAB ({ name, tabId = '', isShow = true, query = {}, params = {}, loadingNum = 0 }) {},
+  // 替换已经存在的页签
+  REPLACE_EXIST_TAB () {},
+  // 激活页签, 没有就追加
+  RESHOW_EXIST_TAB () {},
+  // 关闭当前激活的页签
+  CLOSE_ACTIVE_TAB () {},
+  // 关闭非激活的页签
+  CLOSE_INACTIVE_TAB () {},
+  // 关闭所有页签
+  CLOSE_ALL_TAB () {},
+  // 关闭除当前激活页签的所有页签
+  CLOSE_OTHER_TAB () {},
   // 添加新页签
   addTab (state, payLoad) {
     if (!payLoad) return
@@ -99,6 +115,33 @@ const actions = {
   removeTab ({ state }) {
     let index = state.tabList.findIndex(v => v.tabId === state.currentTab)
     state.tabList.splice(index, 1)
+  },
+  addNewTab ({ commit }, tabObj) {
+    commit('ADD_NEW_TAB', tabObj)
+  },
+  refreshTab ({ commit }, tabObj) {
+    commit('REFRESH_CURRENT_TAB', tabObj)
+  },
+  replaceTab ({ commit }, tabObj) {
+    commit('REPLACE_EXIST_TAB', tabObj)
+  },
+  reshowTab ({ commit }, tabObj) {
+    commit ('RESHOW_EXIST_TAB', tabObj)
+  },
+  backTab ({ commit }, tabObj) {
+    commit('BACK_EXIST_TAB', tabObj)
+  },
+  closeActiveTab ({ commit }, tabObj) {
+    commit('CLOSE_ACTIVE_TAB', tabObj)
+  },
+  closeInactiveTab ({ commit }, tabObj) {
+    commit('CLOSE_INACTIVE_TAB', tabObj)
+  },
+  closeAllTab ({ commit }, tabObj) {
+    commit('CLOSE_ALL_TAB', tabObj)
+  },
+  closeOtherTab ({ commit }, tabObj) {
+    commit('CLOSE_OTHER_TAB', tabObj)
   }
 }
 

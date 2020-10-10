@@ -6,6 +6,11 @@ import router from './index'
  * tabMethods.replace 替换已有页签,无则打开新页签
  * tabMethods.open    关闭当前tab,打开指定tab(如果存在就刷新)
  */
+function resolveRoute (name) {
+  let { route } = router.resolve({
+    name
+  })
+}
 const tabMethods = {
   open ({ name, tabId = '', tabTitle = '', query = {}, params = {} }) {
     params.tabTitle = tabTitle
