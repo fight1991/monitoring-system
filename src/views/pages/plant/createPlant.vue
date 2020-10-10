@@ -464,7 +464,6 @@ export default {
     },
     addressChange (e) {
       this.isSelectMap = false
-      console.log(e.target.value)
       if (!e.target.value) {
         this.zoneInfo.timezones = []
         this.dataForm.details.country = ''

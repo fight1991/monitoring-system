@@ -1,12 +1,11 @@
 <template>
-  <div id="app" v-loading="$store.state.loading">
+  <div id="app" v-loading="$store.state.loadingNum>0">
     <keep-alive :exclude="['router-login']">
       <router-view/>
     </keep-alive>
   </div>
 </template>
 <script>
-
 export default {
   data () {
     return {}

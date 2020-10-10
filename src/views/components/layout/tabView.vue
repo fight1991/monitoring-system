@@ -72,7 +72,6 @@ export default {
     reload (item) {
       let currentTab = item || this.$store.getters.currentTabInfo
       if (!currentTab.isShow || currentTab.loadingNum > 0) return // 节流
-      console.log(currentTab)
       currentTab.isShow = false
       this.$nextTick(() => {
         currentTab.isShow = true

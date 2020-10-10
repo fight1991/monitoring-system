@@ -2,11 +2,14 @@ import store from '@/store'
 import storage from '@/util/storage'
 import i18n from '@/i18n'
 import Vue from 'vue'
+import NProgress from 'nprogress'
+NProgress.configure({ showSpinner: false })
 
 const _this = Vue.prototype
 
 // 登录校验、放行 注意: 有些cdn路由版本 地址栏输入路由地址时会加载2次
 const beforeEach = async (to, from, next) => {
+  NProgress.start()
   // 访问store router.app.$options.store
   // 是否是开启全局loading
   store.commit('changeLoadingStatus', !to.path.includes('bus'))
@@ -73,6 +76,7 @@ const afterEach = (to, from) => {
       })
       store.dispatch('setInitTabStatus', false)
     }
+    NProgress.done()
     // let tempParams = JSON.parse(JSON.stringify(to.params))
     // // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
     // // 从login页面跳到指定redirect中的地址,刷新组件
