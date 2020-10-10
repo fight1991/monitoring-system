@@ -1,9 +1,10 @@
 import Error from '@/views/error'
 import Login from '@/views/login'
 import Inverter from '@/views/inverter'
-import BusinessRouter from '@/views/pages'
 import Qrcode from '@/views/qrcode'
 import User from '@/views/user'
+// 后台管理页面
+import BusinessRouter from '@/views/pages'
 
 const Main = () => import(/* webpackChunkName: "bus-main" */ '../views/main.vue')
 
