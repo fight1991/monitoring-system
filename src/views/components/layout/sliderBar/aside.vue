@@ -44,7 +44,6 @@ export default {
       return newData
     },
     menuClick (name) {
-      console.log(name)
       this.$tab.append({
         name
       })
