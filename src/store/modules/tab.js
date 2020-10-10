@@ -101,7 +101,7 @@ const actions = {
     commit('SET_ACTIVE_TAB', tabObj.name)
   },
   refreshTab ({ commit }, tabObj) {
-    commit('REFRESH_CURRENT_TAB', tabObj)
+    commit('REFRESH_EXIST_TAB', tabObj)
   },
   replaceTab ({ state, commit }, tabObj) {
     commit('REPLACE_EXIST_TAB', tabObj)

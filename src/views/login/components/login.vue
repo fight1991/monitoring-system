@@ -120,8 +120,11 @@ export default {
           // 存储权限信息
           this.$store.commit('setAccess', result.access)
           let path = '/'
-          path = this.$route.query.redirect || '/bus/dataView'
-          this.$router.push(path)
+          let redirectPath = this.$route.query.redirect
+          if (redirectPath !== '/') {
+            path = redirectPath || '/bus/dataView'
+          }
+          window.open(path, '_self')
         },
         other: res => {
           // 41805 账号不存在 打开注册页面

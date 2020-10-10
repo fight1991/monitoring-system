@@ -77,23 +77,11 @@ const afterEach = (to, from) => {
       store.dispatch('setInitTabStatus', false)
     }
     NProgress.done()
-    // let tempParams = JSON.parse(JSON.stringify(to.params))
-    // // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
-    // // 从login页面跳到指定redirect中的地址,刷新组件
+    // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
+    // 从login页面跳到指定redirect中的地址,刷新组件
     // if (from.query.redirect) {
-    //   tempParams.refresh = true
+    //   store.dispatch('refreshTab', { name: to.name })
     // }
-    // store.commit('addTab', {
-    //   tabId,
-    //   title,
-    //   isShow: true,
-    //   components: [to.meta.component],
-    //   path: to.path,
-    //   name: to.name,
-    //   query: JSON.parse(JSON.stringify(to.query)),
-    //   params: tempParams,
-    //   loadingNum: 0
-    // })
   }
 }
 export { beforeEach, afterEach }
