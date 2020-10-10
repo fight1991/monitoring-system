@@ -2,9 +2,9 @@
 <div class="sidebar-container">
   <el-scrollbar wrap-class="scrollbar-wrapper">
     <el-menu
-      :default-active="$route.path"
+      :default-active="$route.name"
       unique-opened
-      router
+      @select="menuClick"
       :collapse="$store.state.collapse">
       <sidebar-item v-for="(menu, index) in menuList" :key="'menu'+index" :menuItem="menu"></sidebar-item>
     </el-menu>
@@ -42,6 +42,12 @@ export default {
         }
       })
       return newData
+    },
+    menuClick (name) {
+      console.log(name)
+      this.$tab.append({
+        name
+      })
     }
   }
 }

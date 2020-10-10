@@ -204,7 +204,7 @@ export default {
   methods: {
     // 关联用户sndialog
     golinkSn () {
-      this.$tab.push({
+      this.$tab.append({
         name: 'bus-plant-linkSn'
       })
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <div class="img-box">
-      <div class="welcome-text">WELCOME</div>
+      <!-- <div class="welcome-text">WELCOME</div> -->
       <img :src="bgIndex" alt="">
     </div>
   </div>

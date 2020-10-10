@@ -61,27 +61,35 @@ const beforeEach = async (to, from, next) => {
 
 const afterEach = (to, from) => {
   document.title = to.meta.title || 'FoxESS'
-  let tabId = to.query.tabId || to.params.tabId || to.name
-  let title = to.query.tabTitle || to.params.tabTitle || to.meta.title
+  // let tabId = to.query.tabId || to.params.tabId || to.name
+  // let title = to.query.tabTitle || to.params.tabTitle || to.meta.title
   if (store.state.tabView && to.meta.component) {
     document.title = i18n.t('navBar.' + to.meta.title)
-    let tempParams = JSON.parse(JSON.stringify(to.params))
-    // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
-    // 从login页面跳到指定redirect中的地址,刷新组件
-    if (from.query.redirect) {
-      tempParams.refresh = true
+    if (store.state.tab.isInitTab) {
+      _this.$tab.append({
+        name: to.name,
+        query: to.query,
+        params: to.params
+      })
+      store.dispatch('setInitTabStatus', false)
     }
-    store.commit('addTab', {
-      tabId,
-      title,
-      isShow: true,
-      components: [to.meta.component],
-      path: to.path,
-      name: to.name,
-      query: JSON.parse(JSON.stringify(to.query)),
-      params: tempParams,
-      loadingNum: 0
-    })
+    // let tempParams = JSON.parse(JSON.stringify(to.params))
+    // // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
+    // // 从login页面跳到指定redirect中的地址,刷新组件
+    // if (from.query.redirect) {
+    //   tempParams.refresh = true
+    // }
+    // store.commit('addTab', {
+    //   tabId,
+    //   title,
+    //   isShow: true,
+    //   components: [to.meta.component],
+    //   path: to.path,
+    //   name: to.name,
+    //   query: JSON.parse(JSON.stringify(to.query)),
+    //   params: tempParams,
+    //   loadingNum: 0
+    // })
   }
 }
 export { beforeEach, afterEach }
