@@ -56,7 +56,9 @@ const beforeEach = async (to, from, next) => {
   }
   // 路由跳转鉴别权限
   if (!(to.meta.permission && to.meta.permission.includes(store.state.access))) {
-    _this.$message.error('No permissions!')
+    if (store.state.access >= 0) {
+      _this.$message.error('No permissions!')
+    }
     return
   }
   next()
