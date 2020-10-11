@@ -63,6 +63,7 @@ const beforeEach = async (to, from, next) => {
 }
 
 const afterEach = (to, from) => {
+  NProgress.done()
   document.title = to.meta.title || 'FoxESS'
   if (store.state.tabView && to.meta.component) {
     document.title = i18n.t('navBar.' + to.meta.title)
@@ -74,7 +75,6 @@ const afterEach = (to, from) => {
       })
       store.dispatch('setInitTabStatus', false)
     }
-    NProgress.done()
     // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
     // 从login页面跳到指定redirect中的地址,刷新组件
     // if (from.query.redirect) {
