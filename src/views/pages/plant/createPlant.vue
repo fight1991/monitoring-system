@@ -48,7 +48,7 @@
                   @show="importMap()"
                   popper-class="map-popper"
                   placement="bottom"
-                  :trigger="endUserNoUse && inputController ? 'no' : 'click'">
+                  :trigger="endUserNoUse && inputController ? 'manual' : 'click'">
                   <el-input slot="reference" :disabled="endUserNoUse && inputController" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
                     <span slot="suffix" v-show="!(endUserNoUse && inputController)"><i class="map-icon el-icon-location-information"></i></span>
                   </el-input>
@@ -443,7 +443,7 @@ export default {
           type: 'warning'
         }).then(() => true).catch(() => false)
         if (res) {
-          this.$tab.setTile('plantN')
+          this.$tab.setTitle('plantN')
           this.inputController = false
         }
       }

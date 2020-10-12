@@ -78,7 +78,7 @@ const mutations = {
   },
   // 替换当前页签的title
   SET_TAB_TITLE (state, title) {
-    let tabInfo = state.tabList.find(v => v.name === state.tab.currentTab)
+    let tabInfo = state.tabList.find(v => v.name === state.currentTab)
     tabInfo.title = title
   }
 }
