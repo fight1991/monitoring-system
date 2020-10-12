@@ -60,13 +60,6 @@ const mutations = {
       state.tabList.push(tabInfo)
     }
   },
-  // 关闭当前激活的页签
-  CLOSE_ACTIVE_TAB (state) {
-    let index = state.tabList.findIndex(v => v.name === state.currentTab)
-    let activeTabInfo = state.tabList[index + 1] || state.tabList[index - 1]
-    state.tabList.splice(index, 1)
-    this.commit('SET_ACTIVE_TAB', activeTabInfo.name)
-  },
   // 关闭非激活的页签
   CLOSE_INACTIVE_TAB (state, tabInfo) {
     let index = state.tabList.findIndex(v => v.name === tabInfo.name)
@@ -111,11 +104,17 @@ const actions = {
     commit('RESHOW_EXIST_TAB', tabObj)
     commit('SET_ACTIVE_TAB', tabObj.name)
   },
-  backTab ({ commit }, tabObj) {
-    commit('BACK_EXIST_TAB', tabObj)
+  backTab ({ state, commit }, tabObj) {
+    let index = state.tabList.findIndex(v => v.name === state.currentTab)
+    state.tabList.splice(index, 1)
+    commit('REPLACE_EXIST_TAB', tabObj)
   },
-  closeActiveTab ({ commit }, tabObj) {
-    commit('CLOSE_ACTIVE_TAB', tabObj)
+  // 关闭激活的页签, 并激活相邻页签
+  closeActiveTab ({ state, commit }) {
+    let index = state.tabList.findIndex(v => v.name === state.currentTab)
+    let activeTabInfo = state.tabList[index + 1] || state.tabList[index - 1]
+    state.tabList.splice(index, 1)
+    commit('SET_ACTIVE_TAB', activeTabInfo.name)
   },
   closeInactiveTab ({ commit }, tabObj) {
     commit('CLOSE_INACTIVE_TAB', tabObj)

@@ -44,7 +44,7 @@ const tabMethods = {
     })
   },
   closeActiveTab (name) {
-    store.dispatch('closeActiveTab', { name })
+    store.dispatch('closeActiveTab')
     router.push(store.getters.currentTabInfo)
   },
   closeAllTab () {
@@ -57,8 +57,14 @@ const tabMethods = {
     store.dispatch('closeOtherTab')
   },
   back ({ name, tabId = '', tabTitle = '', query, params }) {
-    this.closeActiveTab(name)
-    this.replace({ name, tabId, tabTitle, query, params })
+    if (!name) return
+    resolveParams('backTab', {
+      name,
+      tabId,
+      tabTitle,
+      query,
+      params
+    })
   }
 }
 /**

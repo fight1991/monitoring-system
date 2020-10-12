@@ -75,8 +75,8 @@ const afterEach = (to, from) => {
         query: to.query,
         params: to.params
       })
-      store.dispatch('setInitTabStatus', false)
     }
+    store.dispatch('setInitTabStatus', false)
     // token异常拦截到登录页 有可能dom没更新完成就跳转到登录页,造成echart渲染异常
     // 从login页面跳到指定redirect中的地址,刷新组件
     // if (from.query.redirect) {
