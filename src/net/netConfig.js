@@ -24,9 +24,9 @@ class InitAxios {
 }
 // 处理所有请求类
 export class AllFetch {
-  constructor (params) {
-    this.params = params
-  }
+  /**
+   * @param {*params} 数组中的每一项需为promise对象
+   */
   async requestFunc (isLoad, globalLoading) {
     let res = null
     let tabId = store.state.tab.currentTab

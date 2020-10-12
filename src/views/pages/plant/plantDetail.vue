@@ -270,7 +270,7 @@ export default {
       }
       this.plantId = this.plantList[index].stationID
       // 发送请求
-      await this.$all.promise([
+      await this.$all([
         this.getAbnormalStatus(),
         this.getDeviceStatus(),
         this.getPlantEarns(),
