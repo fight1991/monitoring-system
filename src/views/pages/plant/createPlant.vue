@@ -419,21 +419,33 @@ export default {
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
-      let { result } = await this.$post({
+      let { result, other } = await this.$post({
         url: url,
         data: {
           ...this.dataForm
         }
       })
+      let backName = 'bus-plant-view'
+      if (this.$route.meta.title === 'plantL') {
+        backName = 'bus-data-view'
+      }
       if (result) {
         this.$message.success(this.$t('common.success'))
-        let backName = 'bus-plant-view'
-        if (this.$route.meta.title === 'plantL') {
-          backName = 'bus-data-view'
-        }
         this.$tab.back({
           name: backName
         })
+      }
+      // 处理终端用户没有关联上电站的逻辑
+      if (other) {
+        let res = await this.$confirm('SN未关联电站, 是否需要创建电站?', this.$t('common.tip'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => true).catch(() => false)
+        if (res) {
+          this.$tab.setTile('plantN')
+          this.inputController = false
+        }
       }
     },
     // 远程校验sn 任意一对sn-key验证通过都可创建成功,全部sn-key失败则创建失败

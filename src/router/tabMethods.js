@@ -65,6 +65,10 @@ const tabMethods = {
       query,
       params
     })
+  },
+  setTitle (title) {
+    if (!title) return
+    store.dispatch('setTabTitle', title)
   }
 }
 /**

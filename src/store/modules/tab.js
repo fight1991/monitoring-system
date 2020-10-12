@@ -75,6 +75,11 @@ const mutations = {
     state.tabList.splice(1)
     if (temp.name === 'tab-index') return
     state.tabList.push(temp)
+  },
+  // 替换当前页签的title
+  SET_TAB_TITLE (state, title) {
+    let tabInfo = state.tabList.find(v => v.name === state.tab.currentTab)
+    tabInfo.title = title
   }
 }
 const actions = {
@@ -128,6 +133,9 @@ const actions = {
   },
   setInitTabStatus ({ commit }, status) {
     commit('SET_INIT_TAB_STATUS', status)
+  },
+  setTabTitle ({ commit }, title) {
+    commit('SET_TAB_TITLE', title)
   }
 }
 
