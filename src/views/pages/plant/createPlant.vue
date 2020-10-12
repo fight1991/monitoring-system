@@ -4,7 +4,7 @@
       <div class="top" v-if="access > 1">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
-          <el-row :gutter="60" class="input-form">
+          <el-row :gutter="60">
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('join.agent')" prop="agent">
                 <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
@@ -492,12 +492,6 @@ export default {
 }
 .devices-box,.col-container {
   padding: 0 50px;
-}
-.col-container {
-  display: flex;
-  .input-form {
-    flex: 1;
-  }
 }
 .map-place {
   height: 300px;
