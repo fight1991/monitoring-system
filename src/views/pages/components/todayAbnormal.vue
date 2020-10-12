@@ -163,8 +163,7 @@ export default {
       } else {
         params.deviceID = this.$attrs.id
       }
-      let { result } = await this.$axios({
-        method: 'post',
+      let { result } = await this.$post({
         url: `/v0/${this.type}/alarm/today/detail`,
         globalLoading: true,
         data: {

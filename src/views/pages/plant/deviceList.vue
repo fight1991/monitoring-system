@@ -92,8 +92,7 @@ export default {
     },
     async getDeviceList (pagination, id) {
       let pages = pagination || this.$store.state.pagination
-      let { result } = await this.$axios({
-        method: 'post',
+      let { result } = await this.$post({
         url: '/v0/plant/device/list',
         data: {
           ...pages,

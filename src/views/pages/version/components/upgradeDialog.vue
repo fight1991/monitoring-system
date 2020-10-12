@@ -132,9 +132,8 @@ export default {
       } else {
         params.modules = this.sns
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: `/v0/firmware/${this.type}/upgrade`,
-        method: 'post',
         globalLoading: true,
         data: {
           ...this.dataForm,
@@ -149,7 +148,7 @@ export default {
     },
     // 获取固件版本信息
     async getVersionInfo () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: `/v0/firmware/${this.type}/version`,
         globalLoading: true
       })

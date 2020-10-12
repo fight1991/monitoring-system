@@ -184,9 +184,8 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/firmware/device/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -205,7 +204,7 @@ export default {
     },
     // 获取产品型号
     async getProductList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/firmware/products'
       })
       if (result) {

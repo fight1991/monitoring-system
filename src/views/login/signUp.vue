@@ -159,9 +159,8 @@ export default {
       accountInfo.password = md5(accountInfo.password)
       accountInfo.type = this.roleName
       let dataKey = this.roleName + 'Info'
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v1/user/register',
-        method: 'post',
         data: {
           accountInfo,
           [dataKey]: dataForm

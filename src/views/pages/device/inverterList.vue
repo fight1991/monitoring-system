@@ -182,8 +182,8 @@ export default {
       })
     },
     // 获取列表
-    getInverterList (pagination) {
-      this.$post({
+    async getInverterList (pagination) {
+      let { result } = await this.$post({
         url: '/v0/device/list',
         data: {
           ...pagination,
@@ -194,20 +194,18 @@ export default {
               end: (this.times && this.times[1]) || 0
             }
           }
-        },
-        success: ({ result }) => {
-          if (result) {
-            this.pagination.total = result.total
-            this.pagination.currentPage = result.currentPage
-            this.pagination.pageSize = result.pageSize
-            this.resultList = result.devices || []
-          }
         }
       })
+      if (result) {
+        this.pagination.total = result.total
+        this.pagination.currentPage = result.currentPage
+        this.pagination.pageSize = result.pageSize
+        this.resultList = result.devices || []
+      }
     },
     // 获取所有逆变器状态
     async getStatusAll () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: 'v0/device/status/all'
       })
       if (result) {
@@ -220,9 +218,8 @@ export default {
         this.$message.warning('Please check an option')
         return
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0​/device/delete',
-        method: 'post',
         data: this.deviceId
       })
       if (result) {

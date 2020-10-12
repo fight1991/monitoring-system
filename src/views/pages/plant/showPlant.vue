@@ -127,9 +127,8 @@ export default {
     },
     // 获取所有电站列表
     async getAllPlant (total) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/plant/list',
-        method: 'post',
         data: {
           currentPage: 1,
           pageSize: total,
@@ -145,9 +144,8 @@ export default {
     },
     // 获取电站列表
     async getPlantList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/plant/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -169,16 +167,16 @@ export default {
         type: 'warning'
       }).then(() => true).catch(() => false)
       if (!res) return
-      this.$post({
+      let { result } = await this.$post({
         url: '/v0/plant/delete',
         data: {
           stationID: id
-        },
-        success: () => {
-          this.$message.success(this.$t('common.success'))
-          this.search()
         }
       })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.search()
+      }
     },
     // 点击状态筛选列表
     getselect (payLoad) {

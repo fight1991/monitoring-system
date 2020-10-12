@@ -173,9 +173,8 @@ export default {
     },
     // 批量解绑
     async unbindMulti () {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/module/disable',
-        method: 'post',
         data: {
           modules: this.bindIds
         }
@@ -186,7 +185,7 @@ export default {
     },
     // 获取模块类型列表
     async getModuleTypeList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/module/types'
       })
       if (result) {
@@ -195,9 +194,8 @@ export default {
     },
     // 获取模块列表
     async getModuleList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/module/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -210,7 +208,7 @@ export default {
         this.pagination.pageSize = result.pageSize
       }
     },
-    beforeUpload (file) {
+    async beforeUpload (file) {
       // excel 或 .csv格式
       let excelType = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
       if (!excelType.includes(file.type)) {
@@ -223,10 +221,9 @@ export default {
       let param = new FormData()
       param.append('file', file, file.name)
       // 文件上传请求
-      this.$upload({
+      await this.$upload({
         url: '/v0/module/import',
-        data: {},
-        success: res => {}
+        data: {}
       })
     }
   }

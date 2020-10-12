@@ -175,9 +175,8 @@ export default {
           day: new Date(this.times[1]).getDate()
         }
       }
-      let { result, error, other } = await this.$axios({
+      let { result, error, other } = await this.$post({
         url: '/v0/device/report/query',
-        method: 'post',
         data: {
           ...pagination,
           ...this.searchForm

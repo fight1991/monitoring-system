@@ -84,7 +84,7 @@ export default {
   methods: {
     // 根据key值查询表单
     async getFormValueByKey (id, key) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/setting/get',
         data: {
           id,
@@ -122,9 +122,8 @@ export default {
     },
     // 表单提交api
     async submitForm (key, form) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/setting/set',
-        method: 'post',
         data: {
           id: this.id,
           key: key || this.keyWord,

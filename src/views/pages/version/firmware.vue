@@ -118,9 +118,8 @@ export default {
     },
     // 批量发布/批量删除
     async multiOptions (op) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/firmware/' + op,
-        method: 'post',
         data: {
           firmware: op === 'release' ? this.releaseIds : this.deleteIds
         }
@@ -132,9 +131,8 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/firmware/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm

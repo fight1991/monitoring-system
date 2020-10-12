@@ -40,7 +40,7 @@ export default {
   methods: {
     // 获取tab结构
     async getTabList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/setting/ui',
         data: {
           id: this.id

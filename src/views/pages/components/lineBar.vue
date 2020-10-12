@@ -147,10 +147,9 @@ export default {
       } else {
         params.deviceID = id || this.id
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: `/v0/${this.type}/history/raw`,
         isLoad: false,
-        method: 'post',
         data: {
           ...params,
           variables: variables || ['generationPower', 'feedinPower', 'loadsPower'],
@@ -200,9 +199,8 @@ export default {
       } else {
         params.deviceID = id || this.id
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: `/v0/${this.type}/history/report`,
-        method: 'post',
         isLoad: false,
         data: {
           ...params,

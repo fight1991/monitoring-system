@@ -291,7 +291,7 @@ export default {
     },
     // 获取代理商列表
     async getAgentList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/user/agents'
       })
       if (result) {
@@ -304,7 +304,7 @@ export default {
     },
     // 获取币种列表
     async getCurrencyList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/earnings/currency'
       })
       if (result && result.length > 0) {
@@ -316,7 +316,7 @@ export default {
     async getZoneList (shortName) {
       this.dataForm.timezone = ''
       this.dataForm.daylight = ''
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/map/timezones',
         data: {
           country: shortName
@@ -405,32 +405,31 @@ export default {
       }
     },
     // 新建电站 / 编辑电站
-    creatPlant () {
+    async creatPlant () {
       let url = this.opType === 'add' ? '/v0/plant/create' : '/v0/plant/update'
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
-      this.$post({
+      let { result } = await this.$post({
         url: url,
         data: {
           ...this.dataForm
-        },
-        success: ({ result }) => {
-          this.$message.success(this.$t('common.success'))
-          let backName = 'bus-plant-view'
-          if (this.$route.meta.title === 'plantL') {
-            backName = 'bus-data-view'
-          }
-          this.$tab.back({
-            name: backName
-          })
         }
       })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        let backName = 'bus-plant-view'
+        if (this.$route.meta.title === 'plantL') {
+          backName = 'bus-data-view'
+        }
+        this.$tab.back({
+          name: backName
+        })
+      }
     },
     // 远程校验sn 任意一对sn-key验证通过都可创建成功,全部sn-key失败则创建失败
     async remoteSN (item) {
-      let { result, other } = await this.$axios({
-        method: 'post',
+      let { result, other } = await this.$post({
         url: '/v0/module/checksn',
         data: {
           type: this.access === 1 ? 0 : this.opType === 'add' ? 1 : 2,
@@ -443,7 +442,7 @@ export default {
     },
     // 查询电站信息
     async getStationInfo (stationID) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/get',
         data: {
           stationID

@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="24">
             <el-form-item prop="email" :label="$t('login.em')">
-              <el-input v-model="dataForm.email" @keyup.native.enter="goRegister"></el-input>
+              <el-input v-model="dataForm.email"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -69,9 +69,7 @@
 
 <script>
 import mixins from '../mixin'
-import md5 from 'js-md5'
 import valid from '../common/validate'
-import link from '../common/link'
 export default {
   name: 'register',
   mixins: [mixins],
@@ -140,53 +138,14 @@ export default {
     },
     // 发送请求校验用户是否已经注册过
     async checkAccountExsit () {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/user/check',
-        method: 'post',
         data: {
           account: this.dataForm.account,
           email: this.dataForm.email
         }
       })
       return result
-    },
-    // 注册按钮
-    goRegister () {
-      if (!this.isAgreen) {
-        this.$message.warning('尚未勾选服务条款!')
-        return false
-      }
-      // 自定义表单校验
-      let isPass = true
-      this.$refs.dataForm.validate(valid => (isPass = valid))
-      if (!isPass) return
-      let tempData = { ...this.dataForm }
-      this.$post({
-        url: '/v0/user/register',
-        data: {
-          ...tempData,
-          password: md5(tempData.password)
-        },
-        success: res => {
-          // 1.注册成功, 调用自动登录接口 ? 2. 跳转到产品介绍页面
-          // this.$router.push('/product/index')
-          this.$message.success(this.$t('login.successMg1'))
-          link.$emit('sendUser', this.dataForm.account)
-          this.dataForm = {
-            user: '',
-            password: '',
-            confirmWord: '',
-            email: ''
-          }
-          this.backLogin()
-        },
-        other: res => {
-          // 41801 用户名/邮箱/手机号已被注册
-          if (res.errno === 41801) {
-            this.dataForm.account = ''
-          }
-        }
-      })
     }
   }
 }

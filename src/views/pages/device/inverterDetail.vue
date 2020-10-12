@@ -217,7 +217,7 @@ export default {
   methods: {
     // 获取头部逆变器信息
     async getHeadInfo () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/addressbook',
         data: {
           deviceID: this.deviceId
@@ -227,7 +227,7 @@ export default {
     },
     // 获取单个设备功率的发电和收益情况
     async getDeviceEarns () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/earnings',
         data: {
           deviceID: this.deviceId
@@ -250,7 +250,7 @@ export default {
     },
     // 获取图表下拉选择框
     async getOptions () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/variables',
         data: {
           deviceID: this.deviceId
@@ -269,9 +269,8 @@ export default {
     // 多折线图表
     async getMultiChart () {
       this.chartLoading = true
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/device/history/raw',
-        method: 'post',
         isLoad: false,
         data: {
           deviceID: this.deviceId,
@@ -313,7 +312,7 @@ export default {
     },
     // 获取今日异常
     async getAbnormalStatus () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/alarm/today',
         data: {
           deviceID: this.deviceId

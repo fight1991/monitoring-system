@@ -232,7 +232,7 @@ export default {
     },
     // 获取头部电站展开详情
     async getHeadInfo () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/addressbook',
         data: {
           stationID: this.plantId
@@ -246,7 +246,7 @@ export default {
     },
     // 电站列表
     async getPlantList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/droplist'
       })
       if (result) {
@@ -281,7 +281,7 @@ export default {
     },
     // 获取电站下的设备状态
     async getDeviceStatus () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/status/detail',
         data: {
           stationID: this.plantId
@@ -294,7 +294,7 @@ export default {
     },
     // 获取今日异常
     async getAbnormalStatus () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/alarm/today',
         data: {
           stationID: this.plantId
@@ -307,7 +307,7 @@ export default {
     },
     // 获取单个电站的发电和收益情况
     async getPlantEarns () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/earnings/detail',
         data: {
           stationID: this.plantId

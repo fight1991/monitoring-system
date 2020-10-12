@@ -89,38 +89,38 @@ export default {
     getCode () {
       this.$refs.dataForm.validateField('user', (valid) => {
         if (!valid) {
-          this.sendCode(this.dataForm.user, this.codeBtn)
+          this.sendCode(this.dataForm.user).then(() => this.codeBtn())
         }
       })
     },
     // 重置密码
-    resetPassword () {
+    async resetPassword () {
       let isPass = true
       this.$refs.dataForm.validate(valid => (isPass = valid))
       if (!isPass) return
       let tempData = { ...this.dataForm }
-      this.$post({
+      let { result } = await this.$post({
         url: '/v0/user/reset',
         data: {
           ...tempData,
           newPassword: md5(tempData.newPassword)
-        },
-        success: res => {
-          this.$message.success(this.$t('login.successMg2'))
-          this.dataForm = {
-            user: '',
-            newPassword: '',
-            captcha: ''
-          }
-          this.clearTime()
-          if (this.btnShow === 1) {
-            this.$emit('close:visible', false)
-          } else {
-            link.$emit('sendUser', this.dataForm.user)
-            this.backLogin()
-          }
         }
       })
+      if (result) {
+        this.$message.success(this.$t('login.successMg2'))
+        this.dataForm = {
+          user: '',
+          newPassword: '',
+          captcha: ''
+        }
+        this.clearTime()
+        if (this.btnShow === 1) {
+          this.$emit('close:visible', false)
+        } else {
+          link.$emit('sendUser', this.dataForm.user)
+          this.backLogin()
+        }
+      }
     }
   }
 }

@@ -40,7 +40,6 @@
 </template>
 
 <script>
-// import joinDialog from '@/views/product/joinDialog'
 export default {
   name: 'user-info',
   // components: { joinDialog },
@@ -72,7 +71,7 @@ export default {
       }
     },
     async getInviteCode (flag) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/organs/invitation',
         data: {
           organType: ''

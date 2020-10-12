@@ -92,10 +92,9 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/firmware/' + this.apiUrl + '/upgrade/detail',
         globalLoading: true,
-        method: 'post',
         data: {
           taskID: this.taskId,
           condition: this.searchForm,

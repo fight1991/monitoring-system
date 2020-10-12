@@ -116,7 +116,7 @@ export default {
   methods: {
     // 获取电池设备信息
     async getBaterryInfo (id) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/battery/info',
         data: {
           id

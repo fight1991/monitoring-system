@@ -141,15 +141,15 @@ export default {
         type: 'warning'
       }).then(() => true).catch(() => false)
       if (!res) return
-      this.$post({
-        url: '/v0/user/logout',
-        success: () => {
-          let { href } = this.$router.resolve({
-            path: '/login'
-          })
-          window.open(href, '_self')
-        }
+      let { result } = await this.$post({
+        url: '/v0/user/logout'
       })
+      if (result) {
+        let { href } = this.$router.resolve({
+          path: '/login'
+        })
+        window.open(href, '_self')
+      }
     }
   }
 }

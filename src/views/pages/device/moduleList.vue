@@ -196,21 +196,21 @@ export default {
       this.importFile(file)
     },
     // 导入文件
-    importFile (file) {
+    async importFile (file) {
       let upfile = new FormData()
       upfile.append('upfile', file)
       // 文件上传请求
-      this.$upload({
+      let { result } = await this.$upload({
         url: '/v0/module/import',
-        data: upfile,
-        success: res => {
-          this.search()
-        }
+        data: upfile
       })
+      if (result) {
+        this.search()
+      }
     },
     // 批量解绑
     async unbindMulti () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/module/disable',
         data: {
           modules: this.bindIds
@@ -222,7 +222,7 @@ export default {
     },
     // 获取模块类型列表
     async getModuleTypeList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/module/types'
       })
       if (result) {
@@ -231,9 +231,8 @@ export default {
     },
     // 获取模块列表
     async getModuleList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/module/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm
