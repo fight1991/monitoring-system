@@ -45,12 +45,10 @@ export class AllFetch {
 // 得到get/post等请求实例
 export class CommonFetch {
   constructor (methodType) {
-    console.log(methodType)
     this.methodType = methodType
   }
   async requestFunc ({ url, data, isLoad, checkParams, globalLoading }) {
     // 设置入参
-    console.log(this)
     let params = this.methodType === 'get' ? { params: data } : data
     // 设置请求类型
     let method = this.methodType === 'get' ? 'get' : 'post'

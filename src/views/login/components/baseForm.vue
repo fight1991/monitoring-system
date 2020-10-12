@@ -133,7 +133,6 @@ export default {
       if (!res1) return false
       // 还需要校验账户有没有注册过
       let res2 = await this.checkAccountExsit()
-      console.log(res2)
       return res2
     },
     // 发送请求校验用户是否已经注册过
