@@ -35,7 +35,7 @@ export default {
     },
     // 获取国家列表
     async getCountryList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/map/countries',
         checkParams: this.$store.state.lang === 'en' ? 'country_en' : 'country_zh'
       })

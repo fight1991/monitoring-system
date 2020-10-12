@@ -40,9 +40,9 @@ const beforeEach = async (to, from, next) => {
       i18n.locale = langInfo
     }
     // 用户信息查询
-    let { result: userInfo } = await _this.$axios({ url: '/v0/user/info' })
+    let { result: userInfo } = await _this.$get({ url: '/v0/user/info' })
     // 权限查询
-    let { result: accessStatus } = await _this.$axios({ url: '/v0/user/access' })
+    let { result: accessStatus } = await _this.$get({ url: '/v0/user/access' })
     if (userInfo) {
       store.commit('setUserInfo', userInfo)
       storage.setUserInfo(userInfo)
