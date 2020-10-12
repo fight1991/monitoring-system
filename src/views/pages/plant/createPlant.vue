@@ -1,25 +1,25 @@
 <template>
   <section class="sys-main sys-form-style-label bg-c" v-setH:min="setDivH">
     <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="110px">
-      <div class="top" v-if="access > 1">
+      <div class="top">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
           <el-row :gutter="60">
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('join.agent')" prop="agent">
-                <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.agent" :disabled="endUserNoUse && inputController" style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.name')" prop="details.name">
-                <el-input v-model="dataForm.details.name" clearable></el-input>
+                <el-input v-model="dataForm.details.name" :disabled="endUserNoUse && inputController" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.type')" prop="details.type">
-                <el-select v-model="dataForm.details.type" style="width:100%" filterable default-first-option :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.details.type" :disabled="endUserNoUse && inputController" style="width:100%" filterable default-first-option :placeholder="$t('common.select')">
                   <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
                   <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
                 </el-select>
@@ -48,9 +48,9 @@
                   @show="importMap()"
                   popper-class="map-popper"
                   placement="bottom"
-                  trigger="click">
-                  <el-input slot="reference" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
-                    <span slot="suffix"><i class="map-icon el-icon-location-information"></i></span>
+                  :trigger="endUserNoUse && inputController ? 'no' : 'click'">
+                  <el-input slot="reference" :disabled="endUserNoUse && inputController" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
+                    <span slot="suffix" v-show="!(endUserNoUse && inputController)"><i class="map-icon el-icon-location-information"></i></span>
                   </el-input>
                   <div class="map-place">
                     <div class="input-box flex-vertical-center">
@@ -65,12 +65,12 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.postcode')" prop="details.postcode">
-                <el-input v-model="dataForm.details.postcode" clearable></el-input>
+                <el-input v-model="dataForm.details.postcode" :disabled="endUserNoUse && inputController" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8" v-if="hasSummerTime">
               <el-form-item :label="$t('plant.summerTime')" prop="daylight">
-                <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.daylight" :disabled="endUserNoUse && inputController" filterable style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -84,21 +84,21 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
-                <el-input v-model="dataForm.details.systemCapacity" clearable>
+                <el-input v-model="dataForm.details.systemCapacity" :disabled="endUserNoUse && inputController" clearable>
                   <span slot="suffix">kWp</span>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.price')" prop="details.price">
-                <el-input v-model="dataForm.details.price" clearable>
+                <el-input v-model="dataForm.details.price" :disabled="endUserNoUse && inputController" clearable>
                   <span slot="suffix">/kWh</span>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.currency')" prop="details.currency">
-                <el-select default-first-option filterable v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
+                <el-select default-first-option filterable v-model="dataForm.details.currency" :disabled="endUserNoUse && inputController" style="width:100%" :placeholder="$t('common.select')">
                   <el-option
                     v-for="item in currencyList"
                     :key="item" :value="item"
@@ -164,6 +164,7 @@ export default {
   data () {
     return {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
+      inputController: true, // 终端用户关联电站时失败时,想要创建电站
       plantId: '', // 电站id
       appVersion: process.env.VUE_APP_VERSION,
       isSelectMap: false,
@@ -215,26 +216,7 @@ export default {
         key: '',
         isPass: 1
       },
-      rules: {
-        agent: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        timezone: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        daylight: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.name': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.type': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.country': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.city': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.address': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.currency': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.price': [
-          { required: true, message: this.messageValid('require'), trigger: 'blur' },
-          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
-        ],
-        'details.systemCapacity': [
-          { required: true, message: this.messageValid('require'), trigger: 'blur' },
-          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
-        ],
-        'details.postcode': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
-      },
+      rules: {},
       currencyList: []
     }
   },
@@ -246,6 +228,7 @@ export default {
       this.getStationInfo(this.plantId)
     }
     if (this.access > 1) {
+      this.rules = this.setFormRules(true)
       await this.getCurrencyList()
       await this.getAgentList()
       // this.countryList = await this.getCountryList()
@@ -282,9 +265,35 @@ export default {
     },
     hasSummerTime () { // 是否有夏令时
       return this.zoneInfo.useDaylight
+    },
+    endUserNoUse () {
+      return this.access === 1
     }
   },
   methods: {
+    // 设置校验规则
+    setFormRules (isRequired = false) {
+      return {
+        agent: [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        timezone: [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        daylight: [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.name': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.type': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.country': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.city': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.address': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.currency': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.price': [
+          { required: isRequired, message: this.messageValid('require'), trigger: 'blur' },
+          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+        ],
+        'details.systemCapacity': [
+          { required: isRequired, message: this.messageValid('require'), trigger: 'blur' },
+          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+        ],
+        'details.postcode': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }]
+      }
+    },
     // 设备新增
     deviceAdd () {
       this.dataForm.devices.push({ ...this.templateDevice })

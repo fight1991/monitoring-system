@@ -59,7 +59,7 @@
       <plant-status :incomeDetail="incomeDetail" :batShow="false" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
     </div>
     <!-- 功率 统计 设备列表 -->
-    <div class="block show-shadow mg-b12">
+    <div class="block show-shadow">
       <line-bar :id="plantId" :type="'plant'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
