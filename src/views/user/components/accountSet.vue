@@ -9,7 +9,7 @@
     <el-row type="flex" align="middle" v-if="access==1">
       <div class="nap">{{$t('user.assoInAg')}}</div>
       <div class="nap"><el-input v-model="linkCode" :placeholder="$t('user.inAgCode')" size="mini"></el-input></div>
-      <el-button type="primary" size="mini" @click="joinOrgans('user')">{{$t('common.confirm')}}</el-button>
+      <el-button type="primary" size="mini" :disabled="!linkCode" @click="joinOrgans('user')">{{$t('common.confirm')}}</el-button>
     </el-row>
     <div v-if="access==2">
       <el-row>
@@ -21,7 +21,7 @@
       <el-row type="flex" align="middle">
         <div class="nap">{{$t('user.assoAg')}}</div>
         <div class="nap"><el-input v-model="linkCode" :placeholder="$t('user.agCode')" size="mini"></el-input></div>
-        <el-button type="primary" size="mini" @click="joinOrgans('installer')">{{$t('common.confirm')}}</el-button>
+        <el-button type="primary" size="mini" :disabled="!linkCode" @click="joinOrgans('installer')">{{$t('common.confirm')}}</el-button>
       </el-row>
     </div>
     <div v-if="access==3">
