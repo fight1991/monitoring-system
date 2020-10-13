@@ -145,9 +145,9 @@ export default {
       }
     },
     // 步骤3中的下一步
-    endNextBtn () {
+    async endNextBtn () {
       // 校验完善信息的表单
-      let res = this.$refs.endForm.checkForm()
+      let res = await this.$refs.endForm.checkForm()
       if (!res) return
       // 发送请求
       this.submitTotalForm()
