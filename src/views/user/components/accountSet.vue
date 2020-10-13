@@ -46,8 +46,6 @@ export default {
   data () {
     return {
       invitCode: '',
-      opText: '',
-      joinVisible: false,
       initCode: '',
       agentCode: '',
       linkCode: '' // 安装商关联代理商的代码
