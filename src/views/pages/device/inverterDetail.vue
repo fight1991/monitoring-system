@@ -51,7 +51,7 @@
       </el-row>
     </div>
     <!-- 功率折线图和电量统计柱状图 -->
-    <div class="container-bottom show-shadow bg-c">
+    <div class="mg-b12 show-shadow bg-c">
       <line-bar :id="deviceId" :type="'device'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
@@ -60,7 +60,7 @@
       </line-bar>
     </div>
     <!-- 多选折线图 -->
-    <div class="container-bottom bg-c show-shadow">
+    <div class="bg-c show-shadow">
       <el-row class="select-line">
         <div class="flex-between">
           <div class="select-box">

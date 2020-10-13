@@ -35,7 +35,6 @@ const mutations = {
   // 刷新已经存在的页签
   REFRESH_EXIST_TAB (state, tabInfo) {
     if (!tabInfo.isShow) return
-    console.log(tabInfo.loadingNum)
     if (tabInfo.loadingNum > 0) return
     tabInfo.isShow = false
     Vue.nextTick().then(() => {
