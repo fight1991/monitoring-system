@@ -6,8 +6,8 @@
     @close="closeDialog"
     @open="getVersionInfo"
     :visible.sync="dialogVisible"
-    width="550px">
-    <el-form size="mini" ref="dataForm" :model="dataForm" :rules="rules" label-width="120px">
+    width="70%">
+    <el-form size="mini" ref="dataForm" :model="dataForm" :rules="rules" label-width="130px">
       <el-row>
         <el-col :span="24">
           <el-form-item :label="$t('invupgrade.taskName')" prop="taskName">
