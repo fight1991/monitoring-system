@@ -191,7 +191,7 @@ export default {
           message: 'invalid file type',
           type: 'error'
         })
-        return false
+        // return false
       }
       this.importFile(file)
     },
