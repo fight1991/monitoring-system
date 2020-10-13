@@ -9,14 +9,16 @@
           :name="item.name">
 
           <!-- 页签区域开始 -->
-          <span slot="label" v-if="index==0"><i class="iconfont icon-home"></i></span>
+          <span slot="label" v-show="index==0"><i class="iconfont icon-home"></i></span>
+          <!-- <span slot="label" v-show="index > 0">{{$t('navBar.'+item.title)}}</span> -->
           <el-popover
             popper-class="tab-popper"
             width="100%"
             slot="label"
+            :disabled="item.name!=currentTab"
             placement="bottom"
             trigger="hover">
-            <span slot="reference" v-if="index > 0">{{$t('navBar.'+item.title)}}</span>
+            <span slot="reference" v-show="index > 0">{{$t('navBar.'+item.title)}}</span>
             <div class="tab-refresh" @click="reload(item)"><i class="el-icon-refresh"></i>{{$t('common.refresh')}}</div>
           </el-popover>
           <!-- 页签区域结束 -->
@@ -64,6 +66,7 @@ export default {
   computed: {
     ...mapState({
       tabList: state => state.tab.tabList,
+      currentTab: state => state.tab.currentTab,
       loading: state => state.loading
     })
   },

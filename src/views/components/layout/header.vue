@@ -13,6 +13,7 @@
       <!-- <div class="system-set" @click="setDrawerShow=true">
         <i class="el-icon-setting"></i>
       </div> -->
+      <div class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')"><i class="el-icon-refresh"></i></div>
       <el-dropdown
         @command="userOption"
         trigger="click"
@@ -87,6 +88,9 @@ export default {
     })
   },
   methods: {
+    refreshCurrentPage () {
+      this.$store.dispatch('refreshTab', this.$store.getters.currentTabInfo)
+    },
     // 切换全屏
     screenClick (type) {
       this.isFullScreen = type === 'enter'
@@ -184,7 +188,26 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  color: #fff;
+  .refresh-button {
+    font-size: 26px;
+    cursor: pointer;
+    margin: 0 30px;
+    color: green;
+    font-weight: bold;
+    i {
+      transition: all 1.5s;
+      border-radius: 30%;
+    }
+    &:hover {
+      i {
+        transform: rotate(180deg);
+        background-color: #0097a7;
+        border-radius: 50%;
+        color: #fff;
+      }
+    }
+  }
+  // color: #fff;
   .el-dropdown {
     color: #fff;
   }

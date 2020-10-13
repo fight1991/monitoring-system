@@ -1,5 +1,5 @@
+import Vue from 'vue'
 let Home = () => import(/* webpackChunkName: "home" */ '@/views/pages/home')
-
 const state = {
   currentTab: 'tab-index',
   isInitTab: true, // 刷新页面时正常添加页签
@@ -34,11 +34,12 @@ const mutations = {
   },
   // 刷新已经存在的页签
   REFRESH_EXIST_TAB (state, tabInfo) {
+    if (!tabInfo.isShow) return
+    console.log(tabInfo.loadingNum)
+    if (tabInfo.loadingNum > 0) return
     tabInfo.isShow = false
-    let timmer = null
-    timmer = setTimeout(() => {
+    Vue.nextTick().then(() => {
       tabInfo.isShow = true
-      clearTimeout(timmer)
     })
   },
   // 替换已经存在的页签
@@ -109,10 +110,10 @@ const actions = {
     commit('RESHOW_EXIST_TAB', tabObj)
     commit('SET_ACTIVE_TAB', tabObj.name)
   },
-  backTab ({ state, commit }, tabObj) {
+  backTab ({ state, dispatch }, tabObj) {
     let index = state.tabList.findIndex(v => v.name === state.currentTab)
     state.tabList.splice(index, 1)
-    commit('REPLACE_EXIST_TAB', tabObj)
+    dispatch('replaceTab', tabObj)
   },
   // 关闭激活的页签, 并激活相邻页签
   closeActiveTab ({ state, commit }) {

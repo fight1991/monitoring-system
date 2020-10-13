@@ -48,7 +48,8 @@
                   @show="importMap()"
                   popper-class="map-popper"
                   placement="bottom"
-                  :trigger="endUserNoUse && inputController ? 'manual' : 'click'">
+                  :disabled="endUserNoUse && inputController"
+                  trigger="click">
                   <el-input slot="reference" :disabled="endUserNoUse && inputController" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
                     <span slot="suffix" v-show="!(endUserNoUse && inputController)"><i class="map-icon el-icon-location-information"></i></span>
                   </el-input>
@@ -165,6 +166,7 @@ export default {
     return {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
       inputController: true, // 终端用户关联电站时失败时,想要创建电站
+      errno: '', // 处理终端用户创建电站的接口地址
       plantId: '', // 电站id
       appVersion: process.env.VUE_APP_VERSION,
       isSelectMap: false,
@@ -228,13 +230,7 @@ export default {
       this.getStationInfo(this.plantId)
     }
     if (this.access > 1) {
-      this.rules = this.setFormRules(true)
-      await this.getCurrencyList()
-      await this.getAgentList()
-      // this.countryList = await this.getCountryList()
-      if (this.opType === 'add') {
-        this.dataForm.details.currency = this.currencyList[0] || ''
-      }
+      this.initFormData()
     }
     // 复制模板
     this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
@@ -271,6 +267,15 @@ export default {
     }
   },
   methods: {
+    // 表单数据初始化
+    async initFormData () {
+      this.rules = this.setFormRules(true)
+      await this.getCurrencyList()
+      await this.getAgentList()
+      if (this.opType === 'add') {
+        this.dataForm.details.currency = this.currencyList[0] || ''
+      }
+    },
     // 设置校验规则
     setFormRules (isRequired = false) {
       return {
@@ -415,7 +420,15 @@ export default {
     },
     // 新建电站 / 编辑电站
     async creatPlant () {
-      let url = this.opType === 'add' ? '/v0/plant/create' : '/v0/plant/update'
+      let url = ''
+      if (this.opType === 'add') {
+        url = '/v0/plant/create'
+        if (this.errno === 41934) {
+          url = '/v1/plant/create'
+        }
+      } else {
+        url = '/v0/plant/update'
+      }
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
@@ -436,15 +449,20 @@ export default {
         })
       }
       // 处理终端用户没有关联上电站的逻辑
-      if (other) {
+      if (other && other.errno === 41934 && this.access === 1) {
         let res = await this.$confirm('SN未关联电站, 是否需要创建电站?', this.$t('common.tip'), {
           confirmButtonText: this.$t('common.confirm'),
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => true).catch(() => false)
         if (res) {
+          this.errno = other.errno
           this.$tab.setTitle('plantN')
           this.inputController = false
+          this.initFormData()
+          this.$nextTick(() => {
+            this.$refs.dataForm.clearValidate()
+          })
         }
       }
     },
