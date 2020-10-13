@@ -8,8 +8,8 @@
     </el-row>
     <el-row type="flex" align="middle" v-if="access==1">
       <div class="nap">{{$t('user.assoInAg')}}</div>
-      <div class="nap"><el-input :placeholder="$t('user.inAgCode')" size="mini"></el-input></div>
-      <el-button type="primary" size="mini">{{$t('common.confirm')}}</el-button>
+      <div class="nap"><el-input v-model="linkCode" :placeholder="$t('user.inAgCode')" size="mini"></el-input></div>
+      <el-button type="primary" size="mini" @click="joinOrgans('user')">{{$t('common.confirm')}}</el-button>
     </el-row>
     <div v-if="access==2">
       <el-row>
@@ -20,8 +20,8 @@
       </el-row>
       <el-row type="flex" align="middle">
         <div class="nap">{{$t('user.assoAg')}}</div>
-        <div class="nap"><el-input :placeholder="$t('user.agCode')" size="mini"></el-input></div>
-        <el-button type="primary" size="mini">{{$t('common.confirm')}}</el-button>
+        <div class="nap"><el-input v-model="linkCode" :placeholder="$t('user.agCode')" size="mini"></el-input></div>
+        <el-button type="primary" size="mini" @click="joinOrgans('installer')">{{$t('common.confirm')}}</el-button>
       </el-row>
     </div>
     <div v-if="access==3">
@@ -32,7 +32,7 @@
         </div>
       </el-row>
       <el-row type="flex" align="middle">
-        <div class="nap get-code" @click="getAgentCode">{{$t('user.code')}}</div>
+        <div class="nap get-code" @click="getInviteCode('agent')">{{$t('user.code')}}</div>
         <div class="nap"><el-input v-model="agentCode" readonly :placeholder="$t('user.invCode')" size="mini"></el-input></div>
       </el-row>
     </div>
@@ -49,7 +49,8 @@ export default {
       opText: '',
       joinVisible: false,
       initCode: '',
-      agentCode: ''
+      agentCode: '',
+      linkCode: '' // 安装商关联代理商的代码
     }
   },
   created () {
@@ -74,7 +75,7 @@ export default {
       let { result } = await this.$get({
         url: '/v0/organs/invitation',
         data: {
-          organType: ''
+          organType: this.access === 2 ? 'installer' : 'agent'
         }
       })
       if (result) {
@@ -85,8 +86,19 @@ export default {
         }
       }
     },
-    getAgentCode () {
-      this.getInviteCode('agent')
+    async joinOrgans (organ) {
+      let { result } = await this.$post({
+        url: '/v0/organs/join',
+        data: {
+          code: this.linkCode,
+          organType: organ,
+          moduleSN: ''
+        }
+      })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.linkCode = ''
+      }
     }
   }
 }

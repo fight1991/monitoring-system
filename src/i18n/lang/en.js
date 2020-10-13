@@ -58,6 +58,8 @@ export default {
     code: 'Installer/agent code'
   },
   common: {
+    signIn: 'Sign in',
+    signUp: 'Sign up',
     require: "it's required",
     valid: "it's invalid",
     keyword: 'Key words',

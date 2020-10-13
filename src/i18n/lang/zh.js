@@ -58,6 +58,8 @@ export default {
     code: '售后组织标识码'
   },
   common: {
+    signIn: '登录',
+    signUp: '注册',
     require: '必填',
     valid: '格式或类型错误',
     keyword: '请输入关键字',
