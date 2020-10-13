@@ -19,7 +19,6 @@ const state = {
   isFirst: true, // 是否第一次进入系统
   lang: language, // 语言
   collapse: false, // 是否折叠
-  loading: false,
   loadingNum: 0, // 全局loading数量计数, 防止一个请求没有回来被另一个请求关掉了
   tabView: true, // 是否开启页签模式
   isGlobalLoading: false, // 是否进入后台管理(business)页面, 是的话设置适当的loading范围
@@ -42,14 +41,16 @@ const state = {
     note: ''
   }
 }
+const getters = {
+  isLoading (state) {
+    return state.isGlobalLoading && state.loadingNum > 0
+  }
+}
 const mutations = {
   changeLoading (state, res) {
     res ? state.loadingNum++ : state.loadingNum--
-    if (state.loadingNum > 0) {
-      state.loading = true
-    } else {
+    if (state.loadingNum < 0) {
       state.loadingNum = 0
-      state.loading = false
     }
   },
   changeLoadingStatus (state, type) {
@@ -86,6 +87,7 @@ const actions = {}
 export default new Vuex.Store({
   state,
   mutations,
+  getters,
   actions,
   modules
 })

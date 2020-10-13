@@ -6,7 +6,7 @@
     @close="closeDialog"
     @open="getVersionInfo"
     :visible.sync="dialogVisible"
-    width="70%">
+    width="600px">
     <el-form size="mini" ref="dataForm" :model="dataForm" :rules="rules" label-width="130px">
       <el-row>
         <el-col :span="24">
@@ -23,7 +23,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$t('invupgrade.version')" prop="id">
-            <el-select v-model="dataForm.id" clearable style="width:100%">
+            <el-select v-model="dataForm.id" clearable style="width:100%" remote filterable>
               <el-option v-for="item in solfVersionList" :label="item.version" :value="item.id" :key="item.id"></el-option>
             </el-select>
           </el-form-item>

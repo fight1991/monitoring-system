@@ -6,7 +6,7 @@
     @close="closeDialog"
     @open="getProductList"
     :visible.sync="dialogVisible"
-    width="70%">
+    width="600px">
     <div class="content">
       <el-row class="select-file flex">
         <el-upload

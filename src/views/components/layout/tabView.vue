@@ -66,8 +66,7 @@ export default {
   computed: {
     ...mapState({
       tabList: state => state.tab.tabList,
-      currentTab: state => state.tab.currentTab,
-      loading: state => state.loading
+      currentTab: state => state.tab.currentTab
     })
   },
   created () {},

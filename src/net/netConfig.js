@@ -76,8 +76,7 @@ export class CommonFetch {
       }
       return { other: res }
     } catch (err) {
-      // console.log(err)
-      isLoad && isLoad && closeLoading(store, tabId)
+      isLoad && closeLoading(store, tabId, loadingStatus)
       return { error: err }
     }
   }
