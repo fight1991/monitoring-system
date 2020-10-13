@@ -200,7 +200,7 @@ export default {
     }
     &:hover {
       i {
-        transform: rotate(180deg);
+        transform: rotate(-180deg);
         background-color: #0097a7;
         border-radius: 50%;
         color: #fff;
