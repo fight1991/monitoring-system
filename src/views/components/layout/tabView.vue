@@ -10,17 +10,17 @@
 
           <!-- 页签区域开始 -->
           <span slot="label" v-show="index==0"><i class="iconfont icon-home"></i></span>
-          <!-- <span slot="label" v-show="index > 0">{{$t('navBar.'+item.title)}}</span> -->
-          <el-popover
+          <span slot="label" v-show="index > 0">{{$t('navBar.'+item.title)}}</span>
+          <!-- 页签切换太快出现popper位置错乱问题 -->
+          <!-- <el-popover
             popper-class="tab-popper"
             width="100%"
             slot="label"
-            :disabled="item.name!=currentTab"
             placement="bottom"
             trigger="hover">
             <span slot="reference" v-show="index > 0">{{$t('navBar.'+item.title)}}</span>
             <div class="tab-refresh" @click="reload(item)"><i class="el-icon-refresh"></i>{{$t('common.refresh')}}</div>
-          </el-popover>
+          </el-popover> -->
           <!-- 页签区域结束 -->
 
           <!-- 组件内容区域开始 -->
@@ -73,11 +73,11 @@ export default {
   created () {},
   methods: {
     reload (item) {
-      let currentTab = item || this.$store.getters.currentTabInfo
-      if (!currentTab.isShow || currentTab.loadingNum > 0) return // 节流
-      currentTab.isShow = false
+      let tabInfo = item || this.$store.getters.currentTabInfo
+      if (!tabInfo.isShow || tabInfo.loadingNum > 0) return // 节流
+      tabInfo.isShow = false
       this.$nextTick(() => {
-        currentTab.isShow = true
+        tabInfo.isShow = true
       })
     },
     tabClick (tabInfo) {
@@ -91,7 +91,7 @@ export default {
       })
     },
     removeTab (name) {
-      if (name === this.$store.state.tab.currentTab) {
+      if (name === this.currentTab) {
         this.$tab.closeActiveTab(name)
       } else {
         this.$tab.closeInactiveTab(name)
