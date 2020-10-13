@@ -1,5 +1,5 @@
 import Vue from 'vue'
-let Home = () => import(/* webpackChunkName: "home" */ '@/views/pages/home')
+const Home = () => import(/* webpackChunkName: "home" */ '@/views/pages/home/index.vue')
 const state = {
   currentTab: 'tab-index',
   isInitTab: true, // 刷新页面时正常添加页签
