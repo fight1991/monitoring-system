@@ -74,7 +74,7 @@ import incomeItem from './incomeItem'
 import gMap from '@/views/components/gMap'
 import aMap from '@/views/components/aMap'
 // import clock from './clock'
-import { formatDate } from '@/util'
+// import { formatDate } from '@/util'
 export default {
   name: 'show-item',
   components: {
@@ -166,13 +166,14 @@ export default {
       this.timer = setInterval(() => {
         // 时:分:秒
         let tempS = new Date()
-        let tempTime = formatDate(tempS, 'yyyy-MM-dd HH:mm:ss')
-        let tempArr = tempTime.split(' ')
-        this.timeInfo.date = tempArr[0]
-        this.timeInfo.time = tempArr[1]
-        this.timeInfo.hour = tempS.getHours()
+        // let tempTime = formatDate(tempS, 'yyyy-MM-dd HH:mm:ss')
+        // let tempArr = tempTime.split(' ')
+        // this.timeInfo.date = tempArr[0]
+        // this.timeInfo.time = tempArr[1]
+        let temphour = tempS.getHours()
         let tempminute = tempS.getMinutes()
         let tempsecond = tempS.getSeconds()
+        this.timeInfo.hour = temphour < 10 ? ('0' + temphour) : temphour
         this.timeInfo.minute = tempminute < 10 ? ('0' + tempminute) : tempminute
         this.timeInfo.second = tempsecond < 10 ? ('0' + tempsecond) : tempsecond
         let index = tempS.getDay() - 1
