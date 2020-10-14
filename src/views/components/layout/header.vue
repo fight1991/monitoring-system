@@ -4,7 +4,7 @@
       <div class="pull-icon" @click="toggleMenu"><i :class="{'el-icon-s-unfold':$store.state.collapse,'el-icon-s-fold':!$store.state.collapse}"></i></div>
       <div class="bread-navigator">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/bus/index' }">{{$t('navBar.home')}}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{$t('navBar.home')}}</el-breadcrumb-item>
           <el-breadcrumb-item v-for="item in routerArray" :key="item">{{$t('navBar.' + item)}}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
