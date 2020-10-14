@@ -375,6 +375,10 @@ export default {
     assoAg: '关联代理商',
     agCode: '代理商代码'
   },
+  alarm: {
+    alarmName: '告警名称',
+    alarmNum: '告警编号'
+  },
   errorCode: {
     41200: '查询数据异常',
     41201: '服务运行异常',
