@@ -205,6 +205,7 @@ export default {
         data: upfile
       })
       if (result) {
+        this.$message.success(this.$t('common.success'))
         this.search()
       }
     },

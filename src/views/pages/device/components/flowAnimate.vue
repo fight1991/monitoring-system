@@ -4,10 +4,10 @@
       <div class="flex" v-if="flowType==1">
         <div class="circle-line box-left">
           <div class="pv icon-pv">
-            <span class="data-text">PV&nbsp;:&nbsp;{{toFixed(wsData.pv) + ' kW'}}</span>
+            <span class="data-text">PV&nbsp;:&nbsp;{{toFixed(wsData.pv, true) + ' kW'}}</span>
           </div>
           <div class="inverter icon-inverter">
-            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter, true) + ' kW'}}</span>
           </div>
           <!-- pv -- invert -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
@@ -22,10 +22,10 @@
           <!-- node -- grid -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
           <div class="grid icon-grid">
-            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid) + ' kW'}}</span>
+            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid, true) + ' kW'}}</span>
           </div>
           <div class="load icon-load">
-            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load) + ' kW'}}</span>
+            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load, true) + ' kW'}}</span>
           </div>
         </div>
       </div>
@@ -33,10 +33,10 @@
       <div class="flex" v-if="flowType==3">
         <div class="circle-line box-left">
           <div class="pv icon-battery">
-            <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat) + ' kW'}}</span>
+            <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat, true) + ' kW'}}</span>
           </div>
           <div class="inverter icon-inverter">
-            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+            <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter, true) + ' kW'}}</span>
           </div>
           <!-- bat -- invert -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1, 'arrow-l': path.box_left_top==-1}"></div>
@@ -51,10 +51,10 @@
           <!-- node -- grid -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
           <div class="grid icon-grid">
-            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid) + ' kW'}}</span>
+            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid, true) + ' kW'}}</span>
           </div>
           <div class="load icon-load">
-            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load) + ' kW'}}</span>
+            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load, true) + ' kW'}}</span>
           </div>
         </div>
       </div>
@@ -62,13 +62,13 @@
       <div class="flex hybrid" v-if="flowType==2">
         <div class="circle-line box-left">
           <div class="pv icon-pv">
-            <span class="data-text">PV&nbsp;:&nbsp;{{toFixed(wsData.pv) + ' kW'}}</span>
+            <span class="data-text">PV&nbsp;:&nbsp;{{toFixed(wsData.pv, true) + ' kW'}}</span>
           </div>
           <div class="inverter icon-inverter">
-            <span class="data-text inverter-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter) + ' kW'}}</span>
+            <span class="data-text inverter-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter, true) + ' kW'}}</span>
           </div>
           <div class="battery icon-battery">
-            <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat) + ' kW'}}</span>
+            <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat, true) + ' kW'}}</span>
           </div>
           <!-- pv -- inverter -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
@@ -86,10 +86,10 @@
           <!-- grid -- node -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
           <div class="grid icon-grid">
-            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid) + ' kW'}}</span>
+            <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid, true) + ' kW'}}</span>
           </div>
           <div class="load icon-load">
-            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load) + ' kW'}}</span>
+            <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load, true) + ' kW'}}</span>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@ export default {
     white-space:nowrap;
     text-align: center;
     transform: translate3d(-50%, 0, 0);
-    animation: jump 2s linear infinite;
+    animation: jump 5s linear infinite;
   }
   .inverter-text {
     bottom: 86px;

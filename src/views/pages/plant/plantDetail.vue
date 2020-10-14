@@ -344,7 +344,7 @@ export default {
   padding: 2px 5px;
 }
 .plant-name span {
-  margin-right: 20px;
+  margin-right: 30px;
 }
 .weather {
   margin-right: 30px;
