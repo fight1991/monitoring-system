@@ -56,8 +56,12 @@ const mutations = {
   changeLoadingStatus (state, type) {
     state.isGlobalLoading = type
   },
-  changeCollapse (state) {
-    state.collapse = !state.collapse
+  changeCollapse (state, status) {
+    if (status) {
+      state.collapse = (status === 1)
+    } else {
+      state.collapse = !state.collapse
+    }
   },
   toggleLang (state, payLoad) {
     state.lang = payLoad

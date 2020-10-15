@@ -13,7 +13,7 @@
       <!-- <div class="system-set" @click="setDrawerShow=true">
         <i class="el-icon-setting"></i>
       </div> -->
-      <div class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')"><i class="el-icon-refresh"></i></div>
+      <div v-show="$route.name!='tab-index'" class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')"><i class="el-icon-refresh"></i></div>
       <el-dropdown
         @command="userOption"
         trigger="click"
