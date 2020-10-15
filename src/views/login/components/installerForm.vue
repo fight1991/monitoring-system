@@ -13,7 +13,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="$t('join.phone')">
+          <el-form-item :label="$t('join.phone')" prop="phone">
             <el-input v-model="baseForm.phone"></el-input>
           </el-form-item>
         </el-col>
@@ -33,7 +33,8 @@ export default {
         phone: ''
       },
       formRule: {
-        name: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
+        name: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        phone: [{ pattern: /^$|^\d+$/, message: this.messageValid('valid'), trigger: 'blur' }]
       }
     }
   },

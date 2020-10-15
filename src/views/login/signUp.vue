@@ -72,6 +72,7 @@ import userForm from './components/userForm'
 import agentForm from './components/agentForm'
 import installerForm from './components/installerForm'
 export default {
+  name: 'sign-up',
   components: { baseForm, userForm, agentForm, installerForm },
   data () {
     return {

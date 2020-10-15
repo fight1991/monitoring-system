@@ -1,6 +1,6 @@
 <template>
   <div id="app" v-loading="$store.getters.isLoading">
-    <keep-alive :exclude="['router-login']">
+    <keep-alive :exclude="['sign-in', 'sign-up']">
       <router-view/>
     </keep-alive>
   </div>

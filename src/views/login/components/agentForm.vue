@@ -33,18 +33,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="$t('common.postcode')">
+          <el-form-item :label="$t('common.postcode')" prop="detail.postcode">
             <el-input v-model="baseForm.detail.postcode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="$t('join.phone')">
+          <el-form-item :label="$t('join.phone')" prop="detail.phone">
             <el-input v-model="baseForm.detail.phone"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$t('join.remark')">
-            <el-input type="textarea" :rows="3" v-model="baseForm.detail.phone"></el-input>
+            <el-input type="textarea" :rows="3" v-model="baseForm.detail.note"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,7 +74,10 @@ export default {
         code: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
         'detail.name': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
         'detail.country': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'detail.address': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
+        'detail.address': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        'detail.phone': [{ pattern: /^$|^\d+$/, message: this.messageValid('valid'), trigger: 'blur' }],
+        'detail.postcode': [{ pattern: /^$|^\d+$/, message: this.messageValid('valid'), trigger: 'blur' }],
+        'detail.note': [{ message: this.messageValid('require'), trigger: 'blur' }]
       }
     }
   },

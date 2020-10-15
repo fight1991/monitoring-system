@@ -32,7 +32,7 @@
         </div>
       </el-row>
       <el-row type="flex" align="middle">
-        <div class="nap get-code" @click="getInviteCode('agent')">{{$t('user.code')}}</div>
+        <div class="nap get-code" @click="getOrganCode('agent')">{{$t('user.code')}}</div>
         <div class="nap"><el-input v-model="agentCode" readonly :placeholder="$t('user.invCode')" size="mini"></el-input></div>
       </el-row>
     </div>
@@ -45,15 +45,15 @@ export default {
   // components: { joinDialog },
   data () {
     return {
-      invitCode: '',
       initCode: '',
       agentCode: '',
       linkCode: '' // 安装商关联代理商的代码
     }
   },
   created () {
+    // 获取代理商和安装商的组织代码
     if (this.access > 1) {
-      this.getInviteCode()
+      this.getOrganCode('installer')
     }
   },
   methods: {
@@ -69,18 +69,19 @@ export default {
           return 'admin'
       }
     },
-    async getInviteCode (flag) {
+    // 获取代理商/安装商的组织代码 和代理商邀请码
+    async getOrganCode (flag) {
       let { result } = await this.$get({
         url: '/v0/organs/invitation',
         data: {
-          organType: this.access === 2 ? 'installer' : 'agent'
+          organType: flag
         }
       })
       if (result) {
-        if (flag) {
-          this.agentCode = result.code || ''
-        } else {
+        if (flag === 'installer') {
           this.initCode = result.code || ''
+        } else {
+          this.agentCode = result.code || ''
         }
       }
     },

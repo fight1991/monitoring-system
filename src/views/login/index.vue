@@ -58,7 +58,7 @@ import { judgeClient } from '@/util'
 import erweima from './components/erweima'
 import storage from '@/util/storage'
 export default {
-  name: 'router-login',
+  name: 'sign-in',
   components: {
     login,
     resetPw,

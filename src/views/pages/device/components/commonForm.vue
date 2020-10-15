@@ -4,23 +4,24 @@
       <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
         <div class="col-left">
           <!-- input组件 -->
-          <template v-if="ele.elemType.uiType === 'input'">
+          <template v-show="ele.elemType.uiType === 'input' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key"
               :rules="rangeValidInput(ele)">
               <el-popover
                 popper-class="remote-popper"
                 placement="right"
-                :disabled="!placeholderText(ele)"
+                :disabled="!placeholderText(ele) || ele.level==1"
                 trigger="click">
                 <span>{{placeholderText(ele)}}</span>
-                <el-input slot="reference" v-model="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
+                <el-input slot="reference" v-model="dataForm[ele.key]" :disabled="ele.level==1" :placeholder="placeholderText(ele)"></el-input>
               </el-popover>
             </el-form-item>
           </template>
           <!-- switch组件 -->
-          <template v-else-if="ele.elemType.uiType === 'switch'">
+          <template v-show="ele.elemType.uiType === 'switch' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
               <el-switch
+                :disabled="ele.level==1"
                 @change="singleBtn(ele.key, 'switch')"
                 v-model="dataForm[ele.key]"
                 active-color="#13ce66"
@@ -31,9 +32,9 @@
             </el-form-item>
           </template>
           <!-- select组件 -->
-          <template v-else>
+          <template v-show="ele.elemType.uiType === 'select' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
-              <el-select v-model="dataForm[ele.key]" style="width: 100%">
+              <el-select v-model="dataForm[ele.key]" style="width: 100%" :disabled="ele.level==1">
                 <el-option v-for="op in ele.elemType.uiItems" :label="op" :key="op" :value="op"></el-option>
               </el-select>
             </el-form-item>
