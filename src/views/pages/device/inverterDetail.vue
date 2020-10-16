@@ -41,7 +41,7 @@
           :title="$t('plant.equipSta')">
         </device-status>
       </div>
-      <div class="right">
+      <div class="right" v-if="flowType>1">
         <battery-status :batteryInfo="batteryInfo"></battery-status>
       </div>
     </div>
@@ -55,7 +55,7 @@
               {{$t('inverter.powerFD')}}
               <i class="fr el-icon-more flow-icon-more" @click="flowDialog=true"></i>
             </div>
-            <div class="flow-map flex-center" style="height:250px">
+            <div class="flow-map flex-center" style="height:350px">
               <flow-animate :flowType="flowType" :path="flowPath" :wsData="wsData"></flow-animate>
             </div>
           </el-card>
@@ -398,7 +398,7 @@ export default {
         let data = res.data
         let pvValue = 0
         let pvTotal = 0
-        let { pvPower, generationPower, loadsPower, feedinPower, meterPower, invBatPower, gridConsumptionPower } = data
+        let { pvPower, generationPower, loadsPower, feedinPower, meterPower, invBatPower, gridConsumptionPower, meterPower2 } = data
         if (pvPower && pvPower.length > 0) {
           // pvPower不可能为负值, 只需判断是否有>0的即可
           let flag = pvPower.some(v => v.value > 0)
@@ -412,14 +412,15 @@ export default {
           load: loadsPower.value || 0,
           bat: invBatPower.value || 0,
           inverter: generationPower.value || 0,
-          grid: meterPower.value || 0
+          grid: meterPower.value || 0,
+          elec: meterPower2.value || 0
         }
         if (this.flowType === 1) {
           let tempPower = gridConsumptionPower.value - feedinPower.value
           tempObj.grid = tempPower
           this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, tempPower)
         } else if (this.flowType === 2) {
-          this.getFlowPathFor2(pvValue, generationPower.value, invBatPower.value, meterPower.value, loadsPower.value)
+          this.getFlowPathFor2(pvValue, generationPower.value, invBatPower.value, meterPower.value, loadsPower.value, meterPower2.value)
         } else {
           this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value, loadsPower.value)
         }
@@ -453,13 +454,14 @@ export default {
       this.flowPath = tempObj
     },
     // 计算得出hybrid储能机流向图
-    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower) {
+    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower, meterPower2) {
       let tempObj = {
         box_left_top: 0,
         box_left_right: 0,
         box_center_top: 0,
         box_center_right: 0,
-        box_right_top: 0
+        box_right_top: 0,
+        box_top_top: 0
       }
       if (pvPower > 0) {
         tempObj.box_left_top = 1
@@ -484,6 +486,12 @@ export default {
       }
       if (loadsPower) {
         tempObj.box_center_right = -2
+      }
+      if (meterPower2 > 0) {
+        tempObj.box_top_top = 2
+      }
+      if (meterPower2 < 0) {
+        tempObj.box_top_top = -2
       }
       this.flowPath = tempObj
     },
