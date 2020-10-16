@@ -28,15 +28,27 @@
         </div>
       </div>
     </div>
-    <!-- 设备状态 -->
-    <device-status :incomeDetail="incomeDetail" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.equipSta')"></device-status>
+    <!-- 设备状态 电池状态 -->
+    <div class="block status-box">
+      <div class="left">
+        <device-status
+          :incomeDetail="incomeDetail"
+          :power="incomeDetail.power"
+          type="device"
+          :capacity="incomeDetail.systemCapacity"
+          :todayFault="todayFault"
+          :id="deviceId"
+          :title="$t('plant.equipSta')">
+        </device-status>
+      </div>
+      <div class="right">
+        <battery-status :batteryInfo="batteryInfo"></battery-status>
+      </div>
+    </div>
     <!-- 今日异常 流向图 -->
     <div class="block">
       <el-row :gutter="12">
-        <el-col :span="8">
-          <today-abnormal :todayFault="todayFault" :type="'device'" :id="deviceId" :contentH="250"></today-abnormal>
-        </el-col>
-        <el-col :span="16">
+        <el-col :span="24">
           <el-card >
             <div class="title border-line" slot="header">
               <!-- Flow graph -->
@@ -90,8 +102,8 @@
   </section>
 </template>
 <script>
-import todayAbnormal from '@/views/pages/components/todayAbnormal'
 import deviceStatus from '@/views/pages/components/powerStatus'
+import batteryStatus from './components/batteryStatus'
 import lineBar from '@/views/pages/components/lineBar'
 import flowDialog from './components/flowDialog'
 import flowAnimate from './components/flowAnimate'
@@ -102,7 +114,7 @@ export default {
   components: {
     deviceStatus,
     lineBar,
-    todayAbnormal,
+    batteryStatus,
     flowDialog,
     flowAnimate
   },
@@ -110,6 +122,7 @@ export default {
   data () {
     return {
       chartLoading: false,
+      batteryInfo: {},
       flowPath: {},
       flowType: 1,
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
@@ -166,6 +179,9 @@ export default {
     let { id, flowType, status } = this.$route.query
     this.deviceId = id
     this.flowType = Number(flowType)
+    if (flowType > 1) { // 包含电池业务
+      this.getBaterryInfo(id)
+    }
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
@@ -322,6 +338,16 @@ export default {
         this.todayFault = result.total || 0
       }
       return true
+    },
+    // 获取电池设备信息
+    async getBaterryInfo (id) {
+      let { result } = await this.$get({
+        url: '/v0/device/battery/info',
+        data: {
+          id
+        }
+      })
+      this.batteryInfo = result || {}
     },
     selectChange () {
       if (!this.hasVarible) return

@@ -54,12 +54,45 @@
         </div>
       </div>
     </div>
-    <!-- 电站状态 -->
-    <div class="block">
-      <plant-status :incomeDetail="incomeDetail" :batShow="false" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
+    <!-- 电站状态 设备状态-->
+    <div class="block status-box">
+      <div class="left">
+        <plant-status
+          :incomeDetail="incomeDetail"
+          :power="incomeDetail.power"
+          type="plant"
+          :capacity="incomeDetail.systemCapacity"
+          :todayFault="todayFault"
+          :id="plantId"
+          :title="$t('plant.plantS')">
+        </plant-status>
+      </div>
+      <div class="right" v-if="access!=1">
+        <el-card>
+          <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
+          <div class="progress-container">
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.total')}}</span><span style="color:#00BFFF">{{device.total}}</span></div>
+              <el-progress class="progress" :show-text="false" :stroke-width="10" :percentage="percentMethod(device.total)" color="#00BFFF"></el-progress>
+            </div>
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.normal')}}</span><span style="color:#67c23a">{{device.normal}}</span></div>
+              <el-progress class="progress" :show-text="false" :stroke-width="10" :percentage="percentMethod(device.normal)" color="#67c23a"></el-progress>
+            </div>
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.glitch')}}</span><span style="color:#f56c6c">{{device.fault}}</span></div>
+              <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="10" :percentage="percentMethod(device.fault)" color="#f56c6c"></el-progress>
+            </div>
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.offline')}}</span><span style="color:#909399">{{device.offline}}</span></div>
+              <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="10" :percentage="percentMethod(device.offline)" color="#909399"></el-progress>
+            </div>
+          </div>
+        </el-card>
+      </div>
     </div>
     <!-- 功率 统计 设备列表 -->
-    <div class="block show-shadow mg-b12">
+    <div class="block show-shadow">
       <line-bar :id="plantId" :type="'plant'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
@@ -71,48 +104,15 @@
         </template>
       </line-bar>
     </div>
-    <!-- 今日异常 设备状态区域 -->
-    <div class="block" v-if="access!=1">
-      <el-row :gutter="12">
-        <el-col :span="12">
-          <today-abnormal :todayFault="todayFault" :id="plantId" :type="'plant'"></today-abnormal>
-        </el-col>
-        <el-col :span="12">
-          <el-card  class="no-bottom">
-            <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
-            <div class="progress-container">
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.total')}}</span><span style="color:#00BFFF">{{device.total}}</span></div>
-                <el-progress class="progress" :show-text="false" :stroke-width="12" :percentage="percentMethod(device.total)" color="#00BFFF"></el-progress>
-              </div>
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.normal')}}</span><span style="color:#67c23a">{{device.normal}}</span></div>
-                <el-progress class="progress" :show-text="false" :stroke-width="12" :percentage="percentMethod(device.normal)" color="#67c23a"></el-progress>
-              </div>
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.glitch')}}</span><span style="color:#f56c6c">{{device.fault}}</span></div>
-                <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="12" :percentage="percentMethod(device.fault)" color="#f56c6c"></el-progress>
-              </div>
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.offline')}}</span><span style="color:#909399">{{device.offline}}</span></div>
-                <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="12" :percentage="percentMethod(device.offline)" color="#909399"></el-progress>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
   </section>
 </template>
 <script>
 import plantStatus from '@/views/pages/components/powerStatus'
 import lineBar from '@/views/pages/components/lineBar'
-import todayAbnormal from '@/views/pages/components/todayAbnormal'
 import deviceList from './deviceList'
 import { decodeData } from '@/util'
 export default {
   components: {
-    todayAbnormal,
     deviceList,
     plantStatus,
     lineBar
@@ -335,8 +335,9 @@ export default {
 <style lang="less" scoped>
 @import '../components/common/plantInvert';
 .progress-container {
-  height: 200px;
   display: flex;
+  width: 210px;
+  height: 240px;
   flex-direction: column;
   justify-content: space-around;
 }

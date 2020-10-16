@@ -23,7 +23,7 @@ export default {
       name: 'bus-plant-edit',
       hidden: true,
       meta: {
-        permission: [2, 3, 255],
+        permission: [1, 2, 3, 255],
         title: 'plantE',
         opType: 'edit',
         component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/createPlant')
