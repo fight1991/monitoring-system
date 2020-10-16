@@ -1,7 +1,7 @@
 import router from '@/router'
 import store from '@/store'
 import storage from '@/util/storage'
-import i18n from '@/i18n'
+// import i18n from '@/i18n'
 import { Message } from 'element-ui'
 
 /**
@@ -26,7 +26,11 @@ export default {
   onResponseResolve: function (response) {
     // 业务报错
     if (response.data.errno !== store.state.successCode) {
-      let errTxt = i18n.t('errorCode.' + response.data.errno)
+      let langKey = store.state.lang === 'zh' ? 'zh_CN' : 'en'
+      let errTxt = 'Unknow error'
+      if (store.state.errorInfo[langKey]) {
+        errTxt = store.state.errorInfo[langKey][response.data.errno] || ''
+      }
       // token不合法的报错
       if ([41808, 41809, 41810].includes(response.data.errno)) {
         // message只提示一次

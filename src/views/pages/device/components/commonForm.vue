@@ -1,6 +1,10 @@
 <template>
   <div class="remote-set">
-    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="200px">
+    <div v-show="tips" class="tips flex-vertical-center">
+      <i class="el-icon-warning-outline"></i>
+      {{tips}}
+    </div>
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="220px">
       <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
         <div class="col-left">
           <!-- input组件 -->
@@ -67,6 +71,9 @@ export default {
       default () {
         return []
       }
+    },
+    tips: {
+      default: ''
     },
     isBlock: { // 整体提交或单条提交
       type: Boolean,
@@ -186,5 +193,15 @@ export default {
 //@import url(); 引入公共css类
 .col-right {
   margin-left: 10px;
+}
+.tips {
+  border-radius: 4px 0 0 4px;
+  background-color: pink;
+  background: repeating-linear-gradient(90deg, #e9ba73, #fff);
+  i {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 16px;
+  }
 }
 </style>

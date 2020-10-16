@@ -34,8 +34,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="$t('common.timeout')" prop="timeout">
-            <el-input v-model.number="dataForm.timeout" placeholder="3 ~ 40min">
+          <el-form-item :label="$t('common.timeout')">
+            <el-input v-model.number="dataForm.timeout">
               <span slot="suffix">min</span>
             </el-input>
           </el-form-item>
@@ -65,7 +65,7 @@ export default {
         taskName: '',
         softType: '',
         id: '',
-        timeout: 3
+        timeout: 15
       },
       versionInfo: {},
       rules: {
@@ -73,8 +73,7 @@ export default {
         softType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
         id: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
         timeout: [
-          { required: true, message: this.messageValid('require'), trigger: 'blur' },
-          { type: 'number', min: 3, max: 40, message: this.messageValid('valid') + ' 3 ~ 40min', trigger: 'blur' }
+          { type: 'number', min: 3, max: 40, message: this.messageValid('valid') + ' 5 ~ 40min', trigger: 'blur' }
         ]
       }
     }
@@ -116,7 +115,7 @@ export default {
         taskName: '',
         softType: '',
         id: '',
-        timeout: 3
+        timeout: 15
       }
       this.$nextTick(() => {
         this.$refs.dataForm.clearValidate()

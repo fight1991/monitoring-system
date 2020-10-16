@@ -61,6 +61,17 @@ const beforeEach = async (to, from, next) => {
     }
     return
   }
+  // 存储messageError列表
+  let errorInfo = localStorage.getItem('errorInfo')
+  if (!errorInfo) {
+    let { result } = await _this.$get({
+      url: '/v0/errors/message'
+    })
+    if (result && result.messages) {
+      localStorage.setItem('errorInfo', 'v1.0.0')
+      store.commit('getErrorInfo', result.messages)
+    }
+  }
   next()
 }
 

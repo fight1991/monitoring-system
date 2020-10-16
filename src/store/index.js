@@ -39,7 +39,8 @@ const state = {
     postcode: '',
     introduction: '',
     note: ''
-  }
+  },
+  errorInfo: {}
 }
 const getters = {
   isLoading (state) {
@@ -85,6 +86,9 @@ const mutations = {
   },
   changeFirst (state, payLoad) {
     state.isFirst = payLoad
+  },
+  getErrorInfo (state, errorInfo) {
+    state.errorInfo = errorInfo
   }
 }
 const actions = {}

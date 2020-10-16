@@ -3,7 +3,7 @@
     <div class="remote-set-tab">
       <el-tabs type="card" tab-position="left" v-model="tabName" @tab-click="tabClickBtn">
         <el-tab-pane v-for="item in tabList" :key="item.key" :label="item.name" :name="item.key">
-          <common-form :ref="'form'+item.key" :isBlock="item.block" :formItems="item.properties" :keyWord="item.key" :id="id"></common-form>
+          <common-form :ref="'form'+item.key" :tips="item.tips" :isBlock="item.block" :formItems="item.properties" :keyWord="item.key" :id="id"></common-form>
         </el-tab-pane>
       </el-tabs>
     </div>
