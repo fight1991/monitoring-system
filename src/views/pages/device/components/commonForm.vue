@@ -4,11 +4,11 @@
       <i class="el-icon-warning-outline"></i>
       {{tips}}
     </div>
-    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="220px">
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="right" label-width="260px">
       <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
         <div class="col-left">
           <!-- input组件 -->
-          <template v-show="ele.elemType.uiType === 'input' && ele.level!=2">
+          <template v-if="ele.elemType.uiType === 'input' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key"
               :rules="rangeValidInput(ele)">
               <el-popover
@@ -22,7 +22,7 @@
             </el-form-item>
           </template>
           <!-- switch组件 -->
-          <template v-show="ele.elemType.uiType === 'switch' && ele.level!=2">
+          <template v-if="ele.elemType.uiType === 'switch' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
               <el-switch
                 :disabled="ele.level==1"
@@ -36,9 +36,9 @@
             </el-form-item>
           </template>
           <!-- select组件 -->
-          <template v-show="ele.elemType.uiType === 'select' && ele.level!=2">
+          <template v-if="ele.elemType.uiType === 'select' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
-              <el-select v-model="dataForm[ele.key]" style="width: 100%" :disabled="ele.level==1">
+              <el-select v-model="dataForm[ele.key]" remote filterable :disabled="ele.level==1">
                 <el-option v-for="op in ele.elemType.uiItems" :label="op" :key="op" :value="op"></el-option>
               </el-select>
             </el-form-item>
@@ -49,7 +49,7 @@
         </div>
       </el-row>
     </el-form>
-    <el-row style="width:350px">
+    <el-row>
       <el-col align="center">
         <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
       </el-col>

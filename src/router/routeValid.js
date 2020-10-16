@@ -10,6 +10,16 @@ const _this = Vue.prototype
 // 登录校验、放行 注意: 有些cdn路由版本 地址栏输入路由地址时会加载2次
 const beforeEach = async (to, from, next) => {
   NProgress.start()
+  // 第一次进入系统存储messageError列表
+  if (!store.state.hasErrorInfo) {
+    let { result } = await _this.$get({
+      url: '/v0/errors/message'
+    })
+    if (result && result.messages) {
+      store.commit('getErrorInfo', result.messages)
+      store.commit('changeErrorStatus', true)
+    }
+  }
   // 访问store router.app.$options.store
   // 是否是开启全局loading
   store.commit('changeLoadingStatus', !to.path.includes('bus'))
@@ -60,17 +70,6 @@ const beforeEach = async (to, from, next) => {
       _this.$message.error('No permissions!')
     }
     return
-  }
-  // 存储messageError列表
-  let errorInfo = localStorage.getItem('errorInfo')
-  if (!errorInfo) {
-    let { result } = await _this.$get({
-      url: '/v0/errors/message'
-    })
-    if (result && result.messages) {
-      localStorage.setItem('errorInfo', 'v1.0.0')
-      store.commit('getErrorInfo', result.messages)
-    }
   }
   next()
 }

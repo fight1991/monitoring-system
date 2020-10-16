@@ -1,6 +1,6 @@
 <template>
-<div style="height:100%" :class="{'fullScreen':isFullScreen}" ref="fullScreen">
-  <div class="tab-container">
+<div style="height:100%" :class="{'fullScreen':isFullScreen}" ref="fullScreen" >
+  <div class="tab-container" v-loading="currentTabInfo.loadingNum > 0">
     <el-tabs v-model="$store.state.tab.currentTab" type="card" @tab-remove="removeTab" @tab-click="tabClick">
       <template v-for="(item, index) in tabList">
         <el-tab-pane
@@ -24,7 +24,7 @@
           <!-- 页签区域结束 -->
 
           <!-- 组件内容区域开始 -->
-          <el-scrollbar wrap-class="tab-scrollbar-wrapper" v-loading="item.loadingNum > 0">
+          <el-scrollbar wrap-class="tab-scrollbar-wrapper">
             <div class="tab-content" v-if="item.isShow">
               <component :is="item.components[item.components.length-1]"></component>
               <div v-show="index>0" class="copy-right" v-text="$store.state.rightsTxt + $t('login.allRight')"></div>
@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'tab-view',
   data () {
@@ -67,12 +67,15 @@ export default {
     ...mapState({
       tabList: state => state.tab.tabList,
       currentTab: state => state.tab.currentTab
-    })
+    }),
+    ...mapGetters([
+      'currentTabInfo'
+    ])
   },
   created () {},
   methods: {
     reload (item) {
-      let tabInfo = item || this.$store.getters.currentTabInfo
+      let tabInfo = item || this.currentTabInfo
       if (!tabInfo.isShow || tabInfo.loadingNum > 0) return // 节流
       tabInfo.isShow = false
       this.$nextTick(() => {

@@ -17,6 +17,7 @@ const state = {
   tableH: 330, // 表格高度
   successCode: 0, // 业务成功状态码
   isFirst: true, // 是否第一次进入系统
+  hasErrorInfo: false, // 是否已存储错误列表
   lang: language, // 语言
   collapse: false, // 是否折叠
   loadingNum: 0, // 全局loading数量计数, 防止一个请求没有回来被另一个请求关掉了
@@ -89,6 +90,9 @@ const mutations = {
   },
   getErrorInfo (state, errorInfo) {
     state.errorInfo = errorInfo
+  },
+  changeErrorStatus (state, status) {
+    state.hasErrorInfo = status
   }
 }
 const actions = {}
