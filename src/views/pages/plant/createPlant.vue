@@ -263,7 +263,7 @@ export default {
       return this.zoneInfo.useDaylight
     },
     endUserNoUse () {
-      return this.access === 1
+      return this.access === 1 && this.opType === 'add'
     }
   },
   methods: {
