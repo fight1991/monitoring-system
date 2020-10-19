@@ -342,11 +342,7 @@ export default {
     },
     // 设备删除
     async deviceDelete (index, sn) {
-      let res = await this.$confirm(this.$t('common.tips2') + ' ' + sn, this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('common.tips2', ' ' + sn)
       if (!res) return
       if (index === 0 && this.dataForm.devices.length === 1) {
         if (this.dataForm.devices[0].sn) {
@@ -375,11 +371,7 @@ export default {
     },
     // 取消按钮
     async cancel () {
-      let res = await this.$confirm(this.$t('common.tips1'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('common.tips1')
       if (!res) return
       this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
       this.$refs.dataForm.clearValidate()
@@ -450,11 +442,7 @@ export default {
       }
       // 处理终端用户没有关联上电站的逻辑
       if (other && other.errno === 41934 && this.access === 1) {
-        let res = await this.$confirm('SN未关联电站, 是否需要创建电站?', this.$t('common.tip'), {
-          confirmButtonText: this.$t('common.confirm'),
-          cancelButtonText: this.$t('common.cancel'),
-          type: 'warning'
-        }).then(() => true).catch(() => false)
+        let res = await this.$openConfirm('plant.snIsLink')
         if (res) {
           this.errno = other.errno
           this.$tab.setTitle('plantN')

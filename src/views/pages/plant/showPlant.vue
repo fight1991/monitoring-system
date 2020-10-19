@@ -161,11 +161,7 @@ export default {
     },
     // 电站删除
     async deletePlant (id) {
-      let res = await this.$confirm(this.$t('common.tips2'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('common.tips2')
       if (!res) return
       let { result } = await this.$post({
         url: '/v0/plant/delete',

@@ -265,7 +265,8 @@ export default {
     websiteTime: 'Establish time',
     showMoreUser: 'Show more users',
     gridtime: 'Grid-connected time',
-    equipqut: 'Number of device'
+    equipqut: 'Number of device',
+    snIsLink: 'SN is not associated with power station, do you need to create it?'
   },
   inverter: {
     InsTime: 'Grid-connection time',

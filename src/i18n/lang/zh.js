@@ -265,7 +265,8 @@ export default {
     websiteTime: '建站时间',
     showMoreUser: '查看更多用户',
     gridtime: '并网时间',
-    equipqut: '设备数量'
+    equipqut: '设备数量',
+    snIsLink: 'SN未关联电站, 是否要创建电站?'
   },
   inverter: {
     InsTime: '安装时间',
