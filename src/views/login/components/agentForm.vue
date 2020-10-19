@@ -65,7 +65,6 @@ export default {
           country: '',
           address: '',
           phone: '',
-          email: '',
           postcode: '',
           note: ''
         }
