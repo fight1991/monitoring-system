@@ -2,7 +2,7 @@
   <section class="sys-main bg-c" v-setH:min="setDivH">
     <div class="remote-set-tab">
       <el-tabs type="card" tab-position="left" v-model="tabName" @tab-click="tabClickBtn">
-        <el-tab-pane v-for="item in tabList" :key="item.key" :label="item.name" :name="item.key">
+        <el-tab-pane lazy v-for="item in tabList" :key="item.key" :label="item.name" :name="item.key">
           <common-form :ref="'form'+item.key" :tips="item.tips" :isBlock="item.block" :formItems="item.properties" :keyWord="item.key" :id="id"></common-form>
         </el-tab-pane>
       </el-tabs>
