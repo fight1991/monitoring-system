@@ -50,9 +50,9 @@
       </el-row>
     </el-form>
     <el-row>
-      <el-col align="center">
+      <div style="margin-left: 340px">
         <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
-      </el-col>
+      </div>
     </el-row>
   </div>
 </template>
