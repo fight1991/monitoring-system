@@ -3,6 +3,7 @@
     class="sys-dialog"
     :title="$t('invupgrade.status')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @open="search"
     @close="$emit('update:visible', false)"
     :visible.sync="dialogVisible"

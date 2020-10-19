@@ -16,6 +16,7 @@
     <el-dialog
       :title="$t('user.edit')+$t('login.pw')"
       :modal-append-to-body="false"
+      :close-on-click-modal="false"
       :visible.sync="pwVisible">
       <div class="flex-center">
         <reset-pw :btnShow="1" @close:visible="pwVisible=false"></reset-pw>

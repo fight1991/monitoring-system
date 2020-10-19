@@ -59,6 +59,7 @@
       :title="''"
       width="70%"
       :modal-append-to-body="false"
+      :close-on-click-modal="false"
       :visible.sync="agreeVisible">
       <div class="iframe-view" v-loading="loading" :style="{'height': dialogH + 'px' }">
         <iframe  @load="load" :src="agreeSrc" frameborder="0" height="100%" width="100%"></iframe>

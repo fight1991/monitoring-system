@@ -3,6 +3,7 @@
     class="sys-dialog"
     :title="$t('common.import')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @close="closeDialog"
     @open="getProductList"
     :visible.sync="dialogVisible"

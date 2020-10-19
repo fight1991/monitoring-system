@@ -3,6 +3,7 @@
     class="sys-dialog"
     :title="$t('invupgrade.upgrade')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @close="closeDialog"
     @open="getVersionInfo"
     :visible.sync="dialogVisible"
