@@ -64,7 +64,12 @@
     </div>
     <!-- 功率折线图和电量统计柱状图 -->
     <div class="mg-b12 show-shadow bg-c">
-      <line-bar :id="deviceId" :type="'device'" ref="lineBar">
+      <line-bar
+        :id="deviceId"
+        :type="'device'"
+        :lineParams="lineParams"
+        :barParams="barParams"
+        ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
           <el-radio-button label="elec">{{$t('common.gene')}}</el-radio-button>
@@ -127,6 +132,8 @@ export default {
       flowType: 1,
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       flowDetail: [],
+      lineParams: null,
+      barParams: null,
       pvTotal: 0,
       wsData: {},
       ws: null,
@@ -196,14 +203,12 @@ export default {
     }
   },
   mounted () {
-    let lineParams = null
-    let barParams = null
     if (this.flowType > 1) { // 电池业务
-      lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
-      barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
+      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
+      this.barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
-    this.$refs.lineBar.getLineData('', lineParams)
-    this.$refs.lineBar.getBarData('', barParams)
+    this.$refs.lineBar.getLineData('', this.lineParams)
+    this.$refs.lineBar.getBarData('', this.barParams)
   },
   watch: {
     wsIsOpen (newData) {

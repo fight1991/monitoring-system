@@ -241,7 +241,7 @@ export default {
       if (result) {
         this.plants = result.plant || {}
         this.installer = result.installer || {}
-        this.users = result.users || {}
+        this.users = result.user || {}
       }
     },
     // 电站列表

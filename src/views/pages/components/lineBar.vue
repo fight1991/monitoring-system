@@ -18,7 +18,7 @@
         <span class="date-area">
           <i class="arrow el-icon-arrow-left" @click="computeDate('reduce')"></i>
           <el-date-picker
-            @change="getBarData()"
+            @change="getBarData('', barParams)"
             :clearable="false"
             size="mini"
             style="width:125px"
@@ -31,7 +31,7 @@
       </div>
       <div class="date" v-show="echartType=='power'">
         <el-date-picker
-          @change="getLineData()"
+          @change="getLineData('', lineParams)"
           :clearable="false"
           size="mini"
           style="width:125px"
@@ -88,6 +88,12 @@ export default {
     },
     type: {
       default: 'plant'
+    },
+    lineParams: {
+      default: null
+    },
+    barParams: {
+      default: null
     }
   },
   created () {
