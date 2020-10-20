@@ -93,7 +93,7 @@
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.price')" prop="details.price">
                 <el-input v-model="dataForm.details.price" :disabled="endUserNoUse && inputController" clearable>
-                  <span slot="suffix">/kWh</span>
+                  <span slot="suffix">/kW·h</span>
                 </el-input>
               </el-form-item>
             </el-col>

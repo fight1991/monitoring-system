@@ -9,7 +9,7 @@
           {{toFixed(incomeDetail.generation.today)}}
         </div>
         <div class="plant-text text-cut">
-          {{$t('plant.genTod')}} (kW·h)
+          {{$t('plant.genTod')}}
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
           {{toFixed(incomeDetail.generation.month)}}
         </div>
         <div class="plant-text text-cut">
-          {{$t('plant.genMon')}} (kW·h)
+          {{$t('plant.genMon')}}
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
           {{toFixed(incomeDetail.generation.cumulate)}}
         </div>
         <div class="plant-text text-cut">
-          {{$t('plant.genTot')}} (kW·h)
+          {{$t('plant.genTot')}}
         </div>
       </div>
     </div>

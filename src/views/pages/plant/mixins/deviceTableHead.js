@@ -7,14 +7,12 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          renderHeader: true,
           width: 150
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          renderHeader: true,
           width: 160
         },
         {
@@ -28,34 +26,32 @@ export default {
           prop: 'power',
           checked: true,
           slotName: 'power',
-          renderHeader: true
+          width: 115
         },
         {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
-          slotName: 'generationToday',
-          renderHeader: true
+          width: 115,
+          slotName: 'generationToday'
         },
         {
           label: 'plant.genTot',
           prop: 'generationTotal',
           slotName: 'generationTotal',
           checked: true,
-          renderHeader: true
+          width: 115
         },
         {
           label: 'plant.gridtime',
           prop: 'feedinDate',
           checked: true,
-          renderHeader: true,
           width: 220
         },
         {
           label: 'plant.equipSta',
           prop: 'status',
           width: 120,
-          renderHeader: true,
           checked: true,
           slotName: 'status',
           fixed: 'right'
