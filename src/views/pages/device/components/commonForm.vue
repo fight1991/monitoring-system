@@ -92,7 +92,7 @@ export default {
   methods: {
     // 根据key值查询表单
     async getFormValueByKey (id, key) {
-      let { result } = await this.$get({
+      let { result } = await this.$post({
         url: '/v0/device/setting/get',
         data: {
           id,
