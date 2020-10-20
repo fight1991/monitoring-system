@@ -376,7 +376,7 @@ export default {
     agCode: '代理商代码'
   },
   alarm: {
-    alarmName: '告警名称',
+    alarmCon: '告警内容',
     alarmNum: '告警编号'
   },
   errorCode: {

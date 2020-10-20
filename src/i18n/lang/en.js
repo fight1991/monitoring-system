@@ -376,7 +376,7 @@ export default {
     agCode: 'Agent code'
   },
   alarm: {
-    alarmName: 'Alarm name',
+    alarmCon: 'Alarm content',
     alarmNum: 'Alarm number'
   },
   errorCode: {
