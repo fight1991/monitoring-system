@@ -20,6 +20,13 @@ const beforeEach = async (to, from, next) => {
       store.commit('changeErrorStatus', true)
     }
   }
+  if (store.state.isFirst) {
+    let langInfo = storage.getStorage('lang')
+    if (langInfo) {
+      store.commit('toggleLang', langInfo)
+      i18n.locale = langInfo
+    }
+  }
   // 访问store router.app.$options.store
   // 是否是开启全局loading
   store.commit('changeLoadingStatus', !to.path.includes('bus'))
@@ -44,11 +51,6 @@ const beforeEach = async (to, from, next) => {
   }
   // 第一次进入系统需要获取权限状态和用户信息(刷新地址栏)
   if (store.state.isFirst) {
-    let langInfo = storage.getStorage('lang')
-    if (langInfo) {
-      store.commit('toggleLang', langInfo)
-      i18n.locale = langInfo
-    }
     // 用户信息查询
     let { result: userInfo } = await _this.$get({ url: '/v0/user/info' })
     // 权限查询

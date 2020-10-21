@@ -89,7 +89,6 @@ export default {
     }
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
-      this.$i18n.locale = langInfo
       this.lang = langInfo === 'en' ? 'English' : '中文'
     }
     let vers = this.version === 'inside' ? 'zh_CN' : 'en'

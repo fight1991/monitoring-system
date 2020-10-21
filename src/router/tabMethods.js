@@ -49,6 +49,7 @@ const tabMethods = {
   },
   closeAllTab () {
     store.dispatch('closeAllTab')
+    router.push(store.getters.currentTabInfo)
   },
   closeInactiveTab (name) {
     store.dispatch('closeInactiveTab', { name })
