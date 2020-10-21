@@ -6,7 +6,7 @@
         <el-radio :label="2">{{$t('join.join')}}</el-radio>
       </el-radio-group>
     </el-row>
-    <el-form size="mini" :model="baseForm" ref="baseForm" label-width="120px" :rules="formRule">
+    <el-form size="mini" :model="baseForm" ref="baseForm" label-width="150px" :rules="formRule">
       <!-- 加入代理商 -->
       <el-row v-if="agentRadio==2">
         <el-col :span="24">

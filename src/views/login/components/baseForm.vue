@@ -1,7 +1,7 @@
 <template>
   <div class="login-register">
     <div class="form">
-      <el-form ref="dataForm" size="small" label-width="120px" :model="dataForm" :rules="loginRules">
+      <el-form ref="dataForm" size="small" label-width="150px" :model="dataForm" :rules="loginRules">
         <el-row>
           <el-col :span="24">
             <el-form-item prop="account" :label="$t('login.username')">

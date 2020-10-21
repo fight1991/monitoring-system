@@ -260,13 +260,14 @@ export default {
         text-align: center;
         color: #67C23A;
       }
+      .btn,.rechoose {
+        width: 230px;
+      }
       .btn {
-        width: 260px;
         box-sizing: border-box;
         margin: 20px 0 15px;
       }
       .rechoose {
-        width: 260px;
         text-align: center;
         color: @sys-main-header;
         cursor: pointer;
