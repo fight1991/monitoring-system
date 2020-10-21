@@ -4,7 +4,7 @@
       <i class="el-icon-warning-outline"></i>
       {{tips}}
     </div>
-    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="right" label-width="260px">
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="right" label-width="300px">
       <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
         <div class="col-left">
           <!-- input组件 -->
@@ -50,7 +50,7 @@
       </el-row>
     </el-form>
     <el-row>
-      <div style="margin-left: 340px">
+      <div style="margin-left: 370px">
         <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
       </div>
     </el-row>
