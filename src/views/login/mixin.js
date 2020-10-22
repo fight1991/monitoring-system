@@ -13,11 +13,7 @@ export default {
         if (this.codeText.includes('s')) {
           return this.codeText
         } else {
-          if (state.lang === 'zh') {
-            return '获取验证码'
-          } else {
-            return 'Send'
-          }
+          return this.$t('login.send')
         }
       }
     })
