@@ -321,6 +321,7 @@ export default {
     generationPower: '输出功率',
     loadsPower: '负载功率',
     feedinPower: '馈网功率',
+    SoC: '电池功率',
     RVolt: 'R相电网电压',
     RCurrent: 'R相电网电流',
     RFreq: 'R相电网频率',

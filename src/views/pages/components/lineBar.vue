@@ -158,7 +158,7 @@ export default {
         isLoad: false,
         data: {
           ...params,
-          variables: variables || ['generationPower', 'feedinPower', 'loadsPower'],
+          variables: variables || ['generationPower', 'feedinPower', 'loadsPower', 'SoC'],
           timespan: 'day',
           beginDate: {
             year: new Date(this.powerDate).getFullYear(),

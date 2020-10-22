@@ -321,6 +321,7 @@ export default {
     generationPower: 'Output Power',
     loadsPower: 'LoadPower',
     feedinPower: 'Feed-in Power',
+    SoC: 'Battery Power',
     RVolt: 'GridVoltage_R',
     RCurrent: 'GridCurrent_R',
     RFreq: 'GridFrequency_R',
