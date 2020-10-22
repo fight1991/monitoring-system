@@ -67,8 +67,8 @@
         </div>
       </div>
       <!-- hybrid储能机动画 -->
-      <div class="hybrid-box" v-if="flowType==2">
-        <div class="flex-end">
+      <div :class="{'hybrid-box': isElec}" v-if="flowType==2">
+        <div class="flex-end" v-show="isElec">
           <div class="circle-line elec-machine">
             <div class="elec">
               <i class="iconfont icon-flow-elec"></i>
@@ -131,6 +131,9 @@ export default {
   props: {
     path: {
       default: () => {}
+    },
+    isElec: { // 发电机图标是否显示
+      default: false
     },
     wsData: {
       default: () => {}

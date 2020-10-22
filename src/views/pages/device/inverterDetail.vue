@@ -56,7 +56,7 @@
               <i class="fr el-icon-more flow-icon-more" @click="flowDialog=true"></i>
             </div>
             <div class="flow-map flex-center" style="height:350px">
-              <flow-animate :flowType="flowType" :path="flowPath" :wsData="wsData"></flow-animate>
+              <flow-animate :flowType="flowType" :isElec="isElec" :path="flowPath" :wsData="wsData"></flow-animate>
             </div>
           </el-card>
         </el-col>
@@ -130,6 +130,7 @@ export default {
       batteryInfo: {},
       flowPath: {},
       flowType: 1,
+      isElec: false, // 是否有发电机
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       flowDetail: [],
       lineParams: null,
@@ -403,7 +404,7 @@ export default {
         let data = res.data
         let pvValue = 0
         let pvTotal = 0
-        let { pvPower, generationPower, loadsPower, feedinPower, meterPower, invBatPower, gridConsumptionPower, meterPower2 } = data
+        let { pvPower, generationPower, loadsPower, feedinPower, meterPower, invBatPower, gridConsumptionPower, meterPower2, meter2Status } = data
         if (pvPower && pvPower.length > 0) {
           // pvPower不可能为负值, 只需判断是否有>0的即可
           let flag = pvPower.some(v => v.value > 0)
@@ -412,6 +413,7 @@ export default {
             pvTotal += v.value
           })
         }
+        this.isElec = meter2Status || false
         let tempObj = {
           pv: pvTotal || 0,
           load: loadsPower.value || 0,
