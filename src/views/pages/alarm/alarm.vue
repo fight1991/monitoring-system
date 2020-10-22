@@ -3,17 +3,17 @@
     <div class="sys-table-container">
       <el-form size="mini" label-width="0px" :model="searchForm">
           <el-row :gutter="15">
-            <el-col :span="4">
+            <el-col :span="3">
               <el-form-item>
                 <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="6">
               <el-form-item>
                 <el-date-picker
                 clearable
@@ -29,20 +29,20 @@
               </el-form-item>
             </el-col>
             <template v-if="showHsearch">
-              <el-col :span="4">
+              <el-col :span="3">
                 <el-form-item>
                   <el-select style="width:100%" v-model="searchForm.alarmType" clearable :placeholder="$t('common.alarmType')">
-                    <el-option v-for="(item, index) in alarmTypeList" :label="item.label" :value="item.value" :key="item + index"></el-option>
+                    <el-option v-for="(item, index) in alarmTypeList" :label="$t('alarm.' + item.label)" :value="item.value" :key="item + index"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <el-form-item>
                   <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
                 </el-form-item>
               </el-col>
             </template>
-            <el-col :span="4" align="left">
+            <el-col :span="6" align="left">az
               <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
               <search-button type="success" icon="icon-search" @click="search"></search-button>
               <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
@@ -69,20 +69,29 @@ export default {
         plantName: '',
         deviceSN: '',
         alarmType: '',
-        moduleSN: '',
-        beginDate: {
-          year: 0,
-          month: 0,
-          day: 0
-        },
-        endDate: {
-          year: 0,
-          month: 0,
-          day: 0
-        }
+        moduleSN: ''
+      },
+      beginDate: {
+        year: 0,
+        month: 0,
+        day: 0
+      },
+      endDate: {
+        year: 0,
+        month: 0,
+        day: 0
       },
       times: [],
-      alarmTypeList: [],
+      alarmTypeList: [
+        { value: 0, label: 'all' },
+        { value: 1, label: 'comError' },
+        { value: 2, label: 'pVBus' },
+        { value: 3, label: 'gridError' },
+        { value: 4, label: 'tempError' },
+        { value: 5, label: 'cpuError' },
+        { value: 6, label: 'eps' },
+        { value: 7, label: 'outer' }
+      ],
       selection: [],
       resultList: [],
       pagination: {
@@ -135,23 +144,26 @@ export default {
       ]
     }
   },
+  created () {
+    this.getList(this.defaultPage)
+  },
   methods: {
     resetSearchForm () {
       this.searchForm = {
         plantName: '',
         deviceSN: '',
         alarmType: '',
-        moduleSN: '',
-        beginDate: {
-          year: 0,
-          month: 0,
-          day: 0
-        },
-        endDate: {
-          year: 0,
-          month: 0,
-          day: 0
-        }
+        moduleSN: ''
+      }
+      this.beginDate = {
+        year: 0,
+        month: 0,
+        day: 0
+      }
+      this.endDate = {
+        year: 0,
+        month: 0,
+        day: 0
       }
       this.times = []
     },
@@ -170,18 +182,19 @@ export default {
       console.log(this.times)
     },
     async getList (pagination) {
-      if (this.times != null) {
-        var bDate = {
+      if (this.times && this.times.length > 0) {
+        this.searchForm.beginDate = {
           year: (this.times[0]).split('-')[0],
           month: (this.times[0]).split('-')[1],
           day: (this.times[0]).split('-')[2]
         }
-        var eDate = {
+        this.searchForm.endDate = {
           year: (this.times[1]).split('-')[0],
           month: (this.times[1]).split('-')[1],
           day: (this.times[1]).split('-')[2]
         }
       }
+      console.log(this.searchForm)
       let { result } = await this.$post({
         url: '/v0/alarm/query',
         data: {
@@ -190,10 +203,10 @@ export default {
             ...this.searchForm
           },
           beginDate: {
-            ...bDate
+            ...this.searchForm.beginDate
           },
           endDate: {
-            ...eDate
+            ...this.searchForm.endDate
           }
         }
       })
