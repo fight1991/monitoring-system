@@ -18,7 +18,8 @@ export default {
         {
           label: 'common.plant',
           prop: 'plantName',
-          checked: true
+          checked: true,
+          width: 140
         },
         {
           label: 'invupgrade.invmodel',
@@ -31,21 +32,21 @@ export default {
           prop: 'power',
           checked: true,
           slotName: 'power',
-          width: 100
+          width: 115
         },
         {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
           slotName: 'generationToday',
-          width: 100
+          width: 115
         },
         {
           label: 'plant.genTot',
           prop: 'generationTotal',
           checked: true,
           slotName: 'generationTotal',
-          width: 100
+          width: 115
         },
         {
           label: 'plant.gridtime',
@@ -63,7 +64,8 @@ export default {
           label: 'common.status',
           prop: 'status',
           checked: true,
-          slotName: 'status'
+          slotName: 'status',
+          fixed: 'right'
         },
         {
           label: 'common.operation',

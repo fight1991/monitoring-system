@@ -25,8 +25,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -191,26 +191,27 @@ export default {
           message: 'invalid file type',
           type: 'error'
         })
-        return false
+        // return false
       }
       this.importFile(file)
     },
     // 导入文件
-    importFile (file) {
+    async importFile (file) {
       let upfile = new FormData()
       upfile.append('upfile', file)
       // 文件上传请求
-      this.$upload({
+      let { result } = await this.$upload({
         url: '/v0/module/import',
-        data: upfile,
-        success: res => {
-          this.search()
-        }
+        data: upfile
       })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.search()
+      }
     },
     // 批量解绑
     async unbindMulti () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/module/disable',
         data: {
           modules: this.bindIds
@@ -222,7 +223,7 @@ export default {
     },
     // 获取模块类型列表
     async getModuleTypeList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/module/types'
       })
       if (result) {
@@ -231,9 +232,8 @@ export default {
     },
     // 获取模块列表
     async getModuleList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/module/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm

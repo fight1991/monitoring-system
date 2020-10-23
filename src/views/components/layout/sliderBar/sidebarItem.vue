@@ -2,14 +2,14 @@
   <div>
     <!-- 只有一级菜单 -->
     <template v-if="firstMenuShow">
-      <el-menu-item :index="menuItem.path" v-show="menuPemission()">
+      <el-menu-item :index="menuItem.name" v-show="menuPemission()">
         <i v-if="menuItem.icon" :class="'iconfont '+ menuItem.icon"></i>
         <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{i18nNavBarMethod(menuItem.meta.title)}}</span>
       </el-menu-item>
     </template>
     <!-- 有二级菜单 -->
     <template v-else>
-      <el-submenu v-show="menuPemission(menuItem)" :index="menuItem.path" popper-class="sidebar-pop">
+      <el-submenu v-show="menuPemission(menuItem)" :index="menuItem.name" popper-class="sidebar-pop">
         <template slot="title">
           <i v-if="menuItem.icon" :class="'iconfont '+ menuItem.icon"></i>
           <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{i18nNavBarMethod(menuItem.meta.title)}}</span>
@@ -20,10 +20,10 @@
           <sidebar-item
             v-if="child.children&&child.children.length>0"
             :menuItem="child"
-            :key="child.path"/>
+            :key="child.name"/>
           <!-- 二级菜单 -->
           <template v-else>
-            <el-menu-item v-show="menuPemission(child, 'chidl')" :key="child.path" :index="child.path">
+            <el-menu-item v-show="menuPemission(child, 'chidl')" :key="child.name" :index="child.name">
               <i v-if="child.icon" :class="'iconfont '+ child.icon"></i>
               <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{$t('navBar.'+child.meta.title) || ''}}</span>
             </el-menu-item>

@@ -103,10 +103,7 @@ img {
   justify-content: center;
   align-items: center;
 }
-.border-b {
-  padding-bottom: 2px;
-  border-bottom: 1px solid #ccc;
-}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -121,4 +118,12 @@ img {
 }
 .show-shadow {
   box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
+}
+@keyframes colorLinear {
+  0% {
+    filter: contrast(15) hue-rotate(0);
+  }
+  100% {
+    filter: contrast(15) hue-rotate(360deg);
+  }
 }

@@ -4,7 +4,7 @@
       <div class="pull-icon" @click="toggleMenu"><i :class="{'el-icon-s-unfold':$store.state.collapse,'el-icon-s-fold':!$store.state.collapse}"></i></div>
       <div class="bread-navigator">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/bus/index' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>{{$t('navBar.home')}}</el-breadcrumb-item>
           <el-breadcrumb-item v-for="item in routerArray" :key="item">{{$t('navBar.' + item)}}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -13,6 +13,7 @@
       <!-- <div class="system-set" @click="setDrawerShow=true">
         <i class="el-icon-setting"></i>
       </div> -->
+      <div v-show="$route.name!='tab-index'" class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')"><i class="el-icon-refresh"></i></div>
       <el-dropdown
         @command="userOption"
         trigger="click"
@@ -86,6 +87,9 @@ export default {
     })
   },
   methods: {
+    refreshCurrentPage () {
+      this.$store.dispatch('refreshTab', this.$store.getters.currentTabInfo)
+    },
     // 切换全屏
     screenClick (type) {
       this.isFullScreen = type === 'enter'
@@ -134,21 +138,17 @@ export default {
     },
     // 注销登录
     async logout () {
-      let res = await this.$confirm(this.$t('login.tips3'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('login.tips3')
       if (!res) return
-      this.$post({
-        url: '/v0/user/logout',
-        success: () => {
-          let { href } = this.$router.resolve({
-            path: '/login'
-          })
-          window.open(href, '_self')
-        }
+      let { result } = await this.$post({
+        url: '/v0/user/logout'
       })
+      if (result) {
+        let { href } = this.$router.resolve({
+          path: '/login'
+        })
+        window.open(href, '_self')
+      }
     }
   }
 }
@@ -183,7 +183,26 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  color: #fff;
+  .refresh-button {
+    font-size: 26px;
+    cursor: pointer;
+    margin: 0 30px;
+    color: green;
+    font-weight: bold;
+    i {
+      transition: all 1.5s;
+      border-radius: 30%;
+    }
+    &:hover {
+      i {
+        transform: rotate(-180deg);
+        background-color: #0097a7;
+        border-radius: 50%;
+        color: #fff;
+      }
+    }
+  }
+  // color: #fff;
   .el-dropdown {
     color: #fff;
   }

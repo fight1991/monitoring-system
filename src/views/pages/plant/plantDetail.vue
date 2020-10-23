@@ -28,12 +28,12 @@
           </div>
         </div>
         <div class="right-box flex-vertical-center">
-          <div class="weather flex-vertical-center">
+          <!-- <div class="weather flex-vertical-center">
             <div class="weather-img"><i class="iconfont icon-qing" style="font-size:30px"></i></div>
             <div class="weather-text">{{$t('common.sunny')}}</div>
             <div class="weather-temper">27℃</div>
             <div class="weather-place flex-center"><i class="iconfont icon-dizhi"></i>&nbsp;{{$t('common.wuxi')}}</div>
-          </div>
+          </div> -->
           <div class="pull-icon">
             <i @click="headCollapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
             <i @click="headCollapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -54,12 +54,45 @@
         </div>
       </div>
     </div>
-    <!-- 电站状态 -->
-    <div class="block">
-      <plant-status :incomeDetail="incomeDetail" :batShow="false" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.plantS')"></plant-status>
+    <!-- 电站状态 设备状态-->
+    <div class="block status-box">
+      <div class="left">
+        <plant-status
+          :incomeDetail="incomeDetail"
+          :power="incomeDetail.power"
+          type="plant"
+          :capacity="incomeDetail.systemCapacity"
+          :todayFault="todayFault"
+          :id="plantId"
+          :title="$t('plant.plantS')">
+        </plant-status>
+      </div>
+      <div class="right" v-if="access!=1">
+        <el-card>
+          <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
+          <div class="progress-container">
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.total')}}</span><span style="color:#00BFFF">{{device.total}}</span></div>
+              <el-progress class="progress" :show-text="false" :stroke-width="10" :percentage="percentMethod(device.total)" color="#00BFFF"></el-progress>
+            </div>
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.normal')}}</span><span style="color:#67c23a">{{device.normal}}</span></div>
+              <el-progress class="progress" :show-text="false" :stroke-width="10" :percentage="percentMethod(device.normal)" color="#67c23a"></el-progress>
+            </div>
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.glitch')}}</span><span style="color:#f56c6c">{{device.fault}}</span></div>
+              <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="10" :percentage="percentMethod(device.fault)" color="#f56c6c"></el-progress>
+            </div>
+            <div class="progress-line">
+              <div class="status-text f12 flex-between"><span>{{$t('common.offline')}}</span><span style="color:#909399">{{device.offline}}</span></div>
+              <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="10" :percentage="percentMethod(device.offline)" color="#909399"></el-progress>
+            </div>
+          </div>
+        </el-card>
+      </div>
     </div>
     <!-- 功率 统计 设备列表 -->
-    <div class="block show-shadow mg-b12">
+    <div class="block show-shadow">
       <line-bar :id="plantId" :type="'plant'" ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
@@ -71,48 +104,15 @@
         </template>
       </line-bar>
     </div>
-    <!-- 今日异常 设备状态区域 -->
-    <div class="block" v-if="access!=1">
-      <el-row :gutter="12">
-        <el-col :span="12">
-          <today-abnormal :todayFault="todayFault" :id="plantId" :type="'plant'"></today-abnormal>
-        </el-col>
-        <el-col :span="12">
-          <el-card  class="no-bottom">
-            <div class="title border-line" slot="header">{{$t('plant.equipSta')}}</div>
-            <div class="progress-container">
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.total')}}</span><span style="color:#00BFFF">{{device.total}}</span></div>
-                <el-progress class="progress" :show-text="false" :stroke-width="12" :percentage="percentMethod(device.total)" color="#00BFFF"></el-progress>
-              </div>
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.normal')}}</span><span style="color:#67c23a">{{device.normal}}</span></div>
-                <el-progress class="progress" :show-text="false" :stroke-width="12" :percentage="percentMethod(device.normal)" color="#67c23a"></el-progress>
-              </div>
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.glitch')}}</span><span style="color:#f56c6c">{{device.fault}}</span></div>
-                <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="12" :percentage="percentMethod(device.fault)" color="#f56c6c"></el-progress>
-              </div>
-              <div class="progress-line">
-                <div class="status-text f12 flex-between"><span>{{$t('common.offline')}}</span><span style="color:#909399">{{device.offline}}</span></div>
-                <el-progress class="progress" :show-text="false" :text-inside="true" :stroke-width="12" :percentage="percentMethod(device.offline)" color="#909399"></el-progress>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
   </section>
 </template>
 <script>
 import plantStatus from '@/views/pages/components/powerStatus'
 import lineBar from '@/views/pages/components/lineBar'
-import todayAbnormal from '@/views/pages/components/todayAbnormal'
 import deviceList from './deviceList'
 import { decodeData } from '@/util'
 export default {
   components: {
-    todayAbnormal,
     deviceList,
     plantStatus,
     lineBar
@@ -204,7 +204,7 @@ export default {
   methods: {
     // 关联用户sndialog
     golinkSn () {
-      this.$tab.push({
+      this.$tab.append({
         name: 'bus-plant-linkSn'
       })
     },
@@ -232,7 +232,7 @@ export default {
     },
     // 获取头部电站展开详情
     async getHeadInfo () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/addressbook',
         data: {
           stationID: this.plantId
@@ -246,7 +246,7 @@ export default {
     },
     // 电站列表
     async getPlantList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/droplist'
       })
       if (result) {
@@ -270,7 +270,7 @@ export default {
       }
       this.plantId = this.plantList[index].stationID
       // 发送请求
-      await this.$all.promise([
+      await this.$all([
         this.getAbnormalStatus(),
         this.getDeviceStatus(),
         this.getPlantEarns(),
@@ -281,7 +281,7 @@ export default {
     },
     // 获取电站下的设备状态
     async getDeviceStatus () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/status/detail',
         data: {
           stationID: this.plantId
@@ -294,7 +294,7 @@ export default {
     },
     // 获取今日异常
     async getAbnormalStatus () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/alarm/today',
         data: {
           stationID: this.plantId
@@ -307,7 +307,7 @@ export default {
     },
     // 获取单个电站的发电和收益情况
     async getPlantEarns () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/earnings/detail',
         data: {
           stationID: this.plantId
@@ -335,8 +335,9 @@ export default {
 <style lang="less" scoped>
 @import '../components/common/plantInvert';
 .progress-container {
-  height: 200px;
   display: flex;
+  width: 210px;
+  height: 240px;
   flex-direction: column;
   justify-content: space-around;
 }
@@ -344,7 +345,7 @@ export default {
   padding: 2px 5px;
 }
 .plant-name span {
-  margin-right: 20px;
+  margin-right: 30px;
 }
 .weather {
   margin-right: 30px;

@@ -2,7 +2,7 @@
   <section class="sys-main" v-setH:min="setDivH">
     <show-item ref="plantStatus" @getselect="getselect" :positionList="positionList"></show-item>
     <!-- 表格区域 -->
-    <el-card  v-if="access !== 1" class="no-bottom">
+    <el-card class="no-bottom">
       <div class="title border-line" slot="header">{{$t('plant.plantsList')}}</div>
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
@@ -15,8 +15,8 @@
             <el-input v-model="searchForm.name" :placeholder="$t('common.plantsName')" clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-            <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+            <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+            <search-button type="success" icon="icon-search" @click="search"></search-button>
           </el-form-item>
         </el-form>
       </search-bar>
@@ -127,9 +127,8 @@ export default {
     },
     // 获取所有电站列表
     async getAllPlant (total) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/plant/list',
-        method: 'post',
         data: {
           currentPage: 1,
           pageSize: total,
@@ -145,9 +144,8 @@ export default {
     },
     // 获取电站列表
     async getPlantList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/plant/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -163,22 +161,18 @@ export default {
     },
     // 电站删除
     async deletePlant (id) {
-      let res = await this.$confirm(this.$t('common.tips2'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('common.tips2')
       if (!res) return
-      this.$post({
+      let { result } = await this.$post({
         url: '/v0/plant/delete',
         data: {
           stationID: id
-        },
-        success: () => {
-          this.$message.success(this.$t('common.success'))
-          this.search()
         }
       })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.search()
+      }
     },
     // 点击状态筛选列表
     getselect (payLoad) {

@@ -45,9 +45,21 @@ export default {
     companyName: '代理商名称',
     email: '邮箱',
     phone: '手机号',
-    remark: '备注'
+    remark: '备注',
+    selUser: '选择用户类型',
+    regACC: '注册账户',
+    perInfor: '完善信息',
+    regCom: '注册完成',
+    next: '下一步',
+    reselUser: '重新选择用户类型',
+    regSucc: '注册成功!',
+    login: '去登录',
+    agentCode: '代理商标识码',
+    code: '售后组织标识码'
   },
   common: {
+    signIn: '登录',
+    signUp: '注册',
     require: '必填',
     valid: '格式或类型错误',
     keyword: '请输入关键字',
@@ -108,7 +120,7 @@ export default {
     reCharge: '充电',
     disCharge: '使用中',
     sleep: '休眠',
-    gPower: '发电功率',
+    gPower: '发电功率(kW)',
     gCon: '并网功率',
     pDiss: '电网损耗功率',
     currentP: '当前功率',
@@ -139,7 +151,9 @@ export default {
     test: '测试',
     rel: '发布',
     selFile: '选择文件',
-    upgrade: '升级'
+    upgrade: '升级',
+    closeHsearch: '返回普通查询',
+    openHsearch: '高级查询'
   },
   login: {
     product: '产品',
@@ -149,7 +163,7 @@ export default {
     acStore: 'AC存储',
     site: '官网',
     useTerm: '使用条款',
-    allRight: '麦田能源有限公司,版权所有',
+    allRight: '麦田能源有限公司无锡分公司,版权所有',
     send: '获取验证码',
     mobile: '手机号登录',
     mobileSp: '手机号注册',
@@ -215,13 +229,13 @@ export default {
     plantN: '正常电站',
     plantA: '异常电站',
     genSta: '发电量统计',
-    genTod: '今日发电',
+    genTod: '今日发电(kW·h)',
     earnTod: '今日收益',
-    genMon: '本月发电',
+    genMon: '本月发电(kW·h)',
     earnMon: '本月收益',
     genYear: '本年发电量',
     earnYear: '本年收益',
-    genTot: '累计发电',
+    genTot: '累计发电(kW·h)',
     earnTot: '累计收益',
     baStatus: '电池状态',
     plantsList: '电站列表',
@@ -251,7 +265,8 @@ export default {
     websiteTime: '建站时间',
     showMoreUser: '查看更多用户',
     gridtime: '并网时间',
-    equipqut: '设备数量'
+    equipqut: '设备数量',
+    snIsLink: 'SN未关联电站, 是否要创建电站?'
   },
   inverter: {
     InsTime: '安装时间',
@@ -277,6 +292,10 @@ export default {
     SoftType: '软件类别'
   },
   invupgrade: {
+    wait: '等待升级',
+    deliver: '传输中',
+    upping: '升级中',
+    upFail: '升级失败',
     invmodel: '逆变器机型',
     invversion: '逆变器软件版本',
     dataversion: '模块软件版本',
@@ -302,6 +321,7 @@ export default {
     generationPower: '输出功率',
     loadsPower: '负载功率',
     feedinPower: '馈网功率',
+    SoC: '电池功率',
     RVolt: 'R相电网电压',
     RCurrent: 'R相电网电流',
     RFreq: 'R相电网频率',
@@ -346,11 +366,16 @@ export default {
     account: '账号管理',
     type: '用户类型',
     invCode: '邀请码',
-    code: '获取邀请码',
+    code: '生成邀请码',
     installer: '成为安装商',
     agent: '加入代理商',
     edit: '修改',
-    center: '个人中心'
+    center: '个人中心',
+    assoInAg: '关联代理商/安装商',
+    inAgCode: '代理商/安装商代码',
+    inCode: '安装商代码',
+    assoAg: '关联代理商',
+    agCode: '代理商代码'
   },
   errorCode: {
     41200: '查询数据异常',

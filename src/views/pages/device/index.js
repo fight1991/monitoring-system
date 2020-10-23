@@ -18,7 +18,7 @@ export default {
     },
     {
       path: '/bus/device/module',
-      name: '/bus-device-module',
+      name: 'bus-device-module',
       meta: {
         permission: [1, 2, 3, 255],
         title: 'moduleM',

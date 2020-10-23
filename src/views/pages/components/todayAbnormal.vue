@@ -1,52 +1,39 @@
 <template>
-  <div style="width:100%">
-    <el-card  class="no-bottom">
-      <div class="title border-line" slot="header">
-        {{$t('plant.todayAb')}}
-        <i class="fr el-icon-more" @click="dialogVisible=true"></i>
+  <el-dialog
+    class="sys-dialog"
+    :title="$t('plant.todayAbSta')"
+    :modal-append-to-body="false"
+    :close-on-click-modal="false"
+    @opened="search"
+    @close="closeDialog"
+    :visible.sync="dialogVisible"
+    width="750px">
+    <search-bar>
+      <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
+        <el-form-item v-if="type==='plant'">
+          <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="searchForm.alarmType" :placeholder="$t('common.alarmType')">
+            <el-option v-for="item in alarmTypeList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+          <search-button type="success" icon="icon-search" @click="search"></search-button>
+        </el-form-item>
+      </el-form>
+    </search-bar>
+    <div class="container flex-column-between" v-setH:min="setDivH-250">
+      <func-bar>
+        <common-table :tableHeadData="tableHead" :tableList="resultList">
+        </common-table>
+      </func-bar>
+      <div class="page-box">
+        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </div>
-      <div class="abnormal-content flex-around" :style="{'height': contentH + 'px'}">
-        <i class="iconfont icon-alarm-total"></i>
-        <div class="item-op flex-center" title="view" @click="dialogVisible=true">
-          {{todayFault}}
-        </div>
-      </div>
-    </el-card>
-    <el-dialog
-      class="sys-dialog"
-      :title="$t('plant.todayAbSta')"
-      :modal-append-to-body="false"
-      @opened="search"
-      @close="closeDialog"
-      :visible.sync="dialogVisible"
-      width="750px">
-      <search-bar>
-        <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
-          <el-form-item v-if="type==='plant'">
-            <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-select v-model="searchForm.alarmType" :placeholder="$t('common.alarmType')">
-              <el-option v-for="item in alarmTypeList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-            <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
-          </el-form-item>
-        </el-form>
-      </search-bar>
-      <div class="container flex-column-between" v-setH:min="setDivH-250">
-        <func-bar>
-          <common-table :tableHeadData="tableHead" :tableList="resultList">
-          </common-table>
-        </func-bar>
-        <div class="page-box">
-          <page-box :pagination.sync="pagination" @change="getList"></page-box>
-        </div>
-      </div>
-    </el-dialog>
-  </div>
+    </div>
+  </el-dialog>
 </template>
 <script>
 export default {
@@ -163,8 +150,7 @@ export default {
       } else {
         params.deviceID = this.$attrs.id
       }
-      let { result } = await this.$axios({
-        method: 'post',
+      let { result } = await this.$post({
         url: `/v0/${this.type}/alarm/today/detail`,
         globalLoading: true,
         data: {

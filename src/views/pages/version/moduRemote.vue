@@ -21,19 +21,29 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.version" :placeholder="$t('invupgrade.dataversion')"></el-input>
-              </el-form-item>
-            </el-col>
+            <template v-if="showHsearch">
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleVersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-select style="width:100%" clearable v-model="searchForm.upgradeStatus" :placeholder="$t('invupgrade.status')">
+                    <el-option v-for="item in upStatusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -43,7 +53,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:moduleStatus="{row}">
             <i class="el-icon-success" v-show="row.moduleStatus==1"></i>
             <i class="el-icon-error" v-show="row.moduleStatus==2"></i>
@@ -84,7 +94,7 @@ export default {
         plantName: '',
         moduleStatus: '',
         moduleType: '',
-        version: '',
+        moduleVersion: '',
         upgradeStatus: ''
       },
       taskId: '',
@@ -94,7 +104,33 @@ export default {
         pageSize: 50,
         currentPage: 1,
         total: 0
-      }
+      },
+      upStatusList: [ // 0全部,1等待升级,2传输中,3升级中,4升级失败,5升级超时
+        {
+          label: 'common.all',
+          value: 0
+        },
+        {
+          label: 'invupgrade.wait',
+          value: 1
+        },
+        {
+          label: 'invupgrade.deliver',
+          value: 2
+        },
+        {
+          label: 'invupgrade.upping',
+          value: 3
+        },
+        {
+          label: 'invupgrade.upFail',
+          value: 4
+        },
+        {
+          label: 'common.timeout',
+          value: 5
+        }
+      ]
     }
   },
   computed: {
@@ -113,7 +149,7 @@ export default {
         plantName: '',
         moduleStatus: '',
         moduleType: '',
-        version: '',
+        moduleVersion: '',
         upgradeStatus: ''
       }
       this.search()
@@ -125,9 +161,8 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/firmware/module/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm

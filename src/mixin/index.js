@@ -2,6 +2,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      showHsearch: false, // 是否显示高级查询
       setDivH: window.innerHeight - 116 // 容器高度
     }
   },
@@ -34,7 +35,7 @@ export default {
     },
     // 获取国家列表
     async getCountryList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/map/countries',
         checkParams: this.$store.state.lang === 'en' ? 'country_en' : 'country_zh'
       })
@@ -45,11 +46,14 @@ export default {
       }
     },
     // 保留2位有效小数
-    toFixed (data, num = 2) {
+    toFixed (data, abs, num = 2) {
       if (!data || isNaN(Number(data))) return 0
       let temp = Number(data)
       if (Math.abs(temp) < 0.01) { // 防止出现-0.002 --> -0.00
         return 0
+      }
+      if (abs) {
+        return Math.abs(temp.toFixed(num))
       }
       return temp.toFixed(num)
     },

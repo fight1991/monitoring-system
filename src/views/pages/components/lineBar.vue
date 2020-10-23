@@ -18,7 +18,7 @@
         <span class="date-area">
           <i class="arrow el-icon-arrow-left" @click="computeDate('reduce')"></i>
           <el-date-picker
-            @change="getBarData()"
+            @change="getBarData('', barParams)"
             :clearable="false"
             size="mini"
             style="width:125px"
@@ -31,7 +31,7 @@
       </div>
       <div class="date" v-show="echartType=='power'">
         <el-date-picker
-          @change="getLineData()"
+          @change="getLineData('', lineParams)"
           :clearable="false"
           size="mini"
           style="width:125px"
@@ -88,6 +88,12 @@ export default {
     },
     type: {
       default: 'plant'
+    },
+    lineParams: {
+      default: null
+    },
+    barParams: {
+      default: null
     }
   },
   created () {
@@ -147,13 +153,12 @@ export default {
       } else {
         params.deviceID = id || this.id
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: `/v0/${this.type}/history/raw`,
         isLoad: false,
-        method: 'post',
         data: {
           ...params,
-          variables: variables || ['generationPower', 'feedinPower', 'loadsPower'],
+          variables: variables || ['generationPower', 'feedinPower', 'loadsPower', 'SoC'],
           timespan: 'day',
           beginDate: {
             year: new Date(this.powerDate).getFullYear(),
@@ -200,9 +205,8 @@ export default {
       } else {
         params.deviceID = id || this.id
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: `/v0/${this.type}/history/report`,
-        method: 'post',
         isLoad: false,
         data: {
           ...params,

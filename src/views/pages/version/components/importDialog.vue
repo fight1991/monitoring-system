@@ -3,10 +3,11 @@
     class="sys-dialog"
     :title="$t('common.import')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @close="closeDialog"
     @open="getProductList"
     :visible.sync="dialogVisible"
-    width="550px">
+    width="600px">
     <div class="content">
       <el-row class="select-file flex">
         <el-upload
@@ -153,7 +154,7 @@ export default {
     },
     // 获取产品型号
     async getProductList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/firmware/products',
         globalLoading: true
       })
@@ -162,17 +163,17 @@ export default {
       }
     },
     // 上传固件包api
-    uploadFirmware (formData) {
-      this.$upload({
+    async uploadFirmware (formData) {
+      let { result } = await this.$upload({
         url: '/v0/firmware/upload',
         data: formData,
-        globalLoading: true,
-        success: res => {
-          this.$message.success(this.$t('common.success'))
-          this.dialogVisible = false
-          this.$emit('refreshList')
-        }
+        globalLoading: true
       })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.dialogVisible = false
+        this.$emit('refreshList')
+      }
     },
     // 读取文件信息
     beforeUpload (file) {

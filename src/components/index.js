@@ -2,6 +2,7 @@
 import Pagination from './global/pagination'
 import SearchBar from './global/searchBar'
 import FuncBar from './global/funcBar'
+import SeachButton from './global/searchButton'
 
 /**
  * 以懒加载的方式加载如下组件
@@ -17,5 +18,6 @@ export default {
     Vue.component('search-bar', SearchBar)
     Vue.component('func-bar', FuncBar)
     Vue.component('common-table', CommonTable)
+    Vue.component('search-button', SeachButton)
   }
 }

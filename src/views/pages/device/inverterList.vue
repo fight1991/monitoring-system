@@ -14,29 +14,31 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.country" clearable :placeholder="$t('plant.country')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.deviceType" clearable :placeholder="$t('invupgrade.invmodel')"></el-input>
-              </el-form-item>
-            </el-col>
+            <template v-if="showHsearch">
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.country" clearable :placeholder="$t('plant.country')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.deviceType" clearable :placeholder="$t('invupgrade.invmodel')"></el-input>
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :span="6">
               <el-form-item>
                 <el-date-picker
@@ -52,8 +54,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -63,7 +66,7 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="inverterTableHead" :lowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="inverterTableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
@@ -179,8 +182,8 @@ export default {
       })
     },
     // 获取列表
-    getInverterList (pagination) {
-      this.$post({
+    async getInverterList (pagination) {
+      let { result } = await this.$post({
         url: '/v0/device/list',
         data: {
           ...pagination,
@@ -191,20 +194,18 @@ export default {
               end: (this.times && this.times[1]) || 0
             }
           }
-        },
-        success: ({ result }) => {
-          if (result) {
-            this.pagination.total = result.total
-            this.pagination.currentPage = result.currentPage
-            this.pagination.pageSize = result.pageSize
-            this.resultList = result.devices || []
-          }
         }
       })
+      if (result) {
+        this.pagination.total = result.total
+        this.pagination.currentPage = result.currentPage
+        this.pagination.pageSize = result.pageSize
+        this.resultList = result.devices || []
+      }
     },
     // 获取所有逆变器状态
     async getStatusAll () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: 'v0/device/status/all'
       })
       if (result) {
@@ -217,9 +218,8 @@ export default {
         this.$message.warning('Please check an option')
         return
       }
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0​/device/delete',
-        method: 'post',
         data: this.deviceId
       })
       if (result) {

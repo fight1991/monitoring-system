@@ -53,13 +53,13 @@ export default {
           prop: 'power',
           checked: true,
           slotName: 'power',
-          renderHeader: true
+          width: 120
         },
         { // 实时数据 今日发电量
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
-          renderHeader: true,
+          width: 120,
           slotName: 'generationToday'
         },
         {

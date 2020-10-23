@@ -1,11 +1,10 @@
 <template>
-  <div class="login login-register">
-    <slot></slot>
+  <div class="login-register">
     <div class="form">
-      <el-form ref="dataForm" :model="dataForm" label-position="top" :rules="loginRules">
+      <el-form ref="dataForm" size="small" label-width="150px" :model="dataForm" :rules="loginRules">
         <el-row>
           <el-col :span="24">
-            <el-form-item prop="user" :label="$t('login.username')">
+            <el-form-item prop="account" :label="$t('login.username')">
               <el-popover
                 :visible-arrow="false"
                 trigger="focus"
@@ -13,7 +12,7 @@
                 width="200"
                 placement="right-end">
                 <span>{{$t('login.tips1')}}</span>
-                <el-input slot="reference" v-model="dataForm.user"></el-input>
+                <el-input slot="reference" v-model="dataForm.account"></el-input>
               </el-popover>
             </el-form-item>
           </el-col>
@@ -41,30 +40,26 @@
           </el-col>
           <el-col :span="24">
             <el-form-item prop="email" :label="$t('login.em')">
-              <el-input v-model="dataForm.email" @keyup.native.enter="goRegister"></el-input>
+              <el-input v-model="dataForm.email"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
-    <el-row class="find-btn" type="flex" justify="space-between">
-      <div>
+    <el-row class="find-btn">
+      <div class="flex-center" style="padding-left: 120px">
         <el-checkbox v-model="isAgreen">
           <span class="agree-text f12">{{$t('login.agree')}}</span>
         </el-checkbox>
         <span class="user-agree f12" @click="openDialog">{{$t('login.server')}}</span>
       </div>
-      <span @click="backLogin">{{$t('login.back')}}</span>
-    </el-row>
-    <!-- 注册按钮 -->
-    <el-row class="login-btn">
-      <el-button :disabled="!isAgreen" class="login-click" type="primary" @click="goRegister">{{$t('login.register')}}</el-button>
     </el-row>
     <el-dialog
       class="login-agree-dialog sys-dialog"
       :title="''"
       width="70%"
       :modal-append-to-body="false"
+      :close-on-click-modal="false"
       :visible.sync="agreeVisible">
       <div class="iframe-view" v-loading="loading" :style="{'height': dialogH + 'px' }">
         <iframe  @load="load" :src="agreeSrc" frameborder="0" height="100%" width="100%"></iframe>
@@ -75,9 +70,7 @@
 
 <script>
 import mixins from '../mixin'
-import md5 from 'js-md5'
 import valid from '../common/validate'
-import link from '../common/link'
 export default {
   name: 'register',
   mixins: [mixins],
@@ -91,23 +84,17 @@ export default {
       pwType2: 'password',
       isAgreen: true,
       dataForm: {
-        user: '', // 用户名
+        account: '', // 用户名
         password: '', // 密码
         confirmWord: '', // 密码确认
         email: ''
       },
       loginRules: {
-        user: [{ required: true, pattern: valid.user.rule, message: this.$t(valid.user.message), trigger: 'blur' }],
+        account: [{ required: true, pattern: valid.user.rule, message: this.$t(valid.user.message), trigger: 'blur' }],
         password: [{ required: true, pattern: valid.password.rule, message: this.$t(valid.password.message), trigger: 'blur' }],
         verPw: [{ required: true, validator: this.verPwValid, trigger: 'blur' }],
         email: [{ pattern: valid.email.rule, message: this.$t(valid.email.message), trigger: 'blur' }]
       }
-    }
-  },
-  props: ['pageFlag'],
-  computed: {
-    contactType () {
-      return this.isEmail ? 'email' : 'phone'
     }
   },
   created () {
@@ -126,10 +113,6 @@ export default {
     openDialog () {
       this.agreeVisible = true
     },
-    // 返回登录模块
-    backLogin () {
-      this.$emit('toggleStatus', 'login')
-    },
     showPw (type) {
       this[type] = this[type] === 'text' ? 'password' : 'text'
     },
@@ -140,39 +123,29 @@ export default {
       }
       callback()
     },
-    // 注册按钮
-    goRegister () {
-      // 自定义表单校验
-      let isPass = true
-      this.$refs.dataForm.validate(valid => (isPass = valid))
-      if (!isPass) return
-      let tempData = { ...this.dataForm }
-      this.$post({
-        url: '/v0/user/register',
+    // 校验用户基本信息
+    async checkBaseInfo () {
+      if (!this.isAgreen) {
+        this.$message.warning('尚未勾选服务条款!')
+        return false
+      }
+      let res1 = false
+      this.$refs.dataForm.validate(v => (res1 = v))
+      if (!res1) return false
+      // 还需要校验账户有没有注册过
+      let res2 = await this.checkAccountExsit()
+      return res2
+    },
+    // 发送请求校验用户是否已经注册过
+    async checkAccountExsit () {
+      let { result } = await this.$post({
+        url: '/v0/user/check',
         data: {
-          ...tempData,
-          password: md5(tempData.password)
-        },
-        success: res => {
-          // 1.注册成功, 调用自动登录接口 ? 2. 跳转到产品介绍页面
-          // this.$router.push('/product/index')
-          this.$message.success(this.$t('login.successMg1'))
-          link.$emit('sendUser', this.dataForm.user)
-          this.dataForm = {
-            user: '',
-            password: '',
-            confirmWord: '',
-            email: ''
-          }
-          this.backLogin()
-        },
-        other: res => {
-          // 41801 用户名/邮箱/手机号已被注册
-          if (res.errno === 41801) {
-            this.dataForm.user = ''
-          }
+          account: this.dataForm.account,
+          email: this.dataForm.email
         }
       })
+      return result
     }
   }
 }
@@ -184,5 +157,8 @@ export default {
   }
   .agree-text {
     color: #4c4c4c;
+  }
+  .login-register {
+    width: 380px;
   }
 </style>

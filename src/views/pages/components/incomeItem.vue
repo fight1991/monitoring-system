@@ -6,10 +6,10 @@
       </div>
       <div class="detail-box">
         <div class="plant-money txt-c text-cut">
-          {{toFixed(incomeDetail.generation.today)}}
+          <count-to :start-val="0" :end-val="+toFixed(incomeDetail.generation.today)" :decimals="2" :duration="2600"/>
         </div>
         <div class="plant-text text-cut">
-          {{$t('plant.genTod')}} (kW·h)
+          {{$t('plant.genTod')}}
         </div>
       </div>
     </div>
@@ -19,10 +19,10 @@
       </div>
       <div class="detail-box">
         <div class="plant-money text-cut">
-          {{toFixed(incomeDetail.generation.month)}}
+          <count-to :start-val="0" :end-val="+toFixed(incomeDetail.generation.month)" :decimals="2" :duration="2600"/>
         </div>
         <div class="plant-text text-cut">
-          {{$t('plant.genMon')}} (kW·h)
+          {{$t('plant.genMon')}}
         </div>
       </div>
     </div>
@@ -32,10 +32,10 @@
       </div>
       <div class="detail-box">
         <div class="plant-money text-cut txt-c">
-          {{toFixed(incomeDetail.generation.cumulate)}}
+          <count-to :start-val="0" :end-val="+toFixed(incomeDetail.generation.cumulate)" :decimals="2" :duration="2600"/>
         </div>
         <div class="plant-text text-cut">
-          {{$t('plant.genTot')}} (kW·h)
+          {{$t('plant.genTot')}}
         </div>
       </div>
     </div>
@@ -45,7 +45,12 @@
       </div>
       <div class="detail-box">
         <div class="plant-money text-cut plant-money-green">
-          {{incomeDetail.earnings.cumulate[0] && toFixed(incomeDetail.earnings.cumulate[0]['value'])}}
+          <!-- {{incomeDetail.earnings.cumulate[0] && toFixed(incomeDetail.earnings.cumulate[0]['value'])}} -->
+          <count-to
+            :start-val="0"
+            :end-val="(incomeDetail.earnings.cumulate[0] && +toFixed(incomeDetail.generation.cumulate) || 0)"
+            :decimals="2"
+            :duration="2600"/>
         </div>
         <div class="plant-text text-cut">
           {{$t('plant.earnTot')}} ({{incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']}})
@@ -61,7 +66,7 @@
           <el-popover
             popper-class="money-popper"
             placement="right"
-            :title="$t('common.list')"
+            title=""
             width="100"
             trigger="hover">
             <p v-for="item in incomeDetail.earnings.cumulate" :key="item.currency">
@@ -78,7 +83,11 @@
   </div>
 </template>
 <script>
+import countTo from 'vue-count-to'
 export default {
+  components: {
+    countTo
+  },
   data () {
     return {}
   },
@@ -136,7 +145,7 @@ export default {
     }
     .plant-money {
       color: #FFC245;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold;
     }
     .txt-c {

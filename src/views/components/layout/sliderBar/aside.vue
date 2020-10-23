@@ -2,9 +2,9 @@
 <div class="sidebar-container">
   <el-scrollbar wrap-class="scrollbar-wrapper">
     <el-menu
-      :default-active="$route.path"
+      :default-active="$route.name"
       unique-opened
-      router
+      @select="menuClick"
       :collapse="$store.state.collapse">
       <sidebar-item v-for="(menu, index) in menuList" :key="'menu'+index" :menuItem="menu"></sidebar-item>
     </el-menu>
@@ -25,7 +25,15 @@ export default {
     }
   },
   computed: {
-
+    isCollapase () {
+      return this.$store.state.collapse
+    }
+  },
+  mounted () {
+    window.addEventListener('resize', this.changeCollapseStatus)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.changeCollapseStatus)
   },
   methods: {
     // 过滤树形结构数据中不符合条件路由(hidden为true)
@@ -42,6 +50,17 @@ export default {
         }
       })
       return newData
+    },
+    // 点击侧边栏路由跳转
+    menuClick (name) {
+      this.$tab.append({
+        name
+      })
+    },
+    changeCollapseStatus () {
+      if (window.innerWidth < 992) {
+        !this.isCollapase && this.$store.commit('changeCollapse', 1)
+      }
     }
   }
 }

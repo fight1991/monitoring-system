@@ -13,11 +13,7 @@ export default {
         if (this.codeText.includes('s')) {
           return this.codeText
         } else {
-          if (state.lang === 'zh') {
-            return '获取验证码'
-          } else {
-            return 'Send'
-          }
+          return this.$t('login.send')
         }
       }
     })
@@ -31,18 +27,20 @@ export default {
       return false
     },
     // 发送验证码
-    sendCode (user, callback) {
+    async sendCode (user) {
       if (this.timer) return
-      this.$post({
+      let { result } = await this.$post({
         url: '/v0/user/sendcaptcha',
         data: {
           user
-        },
-        success: () => {
-          callback && callback()
-          this.$message.success('send successful')
         }
       })
+      if (result) {
+        this.$message.success('send successful')
+        return true
+      } else {
+        return false
+      }
     },
     // 验证码按钮
     codeBtn () {
