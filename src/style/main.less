@@ -40,9 +40,9 @@
   color: #4c4c4c;
 }
 .sys-main { // 页面主要样式
-  padding-top: 5px;
-  margin-left: 5px;
-  margin-right: 10px;
+  margin: 5px 10px 0 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   .el-card:not(.no-bottom) {
     margin-bottom: 12px;
   }
@@ -124,12 +124,25 @@
     line-height: 40px;
   }
   .sys-table-container {
-    padding:10px;
+    padding: 15px 10px 10px;
     background-color: #fff;
   }
   .search-container {
     .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
       margin-bottom: 12px;
+    }
+    .btn-box {
+      position: relative;
+      transition: all 1s;
+    }
+    .el-button.el-button--mini {
+      transition: all 1s;
+      padding: 0 10px;
+      height: 28px;
+      line-height: 28px;
+      .iconfont {
+        font-size: 16px;
+      }
     }
   }
   .function-container {
@@ -201,96 +214,13 @@
     font-size: 12px;
   }
 } 
-.sys-form-style {
-  .input-form {
-    border-top: 1px solid #b7b7b7;
-    border-left: 1px solid #b7b7b7;
-    .el-form-item--mini.el-form-item, 
-    .el-form-item--small.el-form-item {
-      margin-bottom: 0;
-    }
-    .el-form-item__error {
-      color: white;
-      font-size: 12px;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      word-break: break-all;
-      background: #F56C6C;
-      z-index: 2;
-      padding: 5px 5px;
-      min-width: 20px;
-      line-height: 18px;
-      border-radius: 2px; 
-    }
-    .el-form-item__error:after{
-      border: solid transparent;
-      content: ' ';
-      height: 0;
-      position: absolute;
-      width: 0;
-      border-width: 6px;
-      border-bottom-color: #F56C6C;
-      left: 10px;
-      top: 0;
-      margin-top: -9px;
-    }
-    .el-input--mini .el-input__inner, 
-    .el-range-editor--mini.el-input__inner {
-      border-top: 0;
-      // border-right: 1px solid #b7b7b7!important;
-      border-radius: 0;
-      border-bottom-color: transparent;
-      border-left: 0;
-      border-right: 0;
-      transition: all .2s;
-      &:focus {
-        border-bottom-color:transparent;
-      }
-    }
-    .el-form-item__label {
-      text-align: right;
-      float: left;
-      font-size: 12px;
-      color: #080808;
-      padding: 0 2px 0 0;
-      box-sizing: border-box;
-      border-top: 0;
-      border-left: 0;
-      line-height: 28px!important;
-    }
-    .el-form-item--mini .el-form-item__content {
-      border-left: 1px solid #b7b7b7;
-      // border-right: 1px solid #b7b7b7;
-      &>.el-input {
-        padding: 0 2px 1px;
-        box-sizing: border-box;
-      }
-      &>.el-select {
-        padding: 0 2px 1px;
-        box-sizing: border-box;
-      }
-    }
-    .el-col:not(.no-border) {
-      padding: 0;
-      border-right: 1px solid #b7b7b7;
-      border-bottom: 1px solid #b7b7b7;
-      &:nth-child(2n+1) {
-        // border-left: 1px solid #b7b7b7;
-      }
-      &>.el-col:nth-child(2n+1) {
-        border-right: 1px solid #b7b7b7;
-      }
-    }
-  }
-}
 .dropDown-upload {
   .el-upload {
     width: 100%;
   }
 }
 .el-loading-mask {
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(255, 255, 255, .1);
   z-index: 9999;
 }
 .echart-box {
@@ -334,7 +264,7 @@
     }
   }
 }
-.login-register {
+.login-resetPw,.login-register, .errTip-right {
   .el-form--label-top .el-form-item__label {
     padding-bottom: 0px;
   }
@@ -464,7 +394,6 @@
 }
 .sidebar-container {
   color: #fff;
-  background-color: @sys-aside-bg;
   .el-submenu>.el-menu>.el-menu-item {
     text-indent: 8px;
   }
@@ -506,12 +435,17 @@
     height: 100%;
     .el-tabs__header {
       margin-bottom: 0;
+      border: none;
+      box-shadow: 0 1px 4px #ccc;
+      z-index: 2;
       .el-tabs__nav-next, .el-tabs__nav-prev {
-        line-height: 36px;
+        line-height: 30px;
       }
       &.is-top {
         background-color: #fff;
         padding-right: 60px;
+        height: 30px;
+        overflow: hidden;
       }
     }
     .el-tabs__content {
@@ -528,14 +462,16 @@
     .el-tabs__item {
       padding: 0 15px!important;
       font-size: 12px;
-      line-height: 35px;
+      line-height: 30px;
       border-bottom: none;
-      height: 35px;
+      height: 30px;
       .el-icon-close {
         line-height: 14px;
       }
-      &.is-active {
-        font-weight: bold;
+      transition: all .05s;
+      &.is-active:not(#tab-tab-index) {
+        color: #fff;
+        background-color: @sys-tab-color;
       }
     }
     .el-tabs__nav {
@@ -582,7 +518,7 @@
 }
 .tab-popper {
   min-width: 45px;
-  padding: 10px 12px;
+  padding: 5px 12px;
 }
 .remote-popper {
   padding: 5px 10px;

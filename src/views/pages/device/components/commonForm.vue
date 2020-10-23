@@ -1,25 +1,31 @@
 <template>
   <div class="remote-set">
-    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="left" label-width="200px">
+    <div v-show="tips" class="tips flex-vertical-center">
+      <i class="el-icon-warning-outline"></i>
+      {{tips}}
+    </div>
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="right" label-width="300px">
       <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
         <div class="col-left">
           <!-- input组件 -->
-          <template v-if="ele.elemType.uiType === 'input'">
+          <template v-if="ele.elemType.uiType === 'input' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key"
               :rules="rangeValidInput(ele)">
               <el-popover
                 popper-class="remote-popper"
                 placement="right"
+                :disabled="!placeholderText(ele) || ele.level==1"
                 trigger="click">
                 <span>{{placeholderText(ele)}}</span>
-                <el-input slot="reference" v-model="dataForm[ele.key]" :placeholder="placeholderText(ele)"></el-input>
+                <el-input slot="reference" v-model="dataForm[ele.key]" :disabled="ele.level==1" :placeholder="placeholderText(ele)"></el-input>
               </el-popover>
             </el-form-item>
           </template>
           <!-- switch组件 -->
-          <template v-else-if="ele.elemType.uiType === 'switch'">
+          <template v-if="ele.elemType.uiType === 'switch' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
               <el-switch
+                :disabled="ele.level==1"
                 @change="singleBtn(ele.key, 'switch')"
                 v-model="dataForm[ele.key]"
                 active-color="#13ce66"
@@ -30,9 +36,9 @@
             </el-form-item>
           </template>
           <!-- select组件 -->
-          <template v-else>
+          <template v-if="ele.elemType.uiType === 'select' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
-              <el-select v-model="dataForm[ele.key]" style="width: 100%">
+              <el-select v-model="dataForm[ele.key]" remote filterable :disabled="ele.level==1">
                 <el-option v-for="op in ele.elemType.uiItems" :label="op" :key="op" :value="op"></el-option>
               </el-select>
             </el-form-item>
@@ -43,10 +49,10 @@
         </div>
       </el-row>
     </el-form>
-    <el-row style="width:350px">
-      <el-col align="center">
+    <el-row>
+      <div style="margin-left: 370px">
         <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
-      </el-col>
+      </div>
     </el-row>
   </div>
 </template>
@@ -66,6 +72,9 @@ export default {
         return []
       }
     },
+    tips: {
+      default: ''
+    },
     isBlock: { // 整体提交或单条提交
       type: Boolean,
       default: true
@@ -83,7 +92,7 @@ export default {
   methods: {
     // 根据key值查询表单
     async getFormValueByKey (id, key) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/device/setting/get',
         data: {
           id,
@@ -121,9 +130,8 @@ export default {
     },
     // 表单提交api
     async submitForm (key, form) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/device/setting/set',
-        method: 'post',
         data: {
           id: this.id,
           key: key || this.keyWord,
@@ -185,5 +193,15 @@ export default {
 //@import url(); 引入公共css类
 .col-right {
   margin-left: 10px;
+}
+.tips {
+  border-radius: 4px 0 0 4px;
+  background-color: pink;
+  background: repeating-linear-gradient(90deg, #e9ba73, #fff);
+  i {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 16px;
+  }
 }
 </style>

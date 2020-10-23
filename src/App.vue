@@ -1,12 +1,11 @@
 <template>
-  <div id="app" v-loading="$store.state.loading">
-    <keep-alive :exclude="['router-login']">
+  <div id="app" v-loading="$store.getters.isLoading">
+    <keep-alive :exclude="['sign-in', 'sign-up']">
       <router-view/>
     </keep-alive>
   </div>
 </template>
 <script>
-
 export default {
   data () {
     return {}

@@ -1,25 +1,25 @@
 <template>
   <section class="sys-main sys-form-style-label bg-c" v-setH:min="setDivH">
     <el-form size="mini" :model="dataForm" ref="dataForm" :rules="rules" label-position="left" label-width="110px">
-      <div class="top" v-if="access > 1">
+      <div class="top">
         <div class="title border-line">{{$t('plant.plantSet')}}</div>
         <div class="col-container">
-          <el-row :gutter="60" class="input-form">
+          <el-row :gutter="60">
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('join.agent')" prop="agent">
-                <el-select v-model="dataForm.agent" style="width:100%" :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.agent" :disabled="endUserNoUse && inputController" style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="(item, index) in agentList" :key="'index' + index" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.name')" prop="details.name">
-                <el-input v-model="dataForm.details.name" clearable></el-input>
+                <el-input v-model="dataForm.details.name" :disabled="endUserNoUse && inputController" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.type')" prop="details.type">
-                <el-select v-model="dataForm.details.type" style="width:100%" filterable default-first-option :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.details.type" :disabled="endUserNoUse && inputController" style="width:100%" filterable default-first-option :placeholder="$t('common.select')">
                   <el-option :label="$t('common.light')" :value="1" key="1"></el-option>
                   <el-option :label="$t('common.energy')" :value="2" key="2"></el-option>
                 </el-select>
@@ -48,9 +48,10 @@
                   @show="importMap()"
                   popper-class="map-popper"
                   placement="bottom"
+                  :disabled="endUserNoUse && inputController"
                   trigger="click">
-                  <el-input slot="reference" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
-                    <span slot="suffix"><i class="map-icon el-icon-location-information"></i></span>
+                  <el-input slot="reference" :disabled="endUserNoUse && inputController" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
+                    <span slot="suffix" v-show="!(endUserNoUse && inputController)"><i class="map-icon el-icon-location-information"></i></span>
                   </el-input>
                   <div class="map-place">
                     <div class="input-box flex-vertical-center">
@@ -65,12 +66,12 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.postcode')" prop="details.postcode">
-                <el-input v-model="dataForm.details.postcode" clearable></el-input>
+                <el-input v-model="dataForm.details.postcode" :disabled="endUserNoUse && inputController" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8" v-if="hasSummerTime">
               <el-form-item :label="$t('plant.summerTime')" prop="daylight">
-                <el-select v-model="dataForm.daylight" filterable style="width:100%" :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.daylight" :disabled="endUserNoUse && inputController" filterable style="width:100%" :placeholder="$t('common.select')">
                   <el-option v-for="item in zoneInfo.daylights" :key="item" :value="item" :label="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -84,21 +85,21 @@
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.pvcapacity')" prop="details.systemCapacity">
-                <el-input v-model="dataForm.details.systemCapacity" clearable>
+                <el-input v-model="dataForm.details.systemCapacity" :disabled="endUserNoUse && inputController" clearable>
                   <span slot="suffix">kWp</span>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.price')" prop="details.price">
-                <el-input v-model="dataForm.details.price" clearable>
-                  <span slot="suffix">/kWh</span>
+                <el-input v-model="dataForm.details.price" :disabled="endUserNoUse && inputController" clearable>
+                  <span slot="suffix">/kW·h</span>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('common.currency')" prop="details.currency">
-                <el-select default-first-option filterable v-model="dataForm.details.currency" style="width:100%" :placeholder="$t('common.select')">
+                <el-select default-first-option filterable v-model="dataForm.details.currency" :disabled="endUserNoUse && inputController" style="width:100%" :placeholder="$t('common.select')">
                   <el-option
                     v-for="item in currencyList"
                     :key="item" :value="item"
@@ -164,6 +165,8 @@ export default {
   data () {
     return {
       opType: 'add', // 记录操作类型 add创建, look查看 edit编辑
+      inputController: true, // 终端用户关联电站时失败时,想要创建电站
+      errno: '', // 处理终端用户创建电站的接口地址
       plantId: '', // 电站id
       appVersion: process.env.VUE_APP_VERSION,
       isSelectMap: false,
@@ -215,26 +218,7 @@ export default {
         key: '',
         isPass: 1
       },
-      rules: {
-        agent: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        timezone: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        daylight: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.name': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.type': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.country': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.city': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.address': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.currency': [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
-        'details.price': [
-          { required: true, message: this.messageValid('require'), trigger: 'blur' },
-          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
-        ],
-        'details.systemCapacity': [
-          { required: true, message: this.messageValid('require'), trigger: 'blur' },
-          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
-        ],
-        'details.postcode': [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
-      },
+      rules: {},
       currencyList: []
     }
   },
@@ -246,12 +230,7 @@ export default {
       this.getStationInfo(this.plantId)
     }
     if (this.access > 1) {
-      await this.getCurrencyList()
-      await this.getAgentList()
-      // this.countryList = await this.getCountryList()
-      if (this.opType === 'add') {
-        this.dataForm.details.currency = this.currencyList[0] || ''
-      }
+      this.initFormData()
     }
     // 复制模板
     this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
@@ -282,16 +261,51 @@ export default {
     },
     hasSummerTime () { // 是否有夏令时
       return this.zoneInfo.useDaylight
+    },
+    endUserNoUse () {
+      return this.access === 1 && this.opType === 'add'
     }
   },
   methods: {
+    // 表单数据初始化
+    async initFormData () {
+      this.rules = this.setFormRules(true)
+      await this.getCurrencyList()
+      await this.getAgentList()
+      if (this.opType === 'add') {
+        this.dataForm.details.currency = this.currencyList[0] || ''
+      }
+    },
+    // 设置校验规则
+    setFormRules (isRequired = false) {
+      return {
+        agent: [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        timezone: [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        daylight: [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.name': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.type': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.country': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.city': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
+        'details.address': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.currency': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.price': [
+          { required: isRequired, message: this.messageValid('require'), trigger: 'blur' },
+          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+        ],
+        'details.systemCapacity': [
+          { required: isRequired, message: this.messageValid('require'), trigger: 'blur' },
+          { message: this.messageValid('valid'), pattern: /^([0-9]+\.)?[0-9]+$/, trigger: 'blur' }
+        ],
+        'details.postcode': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }]
+      }
+    },
     // 设备新增
     deviceAdd () {
       this.dataForm.devices.push({ ...this.templateDevice })
     },
     // 获取代理商列表
     async getAgentList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/user/agents'
       })
       if (result) {
@@ -304,7 +318,7 @@ export default {
     },
     // 获取币种列表
     async getCurrencyList () {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/earnings/currency'
       })
       if (result && result.length > 0) {
@@ -316,7 +330,7 @@ export default {
     async getZoneList (shortName) {
       this.dataForm.timezone = ''
       this.dataForm.daylight = ''
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/map/timezones',
         data: {
           country: shortName
@@ -328,11 +342,7 @@ export default {
     },
     // 设备删除
     async deviceDelete (index, sn) {
-      let res = await this.$confirm(this.$t('common.tips2') + ' ' + sn, this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('common.tips2', ' ' + sn)
       if (!res) return
       if (index === 0 && this.dataForm.devices.length === 1) {
         if (this.dataForm.devices[0].sn) {
@@ -361,11 +371,7 @@ export default {
     },
     // 取消按钮
     async cancel () {
-      let res = await this.$confirm(this.$t('common.tips1'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm('common.tips1')
       if (!res) return
       this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
       this.$refs.dataForm.clearValidate()
@@ -405,32 +411,52 @@ export default {
       }
     },
     // 新建电站 / 编辑电站
-    creatPlant () {
-      let url = this.opType === 'add' ? '/v0/plant/create' : '/v0/plant/update'
+    async creatPlant () {
+      let url = ''
+      if (this.opType === 'add') {
+        url = '/v0/plant/create'
+        if (this.errno === 41934) {
+          url = '/v1/plant/create'
+        }
+      } else {
+        url = '/v0/plant/update'
+      }
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
-      this.$post({
+      let { result, other } = await this.$post({
         url: url,
         data: {
           ...this.dataForm
-        },
-        success: ({ result }) => {
-          this.$message.success(this.$t('common.success'))
-          let backName = 'bus-plant-view'
-          if (this.$route.meta.title === 'plantL') {
-            backName = 'bus-data-view'
-          }
-          this.$tab.back({
-            name: backName
-          })
         }
       })
+      let backName = 'bus-plant-view'
+      if (this.$route.meta.title === 'plantL') {
+        backName = 'bus-data-view'
+      }
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.$tab.back({
+          name: backName
+        })
+      }
+      // 处理终端用户没有关联上电站的逻辑
+      if (other && other.errno === 41934 && this.access === 1) {
+        let res = await this.$openConfirm('plant.snIsLink')
+        if (res) {
+          this.errno = other.errno
+          this.$tab.setTitle('plantN')
+          this.inputController = false
+          this.initFormData()
+          this.$nextTick(() => {
+            this.$refs.dataForm.clearValidate()
+          })
+        }
+      }
     },
     // 远程校验sn 任意一对sn-key验证通过都可创建成功,全部sn-key失败则创建失败
     async remoteSN (item) {
-      let { result, other } = await this.$axios({
-        method: 'post',
+      let { result, other } = await this.$post({
         url: '/v0/module/checksn',
         data: {
           type: this.access === 1 ? 0 : this.opType === 'add' ? 1 : 2,
@@ -443,7 +469,7 @@ export default {
     },
     // 查询电站信息
     async getStationInfo (stationID) {
-      let { result } = await this.$axios({
+      let { result } = await this.$get({
         url: '/v0/plant/get',
         data: {
           stationID
@@ -464,7 +490,6 @@ export default {
     },
     addressChange (e) {
       this.isSelectMap = false
-      console.log(e.target.value)
       if (!e.target.value) {
         this.zoneInfo.timezones = []
         this.dataForm.details.country = ''
@@ -494,12 +519,6 @@ export default {
 }
 .devices-box,.col-container {
   padding: 0 50px;
-}
-.col-container {
-  display: flex;
-  .input-form {
-    flex: 1;
-  }
 }
 .map-place {
   height: 300px;

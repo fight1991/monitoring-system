@@ -26,8 +26,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -175,9 +175,8 @@ export default {
           day: new Date(this.times[1]).getDate()
         }
       }
-      let { result, error, other } = await this.$axios({
+      let { result, error, other } = await this.$post({
         url: '/v0/device/report/query',
-        method: 'post',
         data: {
           ...pagination,
           ...this.searchForm

@@ -53,16 +53,14 @@
 
 <script>
 import login from './components/login'
-import register from './components/register'
 import resetPw from './components/resetPw'
 import { judgeClient } from '@/util'
 import erweima from './components/erweima'
 import storage from '@/util/storage'
 export default {
-  name: 'router-login',
+  name: 'sign-in',
   components: {
     login,
-    register,
     resetPw,
     erweima
   },
@@ -91,7 +89,6 @@ export default {
     }
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
-      this.$i18n.locale = langInfo
       this.lang = langInfo === 'en' ? 'English' : '中文'
     }
     let vers = this.version === 'inside' ? 'zh_CN' : 'en'

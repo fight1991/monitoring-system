@@ -25,8 +25,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">重置</el-button>
-              <el-button type="primary" size="mini" @click="search">查询</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -118,9 +118,8 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
+      let { result } = await this.$post({
         url: '/v0/module/list',
-        method: 'post',
         data: {
           ...pagination,
           condition: this.searchForm

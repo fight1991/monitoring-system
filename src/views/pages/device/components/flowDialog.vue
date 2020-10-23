@@ -3,6 +3,7 @@
     class="sys-dialog"
     :title="$t('inverter.liveData')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @opened="search"
     @close="closeDialog"
     :visible.sync="dialogVisible"

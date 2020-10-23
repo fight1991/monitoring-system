@@ -112,7 +112,7 @@ export function bussinessBundle (res, other, success, store) {
 // 开启loading
 export function startLoading (store, tabId, globalLoading) {
   // 页签组件的loading
-  if (store.state.tab.currentTab && store.state.tab.currentTab !== 'tab-index' && !globalLoading) {
+  if (store.state.tab.currentTab !== 'tab-index' && !globalLoading) {
     store.dispatch('setCurrentTabLoading', { tabId, flag: true })
   } else {
   // 全局loading
@@ -122,7 +122,7 @@ export function startLoading (store, tabId, globalLoading) {
 // 关闭loading
 export function closeLoading (store, tabId, globalLoading) {
   // 页签组件的loading
-  if (store.state.tab.currentTab && store.state.tab.currentTab !== 'tab-index' && !globalLoading) {
+  if (store.state.tab.currentTab !== 'tab-index' && !globalLoading) {
     store.dispatch('setCurrentTabLoading', { tabId, flag: false })
   } else {
   // 全局loading
@@ -250,4 +250,8 @@ export function getTimespan (time) {
   let timeStr = tempArr.slice(0, 2).join()
   let res = Date.parse(timeStr.replace('-', '/').replace('-', '/'))
   return res
+}
+// 深拷贝
+export function deepCopy (obj) {
+  return JSON.parse(JSON.stringify(obj))
 }

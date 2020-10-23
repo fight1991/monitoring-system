@@ -1,17 +1,22 @@
 <template>
   <section>
     <el-row>
-      <div class="col">{{$t('login.username')}}</div>
-      <div class="col border-b">{{username}}</div>
+      <div class="col border-b">
+        <span class="label">{{$t('login.username') + ' : '}}</span>
+        <span class="value">{{username}}</span>
+      </div>
     </el-row>
-    <el-row>
-      <div class="col">{{$t('login.pw')}}</div>
-      <div class="col border-b">{{'***********'}}</div>
-      <div class="col edit" @click="pwVisible=true">{{$t('user.edit')}}</div>
+    <el-row type="flex">
+      <div class="col border-b">
+        <span class="label">{{$t('login.pw') + ' : '}}</span>
+        <span class="value">{{'***********'}}</span>
+      </div>
+      <div class="edit" @click="pwVisible=true">{{$t('user.edit')}}</div>
     </el-row>
     <el-dialog
       :title="$t('user.edit')+$t('login.pw')"
       :modal-append-to-body="false"
+      :close-on-click-modal="false"
       :visible.sync="pwVisible">
       <div class="flex-center">
         <reset-pw :btnShow="1" @close:visible="pwVisible=false"></reset-pw>
@@ -43,18 +48,5 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-//@import url(); 引入公共css类
-.el-row {
-  padding: 15px 20px;
-  .col {
-    color: gray;
-    float: left;
-    width: 150px;
-    margin-right: 10px;
-  }
-  .edit {
-    color: @sys-main-header;
-    cursor: pointer;
-  }
-}
+@import url("../style/common.less");
 </style>

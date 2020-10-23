@@ -91,48 +91,51 @@ export default {
     // 打开注册组件/密码找回
     registerBtn (type) {
       this.clearTime()
+      if (type === 'register') {
+        this.$router.push('/signUp')
+        return
+      }
       this.$emit('toggleStatus', type)
     },
     // 登录
-    goLogin () {
+    async goLogin () {
       // 自定义表单校验
       if (!this.passwordValid()) return false
       this.dataForm.accountType = this.accountType
       let tempData = { ...this.dataForm }
-      this.$post({
+      let { result, other } = await this.$post({
         url: '/v0/user/login',
         data: {
           ...tempData,
           password: md5(tempData.password)
-        },
-        success: ({ result }) => {
-          if (this.$route.query.sysId === 'maxScreen') {
-            let outPath = decodeURIComponent(this.$route.query.redirect)
-            window.open(`${outPath}?token=${base64.encode(result.token)}`, '_self')
-            return
-          }
-          storage.setStorage('token', result.token)
-          storage.setStorage('account', tempData.user)
-          // 存储权限信息
-          this.$store.commit('setAccess', result.access)
-          let path = '/'
-          if (result.access === 0) { // 游客
-            path = '/product/index'
-          } else {
-            path = this.$route.query.redirect || '/bus/dataView'
-          }
-          this.$router.push(path)
-        },
-        other: res => {
-          // 41805 账号不存在 打开注册页面
-          // 41807 用户名或密码错误
-          if (res.errno === 41805) {
-            this.registerBtn('register')
-            return false
-          }
-          // 若验证码登录则 41900 41901 41902验证码已失效, 验证码错误 验证码不存在
         }
       })
+      if (result) {
+        if (this.$route.query.sysId === 'maxScreen') {
+          let outPath = decodeURIComponent(this.$route.query.redirect)
+          window.open(`${outPath}?token=${base64.encode(result.token)}`, '_self')
+          return
+        }
+        storage.setStorage('token', result.token)
+        storage.setStorage('account', tempData.user)
+        // 存储权限信息
+        this.$store.commit('setAccess', result.access)
+        let path = '/'
+        let redirectPath = this.$route.query.redirect
+        if (redirectPath !== '/') {
+          path = redirectPath || '/bus/dataView'
+        }
+        window.open(path, '_self')
+      }
+      if (other) {
+        // 41805 账号不存在 打开注册页面
+        // 41807 用户名或密码错误
+        if (other.errno === 41805) {
+          this.registerBtn('register')
+          return false
+        }
+        // 若验证码登录则 41900 41901 41902验证码已失效, 验证码错误 验证码不存在
+      }
     }
   }
 }

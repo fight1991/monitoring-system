@@ -18,7 +18,7 @@ export default {
     },
     {
       path: '/bus/version/inverRemote',
-      name: '/bus-version-inverRemote',
+      name: 'bus-version-inverRemote',
       meta: {
         permission: [3, 255],
         title: 'inverUp',
@@ -27,7 +27,7 @@ export default {
     },
     {
       path: '/bus/version/moduRemote',
-      name: '/bus-version-moduRemote',
+      name: 'bus-version-moduRemote',
       meta: {
         permission: [3, 255],
         title: 'moduleUp',

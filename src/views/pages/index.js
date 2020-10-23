@@ -1,3 +1,4 @@
+import Home from './home'
 import DataView from './dataView'
 import Plant from './plant'
 import Device from './device'
@@ -9,16 +10,7 @@ import DataReport from './dataReport'
 // import Upgrade from './upgrade'
 // import Message from './message'
 // import Relog from './relog'
-const Home = {
-  path: '/bus/index',
-  hidden: true,
-  name: 'tab-index',
-  meta: {
-    permission: [1, 2, 3, 255],
-    title: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '@/views/pages/home')
-  }
-}
+
 export default [
   Home,
   DataView,

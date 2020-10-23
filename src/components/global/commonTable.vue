@@ -78,8 +78,11 @@ export default {
     }
   },
   props: {
-    lowsNum: { // 根据查询条件行数计算表格剩下的高度
+    rowsNum: { // 根据查询条件行数计算表格剩下的高度
       default: 1
+    },
+    rowsStatus: { // 高级查询是否打开
+      default: false
     },
     height: {
       default: ''
@@ -148,7 +151,7 @@ export default {
       }
       return {
         prop: 'max-height',
-        value: window.innerHeight - this.$store.state.tableH - (this.lowsNum - 1) * 50
+        value: window.innerHeight - this.$store.state.tableH - (this.rowsStatus ? (this.rowsNum - 1) * 50 : 0)
       }
     }
   },
