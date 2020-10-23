@@ -229,7 +229,7 @@ export default {
       this.isSelectMap = true
       this.getStationInfo(this.plantId)
     }
-    if (this.access > 1) {
+    if (this.access > 1 || (this.access === 1 && this.opType === 'edit')) {
       this.initFormData()
     }
     // 复制模板
