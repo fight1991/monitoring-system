@@ -1,7 +1,8 @@
 <template>
   <section class="sys-main flex-column-between bg-c" v-setH:min="setDivH">
     <div class="sys-table-container">
-      <el-form size="mini" label-width="0px" :model="searchForm">
+      <search-bar>
+        <el-form size="mini" label-width="0px" :model="searchForm">
           <el-row :gutter="15">
             <el-col :span="3">
               <el-form-item>
@@ -20,7 +21,6 @@
                 style="width:100%"
                 v-model="times"
                 type="daterange"
-                @change="changeDate"
                 value-format="yyyy-MM-dd"
                 :range-separator="$t('common.to')"
                 :start-placeholder="$t('common.start')"
@@ -42,18 +42,23 @@
                 </el-form-item>
               </el-col>
             </template>
-            <el-col :span="6" align="left">az
+            <el-col :span="6" align="left">
               <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
               <search-button type="success" icon="icon-search" @click="search"></search-button>
               <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
+      </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-downLoad" @click="download">{{$t('common.download')}}</el-button>
+          <el-button size="mini" :disabled="!downloadUrl" icon="iconfont icon-downLoad" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead"  :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList"></common-table>
+        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :tableList="resultList">
+          <template v-slot:alarmType="{row}">
+            {{$t(translateAlarmType(row.alarmType))}}
+          </template>
+        </common-table>
       </func-bar>
     </div>
     <div class="page-list">
@@ -65,6 +70,7 @@
 export default {
   data () {
     return {
+      downloadUrl: '',
       searchForm: {
         plantName: '',
         deviceSN: '',
@@ -107,39 +113,39 @@ export default {
       tableHead: [
         {
           label: 'common.plant',
-          prop: 'type',
+          prop: 'plantName',
           checked: true
         },
         {
           label: 'common.invertSn',
-          prop: 'type',
+          prop: 'deviceSN',
           checked: true
         },
         {
           label: 'common.datacolSN',
-          prop: 'type',
+          prop: 'moduleSN',
           checked: true
         },
         {
           label: 'common.alarmType',
-          prop: 'type',
-          checked: true
+          prop: 'alarmType',
+          checked: true,
+          slotName: 'alarmType'
         },
         {
           label: 'alarm.alarmNum',
-          prop: 'type',
+          prop: 'alarmCode',
           checked: true
         },
         {
           label: 'alarm.alarmCon',
-          prop: 'type',
+          prop: 'content',
           checked: true
         },
         {
           label: 'plant.reportTime',
           prop: 'time',
-          checked: true,
-          slotName: 'time'
+          checked: true
         }
       ]
     }
@@ -176,10 +182,7 @@ export default {
       this.selection = []
     },
     download () {
-      alert('下载')
-    },
-    changeDate () {
-      console.log(this.times)
+      window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
       if (this.times && this.times.length > 0) {
@@ -215,6 +218,27 @@ export default {
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
         this.resultList = result.data || []
+        this.downloadUrl = result.downloadUrl || ''
+      }
+    },
+    translateAlarmType (num) {
+      switch (num) {
+        case 0 :
+          return 'alarm.all'
+        case 1:
+          return 'alarm.comError'
+        case 2 :
+          return 'alarm.pVBus'
+        case 3:
+          return 'alarm.gridError'
+        case 4 :
+          return 'alarm.tempError'
+        case 5:
+          return 'alarm.cpuError'
+        case 6 :
+          return 'alarm.eps'
+        case 7:
+          return 'alarm.outer'
       }
     }
   }
