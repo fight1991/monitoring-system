@@ -82,7 +82,7 @@ export default {
     invert: '逆变器',
     module: '模块',
     battery: '电池',
-    invertSn: '逆变器sn',
+    invertSn: '逆变器SN',
     alarmType: '报错类型',
     common: '一般',
     pvBus: 'PV&BUS',
@@ -131,7 +131,7 @@ export default {
     onSta: '在线状态',
     plantsName: '电站名称',
     InvType: '逆变器型号',
-    datacolSN: '模块sn',
+    datacolSN: '模块SN',
     contact: '联系方式',
     to: '至',
     start: '开始日期',
@@ -376,6 +376,12 @@ export default {
     inCode: '安装商代码',
     assoAg: '关联代理商',
     agCode: '代理商代码'
+  },
+  battRemote: {
+    bmsMasterSN: '主控SN',
+    bmsMasterVersion: '主控版本',
+    bmsSlaveSN: '从控SN',
+    bmsSlaveVersion: '从控版本'
   },
   errorCode: {
     41200: '查询数据异常',

@@ -377,6 +377,12 @@ export default {
     assoAg: 'Associated agent',
     agCode: 'Agent code'
   },
+  battRemote: {
+    bmsMasterSN: 'bmsMasterSN',
+    bmsMasterVersion: 'bmsMasterVersion',
+    bmsSlaveSN: 'bmsSlaveSN',
+    bmsSlaveVersion: 'bmsSlaveVersion'
+  },
   errorCode: {
     41200: 'Query data failed',
     41201: 'Server exception',
