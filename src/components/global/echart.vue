@@ -43,7 +43,7 @@ export default {
     }),
     hasData () { // 是否有数据
       if (this.datas.series && this.datas.series.length > 0) {
-        return this.datas.series.every(v => v.data && v.data.length > 0)
+        return this.datas.series.some(v => v.data && v.data.length > 0)
       } else {
         return false
       }
