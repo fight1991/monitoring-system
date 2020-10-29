@@ -48,14 +48,13 @@ export default {
     remark: 'Remarks',
     selUser: 'Select user type',
     regACC: 'Register account',
-    perInfor: 'Perfect information',
+    perInfor: 'Account details',
     regCom: 'Register complete',
     next: 'Next',
     reselUser: 'Reselect user type',
     regSucc: 'Successful !',
-    login: 'To log in',
     agentCode: 'Agent code',
-    code: 'Installer/agent code'
+    code: 'Installer/Agent code'
   },
   common: {
     signIn: 'Sign in',
@@ -195,9 +194,9 @@ export default {
     tips1: '4-20 characters, composed of English letters and numbers',
     tips2: '6-20 characters, composed of English letters 、numbers and "_"',
     tips3: 'Are you sure you want to log out?',
+    tips4: 'Please get the code from your installation/distribution company if you want to bind your station with them.Without the code might affect the future service and maitainance',
     goOut: 'Log out',
-    tips4: '',
-    tips5: '',
+    tips5: '15 digits datalogger sn',
     successMg1: 'sign up successfully',
     successMg2: 'Reset successfully'
   },

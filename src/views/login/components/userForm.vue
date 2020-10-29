@@ -4,12 +4,20 @@
       <el-row>
         <el-col :span="24">
           <el-form-item prop="sn" label="SN">
-            <el-input v-model="baseForm.sn"></el-input>
+            <el-input v-model="baseForm.sn" :placeholder="$t('login.tips5')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$t('join.code')">
-            <el-input v-model="baseForm.code"></el-input>
+            <el-popover
+              :visible-arrow="false"
+              trigger="focus"
+              popper-class="login-pop"
+              width="200"
+              placement="right">
+              <span>{{$t('login.tips4')}}</span>
+              <el-input slot="reference" v-model="baseForm.code"></el-input>
+            </el-popover>
           </el-form-item>
         </el-col>
       </el-row>
