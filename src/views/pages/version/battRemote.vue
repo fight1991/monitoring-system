@@ -51,7 +51,7 @@
       </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-shengji" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList" ref="multipleTable" @selection-change="handleSelectionChange">
@@ -71,13 +71,18 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" type="module" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
-    <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="module"></upstatus-dialog>
-    <updetail-dialog :visible.sync="updetailVisible" apiUrl="module" :taskId="taskId"></updetail-dialog>
+    <upgrade-dialog @refreshList="search" type="device" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="battery"></upstatus-dialog>
+    <updetail-dialog :visible.sync="updetailVisible" apiUrl="battery" :taskId="taskId"></updetail-dialog>
   </section>
 </template>
 <script>
+import { battery as eventBus } from './common/eventBus'
+import upgradeDialog from './components/upgradeDialog'
+import updetailDialog from './components/updetailDialog'
+import upstatusDialog from './components/upstatusDialog'
 export default {
+  components: { upgradeDialog, upstatusDialog, updetailDialog },
   data () {
     return {
       upgradeVisible: false,
@@ -157,7 +162,13 @@ export default {
     }
   },
   created () {
-    this.getList(this.defaultPage)
+    eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
+    this.search()
+  },
+  computed: {
+    sns () {
+      return this.selection.map(v => v.deviceSN)
+    }
   },
   methods: {
     handleSelectionChange (val) {
