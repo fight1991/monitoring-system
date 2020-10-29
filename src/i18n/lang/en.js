@@ -19,6 +19,7 @@ export default {
     firmware: 'Firmware Version',
     inverUp: 'Inverter Remote Upgrade',
     moduleUp: 'Dataloggor Remote Upgrade',
+    batteryUp: 'Battery Remote Upgrade',
     data: 'Data Report',
     alarmM: 'Error list',
     alarmTime: 'Realtime',
@@ -378,10 +379,13 @@ export default {
     agCode: 'Agent code'
   },
   battRemote: {
-    bmsMasterSN: 'bmsMasterSN',
-    bmsMasterVersion: 'bmsMasterVersion',
-    bmsSlaveSN: 'bmsSlaveSN',
-    bmsSlaveVersion: 'bmsSlaveVersion'
+    bmsMasterSN: 'Battery master SN',
+    bmsMasterVersion: 'Battery master version',
+    bmsSlaveSN: 'Battery slave SN',
+    bmsSlaveVersion: 'Battery slave version',
+    batInfo: 'Battery Info',
+    batType: 'Battery type',
+    status: 'status'
   },
   errorCode: {
     41200: 'Query data failed',

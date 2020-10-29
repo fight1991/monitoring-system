@@ -19,6 +19,7 @@ export default {
     firmware: '固件版本',
     inverUp: '逆变器远程升级',
     moduleUp: '模块远程升级',
+    batteryUp: '电池远程升级',
     data: '数据报表',
     alarmM: '报错记录',
     alarmTime: '实时告警',
@@ -381,7 +382,10 @@ export default {
     bmsMasterSN: '主控SN',
     bmsMasterVersion: '主控版本',
     bmsSlaveSN: '从控SN',
-    bmsSlaveVersion: '从控版本'
+    bmsSlaveVersion: '从控版本',
+    batInfo: '电池信息',
+    batType: '电池类型',
+    status: '模块状态'
   },
   errorCode: {
     41200: '查询数据异常',
