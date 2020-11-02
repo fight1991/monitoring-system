@@ -158,7 +158,7 @@ export default {
         isLoad: false,
         data: {
           ...params,
-          variables: variables || ['generationPower', 'feedinPower', 'loadsPower', 'SoC'],
+          variables: variables || ['generationPower', 'feedinPower', 'loadsPower'],
           timespan: 'day',
           beginDate: {
             year: new Date(this.powerDate).getFullYear(),
@@ -175,13 +175,14 @@ export default {
         this.echartData.power.series = result.map(v => {
           let tempData = []
           if (v.data && v.data.length > 0) {
-            tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
+            tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value), v.unit])
           }
           return {
             symbol: 'none',
             type: 'line',
             name: v.variable,
             data: tempData,
+            unit: v.unit,
             smooth: true,
             markPoint: {
               data: [
