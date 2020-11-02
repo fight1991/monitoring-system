@@ -53,7 +53,6 @@ export default {
     next: '下一步',
     reselUser: '重新选择用户类型',
     regSucc: '注册成功!',
-    login: '去登录',
     agentCode: '代理商标识码',
     code: '售后组织标识码'
   },
@@ -195,9 +194,9 @@ export default {
     tips1: '4-20位字符,由英文字母及数字组成',
     tips2: '6-20位字符,可由英文字母、数字以及"_"组成',
     tips3: '确定要退出登录吗?',
+    tips4: '如果您想绑定电站,请从您的安装商或代理商获取组织码, 如果没有该代码，则可能会影响以后的服务和维护。',
     goOut: '退出登录',
-    tips4: '',
-    tips5: '',
+    tips5: '15位数SN号',
     successMg1: '注册成功',
     successMg2: '重置成功'
   },
