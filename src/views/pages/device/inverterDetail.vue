@@ -205,7 +205,7 @@ export default {
   },
   mounted () {
     if (this.flowType > 1) { // 电池业务
-      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
+      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower', 'SoC']
       this.barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
     this.$refs.lineBar.getLineData('', this.lineParams)
