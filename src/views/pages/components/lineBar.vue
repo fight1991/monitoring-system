@@ -173,7 +173,10 @@ export default {
       if (result && result.length > 0) {
         this.echartData.power.legend.data = result.map(v => v.variable)
         this.echartData.power.series = result.map(v => {
-          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
+          let tempData = []
+          if (v.data && v.data.length > 0) {
+            tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
+          }
           return {
             symbol: 'none',
             type: 'line',

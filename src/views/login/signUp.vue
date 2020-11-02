@@ -56,7 +56,7 @@
           <div class="success-icon"><i class="el-icon-success"></i></div>
           <div class="flex-center">
             <span class="sign-up-text">{{$t('join.regSucc')}}</span>
-            <span class="go-login" @click="$router.replace('/login')">{{$t('join.login')}}</span>
+            <span class="go-login" @click="$router.replace('/login')">{{$t('common.signIn')}}</span>
           </div>
         </div>
       </div>
