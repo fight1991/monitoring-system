@@ -31,7 +31,7 @@
                 active-color="#13ce66"
                 active-value="true"
                 inactive-value="false"
-                inactive-color="#ff4949">
+                inactive-color="#909399">
               </el-switch>
             </el-form-item>
           </template>
