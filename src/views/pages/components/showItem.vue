@@ -290,10 +290,10 @@ export default {
           font-size: 40px;
           display: flex;
           align-items: center;
-          animation: colorLinear 5s ease-in-out infinite;
-          color: green;
+          // animation: colorLinear 5s ease-in-out infinite;
+          // color: green;
           .time-item {
-            text-shadow: 1px 1px greenyellow, -1px -1px greenyellow,1px -1px greenyellow, -1px 1px greenyellow;
+            // text-shadow: 1px 1px greenyellow, -1px -1px greenyellow,1px -1px greenyellow, -1px 1px greenyellow;
             padding: 0 10px;
             margin: 0 5px;
             box-shadow: 0 0 10px rgba(0,0,0,.1);
