@@ -157,7 +157,7 @@ export default {
     openHsearch: 'More Conditions'
   },
   login: {
-    product: 'PRODUCTS',
+    product: 'Products',
     sSeries: 'S Series',
     eSeries: 'E/F Series',
     tSeries: 'T Series',
