@@ -53,6 +53,7 @@ export default {
     next: '下一步',
     reselUser: '重新选择用户类型',
     regSucc: '注册成功!',
+    login: '去登录',
     agentCode: '代理商标识码',
     code: '售后组织标识码'
   },
@@ -131,7 +132,8 @@ export default {
     plantsName: '电站名称',
     InvType: '逆变器型号',
     datacolSN: '模块sn',
-    contact: '联系方式',
+    contact: '安装商联系方式',
+    userContact: '用户联系方式',
     to: '至',
     start: '开始日期',
     end: '结束日期',
@@ -432,6 +434,6 @@ export default {
     44175: '电池电量不足',
     44176: '电池电量已满'
   },
-  monitor: '监控系统',
+  monitor: '麦田云',
   chooseDate: '选择日期'
 }
