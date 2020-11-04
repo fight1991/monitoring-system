@@ -181,7 +181,7 @@ export default {
     login: 'Sign in',
     register: 'Sign up',
     back: 'Back',
-    verPw: 'Verify password',
+    verPw: 'Confirm password',
     pwNot: 'The second password input is inconsistent',
     ePhone: 'Mobile number/Email',
     server: '《Terms of Service》',
@@ -199,7 +199,7 @@ export default {
     tips4: 'Please get the code from your installation/distribution company if you want to bind your station with them.Without the code might affect the future service and maitainance',
     goOut: 'Log out',
     tips5: '15 digits datalogger sn',
-    successMg1: 'sign up successfully',
+    successMg1: 'Sign up successfully',
     successMg2: 'Reset successfully'
   },
   plant: {
