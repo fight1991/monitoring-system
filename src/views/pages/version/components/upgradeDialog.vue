@@ -84,7 +84,7 @@ export default {
       this.dialogVisible = newData
     }
   },
-  props: ['sns', 'visible', 'type'],
+  props: ['sns', 'visible', 'type', 'productType'],
   created () {},
   computed: {
     solfVersionList () {
@@ -148,8 +148,13 @@ export default {
     },
     // 获取固件版本信息
     async getVersionInfo () {
+      let params = {}
+      if (this.type === 'device') {
+        params.productType = this.productType
+      }
       let { result } = await this.$get({
         url: `/v0/firmware/${this.type}/version`,
+        data: params,
         globalLoading: true
       })
       if (result) {

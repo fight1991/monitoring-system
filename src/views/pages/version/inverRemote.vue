@@ -2,8 +2,24 @@
   <section class="sys-main flex-column-between bg-c" v-setH:min="setDivH">
     <div class="sys-table-container">
       <search-bar>
-        <el-form size="mini" label-width="0px" :model="searchForm">
+        <el-form size="mini" label-width="0px" ref="searchForm" :model="searchForm" :rules="rules">
           <el-row :gutter="15">
+            <el-col :span="4">
+              <el-form-item prop="productType">
+                <!-- 产品系列 -->
+                <el-select style="width:100%" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
+                  <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item prop="deviceType">
+                <!-- 设备型号 -->
+                <el-select style="width:100%" remote filterable :disabled="!searchForm.productType" clearable v-model="searchForm.deviceType" :placeholder="$t('invupgrade.invmodel')">
+                  <el-option v-for="item in deviceTypeList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
             <el-col :span="4">
               <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
@@ -14,32 +30,16 @@
                 <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item>
-                <el-select style="width:100%" clearable v-model="searchForm.deviceStatus" :placeholder="$t('plant.equipSta')">
-                  <el-option v-for="item in statusList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
             <template v-if="showHsearch">
               <el-col :span="4">
                 <el-form-item>
-                  <!-- 产品系列 -->
-                  <el-select style="width:100%" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
-                    <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
-                  </el-select>
+                  <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="4">
                 <el-form-item>
-                  <!-- 设备型号 -->
-                  <el-select style="width:100%" remote filterable :disabled="!searchForm.productType" clearable v-model="searchForm.deviceType" :placeholder="$t('invupgrade.invmodel')">
-                    <el-option v-for="item in deviceTypeList" :label="item" :value="item" :key="item"></el-option>
+                  <el-select style="width:100%" clearable v-model="searchForm.deviceStatus" :placeholder="$t('plant.equipSta')">
+                    <el-option v-for="item in statusList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -64,7 +64,7 @@
             </template>
             <el-col :span="6" align="left" class="btn-box">
               <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
-              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="success" icon="icon-search" @click="searchBtn"></search-button>
               <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
@@ -92,7 +92,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" type="device" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="search" :productType="searchForm.productType" type="device" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="device"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="device" :taskId="taskId"></updetail-dialog>
   </section>
@@ -135,6 +135,10 @@ export default {
         pageSize: 50,
         currentPage: 1,
         total: 0
+      },
+      rules: {
+        productType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }],
+        deviceType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
       }
     }
   },
@@ -159,7 +163,6 @@ export default {
   },
   created () {
     eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
-    this.search()
     this.getProductList()
   },
   methods: {
@@ -175,6 +178,15 @@ export default {
         moduleVersion: '',
         productType: ''
       }
+      this.resultList = []
+      this.$nextTick(() => {
+        this.$refs.searchForm.clearValidate()
+      })
+    },
+    searchBtn () {
+      let isValid = true
+      this.$refs.searchForm.validate(valid => (isValid = valid))
+      if (!isValid) return
       this.search()
     },
     search () {
