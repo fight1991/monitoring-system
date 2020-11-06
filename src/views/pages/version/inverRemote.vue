@@ -7,7 +7,7 @@
             <el-col :span="4">
               <el-form-item prop="productType">
                 <!-- 产品系列 -->
-                <el-select style="width:100%" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
+                <el-select style="width:100%" @change="inputChange" remote filterable clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
                   <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -181,6 +181,12 @@ export default {
       this.resultList = []
       this.$nextTick(() => {
         this.$refs.searchForm.clearValidate()
+      })
+    },
+    inputChange () {
+      this.searchForm.deviceType = ''
+      this.$nextTick(() => {
+        this.$refs.searchForm.clearValidate('deviceType')
       })
     },
     searchBtn () {
