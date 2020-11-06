@@ -2,9 +2,9 @@ export default {
   data () {
     return {
       versionList: [ // 版本类型
-        'Master',
-        'Slave',
-        'Manager'
+        'master',
+        'slave',
+        'manager'
       ],
       modelTypeList: [ // 设备类型
         {
