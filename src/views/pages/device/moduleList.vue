@@ -85,7 +85,7 @@ export default {
       selection: [],
       statusList: [
         { status: 0, label: 'all' },
-        { status: 1, label: 'online' },
+        { status: 1, label: 'normal' },
         { status: 2, label: 'offline' }
       ],
       searchForm: {
