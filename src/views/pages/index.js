@@ -4,7 +4,7 @@ import Plant from './plant'
 import Device from './device'
 import Version from './version'
 import DataReport from './dataReport'
-// import Alarm from './alarm'
+import Alarm from './alarm'
 // import Factory from './factory'
 // import AfterSale from './afterSale'
 // import Upgrade from './upgrade'
@@ -17,8 +17,8 @@ export default [
   Plant,
   Device,
   Version,
-  DataReport
-  // Alarm,
+  DataReport,
+  Alarm
   // Factory,
   // AfterSale,
   // Upgrade,

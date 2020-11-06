@@ -378,6 +378,18 @@ export default {
     assoAg: '关联代理商',
     agCode: '代理商代码'
   },
+  alarm: {
+    alarmCon: '告警内容',
+    alarmNum: '告警编号',
+    all: '全部',
+    comError: '一般故障',
+    pVBus: 'PV&BUS输入故障',
+    gridError: '电网侧故障',
+    tempError: '温度故障',
+    cpuError: 'CPU故障',
+    eps: '电池/EPS故障',
+    outer: '外围设备故障'
+  },
   errorCode: {
     41200: '查询数据异常',
     41201: '服务运行异常',

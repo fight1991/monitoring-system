@@ -378,6 +378,18 @@ export default {
     assoAg: 'Associated Agent',
     agCode: 'Agent Code'
   },
+  alarm: {
+    alarmCon: 'Alarm content',
+    alarmNum: 'Alarm number',
+    all: 'All',
+    comError: 'Common error',
+    pVBus: 'PV&Bus input error',
+    gridError: 'Grid error',
+    tempError: 'Temp error',
+    cpuError: 'CPU error',
+    eps: 'Battery/EPS error',
+    outer: 'Outer device error'
+  },
   errorCode: {
     41200: 'Query data failed',
     41201: 'Server exception',
