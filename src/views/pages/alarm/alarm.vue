@@ -4,17 +4,31 @@
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm">
           <el-row :gutter="15">
-            <el-col :span="3">
+            <el-col :span="5">
               <el-form-item>
                 <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="5">
               <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <template v-if="showHsearch">
+              <el-col :span="7">
+                <el-form-item>
+                  <el-select style="width:100%" v-model="searchForm.alarmType" clearable :placeholder="$t('common.alarmType')">
+                    <el-option v-for="(item, index) in alarmTypeList" :label="$t('alarm.' + item.label)" :value="item.value" :key="item + index"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
+                </el-form-item>
+              </el-col>
+            </template>
+            <el-col :span="8">
               <el-form-item>
                 <el-date-picker
                 clearable
@@ -28,20 +42,6 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <template v-if="showHsearch">
-              <el-col :span="3">
-                <el-form-item>
-                  <el-select style="width:100%" v-model="searchForm.alarmType" clearable :placeholder="$t('common.alarmType')">
-                    <el-option v-for="(item, index) in alarmTypeList" :label="$t('alarm.' + item.label)" :value="item.value" :key="item + index"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="3">
-                <el-form-item>
-                  <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
-                </el-form-item>
-              </el-col>
-            </template>
             <el-col :span="6" align="left">
               <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
               <search-button type="success" icon="icon-search" @click="search"></search-button>
