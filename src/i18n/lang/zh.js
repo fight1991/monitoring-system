@@ -281,6 +281,7 @@ export default {
   },
   firmware: {
     devicetype: '设备类型',
+    devtype: '设备类型',
     version: '版本号',
     dseries: '设备系列',
     status: '审核状态',

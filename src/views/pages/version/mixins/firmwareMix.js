@@ -40,7 +40,7 @@ export default {
           checked: true
         },
         {
-          label: 'firmware.devicetype',
+          label: 'firmware.devtype',
           prop: 'modelType',
           checked: true,
           slotName: 'modelType'

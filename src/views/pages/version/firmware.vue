@@ -11,14 +11,14 @@
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devicetype')">
+                <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devtype')">
                   <el-option v-for="item in modelTypeList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.dseries')">
+                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.SoftType')">
                   <el-option v-for="item in versionList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>

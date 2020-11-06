@@ -103,7 +103,7 @@ export default {
       },
       timeTrans: {
         zh: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        other: ['Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        other: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
       },
       incomeList: [],
       mapId: '', // 地图容器 若id相同的话只渲染一次
