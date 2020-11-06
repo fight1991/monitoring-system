@@ -78,6 +78,7 @@
   </section>
 </template>
 <script>
+import { device as eventBus } from './common/eventBus'
 import upgradeDialog from './components/upgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
@@ -167,6 +168,7 @@ export default {
     }
   },
   created () {
+    eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
     this.search()
     this.getList(this.defaultPage)
   },
@@ -207,6 +209,10 @@ export default {
         this.pagination.pageSize = result.pageSize
         this.resultList = result.batteries || []
       }
+    },
+    openUpdetailDialog (id) {
+      this.updetailVisible = true
+      this.taskId = id
     }
   }
 }
