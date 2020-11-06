@@ -42,7 +42,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item :label="$t('firmware.Types')" prop="modelType">
+            <el-form-item :label="$t('firmware.devtype')" prop="modelType">
               <el-select v-model="dataForm.modelType" clearable style="width:100%" @change="modelTypeChange">
                 <el-option v-for="item in deviceTypeList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
               </el-select>

@@ -289,7 +289,6 @@ export default {
     firmwareName: '固件名称',
     hexbin: '注: 只能上传hex, bin文件',
     fileType: '文件类型',
-    Types: '设备类别',
     proLine: '产品系列',
     SoftType: '软件类别'
   },
