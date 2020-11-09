@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main">
+  <section>
     <!-- 查询区域 -->
     <div class="sys-table-container">
       <search-bar>

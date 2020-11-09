@@ -40,7 +40,7 @@ export default {
           width: 100,
           slotName: 'pv2Current'
         }, {
-          label: 'Feed in Power',
+          label: 'Feed In Power',
           prop: 'feedinPower',
           checked: true,
           width: 120,

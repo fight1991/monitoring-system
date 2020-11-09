@@ -45,7 +45,7 @@ const state = {
 }
 const getters = {
   isLoading (state) {
-    return state.isGlobalLoading && state.loadingNum > 0
+    return state.loadingNum > 0
   }
 }
 const mutations = {

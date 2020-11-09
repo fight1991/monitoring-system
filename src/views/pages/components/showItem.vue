@@ -103,7 +103,7 @@ export default {
       },
       timeTrans: {
         zh: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        other: ['Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        other: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
       },
       incomeList: [],
       mapId: '', // 地图容器 若id相同的话只渲染一次
@@ -290,10 +290,10 @@ export default {
           font-size: 40px;
           display: flex;
           align-items: center;
-          animation: colorLinear 5s ease-in-out infinite;
-          color: green;
+          // animation: colorLinear 5s ease-in-out infinite;
+          // color: green;
           .time-item {
-            text-shadow: 1px 1px greenyellow, -1px -1px greenyellow,1px -1px greenyellow, -1px 1px greenyellow;
+            // text-shadow: 1px 1px greenyellow, -1px -1px greenyellow,1px -1px greenyellow, -1px 1px greenyellow;
             padding: 0 10px;
             margin: 0 5px;
             box-shadow: 0 0 10px rgba(0,0,0,.1);
