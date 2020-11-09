@@ -197,7 +197,6 @@ export default {
           day: (this.times[1]).split('-')[2]
         }
       }
-      console.log(this.searchForm)
       let { result } = await this.$post({
         url: '/v0/alarm/query',
         data: {
