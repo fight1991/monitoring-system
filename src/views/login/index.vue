@@ -18,6 +18,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="zh">中文</el-dropdown-item>
             <el-dropdown-item command="en" divided>English</el-dropdown-item>
+            <el-dropdown-item command="pl" divided>Polskie</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <erweima></erweima>
@@ -54,7 +55,7 @@
 <script>
 import login from './components/login'
 import resetPw from './components/resetPw'
-import { judgeClient } from '@/util'
+import { judgeClient, getLang } from '@/util'
 import erweima from './components/erweima'
 import storage from '@/util/storage'
 export default {
@@ -89,7 +90,7 @@ export default {
     }
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
-      this.lang = langInfo === 'en' ? 'English' : '中文'
+      this.lang = getLang()['display'][langInfo]
     }
     let vers = this.version === 'inside' ? 'zh_CN' : 'en'
     this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${vers}/UserAgreement.html`
@@ -101,7 +102,7 @@ export default {
     },
     toggleLang (lang) {
       this.$i18n.locale = lang
-      this.lang = lang === 'en' ? 'English' : '中文'
+      this.lang = getLang()['display'][lang]
       this.$store.commit('toggleLang', lang)
       storage.setStorage('lang', lang)
     },

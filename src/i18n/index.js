@@ -8,6 +8,7 @@ import ELEMENT from 'element-ui'
 
 import en from './lang/en'
 import zh from './lang/zh'
+import pl from './lang/polish'
 
 const messages = {
   en: {
@@ -17,6 +18,10 @@ const messages = {
   zh: {
     ...zh,
     ...ELEMENT.lang.zhCN
+  },
+  pl: {
+    ...pl,
+    ...ELEMENT.lang.pl
   }
 }
 const i18n = new VueI18n({
