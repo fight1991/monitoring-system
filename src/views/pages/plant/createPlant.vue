@@ -227,7 +227,7 @@ export default {
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
       this.isSelectMap = true
-      this.getStationInfo(this.plantId)
+      await this.getStationInfo(this.plantId)
     }
     if (this.access > 1 || (this.access === 1 && this.opType === 'edit')) {
       this.initFormData()
@@ -372,9 +372,10 @@ export default {
     // 取消按钮
     async cancel () {
       let res = await this.$openConfirm('common.tips1')
-      if (!res) return
-      this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
-      this.$refs.dataForm.clearValidate()
+      if (res) {
+        this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
+        this.$refs.dataForm.clearValidate()
+      }
     },
     // 校验输入的sn是否已存在
     checkSameItem (rule, value, callback) {
