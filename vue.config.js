@@ -30,7 +30,7 @@ const webpackConfig = {
     open: true,
     host: '127.0.0.1',
     port: 9000,
-    https: false,
+    https: true,
     hotOnly: false,
     proxy: { // 设置代理
       '/api': { // =>相当于 http://127.0.0.1:9000/api(需要将axios配置的baseUrl='/api')接口以api开头的需要代理防止html, css, js静态资源也用了代理

@@ -255,6 +255,7 @@ export function getTimespan (time) {
 export function deepCopy (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
+// 语言环境配置
 export function getLang () {
   return {
     display: {
