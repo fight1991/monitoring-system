@@ -9,7 +9,7 @@ let {
   onResponseResolve,
   onResponseReject
 } = interceptors
-
+/* eslint-disable */
 // axios构造实例类
 class InitAxios {
   constructor (baseURL) {
@@ -22,7 +22,51 @@ class InitAxios {
     this.instance.interceptors.response.use(onResponseResolve, onResponseReject)
   }
 }
-// 处理所有请求类
+// 配置get/post等请求实例
+const Fetch_COMMON = new InitAxios(process.env.VUE_APP_API)['instance']
+const Fetch_UPLOAD = new InitAxios(process.env.VUE_APP_FILE)['instance']
+class SetInstance {
+  get (url, data) {
+    return Fetch_COMMON['get'](url, { params: data })
+  }
+  post (url, data) {
+    return Fetch_COMMON['post'](url, data)
+  }
+  upload (url, data) {
+    return Fetch_UPLOAD['post'](url, data, { headers: { 'Content-Type': 'multipart/form-data' } })
+  }
+}
+// 封装get/post等请求方法
+export class CommonFetch {
+  constructor (methodType) {
+    this.methodType = methodType
+  }
+  async requestFunc ({ url, data, isLoad, checkParams, globalLoading }) {
+    // 无论resolve还是reject都返回一个结果
+    let tabId = store.state.tab.currentTab
+    let loadingStatus = globalLoading || store.state.isGlobalLoading
+    try {
+      if (checkParams) { // 检查本地是否有缓存
+        if (storage.getStorage(checkParams)) {
+          return { result: storage.getStorage(checkParams) }
+        }
+      }
+      isLoad && startLoading(store, tabId, loadingStatus)
+      let ajax = new SetInstance()[this.methodType]
+      let res = await ajax(url, data)
+      isLoad && closeLoading(store, tabId, loadingStatus)
+      if (res.errno === store.state.successCode) {
+        checkParams && storage.setStorage(checkParams, res.result)
+        return { result: res.result || true }
+      }
+      return { other: res }
+    } catch (err) {
+      isLoad && closeLoading(store, tabId, loadingStatus)
+      return { error: err }
+    }
+  }
+}
+// 处理一次性批量请求
 export class AllFetch {
   /**
    * @param {*params} 数组中的每一项需为promise对象
@@ -39,45 +83,6 @@ export class AllFetch {
     } catch (err) {
       isLoad && closeLoading(store, tabId, loadingStatus)
       return false
-    }
-  }
-}
-// 得到get/post等请求实例
-export class CommonFetch {
-  constructor (methodType) {
-    this.methodType = methodType
-  }
-  async requestFunc ({ url, data, isLoad, checkParams, globalLoading }) {
-    // 设置入参
-    let params = this.methodType === 'get' ? { params: data } : data
-    // 设置请求类型
-    let method = this.methodType === 'get' ? 'get' : 'post'
-    // 如果是上传文件 重新配置header选项和服务器地址
-    let config = {
-      headerOptions: this.methodType === 'upload' ? { headers: { 'Content-Type': 'multipart/form-data' } } : {},
-      serverUrl: this.methodType === 'upload' ? process.env.VUE_APP_FILE : process.env.VUE_APP_API
-    }
-    // 无论resolve还是reject都返回一个结果
-    let tabId = store.state.tab.currentTab
-    let loadingStatus = globalLoading || store.state.isGlobalLoading
-    try {
-      if (checkParams) { // 检查本地是否有缓存
-        if (storage.getStorage(checkParams)) {
-          return { result: storage.getStorage(checkParams) }
-        }
-      }
-      isLoad && startLoading(store, tabId, loadingStatus)
-      let { instance } = new InitAxios(config.serverUrl)
-      let res = await instance[method](url, params, config.headerOptions)
-      isLoad && closeLoading(store, tabId, loadingStatus)
-      if (res.errno === store.state.successCode) {
-        checkParams && storage.setStorage(checkParams, res.result)
-        return { result: res.result || true }
-      }
-      return { other: res }
-    } catch (err) {
-      isLoad && closeLoading(store, tabId, loadingStatus)
-      return { error: err }
     }
   }
 }

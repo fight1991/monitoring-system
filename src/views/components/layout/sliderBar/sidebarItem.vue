@@ -25,7 +25,7 @@
           <template v-else>
             <el-menu-item v-show="menuPemission(child, 'chidl')" :key="child.name" :index="child.name">
               <i v-if="child.icon" :class="'iconfont '+ child.icon"></i>
-              <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(menuItem.meta.title)">{{$t('navBar.'+child.meta.title) || ''}}</span>
+              <span slot="title" class="sub-title text-cut" :title="i18nNavBarMethod(child.meta.title)">{{$t('navBar.'+child.meta.title) || ''}}</span>
             </el-menu-item>
           </template>
         </template>
