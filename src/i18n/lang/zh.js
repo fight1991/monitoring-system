@@ -53,6 +53,7 @@ export default {
     next: '下一步',
     reselUser: '重新选择用户类型',
     regSucc: '注册成功!',
+    login: '去登录',
     agentCode: '代理商标识码',
     code: '售后组织标识码'
   },
@@ -131,7 +132,8 @@ export default {
     plantsName: '电站名称',
     InvType: '逆变器型号',
     datacolSN: '模块sn',
-    contact: '联系方式',
+    contact: '安装商联系方式',
+    userContact: '用户联系方式',
     to: '至',
     start: '开始日期',
     end: '结束日期',
@@ -279,6 +281,7 @@ export default {
   },
   firmware: {
     devicetype: '设备类型',
+    devtype: '设备类型',
     version: '版本号',
     dseries: '设备系列',
     status: '审核状态',
@@ -286,7 +289,6 @@ export default {
     firmwareName: '固件名称',
     hexbin: '注: 只能上传hex, bin文件',
     fileType: '文件类型',
-    Types: '设备类别',
     proLine: '产品系列',
     SoftType: '软件类别'
   },
@@ -376,6 +378,18 @@ export default {
     assoAg: '关联代理商',
     agCode: '代理商代码'
   },
+  alarm: {
+    alarmCon: '告警内容',
+    alarmNum: '告警编号',
+    all: '全部',
+    comError: '一般故障',
+    pVBus: 'PV&BUS输入故障',
+    gridError: '电网侧故障',
+    tempError: '温度故障',
+    cpuError: 'CPU故障',
+    eps: '电池/EPS故障',
+    outer: '外围设备故障'
+  },
   errorCode: {
     41200: '查询数据异常',
     41201: '服务运行异常',
@@ -432,6 +446,6 @@ export default {
     44175: '电池电量不足',
     44176: '电池电量已满'
   },
-  monitor: '监控系统',
+  monitor: '麦田云',
   chooseDate: '选择日期'
 }

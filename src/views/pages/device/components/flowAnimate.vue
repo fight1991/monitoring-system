@@ -72,7 +72,7 @@
           <div class="circle-line elec-machine">
             <div class="elec">
               <i class="iconfont icon-flow-elec"></i>
-              <span class="data-text elec-text">generator&nbsp;:&nbsp;{{toFixed(wsData.elec, true) + ' kW'}}</span>
+              <span class="data-text elec-text">Generator&nbsp;:&nbsp;{{toFixed(wsData.elec, true) + ' kW'}}</span>
             </div>
             <!-- elec -- node -->
             <div :class="{'flow-column': true, 'elec-flow': true, 'arrow-t': path.box_top_top==2, 'arrow-b': path.box_top_top==-2}"></div>

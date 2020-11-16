@@ -1,13 +1,13 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="$t('inverter.liveData')"
+    title=""
     :modal-append-to-body="false"
     :close-on-click-modal="false"
     @opened="search"
     @close="closeDialog"
     :visible.sync="dialogVisible"
-    width="750px">
+    width="850px">
     <div class="no-data" v-if="tabList.length<1">{{$t('common.noData')}}</div>
     <el-tabs v-model="activeName" type="card" v-else>
       <el-tab-pane
@@ -16,17 +16,17 @@
         v-for="(item, index) in tabList"
         :key="item.blockName">
         <div class="block-item" v-setH:max="setDivH - 100">
-          <el-row class="block-head">
-            <el-col :span="8">Variable</el-col>
-            <el-col :span="6">Value</el-col>
-            <el-col :span="4">Unit</el-col>
-            <el-col :span="6">Time</el-col>
-          </el-row>
+          <!-- <el-row class="block-head">
+            <el-col :span="8"></el-col>
+            <el-col :span="6"></el-col>
+            <el-col :span="4"></el-col>
+            <el-col :span="6"></el-col>
+          </el-row> -->
           <el-row v-for="item2 in item.values" :key="item2.variable">
             <el-col :span="8">{{item2.variable}}</el-col>
-            <el-col :span="6">{{toFixed(item2.value)}}</el-col>
+            <el-col :span="4">{{toFixed(item2.value)}}</el-col>
             <el-col :span="4">{{item2.unit}}</el-col>
-            <el-col :span="6">{{item2.time}}</el-col>
+            <el-col :span="8">{{item2.time}}</el-col>
           </el-row>
         </div>
       </el-tab-pane>
