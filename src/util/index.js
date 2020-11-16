@@ -255,3 +255,17 @@ export function getTimespan (time) {
 export function deepCopy (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
+export function getLang () {
+  return {
+    display: {
+      en: 'English',
+      zh: '中文',
+      pl: 'Polskie'
+    },
+    headerLang: {
+      en: 'en',
+      zh: 'zh_CN',
+      pl: 'pl'
+    }
+  }
+}
