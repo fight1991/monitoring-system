@@ -46,7 +46,7 @@
           <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}</span>
           <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
         </div>
-        <page-box :pagination.sync="pagination" @change="getPlantList"></page-box>
+        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
     </el-card>
   </section>
@@ -75,7 +75,7 @@ export default {
         name: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -86,7 +86,7 @@ export default {
   created () {},
   async mounted () {
     this.$refs.plantStatus.getPlantStatus()
-    await this.getPlantList(this.$store.state.pagination)
+    await this.getList(this.pagination)
     await this.getAllPlant(this.pagination.total)
     // 在地图上标记电站
     if (this.appVersion === 'abroad') {
@@ -116,7 +116,8 @@ export default {
   beforeDestroy () {},
   methods: {
     search () {
-      this.getPlantList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     reset () {
       this.searchForm = {
@@ -143,7 +144,7 @@ export default {
       }
     },
     // 获取电站列表
-    async getPlantList (pagination) {
+    async getList (pagination) {
       let { result } = await this.$post({
         url: '/v0/plant/list',
         data: {

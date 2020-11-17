@@ -97,7 +97,7 @@
         <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}: {{statusAll.fault}}</span>
         <span><i class="el-icon-remove"></i> {{$t('common.offline')}}: {{statusAll.offline}}</span>
       </div>
-      <page-box :pagination.sync="pagination" @change="getInverterList"></page-box>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
@@ -124,11 +124,6 @@ export default {
         deviceType: ''
       },
       pagination: {
-        pageSize: 50,
-        currentPage: 1,
-        total: 0
-      },
-      defaultPage: {
         pageSize: 50,
         currentPage: 1,
         total: 0
@@ -167,8 +162,8 @@ export default {
       this.search()
     },
     search () {
-      this.getInverterList(this.defaultPage)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     goToDetail (page, id, flowType, status) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
@@ -182,7 +177,8 @@ export default {
       })
     },
     // 获取列表
-    async getInverterList (pagination) {
+    async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
         url: '/v0/device/list',
         data: {

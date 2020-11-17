@@ -141,7 +141,8 @@ export default {
       this.search()
     },
     search () {
-      this.getList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     async getList (pagination) {
       let params = {}

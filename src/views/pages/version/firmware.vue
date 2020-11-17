@@ -114,7 +114,6 @@ export default {
     search () {
       this.pagination.currentPage = 1
       this.getList(this.pagination)
-      this.selection = []
     },
     // 批量发布/批量删除
     async multiOptions (op) {
@@ -131,6 +130,7 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
         url: '/v0/firmware/list',
         data: {
