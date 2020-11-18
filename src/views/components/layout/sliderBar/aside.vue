@@ -1,5 +1,9 @@
 <template>
 <div class="sidebar-container">
+  <div
+    class="sidebar-drag"
+    @mousedown="mouseDown">
+  </div>
   <el-scrollbar wrap-class="scrollbar-wrapper">
     <el-menu
       :default-active="$route.name"
@@ -21,7 +25,9 @@ export default {
   },
   data () {
     return {
-      menuList: this.deal(navMenu)
+      menuList: this.deal(navMenu),
+      startX: 0,
+      movePosition: 0
     }
   },
   computed: {
@@ -61,6 +67,31 @@ export default {
       if (window.innerWidth < 992) {
         !this.isCollapase && this.$store.commit('changeCollapse', 1)
       }
+    },
+    mouseDown (e) {
+      let _this = this
+      _this.startX = e.clientX
+      document.onselectstart = function () { return false }
+      document.onmousemove = function (e) {
+        if (e.clientX >= 210) {
+          _this.$emit('getMoveDistance', e.clientX)
+        }
+      }
+      document.onmouseup = function (e) {
+        this.onmousemove = null
+        document.onselectstart = null
+      }
+      document.onmouseleave = function (e) {
+        this.onmousemove = null
+      }
+    },
+    mouseMove (e) {
+      // this.move.x = e.clientX
+      // console.log('鼠标移动')
+    },
+    mouseUp (e) {
+      // this.end.x = e.clientX
+      // console.log('鼠标抬起')
     }
   }
 }
@@ -68,7 +99,18 @@ export default {
 
 <style lang="less" scoped>
 .sidebar-container {
-  flex: 1;
+  // flex: 1;
   position: relative;
+  height: calc(100% - 50px);
+  .sidebar-drag {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: transparent;
+    width: 8px;
+    height: 100%;
+    z-index: 10;
+    cursor: e-resize;
+  }
 }
 </style>
