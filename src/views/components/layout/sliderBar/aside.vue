@@ -84,14 +84,6 @@ export default {
       document.onmouseleave = function (e) {
         this.onmousemove = null
       }
-    },
-    mouseMove (e) {
-      // this.move.x = e.clientX
-      // console.log('鼠标移动')
-    },
-    mouseUp (e) {
-      // this.end.x = e.clientX
-      // console.log('鼠标抬起')
     }
   }
 }

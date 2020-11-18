@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     isDuration () {
-      return this.distance > 210
+      return this.distance > 215
     }
   },
   methods: {
