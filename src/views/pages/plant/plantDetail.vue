@@ -226,6 +226,7 @@ export default {
       this.getAbnormalStatus()
       this.getDeviceStatus()
       this.getPlantEarns()
+      this.collapse && this.getHeadInfo()
       this.$refs.deviceList.resetSearchForm(this.plantId)
       this.$refs.lineBar.getLineData(this.plantId)
       this.$refs.lineBar.getBarData(this.plantId)
