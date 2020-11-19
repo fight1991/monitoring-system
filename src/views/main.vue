@@ -66,9 +66,9 @@ export default {
   display: flex;
   align-items: center;
   height: 50px;
-  width: 210px;
-  margin: 0 auto;
-  padding: 0 35px 0 8px;
+  justify-content: center;
+  width: 100%;
+  // padding: 0 35px 0 8px;
   background-color: rgba(255,255,255,.1);
   box-sizing: border-box;
   span {
@@ -77,7 +77,8 @@ export default {
     font-size: 16px;
   }
   img {
-    width: 100%;
+    width: 150px;
+    min-width: 64px;
   }
 }
 .outside-container {
