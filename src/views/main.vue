@@ -66,7 +66,8 @@ export default {
   display: flex;
   align-items: center;
   height: 50px;
-  width: 200px;
+  width: 210px;
+  margin: 0 auto;
   padding: 0 35px 0 8px;
   background-color: rgba(255,255,255,.1);
   box-sizing: border-box;
