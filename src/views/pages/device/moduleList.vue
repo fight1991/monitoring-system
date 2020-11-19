@@ -74,7 +74,7 @@
         <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>
         <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
       </div>
-      <page-box :pagination.sync="pagination" @change="getModuleList"></page-box>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
@@ -94,11 +94,6 @@ export default {
         moduleType: ''
       },
       pagination: {
-        pageSize: 50,
-        currentPage: 1,
-        total: 0
-      },
-      defaultPage: {
         pageSize: 50,
         currentPage: 1,
         total: 0
@@ -170,8 +165,8 @@ export default {
       this.search()
     },
     search () {
-      this.getModuleList(this.defaultPage)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     commandDrop (type) {
       if (type === 'd') {
@@ -231,7 +226,8 @@ export default {
       }
     },
     // 获取模块列表
-    async getModuleList (pagination) {
+    async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
         url: '/v0/module/list',
         data: {

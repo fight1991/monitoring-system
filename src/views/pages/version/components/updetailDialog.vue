@@ -44,7 +44,7 @@ export default {
       pagination: {
         pageSize: 50,
         currentPage: 1,
-        total: 1000
+        total: 0
       },
       searchForm: {
         deviceSN: ''

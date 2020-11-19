@@ -105,11 +105,6 @@ export default {
         currentPage: 1,
         total: 0
       },
-      defaultPage: {
-        pageSize: 50,
-        currentPage: 1,
-        total: 0
-      },
       tableHead: [
         {
           label: 'common.plant',
@@ -151,7 +146,7 @@ export default {
     }
   },
   created () {
-    this.getList(this.defaultPage)
+    this.search()
   },
   methods: {
     resetSearchForm () {
@@ -178,13 +173,14 @@ export default {
       this.search()
     },
     search () {
-      this.getList(this.defaultPage)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     download () {
       window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
+      this.selection = []
       if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {
           year: (this.times[0]).split('-')[0],

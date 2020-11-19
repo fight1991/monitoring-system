@@ -157,10 +157,10 @@ export default {
     search () {
       this.currentPage = 1
       this.getList(this.pagination)
-      this.selection = []
     },
     // 获取列表
     async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
         url: '/v0/firmware/module/list',
         data: {

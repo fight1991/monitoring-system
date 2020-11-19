@@ -4,13 +4,13 @@
     <div class="block bg-c show-shadow mg-b12">
       <div class="plant-head clearfix">
         <div class="plant-name flex-center">
-          <i class="iconfont icon-nibianqi"></i>
+          <i class="iconfont icon-flow-invert"></i>
           <div class="line-center">
-            <div class="text-cut" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
-            <div class="text-cut" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
-            <div class="text-cut" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
-            <div class="text-cut" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
-            <div class="text-cut" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
+            <div class="text-cut item" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
+            <div class="text-cut item" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
+            <div class="text-cut item" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
+            <div class="text-cut item" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
+            <div class="text-cut item" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -18,13 +18,13 @@
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
         <div class="line-collapse">
-          <span>{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
-          <span>{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
-          <span>{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
-          <span>{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
-          <span>{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
-          <span>{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
-          <span class="text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
+          <span class="item">{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
+          <span class="item">{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
+          <span class="item">{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
+          <span class="item">{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
+          <span class="item">{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
+          <span class="item">{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
+          <span class="item text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
         </div>
       </div>
     </div>
@@ -550,8 +550,5 @@ export default {
 .select-line {
   padding:10px;
   border-bottom:1px solid #f5f5f5;
-}
-.line-center {
-  flex: 1;
 }
 </style>

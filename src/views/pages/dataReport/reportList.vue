@@ -91,7 +91,6 @@ export default {
     return {
       multiVisible: false,
       downloadUrl: '',
-      selection: [],
       times: [],
       searchForm: {
         sn: '',
