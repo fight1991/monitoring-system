@@ -130,6 +130,40 @@
           </el-col>
         </el-row>
       </div>
+      <div class="title equipment border-line">{{$t('sapn.addProp')}}</div>
+      <div class="devices-box">
+        <el-row :gutter="10">
+          <el-col :lg="8" :sm="12">
+            <el-col :span="20">
+              <el-form-item label="NMI" label-width="80px" >
+                <el-input v-model="dataForm.nmi" clearable></el-input>
+              </el-form-item>
+            </el-col>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="title equipment border-line">{{$t('sapn.groupInfo')}}<i class="el-add-icon el-icon-circle-plus-outline" @click="groupAdd"></i></div>
+      <div class="devices-box">
+        <el-row :gutter="10">
+          <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
+          <el-col :lg="8" :sm="12" v-for="(item, index) in dataForm.groups" :key="'index'+index">
+            <el-col :span="20">
+              <el-form-item label-width="80px" :label="$t('sapn.group')">
+                <el-select default-first-option filterable v-model="item.group" style="width:100%">
+                  <el-option v-for="obj in groupList" :key="obj" :value="obj" :label="obj">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" style="padding-left:0px">
+              <span class="op-icon">
+                <i class="iconfont icon-delete" @click="groupDelete(index, item.group)"></i>
+                <i class="el-icon-error" v-show="item.isPass === 0"></i>
+              </span>
+            </el-col>
+          </el-col>
+        </el-row>
+      </div>
     </el-form>
     <el-row class="foot-btn" type="flex" justify="center" v-if="opType!=='look'">
       <el-button size="mini" @click="cancel">{{$t('plant.cancel')}}</el-button>
@@ -183,6 +217,10 @@ export default {
       placeList: [], // 地图匹配的列表
       countryList: [], // 国家列表
       dataForm: {
+        nmi: '',
+        groups: [
+          { group: '', key: '', isPass: 1 }
+        ],
         devices: [
           { sn: '', key: '', isPass: 1 }
         ],
@@ -218,8 +256,14 @@ export default {
         key: '',
         isPass: 1
       },
+      templateGroup: {
+        group: '',
+        key: '',
+        isPass: 1
+      },
       rules: {},
-      currencyList: []
+      currencyList: [],
+      groupList: []
     }
   },
   async created () {
@@ -272,6 +316,7 @@ export default {
       this.rules = this.setFormRules(true)
       await this.getCurrencyList()
       await this.getAgentList()
+      await this.getGroupList()
       if (this.opType === 'add') {
         this.dataForm.details.currency = this.currencyList[0] || ''
       }
@@ -303,6 +348,10 @@ export default {
     deviceAdd () {
       this.dataForm.devices.push({ ...this.templateDevice })
     },
+    // 分组新增
+    groupAdd () {
+      this.dataForm.groups.push({ ...this.templateGroup })
+    },
     // 获取代理商列表
     async getAgentList () {
       let { result } = await this.$get({
@@ -323,6 +372,16 @@ export default {
       })
       if (result && result.length > 0) {
         this.currencyList = result
+      }
+      return true
+    },
+    // 获取组列表
+    async getGroupList () {
+      let { result } = await this.$get({
+        url: '/sapn​/v0​/device​/schedule​/groups'
+      })
+      if (result && result.length > 0) {
+        this.groupList = result.groups || ''
       }
       return true
     },
@@ -350,6 +409,18 @@ export default {
         }
       } else {
         this.dataForm.devices.splice(index, 1)
+      }
+    },
+    // 分组删除
+    async groupDelete (index, group) {
+      let res = await this.$openConfirm('common.tips2', ' ' + group)
+      if (!res) return
+      if (index === 0 && this.dataForm.groups.length === 1) {
+        if (this.dataForm.groups[0].group) {
+          this.dataForm.groups = [{ ...this.templateGroup }]
+        }
+      } else {
+        this.dataForm.groups.splice(index, 1)
       }
     },
     // dialog取消
@@ -415,12 +486,12 @@ export default {
     async creatPlant () {
       let url = ''
       if (this.opType === 'add') {
-        url = '/v0/plant/create'
+        url = '​/sapn​/v0​/plant​/create'
         if (this.errno === 41934) {
           url = '/v1/plant/create'
         }
       } else {
-        url = '/v0/plant/update'
+        url = '​/sapn​/v0​/plant​/update'
       }
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
@@ -471,7 +542,7 @@ export default {
     // 查询电站信息
     async getStationInfo (stationID) {
       let { result } = await this.$get({
-        url: '/v0/plant/get',
+        url: '/sapn​/v0​/plant​/get',
         data: {
           stationID
         }

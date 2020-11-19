@@ -2,6 +2,7 @@ import Home from './home'
 import DataView from './dataView'
 import Plant from './plant'
 import Device from './device'
+import Group from './group'
 import Version from './version'
 import DataReport from './dataReport'
 import Alarm from './alarm'
@@ -17,6 +18,7 @@ export default [
   Plant,
   Device,
   Version,
+  Group,
   DataReport,
   Alarm
   // Factory,

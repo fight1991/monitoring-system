@@ -16,6 +16,8 @@ export default {
     remoteS: 'Remote Settting',
     moduleM: 'Datalogger',
     versionM: 'Firmware Management',
+    clusterM: 'Cluster Management',
+    remoteSch: 'Remote Schedule',
     firmware: 'Firmware Version',
     inverUp: 'Inverter Remote Upgrade',
     moduleUp: 'Datalogger Remote Upgrade',
@@ -391,6 +393,15 @@ export default {
     cpuError: 'CPU Error',
     eps: 'Battery/EPS Error',
     outer: 'Outer Device Error'
+  },
+  sapn: {
+    addProp: 'Additional Properties (optional)',
+    groupInfo: 'Group Information (optional)',
+    group: 'Group',
+    nmi: 'NMI',
+    instCap: 'Installed Capacity',
+    shutdown: 'Remote Shutdown',
+    boot: 'Remote boot'
   },
   monitor: 'FoxEssCloud',
   chooseDate: 'Choose Date'

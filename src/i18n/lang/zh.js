@@ -16,6 +16,8 @@ export default {
     batteryM: '电池管理',
     moduleM: '模块管理',
     versionM: '版本管理',
+    clusterM: '集群管理',
+    remoteSch: '远程调度',
     firmware: '固件版本',
     inverUp: '逆变器远程升级',
     moduleUp: '模块远程升级',
@@ -391,6 +393,15 @@ export default {
     cpuError: 'CPU故障',
     eps: '电池/EPS故障',
     outer: '外围设备故障'
+  },
+  sapn: {
+    addProp: '附加属性(可选)',
+    groupInfo: '分组信息(可选)',
+    group: '组',
+    nmi: 'NMI',
+    instCap: '铭牌容量',
+    shutdown: '远程关机',
+    boot: '远程开机'
   },
   monitor: '麦田云',
   chooseDate: '选择日期'
