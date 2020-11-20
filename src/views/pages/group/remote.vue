@@ -180,7 +180,7 @@ export default {
     // 获取组列表
     async getGroupList () {
       let { result } = await this.$get({
-        url: '/sapn​/v0​/device​/schedule​/groups'
+        url: '/sapn/v0/device/schedule/groups'
       })
       if (result && result.length > 0) {
         this.groupList = result.groups || ''
@@ -191,7 +191,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/sapn​/v0​/device​/schedule​/list',
+        url: '/sapn/v0/device/schedule/list',
         data: {
           ...pagination,
           condition: this.searchForm

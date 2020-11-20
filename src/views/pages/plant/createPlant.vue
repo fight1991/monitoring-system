@@ -378,7 +378,7 @@ export default {
     // 获取组列表
     async getGroupList () {
       let { result } = await this.$get({
-        url: '/sapn​/v0​/device​/schedule​/groups'
+        url: '/span/v0/device/schedule/groups'
       })
       if (result && result.length > 0) {
         this.groupList = result.groups || ''
@@ -486,12 +486,12 @@ export default {
     async creatPlant () {
       let url = ''
       if (this.opType === 'add') {
-        url = '​/sapn​/v0​/plant​/create'
+        url = '​/sapn/v0/plant/create'
         if (this.errno === 41934) {
           url = '/v1/plant/create'
         }
       } else {
-        url = '​/sapn​/v0​/plant​/update'
+        url = '​/sapn/v0/plant/update'
       }
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
@@ -542,7 +542,7 @@ export default {
     // 查询电站信息
     async getStationInfo (stationID) {
       let { result } = await this.$get({
-        url: '/sapn​/v0​/plant​/get',
+        url: '/sapn/v0/plant/get',
         data: {
           stationID
         }
