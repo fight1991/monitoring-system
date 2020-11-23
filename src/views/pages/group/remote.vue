@@ -13,7 +13,7 @@
             <el-col :span="6">
               <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')">
-                  <el-option v-for="(item,index) in groupList" :label="item" :value="item" :key="item + index"></el-option>
+                  <el-option v-for="item in groupList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -72,11 +72,6 @@ export default {
   data () {
     return {
       selection: [],
-      statusList: [
-        { status: 0, label: 'all' },
-        { status: 1, label: 'normal' },
-        { status: 2, label: 'offline' }
-      ],
       searchForm: {
         nmi: '',
         groups: '',
@@ -152,6 +147,7 @@ export default {
     }
   },
   created () {
+    this.getGroupList()
     this.search()
   },
   methods: {
@@ -165,7 +161,6 @@ export default {
       }
     },
     reset () {
-      this.getGroupList()
       this.resetSearchForm()
       this.search()
     },

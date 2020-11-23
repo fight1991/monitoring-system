@@ -136,7 +136,7 @@
           <el-col :lg="8" :sm="12">
             <el-col :span="20">
               <el-form-item label="NMI" label-width="80px" >
-                <el-input v-model="dataForm.nmi" clearable></el-input>
+                <el-input v-model="dataForm.attachment.nmi" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-col>
@@ -145,20 +145,18 @@
       <div class="title equipment border-line">{{$t('sapn.groupInfo')}}<i class="el-add-icon el-icon-circle-plus-outline" @click="groupAdd"></i></div>
       <div class="devices-box">
         <el-row :gutter="10">
-          <!-- validator: (rule, value, callback)=>{checkSN(rule, value, callback, 'sn')} -->
-          <el-col :lg="8" :sm="12" v-for="(item, index) in dataForm.groups" :key="'index'+index">
+          <el-col :lg="8" :sm="12" v-for="(item, index) in groupsParams" :key="item.value + index">
             <el-col :span="20">
               <el-form-item label-width="80px" :label="$t('sapn.group')">
-                <el-select default-first-option filterable v-model="item.group" style="width:100%">
-                  <el-option v-for="obj in groupList" :key="obj" :value="obj" :label="obj">
+                <el-select default-first-option filterable v-model="item.value" style="width:100%">
+                  <el-option v-for="child in groupList" :key="child" :value="child" :label="child">
                   </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4" style="padding-left:0px">
               <span class="op-icon">
-                <i class="iconfont icon-delete" @click="groupDelete(index, item.group)"></i>
-                <i class="el-icon-error" v-show="item.isPass === 0"></i>
+                <i class="iconfont icon-delete" @click="groupDelete(index, item.value)"></i>
               </span>
             </el-col>
           </el-col>
@@ -217,10 +215,10 @@ export default {
       placeList: [], // 地图匹配的列表
       countryList: [], // 国家列表
       dataForm: {
-        nmi: '',
-        groups: [
-          { group: '', key: '', isPass: 1 }
-        ],
+        attachment: {
+          nmi: ''
+        },
+        groups: [],
         devices: [
           { sn: '', key: '', isPass: 1 }
         ],
@@ -250,17 +248,14 @@ export default {
           systemCapacity: ''
         }
       },
+      groupsParams: [{ value: '' }],
       copyDataForm: {},
       templateDevice: {
         sn: '',
         key: '',
         isPass: 1
       },
-      templateGroup: {
-        group: '',
-        key: '',
-        isPass: 1
-      },
+      templateGroup: [],
       rules: {},
       currencyList: [],
       groupList: []
@@ -350,7 +345,7 @@ export default {
     },
     // 分组新增
     groupAdd () {
-      this.dataForm.groups.push({ ...this.templateGroup })
+      this.groupsParams.push({ value: '' })
     },
     // 获取代理商列表
     async getAgentList () {
@@ -378,12 +373,11 @@ export default {
     // 获取组列表
     async getGroupList () {
       let { result } = await this.$get({
-        url: '/span/v0/device/schedule/groups'
+        url: '/sapn/v0/device/schedule/groups'
       })
-      if (result && result.length > 0) {
-        this.groupList = result.groups || ''
+      if (result) {
+        this.groupList = result.groups
       }
-      return true
     },
     // 获取时区列表
     async getZoneList (shortName) {
@@ -415,12 +409,12 @@ export default {
     async groupDelete (index, group) {
       let res = await this.$openConfirm('common.tips2', ' ' + group)
       if (!res) return
-      if (index === 0 && this.dataForm.groups.length === 1) {
-        if (this.dataForm.groups[0].group) {
-          this.dataForm.groups = [{ ...this.templateGroup }]
+      if (index === 0 && this.groupsParams.length === 1) {
+        if (this.groupsParams[0]) {
+          this.groupsParams = [{ value: '' }]
         }
       } else {
-        this.dataForm.groups.splice(index, 1)
+        this.groupsParams.splice(index, 1)
       }
     },
     // dialog取消
@@ -445,7 +439,10 @@ export default {
       let res = await this.$openConfirm('common.tips1')
       if (res) {
         this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
-        this.$refs.dataForm.clearValidate()
+        this.groupsParams = [{ value: '' }]
+        this.$nextTick(() => {
+          this.$refs.dataForm.clearValidate()
+        })
       }
     },
     // 校验输入的sn是否已存在
