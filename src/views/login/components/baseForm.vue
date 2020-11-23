@@ -139,7 +139,7 @@ export default {
     // 发送请求校验用户是否已经注册过
     async checkAccountExsit () {
       let { result } = await this.$post({
-        url: '/v0/user/check',
+        url: '/c/v0/user/check',
         data: {
           account: this.dataForm.account,
           email: this.dataForm.email

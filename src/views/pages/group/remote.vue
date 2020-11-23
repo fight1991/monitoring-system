@@ -177,10 +177,9 @@ export default {
       let { result } = await this.$get({
         url: '/sapn/v0/device/schedule/groups'
       })
-      if (result && result.length > 0) {
-        this.groupList = result.groups || ''
+      if (result) {
+        this.groupList = result.groups
       }
-      return true
     },
     // 获取模块列表
     async getList (pagination) {

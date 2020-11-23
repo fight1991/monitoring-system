@@ -240,7 +240,7 @@ export default {
     // 获取头部逆变器信息
     async getHeadInfo () {
       let { result } = await this.$get({
-        url: '/v0/device/addressbook',
+        url: '/c/v0/device/addressbook',
         data: {
           deviceID: this.deviceId
         }
@@ -250,7 +250,7 @@ export default {
     // 获取单个设备功率的发电和收益情况
     async getDeviceEarns () {
       let { result } = await this.$get({
-        url: '/v0/device/earnings',
+        url: '/c/v0/device/earnings',
         data: {
           deviceID: this.deviceId
         }
@@ -273,7 +273,7 @@ export default {
     // 获取图表下拉选择框
     async getOptions () {
       let { result } = await this.$get({
-        url: '/v0/device/variables',
+        url: '/c/v0/device/variables',
         data: {
           deviceID: this.deviceId
         }
@@ -292,7 +292,7 @@ export default {
     async getMultiChart () {
       this.chartLoading = true
       let { result } = await this.$post({
-        url: '/v0/device/history/raw',
+        url: '/c/v0/device/history/raw',
         isLoad: false,
         data: {
           deviceID: this.deviceId,
@@ -335,7 +335,7 @@ export default {
     // 获取今日异常
     async getAbnormalStatus () {
       let { result } = await this.$get({
-        url: '/v0/device/alarm/today',
+        url: '/c/v0/device/alarm/today',
         data: {
           deviceID: this.deviceId
         }
@@ -348,7 +348,7 @@ export default {
     // 获取电池设备信息
     async getBaterryInfo (id) {
       let { result } = await this.$get({
-        url: '/v0/device/battery/info',
+        url: '/c/v0/device/battery/info',
         data: {
           id
         }

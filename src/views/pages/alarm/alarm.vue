@@ -194,7 +194,7 @@ export default {
         }
       }
       let { result } = await this.$post({
-        url: '/v0/alarm/query',
+        url: '/c/v0/alarm/query',
         data: {
           ...pagination,
           condition: {

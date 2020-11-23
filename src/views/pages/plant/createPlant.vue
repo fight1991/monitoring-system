@@ -148,7 +148,7 @@
           <el-col :lg="8" :sm="12" v-for="(item, index) in groupsParams" :key="item.value + index">
             <el-col :span="20">
               <el-form-item label-width="80px" :label="$t('sapn.group')">
-                <el-select default-first-option filterable v-model="item.value" style="width:100%">
+                <el-select default-first-option allow-create filterable v-model="item.value" style="width:100%">
                   <el-option v-for="child in groupList" :key="child" :value="child" :label="child">
                   </el-option>
                 </el-select>
@@ -350,7 +350,7 @@ export default {
     // 获取代理商列表
     async getAgentList () {
       let { result } = await this.$get({
-        url: '/v0/user/agents'
+        url: '/c/v0/user/agents'
       })
       if (result) {
         this.agentList = result.agents || []
@@ -363,7 +363,7 @@ export default {
     // 获取币种列表
     async getCurrencyList () {
       let { result } = await this.$get({
-        url: '/v0/plant/earnings/currency'
+        url: '/c/v0/plant/earnings/currency'
       })
       if (result && result.length > 0) {
         this.currencyList = result
@@ -384,7 +384,7 @@ export default {
       this.dataForm.timezone = ''
       this.dataForm.daylight = ''
       let { result } = await this.$get({
-        url: '/v0/map/timezones',
+        url: '/c/v0/map/timezones',
         data: {
           country: shortName
         }
@@ -410,7 +410,7 @@ export default {
       let res = await this.$openConfirm('common.tips2', ' ' + group)
       if (!res) return
       if (index === 0 && this.groupsParams.length === 1) {
-        if (this.groupsParams[0]) {
+        if (this.groupsParams[0].value) {
           this.groupsParams = [{ value: '' }]
         }
       } else {
@@ -483,16 +483,17 @@ export default {
     async creatPlant () {
       let url = ''
       if (this.opType === 'add') {
-        url = '​/sapn/v0/plant/create'
+        url = '/sapn/v0/plant/create'
         if (this.errno === 41934) {
-          url = '/v1/plant/create'
+          url = '/c/v1/plant/create'
         }
       } else {
-        url = '​/sapn/v0/plant/update'
+        url = '/sapn/v0/plant/update'
       }
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
+      this.dataForm.groups = this.groupsParams.map(v => v.value)
       let { result, other } = await this.$post({
         url: url,
         data: {
@@ -526,7 +527,7 @@ export default {
     // 远程校验sn 任意一对sn-key验证通过都可创建成功,全部sn-key失败则创建失败
     async remoteSN (item) {
       let { result, other } = await this.$post({
-        url: '/v0/module/checksn',
+        url: '/c/v0/module/checksn',
         data: {
           type: this.access === 1 ? 0 : this.opType === 'add' ? 1 : 2,
           devices: item,
@@ -547,6 +548,13 @@ export default {
       if (result) {
         if (!result.devices) {
           result.devices = [this.templateDevice]
+        }
+        if (result.groups && result.groups.length > 0) {
+          this.groupsParams = result.groups.map(v => {
+            return {
+              value: v
+            }
+          })
         }
         this.dataForm = result
       }

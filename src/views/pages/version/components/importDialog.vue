@@ -155,7 +155,7 @@ export default {
     // 获取产品型号
     async getProductList () {
       let { result } = await this.$get({
-        url: '/v0/firmware/products',
+        url: '/c/v0/firmware/products',
         globalLoading: true
       })
       if (result) {
@@ -165,7 +165,7 @@ export default {
     // 上传固件包api
     async uploadFirmware (formData) {
       let { result } = await this.$upload({
-        url: '/v0/firmware/upload',
+        url: '/c/v0/firmware/upload',
         data: formData,
         globalLoading: true
       })

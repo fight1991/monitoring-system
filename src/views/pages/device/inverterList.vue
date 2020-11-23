@@ -180,7 +180,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/device/list',
+        url: '/c/v0/device/list',
         data: {
           ...pagination,
           condition: {

@@ -118,7 +118,7 @@ export default {
     // 批量发布/批量删除
     async multiOptions (op) {
       let { result } = await this.$post({
-        url: '/v0/firmware/' + op,
+        url: '/c/v0/firmware/' + op,
         data: {
           firmware: op === 'release' ? this.releaseIds : this.deleteIds
         }
@@ -132,7 +132,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/firmware/list',
+        url: '/c/v0/firmware/list',
         data: {
           ...pagination,
           condition: this.searchForm

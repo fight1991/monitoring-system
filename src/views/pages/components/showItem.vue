@@ -149,7 +149,7 @@ export default {
     // 获取所有电站正常 非正常 故障个数
     async getPlantStatus () {
       let { result } = await this.$get({
-        url: '/v0/plant/status/all'
+        url: '/c/v0/plant/status/all'
       })
       if (result) {
         this.plantStatus.total = result.total || 0
@@ -183,7 +183,7 @@ export default {
     // 获取所有电站的发电和收益情况
     async getPlantEarns () {
       let { result } = await this.$get({
-        url: '/v0/plant/earnings/all'
+        url: '/c/v0/plant/earnings/all'
       })
       if (result) {
         this.incomeDetail = result
