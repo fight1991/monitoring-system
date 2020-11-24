@@ -203,7 +203,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/firmware/device/list',
+        url: '/c/v0/firmware/device/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -223,7 +223,7 @@ export default {
     // 获取产品型号
     async getProductList () {
       let { result } = await this.$get({
-        url: '/v0/firmware/products'
+        url: '/c/v0/firmware/products'
       })
       if (result) {
         this.allList = result

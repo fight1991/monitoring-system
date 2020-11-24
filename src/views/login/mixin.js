@@ -30,7 +30,7 @@ export default {
     async sendCode (user) {
       if (this.timer) return
       let { result } = await this.$post({
-        url: '/v0/user/sendcaptcha',
+        url: '/c/v0/user/sendcaptcha',
         data: {
           user
         }

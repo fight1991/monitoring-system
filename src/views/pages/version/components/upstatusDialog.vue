@@ -90,7 +90,7 @@ export default {
     // 获取列表
     async getList (pagination) {
       let { result } = await this.$post({
-        url: '/v0/firmware/' + this.apiUrl + '/upgrade/status',
+        url: '/c/v0/firmware/' + this.apiUrl + '/upgrade/status',
         globalLoading: true,
         data: {
           ...pagination

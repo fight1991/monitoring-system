@@ -104,7 +104,7 @@ export default {
       this.dataForm.accountType = this.accountType
       let tempData = { ...this.dataForm }
       let { result, other } = await this.$post({
-        url: '/v0/user/login',
+        url: '/c/v0/user/login',
         data: {
           ...tempData,
           password: md5(tempData.password)

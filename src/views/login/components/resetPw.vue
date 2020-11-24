@@ -100,7 +100,7 @@ export default {
       if (!isPass) return
       let tempData = { ...this.dataForm }
       let { result } = await this.$post({
-        url: '/v0/user/reset',
+        url: '/c/v0/user/reset',
         data: {
           ...tempData,
           newPassword: md5(tempData.newPassword)

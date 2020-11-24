@@ -175,7 +175,7 @@ export default {
         }
       }
       let { result, error, other } = await this.$post({
-        url: '/v0/device/report/query',
+        url: '/c/v0/device/report/query',
         data: {
           ...pagination,
           ...this.searchForm

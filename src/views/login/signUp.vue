@@ -161,7 +161,7 @@ export default {
       accountInfo.type = this.roleName
       let dataKey = this.roleName + 'Info'
       let { result } = await this.$post({
-        url: '/v1/user/register',
+        url: '/c/v1/user/register',
         data: {
           accountInfo,
           [dataKey]: dataForm

@@ -142,7 +142,7 @@ export default {
       let res = await this.$openConfirm('login.tips3')
       if (!res) return
       let { result } = await this.$post({
-        url: '/v0/user/logout'
+        url: '/c/v0/user/logout'
       })
       if (result) {
         let { href } = this.$router.resolve({

@@ -93,7 +93,7 @@ export default {
     // 根据key值查询表单
     async getFormValueByKey (id, key) {
       let { result } = await this.$get({
-        url: '/v0/device/setting/get',
+        url: '/c/v0/device/setting/get',
         data: {
           id,
           key
@@ -131,7 +131,7 @@ export default {
     // 表单提交api
     async submitForm (key, form) {
       let { result } = await this.$post({
-        url: '/v0/device/setting/set',
+        url: '/c/v0/device/setting/set',
         data: {
           id: this.id,
           key: key || this.keyWord,
