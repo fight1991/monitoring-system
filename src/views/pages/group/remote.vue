@@ -12,7 +12,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')">
+                <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')" multiple>
                   <el-option v-for="item in groupList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -45,14 +45,14 @@
       <!-- 表格区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-shutdown" :disabled="nmi.length==0" @click="shutdown">{{$t('sapn.shutdown')}}</el-button>
-          <el-button size="mini" icon="iconfont icon-shutdown" :disabled="nmi.length==0" @click="boot">{{$t('sapn.boot')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-shutdown" :disabled="devices.length==0" @click="shutdown">{{$t('sapn.shutdown')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-shutdown" :disabled="devices.length==0" @click="boot">{{$t('sapn.boot')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
-          <template v-slot:deviceStatus="{row}">
-            <i class="el-icon-success" v-show="row.deviceStatus==1"></i>
-            <i class="el-icon-error" v-show="row.deviceStatus==2"></i>
-            <i class="el-icon-remove" v-show="row.deviceStatus==3"></i>
+        <common-table :tableHeadData="tableHead" :select.sync="selection" :rowsStatus="showHsearch" :rowsNum="2" :selectBox="true" :tableList="resultList">
+          <template v-slot:status="{row}">
+            <i class="el-icon-success" v-show="row.status==1"></i>
+            <i class="el-icon-error" v-show="row.status==2"></i>
+            <i class="el-icon-remove" v-show="row.status==3"></i>
           </template>
         </common-table>
       </func-bar>
@@ -74,7 +74,7 @@ export default {
       selection: [],
       searchForm: {
         nmi: '',
-        groups: '',
+        groups: [],
         deviceSN: '',
         moduleSN: '',
         plantName: ''
@@ -134,7 +134,7 @@ export default {
         },
         {
           label: 'common.status',
-          prop: 'communication',
+          prop: 'status',
           checked: true,
           slotName: 'status'
         }
@@ -142,8 +142,8 @@ export default {
     }
   },
   computed: {
-    nmi () {
-      return this.selection.map(v => v.nmi)
+    devices () {
+      return this.selection.map(v => v.deviceID)
     }
   },
   created () {
@@ -154,7 +154,7 @@ export default {
     resetSearchForm () {
       this.searchForm = {
         nmi: '',
-        groups: '',
+        groups: [],
         deviceSN: '',
         moduleSN: '',
         plantName: ''
@@ -168,9 +168,29 @@ export default {
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
-    shutdown () {
+    // 远程关机
+    async shutdown () {
+      let { result } = await this.$post({
+        url: '/sapn/v0/device/remote/disconnection',
+        data: {
+          devices: this.devices
+        }
+      })
+      if (result) {
+
+      }
     },
-    boot () {
+    // 远程开机
+    async boot () {
+      let { result } = await this.$post({
+        url: '/sapn/v0/device/remote/reconnection',
+        data: {
+          devices: this.devices
+        }
+      })
+      if (result) {
+
+      }
     },
     // 获取组列表
     async getGroupList () {
@@ -192,7 +212,7 @@ export default {
         }
       })
       if (result) {
-        this.resultList = result.data || []
+        this.resultList = result.devices || []
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
