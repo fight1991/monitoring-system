@@ -106,6 +106,7 @@ export default {
     select: 'Please select',
     tips1: 'Are you sure you want to cancel it?',
     tips2: 'Are you sure you want to delete it?',
+    tips3: 'Do you want to download the list?',
     reset: 'Clear',
     search: 'Search',
     normal: 'Normal',

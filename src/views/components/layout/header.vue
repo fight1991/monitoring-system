@@ -139,7 +139,9 @@ export default {
     },
     // 注销登录
     async logout () {
-      let res = await this.$openConfirm('login.tips3')
+      let res = await this.$openConfirm({
+        content: this.$t('login.tips3')
+      })
       if (!res) return
       let { result } = await this.$post({
         url: '/c/v0/user/logout'

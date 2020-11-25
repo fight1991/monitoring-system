@@ -106,6 +106,7 @@ export default {
     select: '请选择',
     tips1: '您确定要取消吗?',
     tips2: '您确定要删除吗?',
+    tips3: '是否要下载列表?',
     reset: '清空',
     search: '查询',
     normal: '正常',

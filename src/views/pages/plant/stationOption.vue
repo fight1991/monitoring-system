@@ -401,7 +401,9 @@ export default {
     },
     // 设备删除
     async deviceDelete (index, sn) {
-      let res = await this.$openConfirm('common.tips2', ' ' + sn)
+      let res = await this.$openConfirm({
+        content: this.$t('common.tips2') + ' ' + sn
+      })
       if (!res) return
       if (index === 0 && this.dataForm.devices.length === 1) {
         if (this.dataForm.devices[0].sn) {
@@ -413,7 +415,9 @@ export default {
     },
     // 分组删除
     async groupDelete (index, group) {
-      let res = await this.$openConfirm('common.tips2', ' ' + group)
+      let res = await this.$openConfirm({
+        content: this.$t('common.tips2') + ' ' + group
+      })
       if (!res) return
       if (index === 0 && this.groupsParams.length === 1) {
         if (this.groupsParams[0].value) {
@@ -442,7 +446,9 @@ export default {
     },
     // 取消按钮
     async cancel () {
-      let res = await this.$openConfirm('common.tips1')
+      let res = await this.$openConfirm({
+        content: this.$t('common.tips1')
+      })
       if (res) {
         this.dataForm = JSON.parse(JSON.stringify(this.copyDataForm))
         this.groupsParams = [{ value: '' }]
@@ -534,7 +540,9 @@ export default {
       }
       // 处理终端用户没有关联上电站的逻辑
       if (other && other.errno === 41934 && this.access === 1) {
-        let res = await this.$openConfirm('plant.snIsLink')
+        let res = await this.$openConfirm({
+          content: this.$t('plant.snIsLink')
+        })
         if (res) {
           this.errno = other.errno
           this.$tab.setTitle('plantN')

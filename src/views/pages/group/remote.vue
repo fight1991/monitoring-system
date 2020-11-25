@@ -12,7 +12,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')" multiple>
+                <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')" multiple clearable>
                   <el-option v-for="item in groupList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -90,17 +90,20 @@ export default {
         {
           label: 'sapn.nmi',
           prop: 'nmi',
-          checked: true
+          checked: true,
+          width: 120
         },
         {
           label: 'common.invertSn',
           prop: 'deviceSN',
-          checked: true
+          checked: true,
+          width: 150
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true
+          checked: true,
+          width: 150
         },
         {
           label: 'sapn.instCap',
@@ -130,13 +133,15 @@ export default {
         {
           label: 'plant.genTod',
           prop: 'generationToday',
-          checked: true
+          checked: true,
+          width: 120
         },
         {
           label: 'common.status',
           prop: 'status',
           checked: true,
-          slotName: 'status'
+          slotName: 'status',
+          fixed: 'right'
         }
       ]
     }
@@ -177,7 +182,15 @@ export default {
         }
       })
       if (result) {
-
+        this.selection = []
+        let opStatus = await this.$openConfirm({
+          showHeader: false,
+          content: this.$t('common.success') + ' , ' + this.$t('common.tips3'),
+          type: 'success'
+        })
+        if (opStatus) {
+          window.open(result.downloadUrl, '_blank')
+        }
       }
     },
     // 远程开机
@@ -189,7 +202,15 @@ export default {
         }
       })
       if (result) {
-
+        this.selection = []
+        let opStatus = await this.$openConfirm({
+          showHeader: false,
+          content: this.$t('common.success') + ' , ' + this.$t('common.tips3'),
+          type: 'success'
+        })
+        if (opStatus) {
+          window.open(result.downloadUrl, '_blank')
+        }
       }
     },
     // 获取组列表
