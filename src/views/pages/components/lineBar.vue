@@ -154,7 +154,7 @@ export default {
         params.deviceID = id || this.id
       }
       let { result } = await this.$post({
-        url: `/v0/${this.type}/history/raw`,
+        url: `/c/v0/${this.type}/history/raw`,
         isLoad: false,
         data: {
           ...params,
@@ -210,7 +210,7 @@ export default {
         params.deviceID = id || this.id
       }
       let { result } = await this.$post({
-        url: `/v0/${this.type}/history/report`,
+        url: `/c/v0/${this.type}/history/report`,
         isLoad: false,
         data: {
           ...params,

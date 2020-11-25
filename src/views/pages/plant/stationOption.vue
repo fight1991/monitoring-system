@@ -130,37 +130,39 @@
           </el-col>
         </el-row>
       </div>
-      <div class="title equipment border-line">{{$t('sapn.addProp')}}</div>
-      <div class="devices-box">
-        <el-row :gutter="10">
-          <el-col :lg="8" :sm="12">
-            <el-col :span="20">
-              <el-form-item label="NMI" label-width="80px" >
-                <el-input v-model="dataForm.attachment.nmi" clearable></el-input>
-              </el-form-item>
+      <div v-if="access > 1">
+        <div class="title equipment border-line">{{$t('sapn.addProp')}}</div>
+        <div class="devices-box">
+          <el-row :gutter="10">
+            <el-col :lg="8" :sm="12">
+              <el-col :span="20">
+                <el-form-item label="NMI" label-width="80px" >
+                  <el-input v-model="dataForm.attachment.nmi" clearable></el-input>
+                </el-form-item>
+              </el-col>
             </el-col>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="title equipment border-line">{{$t('sapn.groupInfo')}}<i class="el-add-icon el-icon-circle-plus-outline" @click="groupAdd"></i></div>
-      <div class="devices-box">
-        <el-row :gutter="10">
-          <el-col :lg="8" :sm="12" v-for="(item, index) in groupsParams" :key="item.value + index">
-            <el-col :span="20">
-              <el-form-item label-width="80px" :label="$t('sapn.group')">
-                <el-select default-first-option allow-create filterable v-model="item.value" style="width:100%">
-                  <el-option v-for="child in groupList" :key="child" :value="child" :label="child">
-                  </el-option>
-                </el-select>
-              </el-form-item>
+          </el-row>
+        </div>
+        <div class="title equipment border-line">{{$t('sapn.groupInfo')}}<i class="el-add-icon el-icon-circle-plus-outline" @click="groupAdd"></i></div>
+        <div class="devices-box">
+          <el-row :gutter="10">
+            <el-col :lg="8" :sm="12" v-for="(item, index) in groupsParams" :key="item.value + index">
+              <el-col :span="20">
+                <el-form-item label-width="80px" :label="$t('sapn.group')">
+                  <el-select default-first-option allow-create filterable v-model="item.value" style="width:100%">
+                    <el-option v-for="child in groupList" :key="child" :value="child" :label="child">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4" style="padding-left:0px">
+                <span class="op-icon">
+                  <i class="iconfont icon-delete" @click="groupDelete(index, item.value)"></i>
+                </span>
+              </el-col>
             </el-col>
-            <el-col :span="4" style="padding-left:0px">
-              <span class="op-icon">
-                <i class="iconfont icon-delete" @click="groupDelete(index, item.value)"></i>
-              </span>
-            </el-col>
-          </el-col>
-        </el-row>
+          </el-row>
+        </div>
       </div>
     </el-form>
     <el-row class="foot-btn" type="flex" justify="center" v-if="opType!=='look'">
@@ -263,13 +265,14 @@ export default {
   },
   async created () {
     this.opType = this.$route.meta.opType
+    // 终端用户新增时电站设置隐藏 故不需要初始化下拉框数据
+    if (this.access > 1 || (this.access === 1 && this.opType === 'edit')) {
+      this.initFormData()
+    }
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
       this.isSelectMap = true
       await this.getStationInfo(this.plantId)
-    }
-    if (this.access > 1 || (this.access === 1 && this.opType === 'edit')) {
-      this.initFormData()
     }
     // 复制模板
     this.copyDataForm = JSON.parse(JSON.stringify(this.dataForm))
@@ -311,7 +314,9 @@ export default {
       this.rules = this.setFormRules(true)
       await this.getCurrencyList()
       await this.getAgentList()
-      await this.getGroupList()
+      if (this.access > 1) {
+        await this.getGroupList()
+      }
       if (this.opType === 'add') {
         this.dataForm.details.currency = this.currencyList[0] || ''
       }
@@ -432,7 +437,7 @@ export default {
     // dialog中的确认
     dialogConfirm () {
       this.errVisible = false
-      this.creatPlant()
+      this.savePlant()
     },
     // 取消按钮
     async cancel () {
@@ -471,7 +476,7 @@ export default {
       }
       // 全部正确
       if (this.isAllPass) {
-        this.creatPlant()
+        this.savePlant()
         return
       }
       // 有的sn校验失败显示弹框
@@ -479,21 +484,36 @@ export default {
         this.errVisible = true
       }
     },
-    // 新建电站 / 编辑电站
-    async creatPlant () {
+    // 获取不同操作状态先的url
+    getUrlForApi () {
       let url = ''
-      if (this.opType === 'add') {
-        url = '/sapn/v0/plant/create'
-        if (this.errno === 41934) {
-          url = '/c/v1/plant/create'
+      if (this.access > 1) {
+        if (this.opType === 'add') {
+          url = '/sapn/v0/plant/create'
+        } else {
+          url = '/sapn/v0/plant/update'
         }
       } else {
-        url = '/sapn/v0/plant/update'
+        if (this.opType === 'add') {
+          url = '/c/v0/plant/create'
+          if (this.errno === 41934) {
+            url = '/c/v1/plant/create'
+          }
+        } else {
+          url = '/c/v0/plant/update'
+        }
       }
+      return url
+    },
+    // 新建电站 / 编辑电站
+    async savePlant () {
+      let url = this.getUrlForApi()
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
-      this.dataForm.groups = this.groupsParams.map(v => v.value)
+      if (this.access > 1) {
+        this.dataForm.groups = this.groupsParams.map(v => v.value)
+      }
       let { result, other } = await this.$post({
         url: url,
         data: {

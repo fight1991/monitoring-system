@@ -13,7 +13,7 @@ export default {
       meta: {
         permission: [1, 2, 3, 255],
         title: 'remoteSch',
-        component: () => import(/* webpackChunkName: "bus-device-inverter" */ '@/views/pages/group/remote')
+        component: () => import(/* webpackChunkName: "bus-group-remote" */ '@/views/pages/group/remote')
       }
     }
   ]

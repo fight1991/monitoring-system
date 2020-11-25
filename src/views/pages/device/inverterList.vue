@@ -215,7 +215,7 @@ export default {
         return
       }
       let { result } = await this.$post({
-        url: '/v0​/device/delete',
+        url: '/c/v0​/device/delete',
         data: this.deviceId
       })
       if (result) {
