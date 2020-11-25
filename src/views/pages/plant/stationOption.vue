@@ -130,7 +130,8 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="access > 1">
+      <!-- 代理商权限 -->
+      <div v-if="access > 2">
         <div class="title equipment border-line">{{$t('sapn.addProp')}}</div>
         <div class="devices-box">
           <el-row :gutter="10">
@@ -487,7 +488,8 @@ export default {
     // 获取不同操作状态先的url
     getUrlForApi () {
       let url = ''
-      if (this.access > 1) {
+      // 南澳接口代理商权限
+      if (this.access > 2) {
         if (this.opType === 'add') {
           url = '/sapn/v0/plant/create'
         } else {
