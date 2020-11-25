@@ -3,7 +3,7 @@ export default {
   path: '/bus/group',
   name: 'bus-group',
   meta: {
-    permission: [1, 2, 3, 255],
+    permission: [2, 3, 255],
     title: 'clusterM'
   },
   children: [
@@ -11,7 +11,7 @@ export default {
       path: '/bus/group/remote',
       name: 'bus-group-remote',
       meta: {
-        permission: [1, 2, 3, 255],
+        permission: [2, 3, 255],
         title: 'remoteSch',
         component: () => import(/* webpackChunkName: "bus-group-remote" */ '@/views/pages/group/remote')
       }
