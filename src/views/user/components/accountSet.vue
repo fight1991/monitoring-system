@@ -33,7 +33,7 @@
       </el-row>
       <el-row type="flex" align="middle">
         <div class="nap get-code" @click="getOrganCode('agent')">{{$t('user.code')}}</div>
-        <div class="nap"><el-input v-model="agentCode" readonly :placeholder="$t('user.invCode')" size="mini"></el-input></div>
+        <div class="nap"><el-input v-model="agentCode" :placeholder="$t('user.invCode')" size="mini"></el-input></div>
       </el-row>
     </div>
   </section>
