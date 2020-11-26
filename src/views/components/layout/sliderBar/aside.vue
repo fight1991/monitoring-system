@@ -73,7 +73,7 @@ export default {
       _this.startX = e.clientX
       document.onselectstart = function () { return false }
       document.onmousemove = function (e) {
-        if (e.clientX >= 210) {
+        if (e.clientX >= 210 && e.clientX <= 320) {
           _this.$emit('getMoveDistance', e.clientX)
         }
       }
