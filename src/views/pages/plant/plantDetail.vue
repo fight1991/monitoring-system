@@ -41,16 +41,16 @@
         </div>
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
-        <div class="line-collapse line-collapse-plant">
-          <span v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</span>
-          <span v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</span>
-          <span>{{$t('join.installer')}}  : {{installer.account || '-'}}</span>
-          <span>{{$t('common.contact')}}  : {{installer.phone || '-'}}</span>
-          <span>{{$t('plant.user')}} : {{users.account || '-'}}</span>
-          <span>{{$t('common.userContact')}}  : {{users.phone || '-'}}</span>
-          <span>{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</span>
-          <span class="text-cut" :title="plants.createdDate || '-'">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</span>
-          <span class="text-cut" :title="plants.address || '-'">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</span>
+        <div class="line-collapse">
+          <span class="item" v-if="pageFlag==='board'">{{$t('plant.country')}} : {{plants.country || '-'}}</span>
+          <span class="item" v-if="pageFlag==='board'">{{$t('plant.city')}} : {{plants.city || '-'}}</span>
+          <span class="item">{{$t('join.installer')}}  : {{installer.account || '-'}}</span>
+          <span class="item">{{$t('common.contact')}}  : {{installer.phone || '-'}}</span>
+          <span class="item">{{$t('plant.user')}} : {{users.account || '-'}}</span>
+          <span class="item">{{$t('common.userContact')}}  : {{users.phone || '-'}}</span>
+          <span class="item">{{$t('plant.type')}} : {{plants.plantType === 1 ? $t('common.light') : plants.plantType === 2 ? $t('common.energy'): '-'}}</span>
+          <span class="item text-cut" :title="plants.createdDate || '-'">{{$t('plant.websiteTime')}} : {{plants.createdDate || '-'}}</span>
+          <span class="item text-cut" :title="plants.address || '-'">{{$t('plant.websiteAddr')}} : {{plants.address || '-'}}</span>
         </div>
       </div>
     </div>
