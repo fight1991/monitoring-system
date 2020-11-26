@@ -12,7 +12,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')" multiple clearable>
+                <el-select style="width:100%" v-model="searchForm.groups" :placeholder="$t('sapn.group')" collapse-tags multiple clearable>
                   <el-option v-for="item in groupList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>

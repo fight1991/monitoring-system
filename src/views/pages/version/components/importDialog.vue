@@ -50,7 +50,7 @@
           </el-col>
           <el-col :span="22">
             <el-form-item :label="$t('firmware.proLine')" prop="productType">
-              <el-select v-model="dataForm.productType" clearable style="width:100%" multiple>
+              <el-select v-model="dataForm.productType" clearable style="width:100%" collapse-tags multiple>
                 <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
