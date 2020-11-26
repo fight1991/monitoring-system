@@ -32,7 +32,7 @@ export default {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
-          width: 115,
+          width: 120,
           slotName: 'generationToday'
         },
         {
