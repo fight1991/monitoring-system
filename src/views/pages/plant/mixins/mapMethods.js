@@ -89,7 +89,7 @@ export default {
         var place = autocomplete.getPlace()
         this.resetPosition()
         if (!place.geometry) {
-          window.alert('No details available for input: ' + place.name)
+          // window.alert('No details available for input: ' + place.name)
           return
         }
         for (var i = 0; i < place.address_components.length; i++) {
