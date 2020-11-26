@@ -402,7 +402,7 @@ export default {
     nmi: 'NMI',
     instCap: 'Installed Capacity',
     shutdown: 'Remote Shutdown',
-    boot: 'Remote boot'
+    boot: 'Remote Boot'
   },
   monitor: 'FoxEssCloud',
   chooseDate: 'Choose Date'
