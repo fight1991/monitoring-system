@@ -202,7 +202,7 @@ export default {
     // 获取所有逆变器状态
     async getStatusAll () {
       let { result } = await this.$get({
-        url: 'v0/device/status/all'
+        url: '/c/v0/device/status/all'
       })
       if (result) {
         this.statusAll = result
