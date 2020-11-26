@@ -54,6 +54,12 @@
             <i class="el-icon-error" v-show="row.status==2"></i>
             <i class="el-icon-remove" v-show="row.status==3"></i>
           </template>
+          <template #generationToday="{row}">
+            {{toFixed(row.generationToday)}}
+          </template>
+          <template #power="{row}">
+            {{toFixed(row.power)}}
+          </template>
         </common-table>
       </func-bar>
     </div>
@@ -128,13 +134,15 @@ export default {
         {
           label: 'common.currentP',
           prop: 'power',
-          checked: true
+          checked: true,
+          slotName: 'power'
         },
         {
           label: 'plant.genTod',
           prop: 'generationToday',
           checked: true,
-          width: 120
+          width: 120,
+          slotName: 'generationToday'
         },
         {
           label: 'common.status',
