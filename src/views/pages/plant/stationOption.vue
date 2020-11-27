@@ -347,7 +347,7 @@ export default {
     setFormRules (isRequired = false) {
       return {
         agent: [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
-        timezone: [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        timezone: [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
         daylight: [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
         'details.name': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
         'details.type': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],

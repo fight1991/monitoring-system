@@ -163,7 +163,7 @@ export default {
         let tempVal = Number(value)
         if (isNaN(tempVal) || tempVal < lo || tempVal > hi) {
           let str = lo + '~' + hi
-          callback(new Error(this.messageValid('valid') + ' ' + str))
+          callback(new Error(str))
           return
         }
       }
