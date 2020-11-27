@@ -32,9 +32,18 @@
             </el-col> -->
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.country')" prop="details.country">
-                <el-select v-model="dataForm.details.country" filterable style="width:100%" @change="getZoneListByHand" :disabled="endUserNoUse && inputController" :placeholder="$t('common.select')">
+                <!-- <el-select v-model="dataForm.details.country" filterable style="width:100%" @change="getZoneListByHand" :disabled="endUserNoUse && inputController" :placeholder="$t('common.select')">
                   <el-option v-for="item in countryList" :key="item.code" :value="item.name" :label="item.name"></el-option>
-                </el-select>
+                </el-select> -->
+                <el-autocomplete
+                  :popper-append-to-body="false"
+                  popper-class="autocomplete-input"
+                  style="width: 100%"
+                  v-model="dataForm.details.country"
+                  value-key="name"
+                  @change="getZoneListByHand"
+                  :fetch-suggestions="querySearch"
+                ></el-autocomplete>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
@@ -309,6 +318,17 @@ export default {
     }
   },
   methods: {
+    querySearch (queryString, cb) {
+      let restaurants = this.countryList
+      let results = queryString ? restaurants.filter(this.createFilter(queryString)).slice(0, 10) : restaurants.slice(0, 10)
+      // 调用 callback 返回建议列表的数据
+      cb(results)
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        return (restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+      }
+    },
     // 表单数据初始化
     async initFormData () {
       this.rules = this.setFormRules(true)
@@ -332,7 +352,7 @@ export default {
         'details.type': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
         'details.country': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
         'details.city': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
-        'details.address': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
+        'details.address': [{ required: isRequired, message: this.messageValid('require'), trigger: 'blur' }],
         'details.currency': [{ required: isRequired, message: this.messageValid('require'), trigger: 'change' }],
         'details.price': [
           { required: isRequired, message: this.messageValid('require'), trigger: 'blur' },
@@ -387,6 +407,7 @@ export default {
     },
     getZoneListByHand (countryName) {
       let obj = this.countryList.find(v => v.name === countryName)
+      if (!obj) return
       this.getZoneList(obj.code)
     },
     // 获取时区列表
