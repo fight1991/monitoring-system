@@ -276,7 +276,7 @@ export default {
     this.opType = this.$route.meta.opType
     // 终端用户新增时电站设置隐藏 故不需要初始化下拉框数据
     if (this.access > 1 || (this.access === 1 && this.opType === 'edit')) {
-      this.initFormData()
+      await this.initFormData()
     }
     if (this.opType === 'edit') {
       this.plantId = this.$route.query.plantId
@@ -341,6 +341,7 @@ export default {
       if (this.opType === 'add') {
         this.dataForm.details.currency = this.currencyList[0] || ''
       }
+      return true
     },
     // 设置校验规则
     setFormRules (isRequired = false) {
@@ -405,15 +406,26 @@ export default {
         this.groupList = result.groups
       }
     },
+    // 手动选择国家时初始化时区列表
     getZoneListByHand (countryName) {
+      let obj = this.countryList.find(v => v.name === countryName)
+      if (!obj) return
+      this.initZoneList(obj.code)
+    },
+    // 地图选择国家时初始化时区列表
+    initZoneList (shortName) {
+      this.dataForm.timezone = ''
+      this.dataForm.daylight = ''
+      this.getZoneList(shortName)
+    },
+    // 电站编辑时初始化 时区列表
+    setZoneData (countryName) {
       let obj = this.countryList.find(v => v.name === countryName)
       if (!obj) return
       this.getZoneList(obj.code)
     },
     // 获取时区列表
     async getZoneList (shortName) {
-      this.dataForm.timezone = ''
-      this.dataForm.daylight = ''
       let { result } = await this.$get({
         url: '/c/v0/map/timezones',
         data: {
@@ -611,6 +623,7 @@ export default {
             }
           })
         }
+        this.setZoneData(result.details.country)
         this.dataForm = result
       }
       return true

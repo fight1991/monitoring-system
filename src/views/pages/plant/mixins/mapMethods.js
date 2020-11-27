@@ -134,7 +134,7 @@ export default {
       this.dataForm.details.country = country
       this.dataForm.details.city = province + city
       // 初始化时区
-      this.getZoneList(this.countryShortName)
+      this.initZoneList(this.countryShortName)
     },
     initGoogleForm () {
       /*eslint-disable*/
@@ -145,7 +145,7 @@ export default {
       this.dataForm.position.x = lat
       this.dataForm.position.y = lng
       // 初始化时区
-      this.getZoneList(this.countryShortName)
+      this.initZoneList(this.countryShortName)
     },
     resetPosition () {
       if (this.appVersion === 'abroad') {
