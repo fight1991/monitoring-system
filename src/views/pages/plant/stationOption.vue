@@ -25,34 +25,33 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :sm="12" :lg="8">
+            <!-- <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.country')" prop="details.country">
                 <el-input disabled v-model="dataForm.details.country"></el-input>
               </el-form-item>
-            </el-col>
-            <!-- <el-col :sm="12" :lg="8">
+            </el-col> -->
+            <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.country')" prop="details.country">
-                <el-select v-model="dataForm.details.country" filterable style="width:100%" @change="getZoneList" :placeholder="$t('common.select')">
+                <el-select v-model="dataForm.details.country" filterable style="width:100%" @change="getZoneListByHand" :disabled="endUserNoUse && inputController" :placeholder="$t('common.select')">
                   <el-option v-for="item in countryList" :key="item.code" :value="item.name" :label="item.name"></el-option>
                 </el-select>
               </el-form-item>
-            </el-col> -->
+            </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.city')" prop="details.city">
-                <el-input disabled v-model="dataForm.details.city"></el-input>
+                <el-input v-model="dataForm.details.city" :disabled="endUserNoUse && inputController"></el-input>
               </el-form-item>
             </el-col>
             <el-col :sm="12" :lg="8">
               <el-form-item :label="$t('plant.address')" prop="details.address">
+                <el-input :disabled="endUserNoUse && inputController" v-model="dataForm.details.address"></el-input>
                 <el-popover
                   @show="importMap()"
                   popper-class="map-popper"
                   placement="bottom"
                   :disabled="endUserNoUse && inputController"
                   trigger="click">
-                  <el-input slot="reference" :disabled="endUserNoUse && inputController" class="no-bg" v-model="dataForm.details.address" readonly :placeholder="$t('plant.searchP')">
-                    <span slot="suffix" v-show="!(endUserNoUse && inputController)"><i class="map-icon el-icon-location-information"></i></span>
-                  </el-input>
+                  <span :title="$t('plant.searchP')" class="chooseMap-btn" slot="reference" v-show="!(endUserNoUse && inputController)"><i class="map-icon el-icon-location-information"></i></span>
                   <div class="map-place">
                     <div class="input-box flex-vertical-center">
                       <span class="key-word">{{$t('common.keyword')}}</span>
@@ -300,7 +299,7 @@ export default {
       return temp.map(v => v.device)
     },
     zoneIsShow () {
-      return this.dataForm.details.address && this.zoneInfo.timezones && this.zoneInfo.timezones.length > 0
+      return this.zoneInfo.timezones && this.zoneInfo.timezones.length > 0
     },
     hasSummerTime () { // 是否有夏令时
       return this.zoneInfo.useDaylight
@@ -315,6 +314,7 @@ export default {
       this.rules = this.setFormRules(true)
       await this.getCurrencyList()
       await this.getAgentList()
+      this.countryList = await this.getCountryList()
       if (this.access > 1) {
         await this.getGroupList()
       }
@@ -384,6 +384,10 @@ export default {
       if (result) {
         this.groupList = result.groups
       }
+    },
+    getZoneListByHand (countryName) {
+      let obj = this.countryList.find(v => v.name === countryName)
+      this.getZoneList(obj.code)
     },
     // 获取时区列表
     async getZoneList (shortName) {
@@ -695,5 +699,9 @@ export default {
   color: #F56C6C;
   padding: 5px 10px;
 }
-
+.chooseMap-btn {
+  position: absolute;
+  top: 0;
+  right: -35px;
+}
 </style>

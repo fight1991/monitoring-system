@@ -37,7 +37,7 @@ export default {
     async getCountryList () {
       let { result } = await this.$get({
         url: '/c/v0/map/countries',
-        checkParams: this.$store.state.lang === 'en' ? 'country_en' : 'country_zh'
+        checkParams: this.$store.state.lang === 'zh' ? 'country_zh' : 'country_en'
       })
       if (result) {
         return result.countries || []
