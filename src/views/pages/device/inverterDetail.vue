@@ -194,7 +194,7 @@ export default {
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    if (Number(status) === 1) { // 设备状态为1 即正常建立websocket连接
+    if (Number(status) !== 3) { // 设备状态为非离线状态 即正常建立websocket连接
       this.createWebsocket(this.getWsInfo)
     }
   },
