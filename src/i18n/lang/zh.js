@@ -218,7 +218,7 @@ export default {
     epBind: '设备绑定',
     name: '电站名称',
     type: '电站类型',
-    country: '国家',
+    country: '国家/地区',
     city: '城市',
     address: '地址',
     map: '地图',
