@@ -103,13 +103,13 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          width: 150
+          width: 160
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          width: 150
+          width: 160
         },
         {
           label: 'sapn.instCap',

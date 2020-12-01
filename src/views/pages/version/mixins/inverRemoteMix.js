@@ -17,13 +17,13 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          width: 130
+          width: 160
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          width: 140
+          width: 160
         },
         {
           label: 'invupgrade.invmodel',
