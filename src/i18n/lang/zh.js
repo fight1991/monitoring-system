@@ -208,6 +208,7 @@ export default {
     successMg2: '重置成功'
   },
   plant: {
+    invalidSn: '无效的SN',
     summerTime: '夏令时',
     crePlant: '创建电站',
     sn: '序列号',

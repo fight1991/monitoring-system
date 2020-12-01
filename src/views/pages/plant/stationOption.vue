@@ -179,7 +179,7 @@
       <el-button size="mini" @click="confirmBtn" type="primary">{{opType=='add'?$t('plant.new'):$t('plant.edit')}}</el-button>
     </el-row>
     <el-dialog
-      :title="$t('common.list')"
+      :title="$t('plant.invalidSn')"
       width="300px"
       :modal-append-to-body="false"
       :close-on-click-modal="false"

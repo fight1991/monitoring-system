@@ -206,6 +206,7 @@ export default {
     successMg2: 'Zresetuj pomyślnie'
   },
   plant: {
+    invalidSn: 'Nieprawidłowy SN',
     summerTime: 'Czas letni',
     crePlant: 'Utwórz elektrownię',
     sn: 'SN',

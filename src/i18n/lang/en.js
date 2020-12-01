@@ -208,6 +208,7 @@ export default {
     successMg2: 'Reset successfully'
   },
   plant: {
+    invalidSn: 'Invalid SN',
     summerTime: 'Summer Time',
     crePlant: 'New Site',
     sn: 'SN',
