@@ -175,7 +175,7 @@ export default {
     },
     // 模板下载
     downloadModule () {
-      window.open(process.env.VUE_APP_WWW + '/c/v0/module/template/modules.csv', '_blank')
+      window.open(location.origin + '/c/v0/module/template/modules.csv', '_blank')
     },
     // 读取文件信息
     beforeUpload ({ file }) {

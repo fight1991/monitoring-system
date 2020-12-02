@@ -9,6 +9,8 @@ let {
   onResponseResolve,
   onResponseReject
 } = interceptors
+
+const BaseURL = window.location.origin
 /* eslint-disable */
 // axios构造实例类
 class InitAxios {
@@ -23,8 +25,8 @@ class InitAxios {
   }
 }
 // 配置get/post等请求实例
-const Fetch_COMMON = new InitAxios(process.env.VUE_APP_API)['instance']
-const Fetch_UPLOAD = new InitAxios(process.env.VUE_APP_FILE)['instance']
+const Fetch_COMMON = new InitAxios(BaseURL)['instance']
+const Fetch_UPLOAD = new InitAxios(BaseURL)['instance']
 class SetInstance {
   get (url, data) {
     return Fetch_COMMON['get'](url, { params: data })

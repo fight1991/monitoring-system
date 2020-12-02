@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     download () {
-      window.open(process.env.VUE_APP_API + '/c' + this.downloadUrl, '_blank')
+      window.open(location.origin + this.downloadUrl, '_blank')
     },
     resetSearchForm () {
       this.searchForm = {

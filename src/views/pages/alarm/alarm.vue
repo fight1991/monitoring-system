@@ -177,7 +177,7 @@ export default {
       this.getList(this.pagination)
     },
     download () {
-      window.open(process.env.VUE_APP_API + '/c' + this.downloadUrl, '_blank')
+      window.open(location.origin + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
       this.selection = []
