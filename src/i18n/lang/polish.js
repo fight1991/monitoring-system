@@ -16,6 +16,8 @@ export default {
     batteryM: 'Bateria',
     moduleM: 'Moduł',
     versionM: 'Zarządzanie oprogramowaniem',
+    clusterM: 'Zarządzanie klastrem',
+    remoteSch: 'Zdalna wysyłka',
     firmware: 'Oprogramowanie',
     inverUp: 'Promocja falownika',
     moduleUp: 'Promocja modułu',
@@ -393,6 +395,15 @@ export default {
     cpuError: 'Awaria procesora',
     eps: 'Awaria akumulatora / EPS',
     outer: 'Awaria urządzeń peryferyjnych;'
+  },
+  sapn: {
+    addProp: 'Dodatkowe atrybuty (opcjonalnie)',
+    groupInfo: 'Informacje o grupowaniu (opcjonalnie)',
+    group: 'Grupa',
+    nmi: 'NMI',
+    instCap: 'Pojemność znamionowa',
+    shutdown: 'Zdalne wyłączanie',
+    boot: 'Zdalny rozruch'
   },
   monitor: 'Rye Cloud',
   chooseDate: 'Wybierz datę'
