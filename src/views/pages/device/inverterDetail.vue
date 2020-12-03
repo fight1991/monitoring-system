@@ -367,7 +367,12 @@ export default {
         this.$message.error(`your brower can't support websocket, please go to update`)
         return
       }
-      let ws = new WebSocket(process.env.VUE_APP_SOCKET)
+      let host = 'www.foxess.link' // 开发环境
+      if (process.env.NODE_ENV === 'production') {
+        host = location.host
+      }
+      let socketUrl = `wss://${host}/c/v0/websocket`
+      let ws = new WebSocket(socketUrl)
       this.ws = ws
       let that = this
       ws.onopen = function () {
