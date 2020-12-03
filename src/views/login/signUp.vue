@@ -206,7 +206,7 @@ export default {
         list-style: none;
         width: 50%;
         text-align: center;
-        padding: 10px 0;
+        padding: 10px 10px;
         color: #fff;
         background-color: #a7acb5;
         display: flex;
