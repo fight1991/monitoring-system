@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     download () {
-      window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
+      window.open(location.origin + this.downloadUrl, '_blank')
     },
     resetSearchForm () {
       this.searchForm = {
@@ -175,7 +175,7 @@ export default {
         }
       }
       let { result, error, other } = await this.$post({
-        url: '/v0/device/report/query',
+        url: '/c/v0/device/report/query',
         data: {
           ...pagination,
           ...this.searchForm

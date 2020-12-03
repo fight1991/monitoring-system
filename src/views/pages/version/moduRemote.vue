@@ -162,7 +162,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/firmware/module/list',
+        url: '/c/v0/firmware/module/list',
         data: {
           ...pagination,
           condition: this.searchForm

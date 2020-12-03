@@ -48,7 +48,7 @@
           <!-- {{incomeDetail.earnings.cumulate[0] && toFixed(incomeDetail.earnings.cumulate[0]['value'])}} -->
           <count-to
             :start-val="0"
-            :end-val="(incomeDetail.earnings.cumulate[0] && +toFixed(incomeDetail.generation.cumulate) || 0)"
+            :end-val="(incomeDetail.earnings.cumulate[0] && +toFixed(incomeDetail.earnings.cumulate[0]['value']) || 0)"
             :decimals="2"
             :duration="2600"/>
         </div>

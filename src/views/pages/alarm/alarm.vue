@@ -177,7 +177,7 @@ export default {
       this.getList(this.pagination)
     },
     download () {
-      window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
+      window.open(location.origin + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
       this.selection = []
@@ -194,7 +194,7 @@ export default {
         }
       }
       let { result } = await this.$post({
-        url: '/v0/alarm/query',
+        url: '/c/v0/alarm/query',
         data: {
           ...pagination,
           condition: {

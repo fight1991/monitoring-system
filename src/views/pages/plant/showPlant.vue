@@ -129,7 +129,7 @@ export default {
     // 获取所有电站列表
     async getAllPlant (total) {
       let { result } = await this.$post({
-        url: '/v0/plant/list',
+        url: '/c/v0/plant/list',
         data: {
           currentPage: 1,
           pageSize: total,
@@ -146,7 +146,7 @@ export default {
     // 获取电站列表
     async getList (pagination) {
       let { result } = await this.$post({
-        url: '/v0/plant/list',
+        url: '/c/v0/plant/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -162,10 +162,12 @@ export default {
     },
     // 电站删除
     async deletePlant (id) {
-      let res = await this.$openConfirm('common.tips2')
+      let res = await this.$openConfirm({
+        content: this.$t('common.tips2')
+      })
       if (!res) return
       let { result } = await this.$post({
-        url: '/v0/plant/delete',
+        url: '/c/v0/plant/delete',
         data: {
           stationID: id
         }

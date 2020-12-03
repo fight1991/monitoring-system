@@ -16,6 +16,8 @@ export default {
     remoteS: 'Remote Settting',
     moduleM: 'Datalogger',
     versionM: 'Firmware Management',
+    clusterM: 'Cluster Management',
+    remoteSch: 'Remote Schedule',
     firmware: 'Firmware Version',
     inverUp: 'Inverter Remote Upgrade',
     moduleUp: 'Datalogger Remote Upgrade',
@@ -104,6 +106,7 @@ export default {
     select: 'Please select',
     tips1: 'Are you sure you want to cancel it?',
     tips2: 'Are you sure you want to delete it?',
+    tips3: 'Do you want to download the list?',
     reset: 'Clear',
     search: 'Search',
     normal: 'Normal',
@@ -205,6 +208,7 @@ export default {
     successMg2: 'Reset successfully'
   },
   plant: {
+    invalidSn: 'Invalid SN',
     summerTime: 'Summer Time',
     crePlant: 'New Site',
     sn: 'SN',
@@ -391,6 +395,15 @@ export default {
     cpuError: 'CPU Error',
     eps: 'Battery/EPS Error',
     outer: 'Outer Device Error'
+  },
+  sapn: {
+    addProp: 'Additional Properties (optional)',
+    groupInfo: 'Group Information (optional)',
+    group: 'Group',
+    nmi: 'NMI',
+    instCap: 'Installed Capacity',
+    shutdown: 'Remote Shutdown',
+    boot: 'Remote Boot'
   },
   monitor: 'FoxEssCloud',
   chooseDate: 'Choose Date'

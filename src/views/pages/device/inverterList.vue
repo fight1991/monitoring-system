@@ -180,7 +180,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/device/list',
+        url: '/c/v0/device/list',
         data: {
           ...pagination,
           condition: {
@@ -202,7 +202,7 @@ export default {
     // 获取所有逆变器状态
     async getStatusAll () {
       let { result } = await this.$get({
-        url: 'v0/device/status/all'
+        url: '/c/v0/device/status/all'
       })
       if (result) {
         this.statusAll = result
@@ -215,7 +215,7 @@ export default {
         return
       }
       let { result } = await this.$post({
-        url: '/v0​/device/delete',
+        url: '/c/v0​/device/delete',
         data: this.deviceId
       })
       if (result) {

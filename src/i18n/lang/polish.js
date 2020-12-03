@@ -104,6 +104,7 @@ export default {
     select: 'Proszę wybrać',
     tips1: 'Czy ​​na pewno chcesz anulować?',
     tips2: 'Czy ​​na pewno chcesz to usunąć?',
+    tips3: 'Chcesz pobrać listę?',
     reset: 'Wyczyść',
     search: 'Szukaj',
     normal: 'Prawidłowy',
@@ -205,6 +206,7 @@ export default {
     successMg2: 'Zresetuj pomyślnie'
   },
   plant: {
+    invalidSn: 'Nieprawidłowy SN',
     summerTime: 'Czas letni',
     crePlant: 'Utwórz elektrownię',
     sn: 'SN',

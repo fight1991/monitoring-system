@@ -30,7 +30,7 @@
 
 <script>
 import md5 from 'js-md5'
-import { base64 } from '@/util'
+// import { base64 } from '@/util'
 import mixins from '../mixin'
 import valid from '../common/validate'
 import storage from '@/util/storage'
@@ -104,27 +104,25 @@ export default {
       this.dataForm.accountType = this.accountType
       let tempData = { ...this.dataForm }
       let { result, other } = await this.$post({
-        url: '/v0/user/login',
+        url: '/c/v0/user/login',
         data: {
           ...tempData,
           password: md5(tempData.password)
         }
       })
       if (result) {
-        if (this.$route.query.sysId === 'maxScreen') {
-          let outPath = decodeURIComponent(this.$route.query.redirect)
-          window.open(`${outPath}?token=${base64.encode(result.token)}`, '_self')
-          return
+        let path = '/'
+        let tempPath = this.$route.query.redirect
+        if (tempPath) {
+          path = decodeURIComponent(tempPath)
+          if (path === '/user/center') {
+            path = '/bus/dataView'
+          }
         }
         storage.setStorage('token', result.token)
         storage.setStorage('account', tempData.user)
         // 存储权限信息
         this.$store.commit('setAccess', result.access)
-        let path = '/'
-        let redirectPath = this.$route.query.redirect
-        if (redirectPath !== '/') {
-          path = redirectPath || '/bus/dataView'
-        }
         window.open(path, '_self')
       }
       if (other) {

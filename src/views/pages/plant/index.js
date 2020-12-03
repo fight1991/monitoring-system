@@ -15,7 +15,7 @@ export default {
         permission: [2, 3, 255],
         title: 'plantN',
         opType: 'add',
-        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/createPlant')
+        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/stationOption')
       }
     },
     {
@@ -26,7 +26,7 @@ export default {
         permission: [1, 2, 3, 255],
         title: 'plantE',
         opType: 'edit',
-        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/createPlant')
+        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/stationOption')
       }
     },
     {
@@ -37,7 +37,7 @@ export default {
         permission: [1, 255],
         title: 'plantL',
         opType: 'add',
-        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/createPlant')
+        component: () => import(/* webpackChunkName: "bus-plant-add" */ '@/views/pages/plant/stationOption')
       }
     },
     {

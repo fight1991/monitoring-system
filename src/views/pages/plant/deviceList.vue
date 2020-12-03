@@ -89,11 +89,11 @@ export default {
         country: '',
         deviceType: ''
       }
-      this.search(this.pagination, id)
+      this.getList(this.pagination, id)
     },
     async getList (pagination, id) {
       let { result } = await this.$post({
-        url: '/v0/plant/device/list',
+        url: '/c/v0/plant/device/list',
         data: {
           ...pagination,
           stationID: id || this.id,

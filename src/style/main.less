@@ -368,6 +368,9 @@
   overflow: visible;
   transition: all .3s;
 }
+.open-duration.el-aside {
+  transition: none;
+}
 .el-menu--collapse>.el-menu-item .el-submenu__icon-arrow, .el-menu--collapse>div>.el-submenu>.el-submenu__title .el-submenu__icon-arrow {
   display: none;
 }
@@ -395,7 +398,7 @@
 .sidebar-container {
   color: #fff;
   .el-submenu>.el-menu>.el-menu-item {
-    text-indent: 8px;
+    text-indent: 4px;
   }
   .el-submenu>.el-menu {
     background-color: rgba(255,255,255,.1);
@@ -403,6 +406,10 @@
   .el-menu {
     background-color: @sys-aside-bg;
     border-right: none;
+    .sub-title {
+      display: inline-block;
+      width: 100%;
+    }
   }
   .el-menu-item {
     border-left: 3px solid transparent;
@@ -421,6 +428,10 @@
     border-left: 3px solid transparent;
     &:hover {
       background-color: transparent;
+    }
+    &>.sub-title {
+      display: inline-block;
+      width: calc(100% - 40px);
     }
   }
   .el-submenu__title, .el-menu-item {
@@ -538,6 +549,18 @@
     font-size: 12px;
     line-height: 28px;
     height: 28px;
+    &:nth-child(n+2) {
+      border-top: 1px solid #ccc;
+    }
+  }
+}
+.autocomplete-input {
+  .el-autocomplete-suggestion__wrap {
+    padding: 6px 0;
+  }
+  .el-autocomplete-suggestion__list li {
+    font-size: 12px;
+    line-height: 28px;
     &:nth-child(n+2) {
       border-top: 1px solid #ccc;
     }

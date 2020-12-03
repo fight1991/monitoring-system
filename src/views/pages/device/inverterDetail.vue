@@ -4,13 +4,13 @@
     <div class="block bg-c show-shadow mg-b12">
       <div class="plant-head clearfix">
         <div class="plant-name flex-center">
-          <i class="iconfont icon-nibianqi"></i>
+          <i class="iconfont icon-flow-invert"></i>
           <div class="line-center">
-            <div class="text-cut" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
-            <div class="text-cut" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
-            <div class="text-cut" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
-            <div class="text-cut" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
-            <div class="text-cut" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
+            <div class="text-cut item" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
+            <div class="text-cut item" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
+            <div class="text-cut item" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
+            <div class="text-cut item" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
+            <div class="text-cut item" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -18,13 +18,13 @@
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
         <div class="line-collapse">
-          <span>{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
-          <span>{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
-          <span>{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
-          <span>{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
-          <span>{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
-          <span>{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
-          <span class="text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
+          <span class="item">{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
+          <span class="item">{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
+          <span class="item">{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
+          <span class="item">{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
+          <span class="item">{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
+          <span class="item">{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
+          <span class="item text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
         </div>
       </div>
     </div>
@@ -194,7 +194,7 @@ export default {
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    if (Number(status) === 1) { // 设备状态为1 即正常建立websocket连接
+    if (Number(status) !== 3) { // 设备状态为非离线状态 即正常建立websocket连接
       this.createWebsocket(this.getWsInfo)
     }
   },
@@ -205,7 +205,7 @@ export default {
   },
   mounted () {
     if (this.flowType > 1) { // 电池业务
-      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower', 'SoC']
+      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
       this.barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
     this.$refs.lineBar.getLineData('', this.lineParams)
@@ -240,7 +240,7 @@ export default {
     // 获取头部逆变器信息
     async getHeadInfo () {
       let { result } = await this.$get({
-        url: '/v0/device/addressbook',
+        url: '/c/v0/device/addressbook',
         data: {
           deviceID: this.deviceId
         }
@@ -250,7 +250,7 @@ export default {
     // 获取单个设备功率的发电和收益情况
     async getDeviceEarns () {
       let { result } = await this.$get({
-        url: '/v0/device/earnings',
+        url: '/c/v0/device/earnings',
         data: {
           deviceID: this.deviceId
         }
@@ -273,7 +273,7 @@ export default {
     // 获取图表下拉选择框
     async getOptions () {
       let { result } = await this.$get({
-        url: '/v0/device/variables',
+        url: '/c/v0/device/variables',
         data: {
           deviceID: this.deviceId
         }
@@ -292,7 +292,7 @@ export default {
     async getMultiChart () {
       this.chartLoading = true
       let { result } = await this.$post({
-        url: '/v0/device/history/raw',
+        url: '/c/v0/device/history/raw',
         isLoad: false,
         data: {
           deviceID: this.deviceId,
@@ -335,7 +335,7 @@ export default {
     // 获取今日异常
     async getAbnormalStatus () {
       let { result } = await this.$get({
-        url: '/v0/device/alarm/today',
+        url: '/c/v0/device/alarm/today',
         data: {
           deviceID: this.deviceId
         }
@@ -348,7 +348,7 @@ export default {
     // 获取电池设备信息
     async getBaterryInfo (id) {
       let { result } = await this.$get({
-        url: '/v0/device/battery/info',
+        url: '/c/v0/device/battery/info',
         data: {
           id
         }
@@ -367,7 +367,11 @@ export default {
         this.$message.error(`your brower can't support websocket, please go to update`)
         return
       }
-      let ws = new WebSocket(process.env.VUE_APP_SOCKET)
+      let socketUrl = `wss://${location.host}/c/v0/websocket`
+      if (process.env.NODE_ENV === 'development') {
+        socketUrl = process.env.VUE_APP_SOCKET
+      }
+      let ws = new WebSocket(socketUrl)
       this.ws = ws
       let that = this
       ws.onopen = function () {
@@ -550,8 +554,5 @@ export default {
 .select-line {
   padding:10px;
   border-bottom:1px solid #f5f5f5;
-}
-.line-center {
-  flex: 1;
 }
 </style>

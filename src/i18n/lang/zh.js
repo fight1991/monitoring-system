@@ -16,6 +16,8 @@ export default {
     batteryM: '电池管理',
     moduleM: '模块管理',
     versionM: '版本管理',
+    clusterM: '集群管理',
+    remoteSch: '远程调度',
     firmware: '固件版本',
     inverUp: '逆变器远程升级',
     moduleUp: '模块远程升级',
@@ -84,7 +86,7 @@ export default {
     invert: '逆变器',
     module: '模块',
     battery: '电池',
-    invertSn: '逆变器sn',
+    invertSn: '逆变器SN',
     alarmType: '报错类型',
     common: '一般',
     pvBus: 'PV&BUS',
@@ -104,6 +106,7 @@ export default {
     select: '请选择',
     tips1: '您确定要取消吗?',
     tips2: '您确定要删除吗?',
+    tips3: '是否要下载列表?',
     reset: '清空',
     search: '查询',
     normal: '正常',
@@ -133,7 +136,7 @@ export default {
     onSta: '在线状态',
     plantsName: '电站名称',
     InvType: '逆变器型号',
-    datacolSN: '模块sn',
+    datacolSN: '模块SN',
     contact: '安装商联系方式',
     userContact: '用户联系方式',
     to: '至',
@@ -205,6 +208,7 @@ export default {
     successMg2: '重置成功'
   },
   plant: {
+    invalidSn: '无效的SN',
     summerTime: '夏令时',
     crePlant: '创建电站',
     sn: '序列号',
@@ -214,7 +218,7 @@ export default {
     epBind: '设备绑定',
     name: '电站名称',
     type: '电站类型',
-    country: '国家',
+    country: '国家/地区',
     city: '城市',
     address: '地址',
     map: '地图',
@@ -391,6 +395,15 @@ export default {
     cpuError: 'CPU故障',
     eps: '电池/EPS故障',
     outer: '外围设备故障'
+  },
+  sapn: {
+    addProp: '附加属性(可选)',
+    groupInfo: '分组信息(可选)',
+    group: '组',
+    nmi: 'NMI',
+    instCap: '铭牌容量',
+    shutdown: '远程关机',
+    boot: '远程开机'
   },
   monitor: '麦田云',
   chooseDate: '选择日期'

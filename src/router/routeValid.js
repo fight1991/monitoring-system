@@ -13,7 +13,7 @@ const beforeEach = async (to, from, next) => {
   // 第一次进入系统存储messageError列表
   if (!store.state.hasErrorInfo) {
     let { result } = await _this.$get({
-      url: '/v0/errors/message'
+      url: '/c/v0/errors/message'
     })
     if (result && result.messages) {
       store.commit('getErrorInfo', result.messages)
@@ -52,9 +52,9 @@ const beforeEach = async (to, from, next) => {
   // 第一次进入系统需要获取权限状态和用户信息(刷新地址栏)
   if (store.state.isFirst) {
     // 用户信息查询
-    let { result: userInfo } = await _this.$get({ url: '/v0/user/info' })
+    let { result: userInfo } = await _this.$get({ url: '/c/v0/user/info' })
     // 权限查询
-    let { result: accessStatus } = await _this.$get({ url: '/v0/user/access' })
+    let { result: accessStatus } = await _this.$get({ url: '/c/v0/user/access' })
     if (userInfo) {
       store.commit('setUserInfo', userInfo)
       storage.setUserInfo(userInfo)

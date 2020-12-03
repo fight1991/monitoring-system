@@ -96,7 +96,7 @@ export default {
     border: {
       type: Boolean,
       default: () => {
-        return false
+        return true
       }
     },
     select: {

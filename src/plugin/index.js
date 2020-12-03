@@ -1,10 +1,11 @@
 import { MessageBox } from 'element-ui'
 import i18n from '@/i18n'
-export function openConfirm (tip1, text = '') {
-  return MessageBox.confirm(i18n.t(tip1) + text, i18n.t('common.tip'), {
+export function openConfirm ({ header = i18n.t('common.tip'), content = 'nothing', type = 'warning', showHeader = true }) {
+  let headerTip = showHeader ? header : ''
+  return MessageBox.confirm(content, headerTip, {
     confirmButtonText: this.$t('common.confirm'),
     cancelButtonText: this.$t('common.cancel'),
-    type: 'warning'
+    type
   }).then(() => true).catch(() => false)
 }
 
