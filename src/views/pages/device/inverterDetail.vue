@@ -42,7 +42,7 @@
         </device-status>
       </div>
       <div class="right" v-if="flowType>1">
-        <battery-status :batteryInfo="batteryInfo"></battery-status>
+        <battery-status :batData="wsData.bat" :batteryInfo="batteryInfo"></battery-status>
       </div>
     </div>
     <!-- 今日异常 流向图 -->

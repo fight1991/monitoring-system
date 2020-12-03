@@ -118,6 +118,7 @@ export default {
     elec: 'Electric',
     income: 'Income',
     power: 'Power',
+    volt: 'Voltage',
     gene: 'Energy',
     all: 'All',
     status: 'Status',

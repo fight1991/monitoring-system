@@ -118,6 +118,7 @@ export default {
     elec: '发电',
     income: '收益',
     power: '功率',
+    volt: '电压',
     gene: '统计',
     all: '全部',
     status: '状态',

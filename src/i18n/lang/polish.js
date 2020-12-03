@@ -116,6 +116,7 @@ export default {
     elec: 'Wytwarzanie energii',
     income: 'Dochód',
     power: 'Moc',
+    volt: 'Napięcie',
     gene: 'Statystyka',
     all: 'Wszystko',
     status: 'Status',
