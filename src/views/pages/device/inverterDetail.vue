@@ -205,7 +205,7 @@ export default {
   },
   mounted () {
     if (this.flowType > 1) { // 电池业务
-      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower', 'SoC']
+      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
       this.barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
     this.$refs.lineBar.getLineData('', this.lineParams)
@@ -372,6 +372,7 @@ export default {
         socketUrl = process.env.VUE_APP_SOCKET
       }
       let ws = new WebSocket(socketUrl)
+      this.ws = ws
       let that = this
       ws.onopen = function () {
         that.wsIsOpen = true
