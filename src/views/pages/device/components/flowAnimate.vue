@@ -255,14 +255,14 @@ export default {
   .data-text {
     background-color: #fff;
     position: absolute;
-    bottom: -18px;
+    bottom: -22px;
     left: 50%;
     // color: #ccc;
     font-size: 12px;
     white-space:nowrap;
     text-align: center;
     transform: translate3d(-50%, 0, 0);
-    animation: jump 5s linear infinite;
+    // animation: jump 5s linear infinite;
   }
   .inverter-text,.elec-text {
     bottom: 86px;

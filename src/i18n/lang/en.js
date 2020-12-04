@@ -60,6 +60,7 @@ export default {
     code: 'Installer/Agent Code'
   },
   common: {
+    dateRange: 'Please select a date range',
     showNum: 'Total Recordings',
     totalNum: 'Total Page',
     signIn: 'Sign In',
@@ -118,6 +119,7 @@ export default {
     elec: 'Electric',
     income: 'Income',
     power: 'Power',
+    volt: 'Voltage',
     gene: 'Energy',
     all: 'All',
     status: 'Status',

@@ -60,6 +60,7 @@ export default {
     code: '售后组织标识码'
   },
   common: {
+    dateRange: '请选择日期范围',
     showNum: '显示第',
     totalNum: '条结果 , 总计',
     signIn: '登录',
@@ -118,6 +119,7 @@ export default {
     elec: '发电',
     income: '收益',
     power: '功率',
+    volt: '电压',
     gene: '统计',
     all: '全部',
     status: '状态',
