@@ -35,7 +35,13 @@
           :[widthMethod(item.width)]="item.width || '80'">
           <template slot="header">
             <!-- 自定义表头 -->
-            <span v-html="defineHeaderByScope($t(item.label))"></span>
+            <el-tooltip
+              class="text-cut"
+              effect="dark"
+              :content="$t(item.label)"
+              placement="top">
+              <div>{{$t(item.label)}}</div>
+            </el-tooltip>
           </template>
         </el-table-column>
           <!-- :render-header="item.renderHeader ? renderHead : renderCommon" -->
@@ -48,7 +54,13 @@
           :min-width="item.width || '80'">
           <template slot="header">
             <!-- 自定义表头 -->
-            <span v-html="defineHeaderByScope($t(item.label))"></span>
+            <el-tooltip
+              class="text-cut"
+              effect="dark"
+              :content="$t(item.label)"
+              placement="top">
+              <div>{{$t(item.label)}}</div>
+            </el-tooltip>
           </template>
           <template slot-scope="scope">
             <!-- 具名插槽 -->
