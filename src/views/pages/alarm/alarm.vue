@@ -114,12 +114,14 @@ export default {
         {
           label: 'common.invertSn',
           prop: 'deviceSN',
-          checked: true
+          checked: true,
+          width: 160
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true
+          checked: true,
+          width: 160
         },
         {
           label: 'common.alarmType',
@@ -146,7 +148,7 @@ export default {
     }
   },
   created () {
-    this.search()
+    // this.search()
   },
   methods: {
     resetSearchForm () {
@@ -170,9 +172,12 @@ export default {
     },
     reset () {
       this.resetSearchForm()
-      this.search()
     },
     search () {
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning('请选择日期范围')
+        return
+      }
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },

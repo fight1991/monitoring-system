@@ -104,8 +104,7 @@ export default {
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true,
-          renderHeader: true
+          checked: true
         },
         {
           label: 'plant.datacolType',

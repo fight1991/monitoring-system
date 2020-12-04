@@ -31,20 +31,25 @@
           :key="'table' + index"
           :fixed="item.fixed || false"
           :prop="item.prop || ''"
-          :label="$t(item.label)"
           :align="item.align || 'center'"
-          :[widthMethod(item.width)]="item.width || '80'"
-          :render-header="item.renderHeader ? renderHead : renderCommon"
-        ></el-table-column>
+          :[widthMethod(item.width)]="item.width || '80'">
+          <template slot="header">
+            <!-- 自定义表头 -->
+            <span v-html="defineHeaderByScope($t(item.label))"></span>
+          </template>
+        </el-table-column>
+          <!-- :render-header="item.renderHeader ? renderHead : renderCommon" -->
         <el-table-column v-else
           show-overflow-tooltip
           :key="'table' + index"
           :fixed="item.fixed || false"
           :prop="item.prop || ''"
-          :label="$t(item.label)"
           :align="item.align || 'center'"
-          :min-width="item.width || '80'"
-          :render-header="item.renderHeader ? renderHead : renderCommon">
+          :min-width="item.width || '80'">
+          <template slot="header">
+            <!-- 自定义表头 -->
+            <span v-html="defineHeaderByScope($t(item.label))"></span>
+          </template>
           <template slot-scope="scope">
             <!-- 具名插槽 -->
             <slot :name="item.slotName || 'default'" :row="scope.row"></slot>
@@ -74,6 +79,15 @@ export default {
       selection: [],
       widthMethod (prop, value) {
         return prop ? 'width' : 'min-width'
+      },
+      defineHeaderByScope (label) { // 自定义表头
+        return `<el-tooltip
+          class="text-cut"
+          effect="dark"
+          content=${label}
+          placement="top">
+          <div>${label}</div>
+        </el-tooltip>`
       }
     }
   },

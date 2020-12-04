@@ -148,6 +148,11 @@ export default {
       // this.search()
     },
     search () {
+      if (!this.searchForm.sn) {
+        let tipsText = this.$t('common.invertSn') + this.$t('common.require')
+        this.$message.warning(tipsText)
+        return
+      }
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
