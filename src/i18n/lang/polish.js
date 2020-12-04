@@ -161,7 +161,10 @@ export default {
     selFile: 'Wybierz plik',
     upgrade: 'Aktualizacja',
     closeHsearch: 'Wróć do normalnego zapytania',
-    openHsearch: 'Zaawansowane wyszukiwanie'
+    openHsearch: 'Zaawansowane wyszukiwanie',
+    day: 'dni',
+    month: 'miesięcy',
+    year: 'lat'
   },
   login: {
     product: 'Produkt',

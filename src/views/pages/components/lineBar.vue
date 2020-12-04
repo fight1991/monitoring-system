@@ -8,11 +8,11 @@
       </div>
       <div class="date" v-show="echartType=='elec'">
         <el-dropdown size="mini" split-button @command="selectDateType">
-          {{dateType}}
+          {{$t(chooseDate[dateType])}}
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="Days">Days</el-dropdown-item>
-            <el-dropdown-item command="Months">Months</el-dropdown-item>
-            <el-dropdown-item command="Years">Years</el-dropdown-item>
+            <el-dropdown-item command="Days">{{$t('common.day')}}</el-dropdown-item>
+            <el-dropdown-item command="Months">{{$t('common.month')}}</el-dropdown-item>
+            <el-dropdown-item command="Years">{{$t('common.year')}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <span class="date-area">
@@ -73,6 +73,11 @@ export default {
         Days: 'date',
         Months: 'month',
         Years: 'year'
+      },
+      chooseDate: {
+        Days: 'common.day',
+        Months: 'common.month',
+        Years: 'common.year'
       },
       pickerOptions: {
         disabledDate (time) {
