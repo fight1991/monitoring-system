@@ -159,7 +159,10 @@ export default {
     selFile: '选择文件',
     upgrade: '升级',
     closeHsearch: '返回普通查询',
-    openHsearch: '高级查询'
+    openHsearch: '高级查询',
+    day: '日',
+    month: '月',
+    year: '年'
   },
   login: {
     product: '产品',

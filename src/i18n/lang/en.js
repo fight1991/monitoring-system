@@ -159,7 +159,10 @@ export default {
     selFile: 'Select File',
     upgrade: 'Upgrade',
     closeHsearch: 'General Conditions',
-    openHsearch: 'More Conditions'
+    openHsearch: 'More Conditions',
+    day: 'Days',
+    month: 'Months',
+    year: 'Years'
   },
   login: {
     product: 'Products',
