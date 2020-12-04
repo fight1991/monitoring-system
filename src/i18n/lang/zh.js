@@ -60,6 +60,7 @@ export default {
     code: '售后组织标识码'
   },
   common: {
+    dateRange: '请选择日期范围',
     showNum: '显示第',
     totalNum: '条结果 , 总计',
     signIn: '登录',

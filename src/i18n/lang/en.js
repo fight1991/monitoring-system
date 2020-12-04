@@ -60,6 +60,7 @@ export default {
     code: 'Installer/Agent Code'
   },
   common: {
+    dateRange: 'Please select a date range',
     showNum: 'Total Recordings',
     totalNum: 'Total Page',
     signIn: 'Sign In',

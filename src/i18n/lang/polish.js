@@ -60,6 +60,7 @@ export default {
     code: 'Kod identyfikacyjny organizacji posprzedażnej'
   },
   common: {
+    dateRange: 'Wybierz zakres dat',
     showNum: 'Całkowita liczba nagrań',
     totalNum: 'Razem strona',
     signIn: 'Zaloguj sie',

@@ -175,7 +175,7 @@ export default {
     },
     search () {
       if (!(this.times && this.times.length > 0)) {
-        this.$message.warning('请选择日期范围')
+        this.$message.warning(this.$t('common.dateRange'))
         return
       }
       this.pagination.currentPage = 1
