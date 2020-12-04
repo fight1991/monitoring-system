@@ -67,7 +67,7 @@ export default {
   computed: {
     isCharging () {
       let { status, power } = this.batteryInfo
-      return (Number(status) === 1 && power < 0 || this.batData < 0)
+      return Number(status) === 1 && power < 0
     }
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
         case 0:
           return this.$t('common.sleep')
         case 1: // power小于 0 充电
-          if (power < 0 || this.batData < 0) { // 以流向图数据为准
+          if (power < 0) { // 以流向图数据为准
             return this.$t('common.reCharge') // 充电
           } else {
             return this.$t('common.disCharge') // 使用中
