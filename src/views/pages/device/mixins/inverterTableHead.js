@@ -52,7 +52,6 @@ export default {
           label: 'plant.gridtime',
           prop: 'feedinDate',
           checked: true,
-          renderHeader: true,
           width: 220
         },
         {

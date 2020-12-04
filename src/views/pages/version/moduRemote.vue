@@ -29,7 +29,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item>
-                  <el-input v-model="searchForm.moduleVersion" :placeholder="$t('invupgrade.dataversion')"></el-input>
+                  <el-input v-model="searchForm.moduleVersion" clearable :placeholder="$t('invupgrade.dataversion')"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
