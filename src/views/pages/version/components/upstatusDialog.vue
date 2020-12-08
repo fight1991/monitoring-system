@@ -13,7 +13,7 @@
         <common-table :tableHeadData="tableHead" :tableList="resultList">
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="openDialog(row.taskID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click="openDialog(row.taskID)"></i>
             </div>
           </template>
         </common-table>

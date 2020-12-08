@@ -57,7 +57,9 @@ export default {
     regSucc: '注册成功!',
     login: '去登录',
     agentCode: '代理商标识码',
-    code: '售后组织标识码'
+    code: '售后组织标识码',
+    checkService: '尚未勾选服务条款!',
+    send: '发送成功'
   },
   common: {
     dateRange: '请选择日期范围',
@@ -148,6 +150,9 @@ export default {
     downloadT: '模板下载',
     download: '下载',
     delete: '批量删除',
+    deleteL: '删除',
+    view: '详情',
+    remoteS: '远程设置',
     release: '批量发布',
     postcode: '邮编',
     pvcapacity: '系统组件容量',
@@ -409,6 +414,15 @@ export default {
     instCap: '铭牌容量',
     shutdown: '远程关机',
     boot: '远程开机'
+  },
+  week: {
+    day0: '周一',
+    day1: '周二',
+    day2: '周三',
+    day3: '周四',
+    day4: '周五',
+    day5: '周六',
+    day6: '周日'
   },
   monitor: '麦田云',
   chooseDate: '选择日期'

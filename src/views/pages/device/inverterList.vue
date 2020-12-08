@@ -75,8 +75,8 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
-              <i title="remote setting" class="iconfont icon-remote-setting" v-if="row.status!=3" @click.stop="goToDetail('set', row.deviceID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
+              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3" @click.stop="goToDetail('set', row.deviceID)"></i>
             </div>
           </template>
           <template v-slot:power="{row}">

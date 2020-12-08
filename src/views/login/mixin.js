@@ -36,7 +36,7 @@ export default {
         }
       })
       if (result) {
-        this.$message.success('send successful')
+        this.$message.success(this.$t('join.send'))
         return true
       } else {
         return false

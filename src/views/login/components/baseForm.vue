@@ -126,7 +126,7 @@ export default {
     // 校验用户基本信息
     async checkBaseInfo () {
       if (!this.isAgreen) {
-        this.$message.warning('尚未勾选服务条款!')
+        this.$message.warning(this.$t('join.checkService'))
         return false
       }
       let res1 = false

@@ -57,7 +57,9 @@ export default {
     regSucc: 'Successful !',
     login: 'Log In',
     agentCode: 'Agent Code',
-    code: 'Installer/Agent Code'
+    code: 'Installer/Agent Code',
+    checkService: 'The terms of service have not been checked !',
+    send: 'Send successful'
   },
   common: {
     dateRange: 'Please select a date range',
@@ -148,6 +150,9 @@ export default {
     downloadT: 'Download the template',
     download: 'Download',
     delete: 'Delete',
+    deleteL: 'Delete',
+    view: 'View',
+    remoteS: 'Remote setting',
     release: 'Release',
     postcode: 'Postcode',
     pvcapacity: 'PV Size',
@@ -409,6 +414,15 @@ export default {
     instCap: 'Installed Capacity',
     shutdown: 'Remote Shutdown',
     boot: 'Remote Boot'
+  },
+  week: {
+    day0: 'Monday',
+    day1: 'Tuesday',
+    day2: 'Wednesday',
+    day3: 'Thursday',
+    day4: 'Friday',
+    day5: 'Saturday',
+    day6: 'Sunday'
   },
   monitor: 'FoxEssCloud',
   chooseDate: 'Choose Date'

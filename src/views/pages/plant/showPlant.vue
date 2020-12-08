@@ -29,9 +29,9 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="goToDetail('look',row)"></i>
-              <i title="edit" class="iconfont icon-edit"  @click="goToDetail('edit',row)"></i>
-              <i title="delete" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click="goToDetail('look',row)"></i>
+              <i :title="$t('plant.edit')" class="iconfont icon-edit"  @click="goToDetail('edit',row)"></i>
+              <i :title="$t('common.deleteL')" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
             </div>
           </template>
           <template v-slot:generationToday="{row}">

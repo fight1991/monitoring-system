@@ -2,7 +2,7 @@ export default {
   navBar: {
     home: 'Dom',
     board: 'Przegląd danych',
-    linkSn: 'Associated SN',
+    linkSn: 'Powiązany SN',
     plantM: 'Instalacja',
     plantN: 'Nowa',
     plantS: 'Wyświetlacz',
@@ -57,7 +57,9 @@ export default {
     regSucc: 'Rejestracja zakończona!',
     login: 'Zaloguj się',
     agentCode: 'Kod identyfikacyjny agenta',
-    code: 'Kod identyfikacyjny organizacji posprzedażnej'
+    code: 'Kod identyfikacyjny organizacji posprzedażnej',
+    checkService: 'Warunki korzystania z usługi nie zostały sprawdzone !',
+    send: 'Wysłanie powiodło się'
   },
   common: {
     dateRange: 'Wybierz zakres dat',
@@ -147,7 +149,10 @@ export default {
     import: 'Import',
     downloadT: 'Pobieranie szablonu',
     download: 'Ściągnij',
-    delete: 'usuwanie partii',
+    delete: 'Usuwanie partii',
+    deleteL: 'Usunąć',
+    view: 'Widok',
+    remoteS: 'Zdalne ustawienie',
     release: 'Zwolnienie serii',
     postcode: 'Kod pocztowy',
     pvcapacity: 'PV pojemność',
@@ -409,6 +414,15 @@ export default {
     instCap: 'Pojemność znamionowa',
     shutdown: 'Zdalne wyłączanie',
     boot: 'Zdalny rozruch'
+  },
+  week: {
+    day0: 'Poniedziałek',
+    day1: 'Wtorek',
+    day2: 'Środa',
+    day3: 'Czwartek',
+    day4: 'Piątek',
+    day5: 'Sobota',
+    day6: 'Niedziela'
   },
   monitor: 'Rye Cloud',
   chooseDate: 'Wybierz datę'
