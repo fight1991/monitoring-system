@@ -178,7 +178,6 @@ export default {
         moduleVersion: '',
         productType: ''
       }
-      this.resultList = []
       this.$nextTick(() => {
         this.$refs.searchForm.clearValidate()
       })
