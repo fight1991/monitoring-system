@@ -111,11 +111,11 @@ export default {
         }
       })
       if (result) {
-        let path = '/'
+        let path = '/bus/dataView'
         let tempPath = this.$route.query.redirect
         if (tempPath) {
           path = decodeURIComponent(tempPath)
-          if (path === '/user/center') {
+          if (['/user/center', '/'].includes(path)) {
             path = '/bus/dataView'
           }
         }
