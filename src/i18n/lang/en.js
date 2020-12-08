@@ -70,7 +70,7 @@ export default {
     keyword: 'Key Words',
     timeout: 'Time Out',
     list: 'List',
-    checked: 'Checked :',
+    checked: 'Selected :',
     time: 'Time',
     save: 'Done',
     enter: 'Please enter',
