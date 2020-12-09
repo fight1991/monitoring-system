@@ -145,18 +145,26 @@ export default {
     },
     reset () {
       this.resetSearchForm()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.downloadUrl = ''
       // this.search()
     },
-    search () {
+    searchFormCheck () {
       if (!this.searchForm.sn) {
         let tipsText = this.$t('common.invertSn') + this.$t('common.require')
         this.$message.warning(tipsText)
-        return
+        return false
       }
       if (!(this.times && this.times.length > 0)) {
         this.$message.warning(this.$t('common.dateRange'))
-        return
+        return false
       }
+      return true
+    },
+    search () {
+      if (!this.searchFormCheck()) return
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
@@ -171,6 +179,7 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
+      if (!this.searchFormCheck()) return
       if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {
           year: new Date(this.times[0]).getFullYear(),

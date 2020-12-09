@@ -31,14 +31,15 @@
             <el-col :span="8">
               <el-form-item>
                 <el-date-picker
-                clearable
-                style="width:100%"
-                v-model="times"
-                type="daterange"
-                value-format="yyyy-MM-dd"
-                :range-separator="$t('common.to')"
-                :start-placeholder="$t('common.start')"
-                :end-placeholder="$t('common.end')">
+                  clearable
+                  style="width:100%"
+                  v-model="times"
+                  type="daterange"
+                  :picker-options="pickerOptions"
+                  value-format="yyyy-MM-dd"
+                  :range-separator="$t('common.to')"
+                  :start-placeholder="$t('common.start')"
+                  :end-placeholder="$t('common.end')">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -88,6 +89,11 @@ export default {
         day: 0
       },
       times: [],
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        }
+      },
       alarmTypeList: [
         { value: 0, label: 'all' },
         { value: 1, label: 'comError' },
@@ -172,6 +178,10 @@ export default {
     },
     reset () {
       this.resetSearchForm()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.downloadUrl = ''
     },
     search () {
       if (!(this.times && this.times.length > 0)) {
@@ -185,6 +195,10 @@ export default {
       window.open(location.origin + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning(this.$t('common.dateRange'))
+        return
+      }
       this.selection = []
       if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {

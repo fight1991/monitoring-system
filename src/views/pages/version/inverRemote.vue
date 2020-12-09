@@ -166,7 +166,7 @@ export default {
     this.getProductList()
   },
   methods: {
-    reset () {
+    resetSearchForm () {
       this.searchForm = {
         deviceSN: '',
         moduleSN: '',
@@ -181,6 +181,13 @@ export default {
       this.$nextTick(() => {
         this.$refs.searchForm.clearValidate()
       })
+    },
+    reset () {
+      this.resetSearchForm()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.selection = []
     },
     inputChange () {
       this.searchForm.deviceType = ''
