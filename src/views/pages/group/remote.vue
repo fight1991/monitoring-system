@@ -197,7 +197,7 @@ export default {
           type: 'success'
         })
         if (opStatus) {
-          window.open(location.origin + result.downloadUrl, '_blank')
+          window.open(this.$store.state.domainName + result.downloadUrl, '_blank')
         }
       }
     },
@@ -217,7 +217,7 @@ export default {
           type: 'success'
         })
         if (opStatus) {
-          window.open(location.origin + result.downloadUrl, '_blank')
+          window.open(this.$store.state.domainName + result.downloadUrl, '_blank')
         }
       }
     },

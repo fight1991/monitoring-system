@@ -10,7 +10,7 @@ let {
   onResponseReject
 } = interceptors
 
-const BaseURL = window.location.origin
+const BaseURL = location.origin
 /* eslint-disable */
 // axios构造实例类
 class InitAxios {

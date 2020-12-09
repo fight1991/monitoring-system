@@ -73,7 +73,7 @@ export default {
       sysFlag: judgeClient(), // android ios pc
       // andrImg: require('@/assets/android-app.png'),
       // iosImg: require('@/assets/ios-app.png'),
-      qrcode: location.origin + '/app/download',
+      qrcode: this.$store.state.domainName + '/app/download',
       size: 110,
       host: 'https://www.fox-ess.com', // 国外官网
       apiUrl: process.env.VUE_APP_WWW // 资源地址

@@ -34,21 +34,15 @@
       <!-- 表格区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-dropdown @command="commandDrop" trigger="click">
+          <!-- 导入 -->
+          <el-upload
+            :show-file-list="false"
+            class="dropDown-upload"
+            :http-request="beforeUpload"
+            action="http://127.0.0.1">
             <el-button size="mini" icon="iconfont icon-import" :disabled="access!=255">{{$t('common.import')}}</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <!-- 模板下载 -->
-              <el-dropdown-item command="d">{{$t('common.downloadT')}}</el-dropdown-item>
-              <!-- 导入 -->
-              <el-upload
-                :show-file-list="false"
-                class="dropDown-upload"
-                :http-request="beforeUpload"
-                action="http://127.0.0.1">
-                <el-dropdown-item command="e" divided>{{$t('common.import') + 'SN'}}</el-dropdown-item>
-              </el-upload>
-            </el-dropdown-menu>
-          </el-dropdown>
+            <!-- <el-dropdown-item command="e" divided>{{$t('common.import') + 'SN'}}</el-dropdown-item> -->
+          </el-upload>
           <el-button size="mini" icon="iconfont icon-unbind" :disabled="access!=255 || bindIds.length < 1" @click="unbindMulti">{{$t('common.unbind')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
@@ -171,10 +165,6 @@ export default {
       if (type === 'd') {
         this.downloadModule()
       }
-    },
-    // 模板下载
-    downloadModule () {
-      window.open(location.origin + '/c/v0/module/template/modules.csv', '_blank')
     },
     // 读取文件信息
     beforeUpload ({ file }) {

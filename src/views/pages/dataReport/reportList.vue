@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     download () {
-      window.open(location.origin + this.downloadUrl, '_blank')
+      window.open(this.$store.state.domainName + this.downloadUrl, '_blank')
     },
     resetSearchForm () {
       this.searchForm = {

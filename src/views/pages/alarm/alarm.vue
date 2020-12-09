@@ -192,7 +192,7 @@ export default {
       this.getList(this.pagination)
     },
     download () {
-      window.open(location.origin + this.downloadUrl, '_blank')
+      window.open(this.$store.state.domainName + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
       if (!(this.times && this.times.length > 0)) {
