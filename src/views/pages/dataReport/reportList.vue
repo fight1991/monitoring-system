@@ -153,6 +153,10 @@ export default {
         this.$message.warning(tipsText)
         return
       }
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning(this.$t('common.dateRange'))
+        return
+      }
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
