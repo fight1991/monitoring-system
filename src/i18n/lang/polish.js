@@ -424,6 +424,6 @@ export default {
     day5: 'Sobota',
     day6: 'Niedziela'
   },
-  monitor: 'Rye Cloud',
+  monitor: 'FoxEssCloud',
   chooseDate: 'Wybierz datę'
 }
