@@ -7,7 +7,7 @@
         <div class="g-percent">{{(batteryInfo.soc || 0) + '%'}}</div>
         <!-- <div class="g-power">{{toFixed(batteryInfo.power)}}</div> -->
         <div class="g-status">{{translateStatus(batteryInfo.status, batteryInfo.power) + ' ' + toFixed(batteryInfo.power, true) + 'kW'}}</div>
-        <div class="g-status">{{$t('common.volt') + ' ' + toFixed(batteryInfo.volt) + 'V'}}</div>
+        <div class="g-status">{{toFixed(batteryInfo.volt, true, 1) + 'V'}}</div>
       </div>
       <div class="g-contrast">
         <div class="g-circle"></div>

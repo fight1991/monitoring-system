@@ -335,7 +335,7 @@ export default {
       await this.getCurrencyList()
       await this.getAgentList()
       this.countryList = await this.getCountryList()
-      if (this.access > 1) {
+      if (this.access > 2) { // 厂商和代理商
         await this.getGroupList()
       }
       if (this.opType === 'add') {
@@ -556,7 +556,7 @@ export default {
       if (!this.hasSummerTime) {
         this.dataForm.daylight = ''
       }
-      if (this.access > 1) {
+      if (this.access > 2) {
         this.dataForm.groups = this.groupsParams.map(v => v.value)
       }
       let { result, other } = await this.$post({
