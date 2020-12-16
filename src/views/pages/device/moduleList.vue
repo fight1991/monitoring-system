@@ -195,7 +195,7 @@ export default {
     },
     // 批量解绑
     async unbindMulti () {
-      let { result } = await this.$get({
+      let { result } = await this.$post({
         url: '/c/v0/module/disable',
         data: {
           modules: this.bindIds
