@@ -84,9 +84,9 @@
             <el-select v-model="multiValue" collapse-tags multiple size="mini" :placeholder="$t('common.select')">
               <el-option
                 v-for="item in options"
-                :key="item"
-                :label="$t('chart.'+item)"
-                :value="item">
+                :key="item.variable"
+                :label="item.name"
+                :value="item.variable">
               </el-option>
             </el-select>
             <el-button @click="selectChange" v-show="hasVarible" class="mg-l10" size="mini" plain>{{$t('common.search')}}</el-button>
@@ -273,7 +273,7 @@ export default {
     // 获取图表下拉选择框
     async getOptions () {
       let { result } = await this.$get({
-        url: '/c/v0/device/variables',
+        url: '/c/v1/device/variables',
         data: {
           deviceID: this.deviceId
         }
@@ -281,9 +281,9 @@ export default {
       if (result) {
         this.options = result.variables || []
         // 设置初始值 // 输出功率
-        let tempV = this.options.filter(v => v === 'generationPower')
+        let tempV = this.options.filter(v => v.variable === 'generationPower')
         if (tempV.length > 0) {
-          this.multiValue = tempV
+          this.multiValue = tempV.map(v => v.variable)
           this.selectChange()
         }
       }
