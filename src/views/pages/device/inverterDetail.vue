@@ -309,12 +309,13 @@ export default {
         }
       })
       if (result && result.length > 0) {
-        let temp = []
+        let tempSeries = []
+        let tempName = []
         result.forEach((v, i) => {
           let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value), v.unit])
-          temp.push({
+          tempSeries.push({
             symbol: 'none',
-            name: v.variable,
+            name: v.name,
             data: tempData,
             unit: v.unit,
             type: 'line',
@@ -326,8 +327,10 @@ export default {
             },
             smooth: true
           })
-          this.lineChart.series = temp
+          tempName.push(v.name)
         })
+        this.lineChart.series = tempSeries
+        this.lineChart.legend.data = tempName
       }
       this.chartLoading = false
       return true
@@ -357,7 +360,6 @@ export default {
     },
     selectChange () {
       if (!this.hasVarible) return
-      this.lineChart.legend.data = this.multiValue
       this.getMultiChart()
     },
     // 创建websocket
