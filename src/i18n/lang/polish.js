@@ -194,7 +194,7 @@ export default {
     verPw: 'Sprawdź hasło',
     pwNot: 'Wprowadzone hasło jest niespójne',
     ePhone: 'Numer telefonu komórkowego / e-mail',
-    server: '《Warunkami firmy》',
+    server: 'Warunkami firmy',
     agree: 'Zgadzam się',
     resetPw: 'Zresetuj hasło',
     errorMg1: 'Błąd nazwy użytkownika lub adresu e-mail',
