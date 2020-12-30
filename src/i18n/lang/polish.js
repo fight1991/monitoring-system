@@ -124,7 +124,7 @@ export default {
     all: 'Wszystko',
     status: 'Status',
     reCharge: 'Opłata',
-    disCharge: 'Za pomocą',
+    disCharge: 'Normalne',
     sleep: 'Sen',
     gPower: 'Moc teraz (kW)',
     currentP: 'Moc teraz',

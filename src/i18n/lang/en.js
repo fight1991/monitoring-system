@@ -124,7 +124,7 @@ export default {
     all: 'All',
     status: 'Status',
     reCharge: 'Charging',
-    disCharge: 'Working',
+    disCharge: 'Normal',
     sleep: 'Idle',
     gPower: 'Power Now(kW)',
     currentP: 'Power Now',
