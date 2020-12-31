@@ -242,7 +242,7 @@ export default {
     plantA: 'Alarm Sites',
     genSta: 'Generation Statistics',
     genTod: 'Today Yield(kW·h)',
-    earnTod: 'Earnings Total',
+    earnTod: 'Earnings Today',
     genMon: 'Monthly Yield',
     earnMon: 'Monthly Earnings',
     genYear: 'Annual Generation',
@@ -288,7 +288,7 @@ export default {
     InvMan: 'Manager',
     romSet: 'Remote Setting',
     powerFD: 'Energy Flow',
-    liveData: 'Live Data'
+    liveData: 'Real-Time Data'
   },
   firmware: {
     devicetype: 'Inverter Model',
@@ -383,10 +383,10 @@ export default {
     agent: 'Join an Agent',
     edit: 'Edit',
     center: 'User Profile',
-    assoInAg: 'Associated Installer/Agent',
+    assoInAg: 'Bind with Installer/Agent',
     inAgCode: 'Installer/Agent Code',
     inCode: 'Installer Code',
-    assoAg: 'Associated Agent',
+    assoAg: 'Bind with Agent',
     agCode: 'Agent Code'
   },
   alarm: {
