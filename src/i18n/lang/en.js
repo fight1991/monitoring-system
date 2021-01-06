@@ -320,6 +320,7 @@ export default {
     upgrade: 'Upgrade',
     upstatus: 'Upgrading Status',
     status: 'Upgrade Status',
+    progress: 'Upgrade Progress',
     taskName: 'Item',
     total: 'Total',
     completed: 'No. Of Completed',

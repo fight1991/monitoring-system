@@ -320,6 +320,7 @@ export default {
     upgrade: 'Aktualizacja zbiorcza',
     upstatus: 'Wyświetl stan aktualizacji',
     status: 'Stan aktualizacji',
+    progress: 'Postęp aktualizacji',
     taskName: 'Nazwa zadania',
     total: 'Całkowita liczba zadań',
     completed: 'Liczba zakończonych ulepszeń',
