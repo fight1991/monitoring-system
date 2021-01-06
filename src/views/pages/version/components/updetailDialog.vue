@@ -26,7 +26,8 @@
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
           <template #progress="{row}">
-            <el-progress :percentage="Number(row.progress) || 0" color="#67c23a"></el-progress>
+            <el-progress v-if="isShowProgress()" :percentage="Number(row.progress) || 0" color="#67c23a"></el-progress>
+            <span v-else>--</span>
           </template>
         </common-table>
       </func-bar>
@@ -105,19 +106,26 @@ export default {
       }
       this.getList(this.pagination)
     },
+    // 是否显示进度条
+    isShowProgress (value) {
+      return ['upgrading', 'transgerring'].includes(value)
+    },
+    // 清除定时器
     clearTimer () {
       this.timer && clearInterval(this.timer)
       this.timer = null
     },
+    // 关闭对话框
     closeDialog () {
       this.$emit('update:visible', false)
       this.clearTimer()
     },
     // 获取列表
-    async getList (pagination) {
+    async getList (pagination, openLoading = true) {
       let { result, other, error } = await this.$post({
         url: '/c/v0/firmware/' + this.apiUrl + '/upgrade/detail',
         globalLoading: true,
+        isLoad: openLoading,
         data: {
           taskID: this.taskId,
           condition: this.searchForm,
@@ -132,7 +140,7 @@ export default {
         // 开启定时器, 每15s查询一次
         if (this.timer) return
         this.timer = setInterval(() => {
-          this.getList(this.pagination)
+          this.getList(this.pagination, false)
         }, 5000)
       }
       if (other || error) {
