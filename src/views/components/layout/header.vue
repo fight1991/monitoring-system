@@ -66,8 +66,7 @@ export default {
       primaryColor: '#409EFF',
       setDrawerShow: false,
       isFullScreen: false,
-      userLogo: require('@/assets/user-logo.png'),
-      lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
+      userLogo: require('@/assets/user-logo.png')
     }
   },
   computed: {
@@ -103,13 +102,6 @@ export default {
     },
     toggleMenu () {
       this.$store.commit('changeCollapse')
-    },
-    // 切换语言
-    toggleLang (lang) {
-      this.$i18n.locale = lang
-      this.lang = lang === 'en' ? 'English' : '中文'
-      this.$store.commit('toggleLang', lang)
-      document.title = this.$t('navBar.' + this.$route.meta.title)
     },
     userOption (op) {
       if (op === 'logout') {

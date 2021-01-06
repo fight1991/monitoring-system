@@ -101,8 +101,7 @@ export default {
     window.addEventListener('resize', () => {
       this.dialogH = window.innerHeight - 100
     })
-    let vers = process.env.VUE_APP_VERSION === 'inside' ? 'zh_CN' : 'en'
-    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${vers}/UserAgreement.html`
+    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${this.$store.state.lang}/UserAgreement.html`
   },
   beforeDestroy () {},
   methods: {
