@@ -26,7 +26,7 @@
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
           <template #progress="{row}">
-            <el-progress v-if="isShowProgress()" :percentage="Number(row.progress) || 0" color="#67c23a"></el-progress>
+            <el-progress v-if="getProgressInfo(row)['isShow']" :percentage="getProgressInfo(row)['value']" color="#67c23a"></el-progress>
             <span v-else>--</span>
           </template>
         </common-table>
@@ -106,9 +106,11 @@ export default {
       }
       this.getList(this.pagination)
     },
-    // 是否显示进度条
-    isShowProgress (value) {
-      return ['upgrading', 'transgerring'].includes(value)
+    // 是否显示进度条及显示的值
+    getProgressInfo (row) {
+      let isShow = ['upgrading', 'transgerring', 'completed'].includes(row.status)
+      let value = row.status === 'completed' ? 100 : (Number(row.progress) || 0)
+      return { isShow, value }
     },
     // 清除定时器
     clearTimer () {

@@ -194,7 +194,7 @@ export default {
     verPw: 'Confirm Password',
     pwNot: 'The second password input is inconsistent',
     ePhone: 'Mobile Number/Email',
-    server: '《Terms of Service》',
+    server: 'Terms of Service',
     agree: 'Agree',
     resetPw: 'Reset Password',
     errorMg1: 'Username or Email is invalid',
