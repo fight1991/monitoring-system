@@ -73,7 +73,7 @@ export default {
           prop: 'status',
           checked: true
         }, {
-          label: 'invupgrade.status',
+          label: 'invupgrade.progress',
           prop: 'progress',
           checked: true,
           slotName: 'progress',
