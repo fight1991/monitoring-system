@@ -143,7 +143,7 @@ export default {
         if (this.timer) return
         this.timer = setInterval(() => {
           this.getList(this.pagination, false)
-        }, 5000)
+        }, 10000)
       }
       if (other || error) {
         this.clearTimer()
