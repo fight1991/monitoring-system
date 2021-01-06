@@ -187,7 +187,7 @@ export default {
             ...this.searchForm,
             queryDate: {
               begin: (this.times && this.times[0]) || 0,
-              end: (this.times && this.times[1]) || 0
+              end: (this.times && this.times[1] + 24 * 3600 * 1000 - 1) || 0
             }
           }
         }
