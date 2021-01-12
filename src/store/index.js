@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-const language = process.env.VUE_APP_VERSION === 'abroad' ? 'en' : 'zh'
+const language = process.env.VUE_APP_VERSION === 'abroad' ? 'en' : 'zh_CN'
 const domainName = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_API : location.origin
 // 一次性导入所有modules
 const modulesFiles = require.context('./modules', true, /\.js$/)

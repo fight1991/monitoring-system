@@ -18,7 +18,7 @@
           <!-- invert -- node -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1}"></div>
           <!-- load -- node -->
-          <div :class="{'flow-column': true, 'arrow-t':path.box_center_right==2}"></div>
+          <div :class="{'flow-column': true, 'arrow-t':path.box_center_right==2, 'arrow-b':path.box_center_right==-2}"></div>
         </div>
         <div class="circle-line box-right">
           <!-- node -- grid -->
@@ -51,7 +51,7 @@
           <!-- invert -- node -->
           <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
           <!-- node -- load -->
-          <div :class="{'flow-column': true, 'arrow-b': path.box_center_right==-2}"></div>
+          <div :class="{'flow-column': true, 'arrow-b': path.box_center_right==-2, 'arrow-t':path.box_center_right==2}"></div>
         </div>
         <div class="circle-line box-right">
           <!-- node -- grid -->
@@ -102,7 +102,7 @@
             <!-- invert -- node -->
             <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
             <!-- load -- node -->
-            <div :class="{'flow-column': true, 'arrow-b':path.box_center_right==-2}"></div>
+            <div :class="{'flow-column': true, 'arrow-b':path.box_center_right==-2, 'arrow-t':path.box_center_right==2}"></div>
           </div>
           <div class="circle-line box-right">
             <!-- grid -- node -->

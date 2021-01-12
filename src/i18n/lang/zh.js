@@ -320,6 +320,7 @@ export default {
     upgrade: '批量升级',
     upstatus: '查看升级状态',
     status: '升级状态',
+    progress: '升级进度',
     taskName: '任务名',
     total: '任务总数',
     completed: '升级完成数量',

@@ -76,7 +76,7 @@
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
               <i :title="$t('common.view')" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
-              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3" @click.stop="goToDetail('set', row.deviceID)"></i>
+              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3 && access>1" @click.stop="goToDetail('set', row.deviceID)"></i>
             </div>
           </template>
           <template v-slot:power="{row}">
@@ -187,7 +187,7 @@ export default {
             ...this.searchForm,
             queryDate: {
               begin: (this.times && this.times[0]) || 0,
-              end: (this.times && this.times[1]) || 0
+              end: (this.times && this.times[1] + 24 * 3600 * 1000 - 1) || 0
             }
           }
         }

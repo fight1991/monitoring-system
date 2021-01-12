@@ -464,6 +464,9 @@ export default {
       if (loadsPower > 0) {
         tempObj.box_center_right = -2
       }
+      if (loadsPower < 0) {
+        tempObj.box_center_right = 2
+      }
       this.flowPath = tempObj
     },
     // 计算得出hybrid储能机流向图
@@ -497,8 +500,11 @@ export default {
       if (meterPower < 0) {
         tempObj.box_right_top = 1
       }
-      if (loadsPower) {
+      if (loadsPower > 0) {
         tempObj.box_center_right = -2
+      }
+      if (loadsPower < 0) {
+        tempObj.box_center_right = 2
       }
       if (meterPower2 > 0) {
         tempObj.box_top_top = 2
@@ -536,6 +542,9 @@ export default {
       }
       if (loadsPower > 0) {
         tempObj.box_center_right = -2
+      }
+      if (loadsPower < 0) {
+        tempObj.box_center_right = 2
       }
       this.flowPath = tempObj
     }
