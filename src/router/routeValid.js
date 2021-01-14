@@ -1,5 +1,6 @@
 import store from '@/store'
 import storage from '@/util/storage'
+import { getLang } from '@/util'
 import i18n from '@/i18n'
 import Vue from 'vue'
 import NProgress from 'nprogress'
@@ -24,7 +25,7 @@ const beforeEach = async (to, from, next) => {
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
       store.commit('toggleLang', langInfo)
-      i18n.locale = langInfo
+      i18n.locale = getLang()['transform'][langInfo]
     }
   }
   // 访问store router.app.$options.store
