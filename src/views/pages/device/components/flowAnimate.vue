@@ -168,7 +168,7 @@ export default {
 .flow-box {
   width: 90%;
   // border-top: 1px solid #67C23A;
-  margin: 70px 50px;
+  margin: 60px 50px;
 }
 .box-right::after {
   content: '';
@@ -268,16 +268,16 @@ export default {
     position: absolute;
     box-shadow: 0 0 10px rgba(0, 0, 0, .6);
     border-radius: 50%;
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
     text-align: center;
     // background-image: url('../../../../assets/sprite/sprite.png');
     // transform: translate(-50%,-50%) scale(.6);
     z-index: 99;
     background-color: #fff;
     .iconfont {
-      line-height: 75px;
-      font-size: 30px;
+      line-height: 70px;
+      font-size: 28px;
     }
   }
   .elec {
@@ -336,7 +336,6 @@ export default {
 // }
 .hybrid-box {
   .circle-line {
-    height: 200px;
     &:nth-child(1) {
       width: 30%;
     }
