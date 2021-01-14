@@ -12,17 +12,17 @@
             <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter, true) + ' kW'}}</span>
           </div>
           <!-- pv -- invert -->
-          <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
+          <div :class="{'flow-row': true, 'arrow-r': path.box_pv_invert==1}"></div>
         </div>
         <div class="circle-line box-center">
           <!-- invert -- node -->
-          <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1}"></div>
+          <div :class="{'flow-row': true, 'arrow-r': path.box_invert_node==1}"></div>
           <!-- load -- node -->
-          <div :class="{'flow-column': true, 'arrow-t':path.box_center_right==2, 'arrow-b':path.box_center_right==-2}"></div>
+          <div :class="{'flow-column': true, 'arrow-t':path.box_load_node==2, 'arrow-b':path.box_load_node==-2}"></div>
         </div>
         <div class="circle-line box-right">
           <!-- node -- grid -->
-          <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
+          <div :class="{'flow-row': true, 'arrow-r': path.box_grid_node==1, 'arrow-l': path.box_grid_node==-1}"></div>
           <div class="grid icon-grid">
             <i class="iconfont icon-flow-grid"></i>
             <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid, true) + ' kW'}}</span>
@@ -45,17 +45,17 @@
             <span class="data-text">Inverter&nbsp;:&nbsp;{{toFixed(wsData.inverter, true) + ' kW'}}</span>
           </div>
           <!-- bat -- invert -->
-          <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1, 'arrow-l': path.box_left_top==-1}"></div>
+          <div :class="{'flow-row': true, 'arrow-r': path.box_pv_invert==1, 'arrow-l': path.box_pv_invert==-1}"></div>
         </div>
         <div class="circle-line box-center">
           <!-- invert -- node -->
-          <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
+          <div :class="{'flow-row': true, 'arrow-r': path.box_invert_node==1, 'arrow-l': path.box_invert_node==-1}"></div>
           <!-- node -- load -->
-          <div :class="{'flow-column': true, 'arrow-b': path.box_center_right==-2, 'arrow-t':path.box_center_right==2}"></div>
+          <div :class="{'flow-column': true, 'arrow-b': path.box_load_node==-2, 'arrow-t':path.box_load_node==2}"></div>
         </div>
         <div class="circle-line box-right">
           <!-- node -- grid -->
-          <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
+          <div :class="{'flow-row': true, 'arrow-r': path.box_grid_node==1, 'arrow-l': path.box_grid_node==-1}"></div>
           <div class="grid icon-grid">
             <i class="iconfont icon-flow-grid"></i>
             <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid, true) + ' kW'}}</span>
@@ -68,16 +68,6 @@
       </div>
       <!-- hybrid储能机动画 -->
       <div :class="{'hybrid-box': isElec}" v-if="flowType==2">
-        <div class="flex-end" v-show="isElec">
-          <div class="circle-line elec-machine">
-            <div class="elec">
-              <i class="iconfont icon-flow-elec"></i>
-              <span class="data-text elec-text">Generator&nbsp;:&nbsp;{{toFixed(wsData.elec, true) + ' kW'}}</span>
-            </div>
-            <!-- elec -- node -->
-            <div :class="{'flow-column': true, 'elec-flow': true, 'arrow-t': path.box_top_top==2, 'arrow-b': path.box_top_top==-2}"></div>
-          </div>
-        </div>
         <div class="flex-end hybrid">
           <div class="circle-line box-left">
             <div class="pv icon-pv">
@@ -93,25 +83,43 @@
               <span class="data-text">Bat&nbsp;:&nbsp;{{toFixed(wsData.bat, true) + ' kW'}}</span>
             </div>
             <!-- pv -- inverter -->
-            <div :class="{'flow-row': true, 'arrow-r': path.box_left_top==1}"></div>
+            <div :class="{'flow-row': true, 'arrow-r': path.box_pv_invert==1}"></div>
             <!-- bat -- inverter -->
-            <div :class="{'flow-column': true, 'self': true, 'arrow-t': path.box_left_right==2, 'arrow-b': path.box_left_right==-2}">
+            <div :class="{'flow-column': true, 'self': true, 'arrow-t': path.box_bat_invert==2, 'arrow-b': path.box_bat_invert==-2}">
             </div>
           </div>
           <div class="circle-line box-center">
             <!-- invert -- node -->
-            <div :class="{'flow-row': true, 'arrow-r': path.box_center_top==1, 'arrow-l': path.box_center_top==-1}"></div>
+            <div :class="{'flow-row': true, 'arrow-r': path.box_invert_node==1, 'arrow-l': path.box_invert_node==-1}"></div>
             <!-- load -- node -->
-            <div :class="{'flow-column': true, 'arrow-b':path.box_center_right==-2, 'arrow-t':path.box_center_right==2}"></div>
+            <div :class="{'flow-column': true, 'arrow-b': path.box_load_node==-2, 'arrow-t': path.box_load_node==2}"></div>
+            <!-- nodeLittle流向负载 little--load -->
+            <div class="box-little left" v-if="isElec">
+              <div :class="{'flow-row': true, 'arrow-l': path.box_little_load==3}"></div>
+              <div :class="{'flow-column': true, 'arrow-b': path.box_little_load==3}"></div>
+              <div class="load icon-load">
+                <i class="iconfont icon-flow-load"></i>
+                <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load, true) + ' kW'}}</span>
+              </div>
+            </div>
+            <!-- 电表流向nodeLittle elec--little -->
+            <div class="box-little right" v-if="isElec">
+              <div :class="{'flow-row': true, 'arrow-l': path.box_little_elec==4}"></div>
+              <div :class="{'flow-column': true, 'arrow-t': path.box_little_elec==4}"></div>
+              <div class="elec">
+                <i class="iconfont icon-flow-elec"></i>
+                <span class="data-text elec-text">Generator&nbsp;:&nbsp;{{toFixed(wsData.elec, true) + ' kW'}}</span>
+              </div>
+            </div>
           </div>
           <div class="circle-line box-right">
             <!-- grid -- node -->
-            <div :class="{'flow-row': true, 'arrow-r': path.box_right_top==1, 'arrow-l': path.box_right_top==-1}"></div>
+            <div :class="{'flow-row': true, 'arrow-r': path.box_grid_node==1, 'arrow-l': path.box_grid_node==-1}"></div>
             <div class="grid icon-grid">
               <i class="iconfont icon-flow-grid"></i>
               <span class="data-text">Grid&nbsp;:&nbsp;{{toFixed(wsData.grid, true) + ' kW'}}</span>
             </div>
-            <div class="load icon-load">
+            <div class="load icon-load" v-show="!isElec">
               <i class="iconfont icon-flow-load"></i>
               <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load, true) + ' kW'}}</span>
             </div>
@@ -160,6 +168,7 @@ export default {
 .flow-box {
   width: 90%;
   // border-top: 1px solid #67C23A;
+  margin: 70px 50px;
 }
 .box-right::after {
   content: '';
@@ -187,6 +196,60 @@ export default {
   }
   .flow-column.self {
     right: -3px;
+  }
+  .box-center {
+    .box-little {
+      position: absolute;
+      background-color: #fff;
+      right: 0;
+      bottom: 0;
+      width: 50%;
+      height: 50%;
+      &::after {
+        content: '';
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #fff;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(#fff, rgb(55, 214, 55));
+        box-shadow: 0px 0px 4px 1px ccc;
+      }
+      // .flow-row {
+      //   top: 0;
+      // }
+      &.left {
+        .flow-column {
+          right: auto;
+          left: -3px;
+        }
+        &::before {
+          content: '';
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background-color: #fff;
+          position: absolute;
+          right: 0;
+          top: 0;
+          transform: translate(50%, -50%);
+          background: radial-gradient(#fff, rgb(55, 214, 55));
+          box-shadow: 0px 0px 4px 1px #ccc;
+          z-index: 33;
+        }
+      }
+      &.right {
+        transform: translate(100%);
+        &::after {
+          left: auto;
+          right: 0;
+          transform: translate(50%, -50%);
+        }
+      }
+    }
   }
 }
 .circle-line {
@@ -218,9 +281,9 @@ export default {
     }
   }
   .elec {
-    top: 0;
-    left: 0;
-    transform: translate3d(-50%,-50%, 0);
+    bottom: 0;
+    right: 0;
+    transform: translate3d(50%,50%, 0);
     background: radial-gradient(white 0%,white 40%, #4EC6FF);
     color: #4EC6FF;
   }
@@ -264,7 +327,7 @@ export default {
     transform: translate3d(-50%, 0, 0);
     // animation: jump 5s linear infinite;
   }
-  .inverter-text,.elec-text {
+  .inverter-text {
     bottom: 86px;
   }
 }
@@ -273,7 +336,16 @@ export default {
 // }
 .hybrid-box {
   .circle-line {
-    height: 120px;
+    height: 200px;
+    &:nth-child(1) {
+      width: 30%;
+    }
+    &:nth-child(2) {
+      width: 35%;
+    }
+    &:nth-child(3) {
+      width: 35%;
+    }
   }
 }
 .flow-row,.flow-column {
@@ -292,6 +364,7 @@ export default {
     display: block;
     width: 100%;
     height: 3px;
+    box-sizing: border-box;
   }
   // .line_1, .line_2 {
   //   width: 100%;
@@ -374,9 +447,10 @@ export default {
 }
 @keyframes flow_r {
   0% {
+    background-position: 0;
   }
   100% {
-    background-position:100px 0;
+    background-position: 100px 0;
   }
 }
 @keyframes flow_t {
