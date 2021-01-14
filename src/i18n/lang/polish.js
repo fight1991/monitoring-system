@@ -62,6 +62,7 @@ export default {
     send: 'Wysłanie powiodło się'
   },
   common: {
+    serNum: 'Numer',
     dateRange: 'Wybierz zakres dat',
     showNum: 'Całkowita liczba nagrań',
     totalNum: 'Razem strona',

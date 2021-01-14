@@ -23,7 +23,11 @@
       highlight-current-row
       :border="border">
       <el-table-column v-if="selectBox" type="selection" align="center" width="40"></el-table-column>
-      <el-table-column v-if="showNum" type="index" width="50" label="NO." align="center"></el-table-column>
+      <el-table-column v-if="showNum" width="50" :label="$t('common.serNum')" align="center">
+        <template slot-scope="scope">
+          {{(scope.$index + 1) + pagination.pageSize*(pagination.currentPage - 1)}}
+        </template>
+      </el-table-column>
       <template v-for="(item,index) in trueTableHead">
         <el-table-column
           show-overflow-tooltip
@@ -117,6 +121,15 @@ export default {
       type: Array,
       default: () => {
         return []
+      }
+    },
+    pagination: {
+      type: Object,
+      default: () => {
+        return {
+          pageSize: 50,
+          currentPage: 1
+        }
       }
     },
     border: {

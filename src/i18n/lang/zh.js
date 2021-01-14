@@ -62,6 +62,7 @@ export default {
     send: '发送成功'
   },
   common: {
+    serNum: '序号',
     dateRange: '请选择日期范围',
     showNum: '显示第',
     totalNum: '条结果 , 总计',

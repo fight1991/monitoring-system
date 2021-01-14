@@ -45,7 +45,7 @@
           </el-upload>
           <el-button size="mini" icon="iconfont icon-unbind" :disabled="access!=255 || bindIds.length < 1" @click="unbindMulti">{{$t('common.unbind')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <i class="el-icon-success" v-show="row.communication==1"></i>
             <i class="el-icon-remove" v-show="row.communication==2"></i>
@@ -98,7 +98,8 @@ export default {
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true
+          checked: true,
+          width: 160
         },
         {
           label: 'plant.datacolType',

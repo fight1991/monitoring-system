@@ -62,6 +62,7 @@ export default {
     send: 'Send successful'
   },
   common: {
+    serNum: 'No.',
     dateRange: 'Please select a date range',
     showNum: 'Total Recordings',
     totalNum: 'Total Page',
