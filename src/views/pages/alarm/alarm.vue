@@ -55,7 +55,7 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" :disabled="!downloadUrl" icon="iconfont icon-downLoad" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :tableList="resultList">
           <template v-slot:alarmType="{row}">
             {{$t(translateAlarmType(row.alarmType))}}
           </template>
