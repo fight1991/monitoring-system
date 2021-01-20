@@ -1,7 +1,7 @@
 <template>
- <section class="sys-main flex-column-between bg-c" v-setH:min="setDivH">
-    <!-- 查询区域 -->
-    <div class="sys-table-container">
+ <section class="sys-main container bg-c" v-setH="setDivH">
+    <div class="top-box">
+      <!-- 查询区域 -->
       <search-bar>
         <el-form size="mini" label-width="0px" ref="searchForm" :model="searchForm" :rules="rules">
           <el-row :gutter="15">
@@ -46,19 +46,23 @@
           </el-row>
         </el-form>
       </search-bar>
-      <!-- 列表查询区域 -->
-      <func-bar>
+      <!-- 按钮区域 -->
+      <div class="function-container">
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('relog.export')}}</el-button>
         </el-row>
-        <div class="report" v-html="report"></div>
-      </func-bar>
-    </div>
-    <div class="page-list">
-      <div class="pagination flex-between" v-if='total != 0'  @change="getReport">
-        <span>{{$t('relog.total')}}&nbsp;{{total}}&nbsp;{{$t('relog.line')}}</span>
       </div>
     </div>
+    <!-- 查询内容区域 -->
+    <div class="content-box">
+      <div v-if="report" v-html="report"></div>
+      <div v-else class="no-data">暂无数据</div>
+    </div>
+      <div class="page-list">
+        <div class="pagination flex-between">
+          <span>{{$t('relog.total')}}&nbsp;{{total}}&nbsp;{{$t('relog.line')}}</span>
+        </div>
+      </div>
  </section>
 </template>
 <script>
@@ -103,8 +107,8 @@ export default {
         }
       },
       rules: {
-        moduleSN: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
-        times: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
+        moduleSN: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
+        // times: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
       }
     }
   },
@@ -180,10 +184,25 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.report {
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.top-box {
+  padding: 15px 10px 0;
+}
+.content-box {
   border: 1px solid #ebebeb;
   border-radius: 3px;
-  padding: 10px;
+  padding: 15px;
+  margin: 0 10px;
+  flex: 1;
   overflow: scroll;
+  p {
+    word-break: break-all;
+  }
+}
+.no-data {
+  text-align: center;
 }
 </style>
