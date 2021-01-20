@@ -66,6 +66,7 @@
  </section>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -105,7 +106,36 @@ export default {
   mounted () {},
   methods: {
     download () {
-      window.open(this.$store.state.domainName + this.downloadUrl, '_blank')
+      let url = this.downloadUrl
+      if (process.env.NODE_ENV === 'development') {
+        url = '/api' + url
+      }
+      try {
+        axios({
+          url,
+          method: 'get',
+          responseType: 'blob'
+        }).then(res => {
+          let nameArr = this.downloadUrl.split('/')
+          let name = nameArr[nameArr.length - 1] || 'temp'
+          if ('msSaveOrOpenBlob' in navigator) {
+            navigator.msSaveOrOpenBlob(this.response, name)
+            return
+          }
+          let url = URL.createObjectURL(new Blob([res.data]))
+          const a = document.createElement('a')
+          a.style.display = 'none'
+          a.href = url
+          a.target = '_blank'
+          a.download = name
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          URL.revokeObjectURL(url)
+        })
+      } catch (error) {
+        this.$message.error('Try to change browser')
+      }
     },
     resetSearchForm () {
       this.searchForm = {
