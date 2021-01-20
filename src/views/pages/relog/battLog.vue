@@ -49,14 +49,16 @@
       <!-- 按钮区域 -->
       <div class="function-container">
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('relog.export')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="!report" @click="download">{{$t('relog.export')}}</el-button>
         </el-row>
       </div>
     </div>
     <!-- 查询内容区域 -->
     <div class="content-box">
       <div v-if="report" v-html="report"></div>
-      <div v-else class="no-data">{{$t('common.noData')}}</div>
+      <div v-else class="noDatabox flex-column-center">
+        <div class="no-data">{{$t('common.noData')}}</div>
+      </div>
     </div>
       <div class="page-list">
         <div class="pagination flex-between">
@@ -224,7 +226,12 @@ export default {
     word-break: break-all;
   }
 }
+.noDatabox {
+  margin: 0 auto 10px;
+}
 .no-data {
   text-align: center;
+  color: #909399;
+  font-size: 12px;
 }
 </style>
