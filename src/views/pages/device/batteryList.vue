@@ -100,8 +100,7 @@ export default {
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true,
-          renderHeader: true
+          checked: true
         },
         {
           label: 'plant.datacolType',
@@ -174,7 +173,7 @@ export default {
     // 批量解绑
     async unbindMulti () {
       let { result } = await this.$post({
-        url: '/v0/module/disable',
+        url: '/c/v0/module/disable',
         data: {
           modules: this.bindIds
         }
@@ -186,7 +185,7 @@ export default {
     // 获取模块类型列表
     async getModuleTypeList () {
       let { result } = await this.$get({
-        url: '/v0/module/types'
+        url: '/c/v0/module/types'
       })
       if (result) {
         this.typeList = result.types || []
@@ -196,7 +195,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/module/list',
+        url: '/c/v0/module/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -223,7 +222,7 @@ export default {
       param.append('file', file, file.name)
       // 文件上传请求
       await this.$upload({
-        url: '/v0/module/import',
+        url: '/c/v0/module/import',
         data: {}
       })
     }

@@ -31,14 +31,15 @@
             <el-col :span="8">
               <el-form-item>
                 <el-date-picker
-                clearable
-                style="width:100%"
-                v-model="times"
-                type="daterange"
-                value-format="yyyy-MM-dd"
-                :range-separator="$t('common.to')"
-                :start-placeholder="$t('common.start')"
-                :end-placeholder="$t('common.end')">
+                  clearable
+                  style="width:100%"
+                  v-model="times"
+                  type="daterange"
+                  :picker-options="pickerOptions"
+                  value-format="yyyy-MM-dd"
+                  :range-separator="$t('common.to')"
+                  :start-placeholder="$t('common.start')"
+                  :end-placeholder="$t('common.end')">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -54,7 +55,7 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" :disabled="!downloadUrl" icon="iconfont icon-downLoad" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :tableList="resultList">
           <template v-slot:alarmType="{row}">
             {{$t(translateAlarmType(row.alarmType))}}
           </template>
@@ -88,6 +89,11 @@ export default {
         day: 0
       },
       times: [],
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        }
+      },
       alarmTypeList: [
         { value: 0, label: 'all' },
         { value: 1, label: 'comError' },
@@ -114,12 +120,14 @@ export default {
         {
           label: 'common.invertSn',
           prop: 'deviceSN',
-          checked: true
+          checked: true,
+          width: 160
         },
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true
+          checked: true,
+          width: 160
         },
         {
           label: 'common.alarmType',
@@ -146,7 +154,7 @@ export default {
     }
   },
   created () {
-    this.search()
+    // this.search()
   },
   methods: {
     resetSearchForm () {
@@ -170,16 +178,27 @@ export default {
     },
     reset () {
       this.resetSearchForm()
-      this.search()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.downloadUrl = ''
     },
     search () {
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning(this.$t('common.dateRange'))
+        return
+      }
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
     download () {
-      window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
+      window.open(this.$store.state.domainName + this.downloadUrl, '_blank')
     },
     async getList (pagination) {
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning(this.$t('common.dateRange'))
+        return
+      }
       this.selection = []
       if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {
@@ -194,7 +213,7 @@ export default {
         }
       }
       let { result } = await this.$post({
-        url: '/v0/alarm/query',
+        url: '/c/v0/alarm/query',
         data: {
           ...pagination,
           condition: {

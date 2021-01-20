@@ -34,24 +34,18 @@
       <!-- 表格区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-dropdown @command="commandDrop" trigger="click">
+          <!-- 导入 -->
+          <el-upload
+            :show-file-list="false"
+            class="dropDown-upload"
+            :http-request="beforeUpload"
+            action="http://127.0.0.1">
             <el-button size="mini" icon="iconfont icon-import" :disabled="access!=255">{{$t('common.import')}}</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <!-- 模板下载 -->
-              <el-dropdown-item command="d">{{$t('common.downloadT')}}</el-dropdown-item>
-              <!-- 导入 -->
-              <el-upload
-                :show-file-list="false"
-                class="dropDown-upload"
-                :http-request="beforeUpload"
-                action="http://127.0.0.1">
-                <el-dropdown-item command="e" divided>{{$t('common.import') + 'SN'}}</el-dropdown-item>
-              </el-upload>
-            </el-dropdown-menu>
-          </el-dropdown>
+            <!-- <el-dropdown-item command="e" divided>{{$t('common.import') + 'SN'}}</el-dropdown-item> -->
+          </el-upload>
           <el-button size="mini" icon="iconfont icon-unbind" :disabled="access!=255 || bindIds.length < 1" @click="unbindMulti">{{$t('common.unbind')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <i class="el-icon-success" v-show="row.communication==1"></i>
             <i class="el-icon-remove" v-show="row.communication==2"></i>
@@ -105,7 +99,7 @@ export default {
           label: 'common.datacolSN',
           prop: 'moduleSN',
           checked: true,
-          renderHeader: true
+          width: 160
         },
         {
           label: 'plant.datacolType',
@@ -173,10 +167,6 @@ export default {
         this.downloadModule()
       }
     },
-    // 模板下载
-    downloadModule () {
-      window.open(process.env.VUE_APP_WWW + '/c/v0/module/template/modules.csv', '_blank')
-    },
     // 读取文件信息
     beforeUpload ({ file }) {
       // excel 或 .csv格式
@@ -196,7 +186,7 @@ export default {
       upfile.append('upfile', file)
       // 文件上传请求
       let { result } = await this.$upload({
-        url: '/v0/module/import',
+        url: '/c/v0/module/import',
         data: upfile
       })
       if (result) {
@@ -206,8 +196,8 @@ export default {
     },
     // 批量解绑
     async unbindMulti () {
-      let { result } = await this.$get({
-        url: '/v0/module/disable',
+      let { result } = await this.$post({
+        url: '/c/v0/module/disable',
         data: {
           modules: this.bindIds
         }
@@ -219,7 +209,7 @@ export default {
     // 获取模块类型列表
     async getModuleTypeList () {
       let { result } = await this.$get({
-        url: '/v0/module/types'
+        url: '/c/v0/module/types'
       })
       if (result) {
         this.typeList = result.types || []
@@ -229,7 +219,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/module/list',
+        url: '/c/v0/module/list',
         data: {
           ...pagination,
           condition: this.searchForm

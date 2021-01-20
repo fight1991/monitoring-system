@@ -23,7 +23,11 @@
       highlight-current-row
       :border="border">
       <el-table-column v-if="selectBox" type="selection" align="center" width="40"></el-table-column>
-      <el-table-column v-if="showNum" type="index" width="50" label="NO." align="center"></el-table-column>
+      <el-table-column v-if="showNum" width="50" :label="$t('common.serNum')" align="center">
+        <template slot-scope="scope">
+          {{(scope.$index + 1) + pagination.pageSize*(pagination.currentPage - 1)}}
+        </template>
+      </el-table-column>
       <template v-for="(item,index) in trueTableHead">
         <el-table-column
           show-overflow-tooltip
@@ -31,20 +35,37 @@
           :key="'table' + index"
           :fixed="item.fixed || false"
           :prop="item.prop || ''"
-          :label="$t(item.label)"
           :align="item.align || 'center'"
-          :[widthMethod(item.width)]="item.width || '80'"
-          :render-header="item.renderHeader ? renderHead : renderCommon"
-        ></el-table-column>
+          :[widthMethod(item.width)]="item.width || '80'">
+          <template slot="header">
+            <!-- 自定义表头 -->
+            <el-tooltip
+              class="text-cut"
+              effect="dark"
+              :content="$t(item.label)"
+              placement="top">
+              <div>{{$t(item.label)}}</div>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+          <!-- :render-header="item.renderHeader ? renderHead : renderCommon" -->
         <el-table-column v-else
           show-overflow-tooltip
           :key="'table' + index"
           :fixed="item.fixed || false"
           :prop="item.prop || ''"
-          :label="$t(item.label)"
           :align="item.align || 'center'"
-          :min-width="item.width || '80'"
-          :render-header="item.renderHeader ? renderHead : renderCommon">
+          :min-width="item.width || '80'">
+          <template slot="header">
+            <!-- 自定义表头 -->
+            <el-tooltip
+              class="text-cut"
+              effect="dark"
+              :content="$t(item.label)"
+              placement="top">
+              <div>{{$t(item.label)}}</div>
+            </el-tooltip>
+          </template>
           <template slot-scope="scope">
             <!-- 具名插槽 -->
             <slot :name="item.slotName || 'default'" :row="scope.row"></slot>
@@ -74,6 +95,15 @@ export default {
       selection: [],
       widthMethod (prop, value) {
         return prop ? 'width' : 'min-width'
+      },
+      defineHeaderByScope (label) { // 自定义表头
+        return `<el-tooltip
+          class="text-cut"
+          effect="dark"
+          content=${label}
+          placement="top">
+          <div>${label}</div>
+        </el-tooltip>`
       }
     }
   },
@@ -93,10 +123,19 @@ export default {
         return []
       }
     },
+    pagination: {
+      type: Object,
+      default: () => {
+        return {
+          pageSize: 50,
+          currentPage: 1
+        }
+      }
+    },
     border: {
       type: Boolean,
       default: () => {
-        return false
+        return true
       }
     },
     select: {

@@ -103,13 +103,6 @@ export default {
     toggleMenu () {
       this.$store.commit('changeCollapse')
     },
-    // 切换语言
-    toggleLang (lang) {
-      this.$i18n.locale = lang
-      this.lang = lang === 'en' ? 'English' : '中文'
-      this.$store.commit('toggleLang', lang)
-      document.title = this.$t('navBar.' + this.$route.meta.title)
-    },
     userOption (op) {
       if (op === 'logout') {
         this.logout()
@@ -138,10 +131,12 @@ export default {
     },
     // 注销登录
     async logout () {
-      let res = await this.$openConfirm('login.tips3')
+      let res = await this.$openConfirm({
+        content: this.$t('login.tips3')
+      })
       if (!res) return
       let { result } = await this.$post({
-        url: '/v0/user/logout'
+        url: '/c/v0/user/logout'
       })
       if (result) {
         let { href } = this.$router.resolve({

@@ -101,10 +101,6 @@ export default {
         minute: '',
         second: ''
       },
-      timeTrans: {
-        zh: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        other: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-      },
       incomeList: [],
       mapId: '', // 地图容器 若id相同的话只渲染一次
       incomeDetail: { // 收益详情
@@ -149,7 +145,7 @@ export default {
     // 获取所有电站正常 非正常 故障个数
     async getPlantStatus () {
       let { result } = await this.$get({
-        url: '/v0/plant/status/all'
+        url: '/c/v0/plant/status/all'
       })
       if (result) {
         this.plantStatus.total = result.total || 0
@@ -177,13 +173,13 @@ export default {
         this.timeInfo.minute = tempminute < 10 ? ('0' + tempminute) : tempminute
         this.timeInfo.second = tempsecond < 10 ? ('0' + tempsecond) : tempsecond
         let index = tempS.getDay() - 1
-        this.timeInfo.week = this.lang === 'zh' ? this.timeTrans['zh'][index] : this.timeTrans['other'][index]
+        this.timeInfo.week = this.$t('week.day' + index)
       }, 1000)
     },
     // 获取所有电站的发电和收益情况
     async getPlantEarns () {
       let { result } = await this.$get({
-        url: '/v0/plant/earnings/all'
+        url: '/c/v0/plant/earnings/all'
       })
       if (result) {
         this.incomeDetail = result

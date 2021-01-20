@@ -260,12 +260,12 @@ export function getLang () {
   return {
     display: {
       en: 'English',
-      zh: '中文',
+      zh_CN: '中文',
       pl: 'Polskie'
     },
-    headerLang: {
+    transform: {
       en: 'en',
-      zh: 'zh_CN',
+      zh_CN: 'zh',
       pl: 'pl'
     }
   }

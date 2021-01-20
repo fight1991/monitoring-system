@@ -7,7 +7,7 @@ export default {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: true,
-          width: 150
+          width: 160
         },
         {
           label: 'common.datacolSN',
@@ -52,7 +52,6 @@ export default {
           label: 'plant.gridtime',
           prop: 'feedinDate',
           checked: true,
-          renderHeader: true,
           width: 220
         },
         {

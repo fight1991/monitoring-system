@@ -36,8 +36,8 @@ export default {
     // 获取国家列表
     async getCountryList () {
       let { result } = await this.$get({
-        url: '/v0/map/countries',
-        checkParams: this.$store.state.lang === 'en' ? 'country_en' : 'country_zh'
+        url: '/c/v0/map/countries',
+        checkParams: this.$store.state.lang === 'zh_CN' ? 'country_zh' : 'country_en'
       })
       if (result) {
         return result.countries || []

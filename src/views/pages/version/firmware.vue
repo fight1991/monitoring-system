@@ -43,7 +43,7 @@
           <el-button size="mini" icon="iconfont icon-fabu" :disabled="releaseIds.length==0" @click="multiOptions('release')">{{$t('common.release')}}</el-button>
           <el-button size="mini" icon="el-icon-delete" :disabled="deleteIds.length==0" @click="multiOptions('delete')">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:firmwareStatus="{row}">
             {{row.firmwareStatus == 1 ? $t('common.test') : $t('common.rel')}}
           </template>
@@ -118,7 +118,7 @@ export default {
     // 批量发布/批量删除
     async multiOptions (op) {
       let { result } = await this.$post({
-        url: '/v0/firmware/' + op,
+        url: '/c/v0/firmware/' + op,
         data: {
           firmware: op === 'release' ? this.releaseIds : this.deleteIds
         }
@@ -132,7 +132,7 @@ export default {
     async getList (pagination) {
       this.selection = []
       let { result } = await this.$post({
-        url: '/v0/firmware/list',
+        url: '/c/v0/firmware/list',
         data: {
           ...pagination,
           condition: this.searchForm

@@ -9,5 +9,14 @@ export default [
       title: 'Download'
     },
     component: getComponents(appVersion)
+  },
+  {
+    path: '/manual/download',
+    name: 'manual-download',
+    meta: {
+      requiresAuth: false,
+      title: 'Download'
+    },
+    component: () => import(/* webpackChunkName: "downloadManual" */ '@/views/qrcode/manual')
   }
 ]

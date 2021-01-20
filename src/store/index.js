@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
-const language = process.env.VUE_APP_VERSION === 'abroad' ? 'en' : 'zh'
-
+const language = process.env.VUE_APP_VERSION === 'abroad' ? 'en' : 'zh_CN'
+const domainName = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_API : location.origin
 // 一次性导入所有modules
 const modulesFiles = require.context('./modules', true, /\.js$/)
 const modules = modulesFiles.keys().reduce((modules, modulePath) => {
@@ -23,6 +23,7 @@ const state = {
   loadingNum: 0, // 全局loading数量计数, 防止一个请求没有回来被另一个请求关掉了
   tabView: true, // 是否开启页签模式
   isGlobalLoading: false, // 是否进入后台管理(business)页面, 是的话设置适当的loading范围
+  domainName, // 根据访问地址动态得到域名
   pagination: {
     pageSize: 10,
     currentPage: 1,

@@ -101,8 +101,7 @@ export default {
     window.addEventListener('resize', () => {
       this.dialogH = window.innerHeight - 100
     })
-    let vers = process.env.VUE_APP_VERSION === 'inside' ? 'zh_CN' : 'en'
-    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${vers}/UserAgreement.html`
+    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${this.$store.state.lang}/UserAgreement.html`
   },
   beforeDestroy () {},
   methods: {
@@ -126,7 +125,7 @@ export default {
     // 校验用户基本信息
     async checkBaseInfo () {
       if (!this.isAgreen) {
-        this.$message.warning('尚未勾选服务条款!')
+        this.$message.warning(this.$t('join.checkService'))
         return false
       }
       let res1 = false
@@ -139,7 +138,7 @@ export default {
     // 发送请求校验用户是否已经注册过
     async checkAccountExsit () {
       let { result } = await this.$post({
-        url: '/v0/user/check',
+        url: '/c/v0/user/check',
         data: {
           account: this.dataForm.account,
           email: this.dataForm.email

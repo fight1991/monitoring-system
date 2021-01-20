@@ -51,7 +51,7 @@ export default {
     // 验证sn是否合法
     async checkSn () {
       let { other } = await this.$post({
-        url: '/v0/module/checksn',
+        url: '/c/v0/module/checksn',
         data: {
           type: 0,
           devices: [{ sn: this.baseForm.sn, key: '' }],

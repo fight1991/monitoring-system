@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       sysFlag: judgeClient(), // android ios pc
-      qrcode: location.origin + '/app/download',
+      qrcode: this.$store.state.domainName + '/app/download',
       size: 115,
       hms: process.env.VUE_APP_HMS,
       gms: process.env.VUE_APP_GMS,

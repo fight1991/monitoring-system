@@ -28,19 +28,17 @@ export default {
           label: 'common.postcode',
           prop: 'postcode',
           checked: true,
-          width: 100
+          width: 105
         },
         {
           label: 'plant.equipqut',
           prop: 'quantity',
-          checked: true,
-          renderHeader: true
+          checked: true
         },
         {
           label: 'plant.InsCap',
           prop: 'capacity',
-          checked: true,
-          renderHeader: true
+          checked: true
         },
         {
           label: 'common.pvcapacity',
@@ -66,8 +64,7 @@ export default {
           label: 'plant.stationTime',
           prop: 'createdDate',
           checked: true,
-          width: 220,
-          renderHeader: true
+          width: 220
         },
         {
           label: 'common.operation',

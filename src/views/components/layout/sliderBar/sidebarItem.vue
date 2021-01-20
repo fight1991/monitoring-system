@@ -71,8 +71,4 @@ export default {
   margin-right: 10px;
   font-size: 18px;
 }
-.sub-title {
-  display: inline-block;
-  max-width: 110px;
-}
 </style>

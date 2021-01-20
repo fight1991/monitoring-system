@@ -42,7 +42,7 @@
         </device-status>
       </div>
       <div class="right" v-if="flowType>1">
-        <battery-status :batteryInfo="batteryInfo"></battery-status>
+        <battery-status :batData="wsData.bat" :batteryInfo="batteryInfo"></battery-status>
       </div>
     </div>
     <!-- 今日异常 流向图 -->
@@ -55,7 +55,7 @@
               {{$t('inverter.powerFD')}}
               <i class="fr el-icon-more flow-icon-more" @click="flowDialog=true"></i>
             </div>
-            <div class="flow-map flex-center" style="height:350px">
+            <div class="flow-map flex-center">
               <flow-animate :flowType="flowType" :isElec="isElec" :path="flowPath" :wsData="wsData"></flow-animate>
             </div>
           </el-card>
@@ -84,9 +84,9 @@
             <el-select v-model="multiValue" collapse-tags multiple size="mini" :placeholder="$t('common.select')">
               <el-option
                 v-for="item in options"
-                :key="item"
-                :label="$t('chart.'+item)"
-                :value="item">
+                :key="item.variable"
+                :label="item.name"
+                :value="item.variable">
               </el-option>
             </el-select>
             <el-button @click="selectChange" v-show="hasVarible" class="mg-l10" size="mini" plain>{{$t('common.search')}}</el-button>
@@ -194,7 +194,7 @@ export default {
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    if (Number(status) === 1) { // 设备状态为1 即正常建立websocket连接
+    if (Number(status) !== 3) { // 设备状态为非离线状态 即正常建立websocket连接
       this.createWebsocket(this.getWsInfo)
     }
   },
@@ -205,7 +205,7 @@ export default {
   },
   mounted () {
     if (this.flowType > 1) { // 电池业务
-      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower', 'SoC']
+      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
       this.barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
     this.$refs.lineBar.getLineData('', this.lineParams)
@@ -240,7 +240,7 @@ export default {
     // 获取头部逆变器信息
     async getHeadInfo () {
       let { result } = await this.$get({
-        url: '/v0/device/addressbook',
+        url: '/c/v0/device/addressbook',
         data: {
           deviceID: this.deviceId
         }
@@ -250,7 +250,7 @@ export default {
     // 获取单个设备功率的发电和收益情况
     async getDeviceEarns () {
       let { result } = await this.$get({
-        url: '/v0/device/earnings',
+        url: '/c/v0/device/earnings',
         data: {
           deviceID: this.deviceId
         }
@@ -273,7 +273,7 @@ export default {
     // 获取图表下拉选择框
     async getOptions () {
       let { result } = await this.$get({
-        url: '/v0/device/variables',
+        url: '/c/v1/device/variables',
         data: {
           deviceID: this.deviceId
         }
@@ -281,9 +281,9 @@ export default {
       if (result) {
         this.options = result.variables || []
         // 设置初始值 // 输出功率
-        let tempV = this.options.filter(v => v === 'generationPower')
+        let tempV = this.options.filter(v => v.variable === 'generationPower')
         if (tempV.length > 0) {
-          this.multiValue = tempV
+          this.multiValue = tempV.map(v => v.variable)
           this.selectChange()
         }
       }
@@ -292,7 +292,7 @@ export default {
     async getMultiChart () {
       this.chartLoading = true
       let { result } = await this.$post({
-        url: '/v0/device/history/raw',
+        url: '/c/v0/device/history/raw',
         isLoad: false,
         data: {
           deviceID: this.deviceId,
@@ -309,12 +309,13 @@ export default {
         }
       })
       if (result && result.length > 0) {
-        let temp = []
+        let tempSeries = []
+        let tempName = []
         result.forEach((v, i) => {
           let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value), v.unit])
-          temp.push({
+          tempSeries.push({
             symbol: 'none',
-            name: v.variable,
+            name: v.name,
             data: tempData,
             unit: v.unit,
             type: 'line',
@@ -326,8 +327,10 @@ export default {
             },
             smooth: true
           })
-          this.lineChart.series = temp
+          tempName.push(v.name)
         })
+        this.lineChart.series = tempSeries
+        this.lineChart.legend.data = tempName
       }
       this.chartLoading = false
       return true
@@ -335,7 +338,7 @@ export default {
     // 获取今日异常
     async getAbnormalStatus () {
       let { result } = await this.$get({
-        url: '/v0/device/alarm/today',
+        url: '/c/v0/device/alarm/today',
         data: {
           deviceID: this.deviceId
         }
@@ -348,7 +351,7 @@ export default {
     // 获取电池设备信息
     async getBaterryInfo (id) {
       let { result } = await this.$get({
-        url: '/v0/device/battery/info',
+        url: '/c/v0/device/battery/info',
         data: {
           id
         }
@@ -357,7 +360,6 @@ export default {
     },
     selectChange () {
       if (!this.hasVarible) return
-      this.lineChart.legend.data = this.multiValue
       this.getMultiChart()
     },
     // 创建websocket
@@ -367,7 +369,11 @@ export default {
         this.$message.error(`your brower can't support websocket, please go to update`)
         return
       }
-      let ws = new WebSocket(process.env.VUE_APP_SOCKET)
+      let socketUrl = `wss://${location.host}/c/v0/websocket`
+      if (process.env.NODE_ENV === 'development') {
+        socketUrl = process.env.VUE_APP_SOCKET
+      }
+      let ws = new WebSocket(socketUrl)
       this.ws = ws
       let that = this
       ws.onopen = function () {
@@ -438,98 +444,111 @@ export default {
     getFlowPathFor1 (pvValue, generationPower, loadsPower, tempP) {
       // tempP = gridConsumptionPower - feedinPower
       let tempObj = {
-        box_left_top: 0,
-        box_center_top: 0,
-        box_center_right: 0,
-        box_right_top: 0
+        box_pv_invert: 0,
+        box_invert_node: 0,
+        box_load_node: 0,
+        box_grid_node: 0
       }
       if (pvValue > 0) {
-        tempObj.box_left_top = 1
+        tempObj.box_pv_invert = 1
       }
       if (generationPower > 0) {
-        tempObj.box_center_top = 1
+        tempObj.box_invert_node = 1
       }
       if (tempP > 0) {
-        tempObj.box_right_top = -1
+        tempObj.box_grid_node = -1
       }
       if (tempP < 0) {
-        tempObj.box_right_top = 1
+        tempObj.box_grid_node = 1
       }
       if (loadsPower > 0) {
-        tempObj.box_center_right = -2
+        tempObj.box_load_node = -2
+      }
+      if (loadsPower < 0) {
+        tempObj.box_load_node = 2
       }
       this.flowPath = tempObj
     },
     // 计算得出hybrid储能机流向图
     getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower, meterPower2) {
       let tempObj = {
-        box_left_top: 0,
-        box_left_right: 0,
-        box_center_top: 0,
-        box_center_right: 0,
-        box_right_top: 0,
-        box_top_top: 0
+        box_pv_invert: 0,
+        box_bat_invert: 0,
+        box_invert_node: 0,
+        box_load_node: 0,
+        box_grid_node: 0,
+        box_node_little: 0,
+        box_little_load: 0,
+        box_little_elec: 0
       }
       if (pvPower > 0) {
-        tempObj.box_left_top = 1
+        tempObj.box_pv_invert = 1
       }
       if (invBatPower > 0) {
-        tempObj.box_left_right = 2
+        tempObj.box_bat_invert = 2
       }
       if (invBatPower < 0) {
-        tempObj.box_left_right = -2
+        tempObj.box_bat_invert = -2
       }
       if (generationPower > 0) {
-        tempObj.box_center_top = 1
+        tempObj.box_invert_node = 1
       }
       if (generationPower < 0) {
-        tempObj.box_center_top = -1
+        tempObj.box_invert_node = -1
       }
       if (meterPower > 0) {
-        tempObj.box_right_top = -1
+        tempObj.box_grid_node = -1
       }
       if (meterPower < 0) {
-        tempObj.box_right_top = 1
+        tempObj.box_grid_node = 1
       }
-      if (loadsPower) {
-        tempObj.box_center_right = -2
+      if (loadsPower > 0) {
+        tempObj.box_load_node = -2
+        tempObj.box_node_little = -2
       }
-      if (meterPower2 > 0) {
-        tempObj.box_top_top = 2
+      if (loadsPower < 0) {
+        tempObj.box_load_node = 2
+        tempObj.box_node_little = 2
+      }
+      if ((loadsPower - meterPower2) > 0) {
+        tempObj.box_little_load = 3 // nodeLittle流向负载
       }
       if (meterPower2 < 0) {
-        tempObj.box_top_top = -2
+        tempObj.box_little_elec = 4 // 电表流向nodeLittle
       }
       this.flowPath = tempObj
     },
     // 计算得出ac单相储能机流向图
     getFlowPathFor3 (generationPower, meterPower, invBatPower, loadsPower) {
       let tempObj = {
-        box_left_top: 0,
-        box_center_top: 0,
-        box_center_right: 0,
-        box_right_top: 0
+        box_pv_invert: 0,
+        box_invert_node: 0,
+        box_load_node: 0,
+        box_grid_node: 0
       }
       if (invBatPower > 0) {
-        tempObj.box_left_top = 1
+        tempObj.box_pv_invert = 1
       }
       if (invBatPower < 0) {
-        tempObj.box_left_top = -1
+        tempObj.box_pv_invert = -1
       }
       if (generationPower > 0) {
-        tempObj.box_center_top = 1
+        tempObj.box_invert_node = 1
       }
       if (generationPower < 0) {
-        tempObj.box_center_top = -1
+        tempObj.box_invert_node = -1
       }
       if (meterPower > 0) {
-        tempObj.box_right_top = -1
+        tempObj.box_grid_node = -1
       }
       if (meterPower < 0) {
-        tempObj.box_right_top = 1
+        tempObj.box_grid_node = 1
       }
       if (loadsPower > 0) {
-        tempObj.box_center_right = -2
+        tempObj.box_load_node = -2
+      }
+      if (loadsPower < 0) {
+        tempObj.box_load_node = 2
       }
       this.flowPath = tempObj
     }

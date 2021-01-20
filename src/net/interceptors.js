@@ -3,7 +3,6 @@ import store from '@/store'
 import storage from '@/util/storage'
 // import i18n from '@/i18n'
 import { Message } from 'element-ui'
-import { getLang } from '@/util'
 
 /**
  * 请求拦截器 onRequestResolve
@@ -16,7 +15,7 @@ export default {
     // ajax异步请求
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
     config.headers['token'] = storage.getStorage('token')
-    config.headers['lang'] = getLang()['headerLang'][store.state.lang]
+    config.headers['lang'] = store.state.lang
     return config
   },
   // 请求发送失败之前
@@ -27,7 +26,7 @@ export default {
   onResponseResolve: function (response) {
     // 业务报错
     if (response.data.errno !== store.state.successCode) {
-      let langKey = getLang()['headerLang'][store.state.lang]
+      let langKey = store.state.lang
       let errTxt = 'Unknow error'
       if (store.state.errorInfo[langKey]) {
         errTxt = store.state.errorInfo[langKey][response.data.errno] || ''
