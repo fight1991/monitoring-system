@@ -29,7 +29,8 @@ export default {
     afterSale: '售后管理',
     remoteUp: '远程升级',
     infoSys: '消息系统',
-    relog: '日志系统',
+    relog: '系统日志',
+    battLog: '电池日志',
     userCenter: '个人中心'
   },
   join: {
@@ -411,6 +412,13 @@ export default {
     instCap: '铭牌容量',
     shutdown: '远程关机',
     boot: '远程开机'
+  },
+  relog: {
+    level: '日志等级',
+    encoding: '编码',
+    export: '导出报文',
+    total: '总计',
+    line: '行'
   },
   week: {
     day0: '周一',
