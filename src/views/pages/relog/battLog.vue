@@ -133,7 +133,7 @@ export default {
             navigator.msSaveOrOpenBlob(this.response, name)
             return
           }
-          var url = URL.createObjectURL(new Blob([res.data]))
+          let url = URL.createObjectURL(new Blob([res.data]))
           const a = document.createElement('a')
           a.style.display = 'none'
           a.href = url
