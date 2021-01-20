@@ -13,14 +13,14 @@
             <el-col :span="3">
               <el-form-item>
                  <el-select style="width:100%" v-model="searchForm.level" clearable :placeholder="$t('relog.level')">
-                  <el-option v-for="(item, index) in levelList" :label="item.value" :value="item.value" :key="item + index"></el-option>
+                  <el-option v-for="(item, index) in levelList" :label="item" :value="item" :key="item + index"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="3">
               <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.encoding" clearable :placeholder="$t('relog.encoding')">
-                  <el-option v-for="(item, index) in encodingList" :label="item.value" :value="item.value" :key="item + index"></el-option>
+                  <el-option v-for="(item, index) in encodingList" :label="item" :value="item" :key="item + index"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -29,7 +29,7 @@
                 <el-date-picker
                   clearable
                   style="width:100%"
-                  v-model="times"
+                  v-model="searchForm.times"
                   value-format="timestamp"
                   type="daterange"
                   :picker-options="pickerOptions"
@@ -56,7 +56,7 @@
     <!-- 查询内容区域 -->
     <div class="content-box">
       <div v-if="report" v-html="report"></div>
-      <div v-else class="no-data">暂无数据</div>
+      <div v-else class="no-data">{{$t('common.noData')}}</div>
     </div>
       <div class="page-list">
         <div class="pagination flex-between">
@@ -69,9 +69,9 @@
 export default {
   data () {
     return {
-      times: [],
       downloadUrl: '',
       searchForm: {
+        times: [],
         moduleSN: '',
         level: 'ALL',
         encoding: 'ASCII',
@@ -88,27 +88,16 @@ export default {
       },
       report: '',
       total: 0,
-      levelList: [
-        { value: 'ALL' },
-        { value: 'TRACE' },
-        { value: 'DEBUG' },
-        { value: 'INFO' },
-        { value: 'WARNNING' },
-        { value: 'ERROR' },
-        { value: 'FATAL' }
-      ],
-      encodingList: [
-        { value: 'HEX' },
-        { value: 'ASCII' }
-      ],
+      levelList: ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARNNING', 'ERROR', 'FATAL'],
+      encodingList: ['HEX', 'ASCII'],
       pickerOptions: {
         disabledDate (time) {
           return time.getTime() > Date.now()
         }
       },
       rules: {
-        moduleSN: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }]
-        // times: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
+        moduleSN: [{ required: true, message: this.messageValid('require'), trigger: 'blur' }],
+        times: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
       }
     }
   },
@@ -120,6 +109,7 @@ export default {
     },
     resetSearchForm () {
       this.searchForm = {
+        times: [],
         moduleSN: '',
         level: 'ALL',
         encoding: 'ASCII',
@@ -134,7 +124,9 @@ export default {
           day: 0
         }
       }
-      this.times = []
+      this.$nextTick(() => {
+        this.$refs.searchForm.clearValidate()
+      })
     },
     reset () {
       this.resetSearchForm()
@@ -153,16 +145,16 @@ export default {
       this.getReport()
     },
     async getReport () {
-      if (this.times && this.times.length > 0) {
+      if (this.searchForm.times && this.searchForm.times.length > 0) {
         this.searchForm.begin = {
-          year: new Date(this.times[0]).getFullYear(),
-          month: new Date(this.times[0]).getMonth() + 1,
-          day: new Date(this.times[0]).getDate()
+          year: new Date(this.searchForm.times[0]).getFullYear(),
+          month: new Date(this.searchForm.times[0]).getMonth() + 1,
+          day: new Date(this.searchForm.times[0]).getDate()
         }
         this.searchForm.end = {
-          year: new Date(this.times[1]).getFullYear(),
-          month: new Date(this.times[1]).getMonth() + 1,
-          day: new Date(this.times[1]).getDate()
+          year: new Date(this.searchForm.times[1]).getFullYear(),
+          month: new Date(this.searchForm.times[1]).getMonth() + 1,
+          day: new Date(this.searchForm.times[1]).getDate()
         }
       }
       let { result, error, other } = await this.$post({
@@ -172,7 +164,7 @@ export default {
         }
       })
       if (result) {
-        this.report = result.content || []
+        this.report = result.content || ''
         this.downloadUrl = result.downloadUrl || ''
         this.total = result.total
       }
