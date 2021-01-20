@@ -91,7 +91,6 @@ export default {
     return {
       multiVisible: false,
       downloadUrl: '',
-      selection: [],
       times: [],
       searchForm: {
         sn: '',
@@ -125,7 +124,7 @@ export default {
   },
   methods: {
     download () {
-      window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
+      window.open(this.$store.state.domainName + this.downloadUrl, '_blank')
     },
     resetSearchForm () {
       this.searchForm = {
@@ -146,9 +145,26 @@ export default {
     },
     reset () {
       this.resetSearchForm()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.downloadUrl = ''
       // this.search()
     },
+    searchFormCheck () {
+      if (!this.searchForm.sn) {
+        let tipsText = this.$t('common.invertSn') + this.$t('common.require')
+        this.$message.warning(tipsText)
+        return false
+      }
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning(this.$t('common.dateRange'))
+        return false
+      }
+      return true
+    },
     search () {
+      if (!this.searchFormCheck()) return
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
@@ -163,6 +179,7 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
+      if (!this.searchFormCheck()) return
       if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {
           year: new Date(this.times[0]).getFullYear(),
@@ -176,7 +193,7 @@ export default {
         }
       }
       let { result, error, other } = await this.$post({
-        url: '/v0/device/report/query',
+        url: '/c/v0/device/report/query',
         data: {
           ...pagination,
           ...this.searchForm

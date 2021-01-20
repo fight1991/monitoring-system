@@ -1,6 +1,5 @@
 import Error from '@/views/error'
 import Login from '@/views/login'
-import Inverter from '@/views/inverter'
 import Qrcode from '@/views/qrcode'
 import User from '@/views/user'
 // 后台管理页面
@@ -26,7 +25,6 @@ const routes = [
 ]
 
 routes.push(...Error)
-routes.push(...Inverter)
 routes.push(...Qrcode)
 routes.push(...Login)
 routes.push(...User)

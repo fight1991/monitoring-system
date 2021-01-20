@@ -16,9 +16,9 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="zh">中文</el-dropdown-item>
+            <el-dropdown-item command="zh_CN">中文</el-dropdown-item>
             <el-dropdown-item command="en" divided>English</el-dropdown-item>
-            <!-- <el-dropdown-item command="pl" divided>Polskie</el-dropdown-item> -->
+            <el-dropdown-item command="pl" divided>Polskie</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <erweima></erweima>
@@ -68,12 +68,12 @@ export default {
   data () {
     return {
       pageFlag: 'login', // 注册和密码公用页面
-      lang: '中文',
+      currentLang: '中文',
       agreeSrc: '',
       sysFlag: judgeClient(), // android ios pc
       // andrImg: require('@/assets/android-app.png'),
       // iosImg: require('@/assets/ios-app.png'),
-      qrcode: location.origin + '/app/download',
+      qrcode: this.$store.state.domainName + '/app/download',
       size: 110,
       host: 'https://www.fox-ess.com', // 国外官网
       apiUrl: process.env.VUE_APP_WWW // 资源地址
@@ -82,6 +82,9 @@ export default {
   computed: {
     version () { // 判断是国内版本还是国外版本
       return this.$store.state.version
+    },
+    lang () {
+      return this.$store.state.lang
     }
   },
   created () {
@@ -90,10 +93,9 @@ export default {
     }
     let langInfo = storage.getStorage('lang')
     if (langInfo) {
-      this.lang = getLang()['display'][langInfo]
+      this.currentLang = getLang()['display'][langInfo]
     }
-    let vers = this.version === 'inside' ? 'zh_CN' : 'en'
-    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${vers}/UserAgreement.html`
+    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${this.lang}/UserAgreement.html`
   },
   methods: {
     // 切换登录还是注册
@@ -101,8 +103,8 @@ export default {
       this.pageFlag = typeStatus
     },
     toggleLang (lang) {
-      this.$i18n.locale = lang
-      this.lang = getLang()['display'][lang]
+      this.$i18n.locale = getLang()['transform'][lang]
+      this.currentLang = getLang()['display'][lang]
       this.$store.commit('toggleLang', lang)
       storage.setStorage('lang', lang)
     },

@@ -8,7 +8,7 @@
         <div class="plant-money txt-c text-cut">
           <count-to :start-val="0" :end-val="+toFixed(incomeDetail.generation.today)" :decimals="2" :duration="2600"/>
         </div>
-        <div class="plant-text text-cut">
+        <div class="plant-text text-cut" :title="$t('plant.genTod')">
           {{$t('plant.genTod')}}
         </div>
       </div>
@@ -21,7 +21,7 @@
         <div class="plant-money text-cut">
           <count-to :start-val="0" :end-val="+toFixed(incomeDetail.generation.month)" :decimals="2" :duration="2600"/>
         </div>
-        <div class="plant-text text-cut">
+        <div class="plant-text text-cut" :title="$t('plant.genMon')">
           {{$t('plant.genMon')}}
         </div>
       </div>
@@ -34,7 +34,7 @@
         <div class="plant-money text-cut txt-c">
           <count-to :start-val="0" :end-val="+toFixed(incomeDetail.generation.cumulate)" :decimals="2" :duration="2600"/>
         </div>
-        <div class="plant-text text-cut">
+        <div class="plant-text text-cut" :title="$t('plant.genTot')">
           {{$t('plant.genTot')}}
         </div>
       </div>
@@ -48,11 +48,11 @@
           <!-- {{incomeDetail.earnings.cumulate[0] && toFixed(incomeDetail.earnings.cumulate[0]['value'])}} -->
           <count-to
             :start-val="0"
-            :end-val="(incomeDetail.earnings.cumulate[0] && +toFixed(incomeDetail.generation.cumulate) || 0)"
+            :end-val="(incomeDetail.earnings.cumulate[0] && +toFixed(incomeDetail.earnings.cumulate[0]['value']) || 0)"
             :decimals="2"
             :duration="2600"/>
         </div>
-        <div class="plant-text text-cut">
+        <div class="plant-text text-cut" :title="$t('plant.earnTot')">
           {{$t('plant.earnTot')}} ({{incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']}})
         </div>
       </div>
@@ -75,7 +75,7 @@
             <i class="iconfont icon-look moneny-detail" slot="reference"></i>
           </el-popover>
         </div>
-        <div class="plant-text text-cut">
+        <div class="plant-text text-cut" :title="$t('plant.earnTot')">
           {{$t('plant.earnTot')}}
         </div>
       </div>
@@ -131,10 +131,12 @@ export default {
     }
     .detail-box {
       flex: 1;
+      overflow: hidden;
     }
     .icon-img {
       overflow: hidden;
       width: 30%;
+      min-width: 100px;
       text-align: center;
       padding: 0 10px;
     }

@@ -68,11 +68,6 @@ export default {
         currentPage: 1,
         total: 0
       },
-      defaultPage: {
-        pageSize: 50,
-        currentPage: 1,
-        total: 0
-      },
       tableHead: [
         {
           label: '设备类型',
@@ -113,13 +108,14 @@ export default {
       this.search()
     },
     search () {
-      this.getList(this.defaultPage)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     // 获取列表
     async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
-        url: '/v0/module/list',
+        url: '/c/v0/module/list',
         data: {
           ...pagination,
           condition: this.searchForm

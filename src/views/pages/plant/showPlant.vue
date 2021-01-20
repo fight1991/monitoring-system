@@ -29,9 +29,9 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="goToDetail('look',row)"></i>
-              <i title="edit" class="iconfont icon-edit"  @click="goToDetail('edit',row)"></i>
-              <i title="delete" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click="goToDetail('look',row)"></i>
+              <i :title="$t('plant.edit')" class="iconfont icon-edit"  @click="goToDetail('edit',row)"></i>
+              <i :title="$t('common.deleteL')" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
             </div>
           </template>
           <template v-slot:generationToday="{row}">
@@ -46,7 +46,7 @@
           <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}</span>
           <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
         </div>
-        <page-box :pagination.sync="pagination" @change="getPlantList"></page-box>
+        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
     </el-card>
   </section>
@@ -75,7 +75,7 @@ export default {
         name: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -86,7 +86,7 @@ export default {
   created () {},
   async mounted () {
     this.$refs.plantStatus.getPlantStatus()
-    await this.getPlantList(this.$store.state.pagination)
+    await this.getList(this.pagination)
     await this.getAllPlant(this.pagination.total)
     // 在地图上标记电站
     if (this.appVersion === 'abroad') {
@@ -116,7 +116,8 @@ export default {
   beforeDestroy () {},
   methods: {
     search () {
-      this.getPlantList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     reset () {
       this.searchForm = {
@@ -128,7 +129,7 @@ export default {
     // 获取所有电站列表
     async getAllPlant (total) {
       let { result } = await this.$post({
-        url: '/v0/plant/list',
+        url: '/c/v0/plant/list',
         data: {
           currentPage: 1,
           pageSize: total,
@@ -143,9 +144,9 @@ export default {
       }
     },
     // 获取电站列表
-    async getPlantList (pagination) {
+    async getList (pagination) {
       let { result } = await this.$post({
-        url: '/v0/plant/list',
+        url: '/c/v0/plant/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -161,10 +162,12 @@ export default {
     },
     // 电站删除
     async deletePlant (id) {
-      let res = await this.$openConfirm('common.tips2')
+      let res = await this.$openConfirm({
+        content: this.$t('common.tips2')
+      })
       if (!res) return
       let { result } = await this.$post({
-        url: '/v0/plant/delete',
+        url: '/c/v0/plant/delete',
         data: {
           stationID: id
         }

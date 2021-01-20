@@ -6,7 +6,8 @@
       <div class="g-datas">
         <div class="g-percent">{{(batteryInfo.soc || 0) + '%'}}</div>
         <!-- <div class="g-power">{{toFixed(batteryInfo.power)}}</div> -->
-        <div class="g-status">{{translateStatus(batteryInfo.status, batteryInfo.power) + toFixed(batteryInfo.power) + 'kW'}}</div>
+        <div class="g-status">{{translateStatus(batteryInfo.status, batteryInfo.power) + ' ' + toFixed(batteryInfo.power, true) + 'kW'}}</div>
+        <div class="g-status">{{toFixed(batteryInfo.volt, true, 1) + 'V'}}</div>
       </div>
       <div class="g-contrast">
         <div class="g-circle"></div>
@@ -38,6 +39,7 @@
       </div>
       <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
       <div class="item battery-power" :title="Math.abs(batteryInfo.power) || ''">{{$t('common.power')}}: <span class="num">{{Math.abs(toFixed(batteryInfo.power)) || 0}}</span>kW</div>
+      <div class="item battery-power">{{$t('common.volt')}}: <span class="num">{{toFixed(batteryInfo.volt) || 0}}</span>V</div>
       <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
       <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status, batteryInfo.power)}}</span></div>
     </div>
@@ -55,6 +57,9 @@ export default {
       default: () => {
         return {}
       }
+    },
+    batData: { // 小于0充电, 大于0 放电
+      default: 0
     }
   },
   created () {},
@@ -71,11 +76,11 @@ export default {
       switch (val) {
         case 0:
           return this.$t('common.sleep')
-        case 1:
-          if (power >= 0) {
-            return this.$t('common.disCharge')
+        case 1: // power小于 0 充电
+          if (power < 0) { // 以流向图数据为准
+            return this.$t('common.reCharge') // 充电
           } else {
-            return this.$t('common.reCharge')
+            return this.$t('common.disCharge') // 使用中
           }
         default:
           return this.$t('common.offline')
@@ -149,7 +154,7 @@ export default {
     }
   }
   .item {
-    padding: 15px 0;
+    padding: 7px 0;
   }
   .battery-value {
     font-size: 18px;
@@ -196,6 +201,9 @@ export default {
 }
 .g-percent {
   font-size: 22px;
+}
+.g-status {
+  font-size: 12px;
 }
 .g-container {
   position: relative;

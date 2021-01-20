@@ -4,7 +4,7 @@
       <i class="el-icon-warning-outline"></i>
       {{tips}}
     </div>
-    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="right" label-width="300px">
+    <el-form size="mini" style="margin-left:20px" ref="dataForm" :model="dataForm" label-position="right" label-width="320px">
       <el-row class="flex" v-for="(ele) in formItems" :key="ele.key">
         <div class="col-left">
           <!-- input组件 -->
@@ -50,7 +50,7 @@
       </el-row>
     </el-form>
     <el-row>
-      <div style="margin-left: 370px">
+      <div style="margin-left: 380px">
         <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
       </div>
     </el-row>
@@ -93,7 +93,7 @@ export default {
     // 根据key值查询表单
     async getFormValueByKey (id, key) {
       let { result } = await this.$get({
-        url: '/v0/device/setting/get',
+        url: '/c/v0/device/setting/get',
         data: {
           id,
           key
@@ -131,7 +131,7 @@ export default {
     // 表单提交api
     async submitForm (key, form) {
       let { result } = await this.$post({
-        url: '/v0/device/setting/set',
+        url: '/c/v0/device/setting/set',
         data: {
           id: this.id,
           key: key || this.keyWord,
@@ -163,7 +163,7 @@ export default {
         let tempVal = Number(value)
         if (isNaN(tempVal) || tempVal < lo || tempVal > hi) {
           let str = lo + '~' + hi
-          callback(new Error(this.messageValid('valid') + ' ' + str))
+          callback(new Error(str))
           return
         }
       }

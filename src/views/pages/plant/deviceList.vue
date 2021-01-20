@@ -42,7 +42,7 @@
           <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}</span>
           <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
         </div>
-        <page-box :pagination.sync="pagination" @change="getDeviceList"></page-box>
+        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
     </div>
   </section>
@@ -67,7 +67,7 @@ export default {
         moduleSN: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -77,7 +77,8 @@ export default {
   props: ['id'],
   methods: {
     search (id) {
-      this.getDeviceList(this.$store.state.pagination, id)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination, id)
     },
     resetSearchForm (id) {
       this.searchForm = {
@@ -88,14 +89,13 @@ export default {
         country: '',
         deviceType: ''
       }
-      this.search(id)
+      this.getList(this.pagination, id)
     },
-    async getDeviceList (pagination, id) {
-      let pages = pagination || this.$store.state.pagination
+    async getList (pagination, id) {
       let { result } = await this.$post({
-        url: '/v0/plant/device/list',
+        url: '/c/v0/plant/device/list',
         data: {
-          ...pages,
+          ...pagination,
           stationID: id || this.id,
           condition: this.searchForm
         }

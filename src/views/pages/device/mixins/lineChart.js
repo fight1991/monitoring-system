@@ -6,10 +6,7 @@ export default {
         legend: {
           type: 'plain',
           data: [],
-          bottom: 10,
-          formatter: name => {
-            return this.$t('chart.' + name)
-          }
+          bottom: 10
         },
         grid: [{
           height: '50%'
@@ -30,7 +27,7 @@ export default {
             let res = ''
             params.forEach(v => {
               !headLabel && (headLabel = formatDate(v.axisValue, 'HH:mm:ss MM-dd'))
-              res += '</br>' + v.marker + this.$t('chart.' + v.seriesName) + ' : ' + v.data[1] + (v.data[2] || '')
+              res += '</br>' + v.marker + v.seriesName + ' : ' + v.data[1] + (v.data[2] || '')
             })
             return headLabel + res
           }

@@ -50,7 +50,7 @@
           </el-col>
           <el-col :span="22">
             <el-form-item :label="$t('firmware.proLine')" prop="productType">
-              <el-select v-model="dataForm.productType" clearable style="width:100%" multiple>
+              <el-select v-model="dataForm.productType" clearable style="width:100%" collapse-tags multiple>
                 <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
@@ -155,7 +155,7 @@ export default {
     // 获取产品型号
     async getProductList () {
       let { result } = await this.$get({
-        url: '/v0/firmware/products',
+        url: '/c/v0/firmware/products',
         globalLoading: true
       })
       if (result) {
@@ -165,7 +165,7 @@ export default {
     // 上传固件包api
     async uploadFirmware (formData) {
       let { result } = await this.$upload({
-        url: '/v0/firmware/upload',
+        url: '/c/v0/firmware/upload',
         data: formData,
         globalLoading: true
       })

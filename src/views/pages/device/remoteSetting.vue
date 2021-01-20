@@ -41,7 +41,7 @@ export default {
     // 获取tab结构
     async getTabList () {
       let { result } = await this.$get({
-        url: '/v0/device/setting/ui',
+        url: '/c/v0/device/setting/ui',
         data: {
           id: this.id
         }

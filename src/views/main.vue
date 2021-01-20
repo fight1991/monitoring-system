@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <el-container class="outside-container">
-      <el-aside class="main-aside" :width="$store.state.collapse ? '64px': '200px'">
+      <el-aside :class="{'main-aside':true, 'open-duration': isDuration }" :width="$store.state.collapse ? '64px': distance + 'px'">
         <div class="aside-box">
           <div class="logo">
             <img :src="logoSrc">
             <span v-show="!$store.state.collapse">{{$t('monitor')}}</span>
           </div>
-          <layout-aside></layout-aside>
+          <layout-aside @getMoveDistance="getMoveDistance"></layout-aside>
         </div>
       </el-aside>
       <el-container class="main-container">
@@ -35,15 +35,24 @@ export default {
   },
   data () {
     return {
-      logoSrc: require('@/assets/logo.png')
+      logoSrc: require('@/assets/logo.png'),
+      distance: 210
     }
   },
   created () {
 
   },
+  computed: {
+    isDuration () {
+      return this.distance > 215
+    }
+  },
   methods: {
     btnClick () {
 
+    },
+    getMoveDistance (x) {
+      this.distance = x
     }
   }
 }

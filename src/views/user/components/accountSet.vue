@@ -33,7 +33,7 @@
       </el-row>
       <el-row type="flex" align="middle">
         <div class="nap get-code" @click="getOrganCode('agent')">{{$t('user.code')}}</div>
-        <div class="nap"><el-input v-model="agentCode" readonly :placeholder="$t('user.invCode')" size="mini"></el-input></div>
+        <div class="nap"><el-input v-model="agentCode" :placeholder="$t('user.invCode')" size="mini"></el-input></div>
       </el-row>
     </div>
   </section>
@@ -72,7 +72,7 @@ export default {
     // 获取代理商/安装商的组织代码 和代理商邀请码
     async getOrganCode (flag) {
       let { result } = await this.$get({
-        url: '/v0/organs/invitation',
+        url: '/c/v0/organs/invitation',
         data: {
           organType: flag
         }
@@ -87,7 +87,7 @@ export default {
     },
     async joinOrgans (organ) {
       let { result } = await this.$post({
-        url: '/v0/organs/join',
+        url: '/c/v0/organs/join',
         data: {
           code: this.linkCode,
           organType: organ,

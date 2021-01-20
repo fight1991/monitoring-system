@@ -27,6 +27,9 @@
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
+          <template #alarmType="{row}">
+            {{$t('common.' + alarmTypeList[row.alarmType]['label'])}}
+          </template>
         </common-table>
       </func-bar>
       <div class="page-box">
@@ -88,7 +91,8 @@ export default {
         }, {
           label: 'common.alarmType',
           prop: 'alarmType',
-          checked: true
+          checked: true,
+          slotName: 'alarmType'
         }, {
           label: 'plant.errorCode',
           prop: 'code',
@@ -141,7 +145,8 @@ export default {
       this.search()
     },
     search () {
-      this.getList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     async getList (pagination) {
       let params = {}
@@ -151,7 +156,7 @@ export default {
         params.deviceID = this.$attrs.id
       }
       let { result } = await this.$post({
-        url: `/v0/${this.type}/alarm/today/detail`,
+        url: `/c/v0/${this.type}/alarm/today/detail`,
         globalLoading: true,
         data: {
           ...params,

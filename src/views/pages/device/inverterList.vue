@@ -64,9 +64,9 @@
       <!-- 列表查询区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button>
+          <!-- <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button> -->
         </el-row>
-        <common-table :tableHeadData="inverterTableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="inverterTableHead" :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" showNum :tableList="resultList">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
@@ -75,8 +75,8 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
-              <i title="remote setting" class="iconfont icon-remote-setting" v-if="row.status!=3" @click.stop="goToDetail('set', row.deviceID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
+              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3 && access>1" @click.stop="goToDetail('set', row.deviceID)"></i>
             </div>
           </template>
           <template v-slot:power="{row}">
@@ -97,7 +97,7 @@
         <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}: {{statusAll.fault}}</span>
         <span><i class="el-icon-remove"></i> {{$t('common.offline')}}: {{statusAll.offline}}</span>
       </div>
-      <page-box :pagination.sync="pagination" @change="getInverterList"></page-box>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
@@ -124,11 +124,6 @@ export default {
         deviceType: ''
       },
       pagination: {
-        pageSize: 50,
-        currentPage: 1,
-        total: 0
-      },
-      defaultPage: {
         pageSize: 50,
         currentPage: 1,
         total: 0
@@ -167,8 +162,8 @@ export default {
       this.search()
     },
     search () {
-      this.getInverterList(this.defaultPage)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     goToDetail (page, id, flowType, status) {
       let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
@@ -182,16 +177,17 @@ export default {
       })
     },
     // 获取列表
-    async getInverterList (pagination) {
+    async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
-        url: '/v0/device/list',
+        url: '/c/v0/device/list',
         data: {
           ...pagination,
           condition: {
             ...this.searchForm,
             queryDate: {
               begin: (this.times && this.times[0]) || 0,
-              end: (this.times && this.times[1]) || 0
+              end: (this.times && this.times[1] + 24 * 3600 * 1000 - 1) || 0
             }
           }
         }
@@ -206,7 +202,7 @@ export default {
     // 获取所有逆变器状态
     async getStatusAll () {
       let { result } = await this.$get({
-        url: 'v0/device/status/all'
+        url: '/c/v0/device/status/all'
       })
       if (result) {
         this.statusAll = result
@@ -219,7 +215,7 @@ export default {
         return
       }
       let { result } = await this.$post({
-        url: '/v0​/device/delete',
+        url: '/c/v0​/device/delete',
         data: this.deviceId
       })
       if (result) {

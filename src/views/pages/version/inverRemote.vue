@@ -75,7 +75,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:deviceStatus="{row}">
             <i class="el-icon-success" v-show="row.deviceStatus==1"></i>
             <i class="el-icon-error" v-show="row.deviceStatus==2"></i>
@@ -166,7 +166,7 @@ export default {
     this.getProductList()
   },
   methods: {
-    reset () {
+    resetSearchForm () {
       this.searchForm = {
         deviceSN: '',
         moduleSN: '',
@@ -178,10 +178,16 @@ export default {
         moduleVersion: '',
         productType: ''
       }
-      this.resultList = []
       this.$nextTick(() => {
         this.$refs.searchForm.clearValidate()
       })
+    },
+    reset () {
+      this.resetSearchForm()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.selection = []
     },
     inputChange () {
       this.searchForm.deviceType = ''
@@ -198,12 +204,12 @@ export default {
     search () {
       this.currentPage = 1
       this.getList(this.pagination)
-      this.selection = []
     },
     // 获取列表
     async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
-        url: '/v0/firmware/device/list',
+        url: '/c/v0/firmware/device/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -223,7 +229,7 @@ export default {
     // 获取产品型号
     async getProductList () {
       let { result } = await this.$get({
-        url: '/v0/firmware/products'
+        url: '/c/v0/firmware/products'
       })
       if (result) {
         this.allList = result

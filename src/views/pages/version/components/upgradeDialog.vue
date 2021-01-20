@@ -133,7 +133,7 @@ export default {
         params.modules = this.sns
       }
       let { result } = await this.$post({
-        url: `/v0/firmware/${this.type}/upgrade`,
+        url: `/c/v0/firmware/${this.type}/upgrade`,
         globalLoading: true,
         data: {
           ...this.dataForm,
@@ -153,7 +153,7 @@ export default {
         params.productType = this.productType
       }
       let { result } = await this.$get({
-        url: `/v0/firmware/${this.type}/version`,
+        url: `/c/v0/firmware/${this.type}/version`,
         data: params,
         globalLoading: true
       })

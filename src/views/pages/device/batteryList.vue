@@ -70,7 +70,7 @@
         <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>
         <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
       </div>
-      <page-box :pagination.sync="pagination" @change="getModuleList"></page-box>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
@@ -90,7 +90,7 @@ export default {
         moduleType: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -100,8 +100,7 @@ export default {
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true,
-          renderHeader: true
+          checked: true
         },
         {
           label: 'plant.datacolType',
@@ -161,8 +160,8 @@ export default {
       this.search()
     },
     search () {
-      this.getModuleList(this.$store.state.pagination)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     commandDrop () {
 
@@ -174,7 +173,7 @@ export default {
     // 批量解绑
     async unbindMulti () {
       let { result } = await this.$post({
-        url: '/v0/module/disable',
+        url: '/c/v0/module/disable',
         data: {
           modules: this.bindIds
         }
@@ -186,16 +185,17 @@ export default {
     // 获取模块类型列表
     async getModuleTypeList () {
       let { result } = await this.$get({
-        url: '/v0/module/types'
+        url: '/c/v0/module/types'
       })
       if (result) {
         this.typeList = result.types || []
       }
     },
     // 获取模块列表
-    async getModuleList (pagination) {
+    async getList (pagination) {
+      this.selection = []
       let { result } = await this.$post({
-        url: '/v0/module/list',
+        url: '/c/v0/module/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -222,7 +222,7 @@ export default {
       param.append('file', file, file.name)
       // 文件上传请求
       await this.$upload({
-        url: '/v0/module/import',
+        url: '/c/v0/module/import',
         data: {}
       })
     }
