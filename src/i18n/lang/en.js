@@ -31,6 +31,7 @@ export default {
     remoteUp: 'Promotion',
     infoSys: 'Message',
     relog: 'Relog',
+    battLog: 'Battery log',
     userCenter: 'User Profile'
   },
   join: {
@@ -413,6 +414,13 @@ export default {
     instCap: 'Installed Capacity',
     shutdown: 'Remote Shutdown',
     boot: 'Remote Boot'
+  },
+  relog: {
+    level: 'Log level',
+    encoding: 'Coding',
+    export: 'Export',
+    total: 'Total Line',
+    line: ''
   },
   week: {
     day0: 'Monday',

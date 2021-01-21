@@ -31,6 +31,7 @@ export default {
     remoteUp: 'Zdalna aktualizacja',
     infoSys: 'Zarządzanie wiadomościami',
     relog: 'System logowania',
+    battLog: 'Dziennik baterii',
     userCenter: 'Centrum osobiste'
   },
   join: {
@@ -412,6 +413,13 @@ export default {
     instCap: 'Pojemność znamionowa',
     shutdown: 'Zdalne wyłączanie',
     boot: 'Zdalny rozruch'
+  },
+  relog: {
+    level: 'Poziom dziennika',
+    encoding: 'Kodowanie',
+    export: 'Eksport',
+    total: 'Całkowita linia',
+    line: ''
   },
   week: {
     day0: 'Poniedziałek',
