@@ -21,6 +21,7 @@ export default {
     firmware: 'Oprogramowanie',
     inverUp: 'Promocja falownika',
     moduleUp: 'Promocja modułu',
+    batteryUp: 'Promocja bateria',
     data: 'Raport danych ',
     alarmM: 'Zgłoś błąd',
     alarmTime: 'Alarm w czasie rzeczywistym',
