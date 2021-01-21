@@ -13,10 +13,10 @@
         <el-form-item>
           <el-row :gutter="15">
             <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? $t('common.invertSn') : $t('common.datacolSN')"></el-input>
+              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='module' ? $t('common.datacolSN') : $t('common.invertSn')"></el-input>
             </el-col>
             <el-col :span="8" align="left">
-              <el-button type="primary" size="mini" @click="search('handClick')">{{$t('common.search')}}</el-button>
+              <search-button type="success" icon="icon-search" @click="search('handClick')"></search-button>
             </el-col>
           </el-row>
         </el-form-item>

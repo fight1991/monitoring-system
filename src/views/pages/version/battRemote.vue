@@ -53,13 +53,18 @@
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="selection.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
-          <el-button size="mini" icon="iconfont icon-shengji" @click="check">选中</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <i class="el-icon-success" v-show="row.status==1"></i>
             <i class="el-icon-error" v-show="row.status==2"></i>
             <i class="el-icon-remove" v-show="row.status==3"></i>
+          </template>
+          <template v-slot:info="{row}">
+            <div class="flex-center table-op-btn">
+              <i :title="$t('common.view')" v-if="row.batInfo" class="iconfont icon-look" @click="openbattInfoDialog(row.batInfo)"></i>
+              <span v-else>--</span>
+            </div>
           </template>
         </common-table>
       </func-bar>
@@ -72,23 +77,27 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" type="module" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
-    <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="module"></upstatus-dialog>
-    <updetail-dialog :visible.sync="updetailVisible" apiUrl="module" :taskId="taskId"></updetail-dialog>
+    <upgrade-dialog @refreshList="search" type="battery" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="battery"></upstatus-dialog>
+    <updetail-dialog :visible.sync="updetailVisible" apiUrl="battery" :taskId="taskId"></updetail-dialog>
+    <battInfo-dialog :visible.sync="battInfoVisible" :list="currentBatInfo"></battInfo-dialog>
   </section>
 </template>
 <script>
-import { device as eventBus } from './common/eventBus'
+// import { battery as eventBus } from './common/eventBus'
 import upgradeDialog from './components/upgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
+import battInfoDialog from './components/battInfoDialog'
 export default {
-  components: { upgradeDialog, upstatusDialog, updetailDialog },
+  components: { upgradeDialog, upstatusDialog, updetailDialog, battInfoDialog },
   data () {
     return {
       upgradeVisible: false,
       updetailVisible: false,
       upstatusVisible: false,
+      battInfoVisible: false,
+      currentBatInfo: [],
       searchForm: {
         moduleSN: '',
         plantName: '',
@@ -100,7 +109,13 @@ export default {
       },
       taskId: '',
       selection: [],
-      resultList: [],
+      resultList: [
+        { plantName: 'wewe', moduleSN: 123324, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
+        { plantName: 'dfdg', moduleSN: 46456, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
+        { plantName: 'rtry', moduleSN: 6565, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
+        { plantName: 'wew', moduleSN: 123324, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
+        { plantName: 'jkjk', moduleSN: 123324, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] }
+      ],
       pagination: {
         pageSize: 50,
         currentPage: 1,
@@ -139,25 +154,18 @@ export default {
           checked: true
         },
         {
-          label: 'battRemote.batType',
-          prop: 'batType',
-          checked: true
-        },
-        {
-          label: 'battRemote.bmsSlaveSN',
-          prop: 'sn',
-          checked: true
-        },
-        {
-          label: 'battRemote.bmsSlaveVersion',
-          prop: 'version',
-          checked: true
-        },
-        {
           label: 'invupgrade.datastatus',
           prop: 'status',
           checked: true,
           slotName: 'status'
+        },
+        {
+          label: 'battRemote.batInfo',
+          prop: 'batInfo',
+          checked: true,
+          width: '60',
+          slotName: 'info',
+          fixed: 'right'
         }
       ]
     }
@@ -168,14 +176,11 @@ export default {
     }
   },
   created () {
-    eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
-    this.search()
-    this.getList(this.defaultPage)
+    // eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
+    // this.search()
+    // this.getList(this.defaultPage)
   },
   methods: {
-    check () {
-      console.log(this.selection.map(sns => sns.deviceSN))
-    },
     reset () {
       this.searchForm = {
         moduleSN: '',
@@ -192,6 +197,10 @@ export default {
       this.currentPage = 1
       this.getList(this.defaultPage)
       this.selection = []
+    },
+    openbattInfoDialog (batInfo) {
+      this.battInfoVisible = true
+      this.currentBatInfo = batInfo
     },
     async getList (pagination) {
       let { result } = await this.$post({

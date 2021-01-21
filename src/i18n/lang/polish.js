@@ -421,6 +421,15 @@ export default {
     total: 'Całkowita linia',
     line: ''
   },
+  battRemote: {
+    bmsMasterSN: 'Bateria master SN',
+    bmsMasterVersion: 'Wersja główna baterii',
+    bmsSlaveSN: 'Bateria podrzędna SN',
+    bmsSlaveVersion: 'Wersja podrzędna baterii',
+    batInfo: 'Informacje o baterii',
+    batType: 'Typ Baterii',
+    status: 'Status'
+  },
   week: {
     day0: 'Poniedziałek',
     day1: 'Wtorek',
