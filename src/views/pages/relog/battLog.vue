@@ -13,14 +13,14 @@
             <el-col :span="3">
               <el-form-item>
                  <el-select style="width:100%" v-model="searchForm.level" clearable :placeholder="$t('relog.level')">
-                  <el-option v-for="(item, index) in levelList" :label="item" :value="item" :key="item + index"></el-option>
+                  <el-option v-for="item in levelList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="3">
               <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.encoding" clearable :placeholder="$t('relog.encoding')">
-                  <el-option v-for="(item, index) in encodingList" :label="item" :value="item" :key="item + index"></el-option>
+                  <el-option v-for="item in encodingList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -162,7 +162,6 @@ export default {
     },
     reset () {
       this.resetSearchForm()
-      this.search()
       this.report = ''
       this.total = 0
       this.downloadUrl = ''
