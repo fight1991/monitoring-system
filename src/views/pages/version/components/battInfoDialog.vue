@@ -24,28 +24,19 @@ export default {
       dialogVisible: false,
       tableHead: [
         {
-          label: 'common.invertSn',
-          prop: 'deviceSN',
-          checked: true,
-          width: 150
-        }, {
-          label: 'invupgrade.curVer',
-          prop: 'before',
+          label: 'battRemote.batType',
+          prop: 'batType',
           checked: true
-        }, {
-          label: 'navBar.firmware',
-          prop: 'after',
+        },
+        {
+          label: 'battRemote.bmsSlaveSN',
+          prop: 'sn',
           checked: true
-        }, {
-          label: 'invupgrade.status',
-          prop: 'status',
+        },
+        {
+          label: 'battRemote.bmsSlaveVersion',
+          prop: 'version',
           checked: true
-        }, {
-          label: 'invupgrade.progress',
-          prop: 'progress',
-          checked: true,
-          slotName: 'progress',
-          width: 120
         }
       ]
     }
@@ -54,7 +45,6 @@ export default {
   mounted () {},
   watch: {
     visible: function (newData) {
-      console.log(newData)
       this.dialogVisible = newData
     }
   },

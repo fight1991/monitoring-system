@@ -2,19 +2,27 @@
   <section class="sys-main flex-column-between bg-c" v-setH:min="setDivH">
     <div class="sys-table-container">
       <search-bar>
-        <el-form size="mini" label-width="0px" :model="searchForm">
+        <el-form size="mini" label-width="0px" ref="searchForm" :model="searchForm" :rules="rules">
           <el-row :gutter="15">
-            <el-col :span="6">
+            <el-col :span="4">
+              <el-form-item prop="productType">
+                <!-- 产品系列 -->
+                <el-select style="width:100%" clearable v-model="searchForm.productType" :placeholder="$t('firmware.proLine')">
+                  <el-option v-for="item in productTypeList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="5">
               <el-form-item>
                 <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item>
                 <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
@@ -62,7 +70,7 @@
           </template>
           <template v-slot:info="{row}">
             <div class="flex-center table-op-btn">
-              <i :title="$t('common.view')" v-if="row.batInfo" class="iconfont icon-look" @click="openbattInfoDialog(row.batInfo)"></i>
+              <i :title="$t('common.view')" v-if="row.batInfo.length>0" class="iconfont icon-look" @click.stop="openbattInfoDialog(row.batInfo)"></i>
               <span v-else>--</span>
             </div>
           </template>
@@ -84,7 +92,7 @@
   </section>
 </template>
 <script>
-// import { battery as eventBus } from './common/eventBus'
+import { battery as eventBus } from './common/eventBus'
 import upgradeDialog from './components/upgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
@@ -105,17 +113,13 @@ export default {
         bmsMasterSN: '',
         bmsMasterVersion: '',
         bmsSlaveSN: '',
-        bmsSlaveVersion: ''
+        bmsSlaveVersion: '',
+        productType: '' // 产品/设备系列
       },
-      taskId: '',
       selection: [],
-      resultList: [
-        { plantName: 'wewe', moduleSN: 123324, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
-        { plantName: 'dfdg', moduleSN: 46456, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
-        { plantName: 'rtry', moduleSN: 6565, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
-        { plantName: 'wew', moduleSN: 123324, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] },
-        { plantName: 'jkjk', moduleSN: 123324, batInfo: [ { version: 23243243, batType: 234, sn: 2243434 } ] }
-      ],
+      taskId: '',
+      allList: [],
+      resultList: [],
       pagination: {
         pageSize: 50,
         currentPage: 1,
@@ -167,18 +171,28 @@ export default {
           slotName: 'info',
           fixed: 'right'
         }
-      ]
+      ],
+      rules: {
+        productType: [{ required: true, message: this.messageValid('require'), trigger: 'change' }]
+      }
     }
   },
   computed: {
     sns () {
       return this.selection.map(v => v.deviceSN)
+    },
+    productTypeList () { // 产品型号列表
+      let tempList = this.allList.find(v => v.modelType === 3)
+      if (tempList) {
+        return tempList.productType
+      }
+      return []
     }
   },
   created () {
-    // eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
-    // this.search()
-    // this.getList(this.defaultPage)
+    eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
+    this.getList(this.defaultPage)
+    this.getProductList()
   },
   methods: {
     reset () {
@@ -189,7 +203,8 @@ export default {
         bmsMasterSN: '',
         bmsMasterVersion: '',
         bmsSlaveSN: '',
-        bmsSlaveVersion: ''
+        bmsSlaveVersion: '',
+        productType: ''
       }
       this.search()
     },
@@ -222,6 +237,15 @@ export default {
     openUpdetailDialog (id) {
       this.updetailVisible = true
       this.taskId = id
+    },
+    // 获取产品型号
+    async getProductList () {
+      let { result } = await this.$get({
+        url: '/c/v0/firmware/products'
+      })
+      if (result) {
+        this.allList = result
+      }
     }
   }
 }
