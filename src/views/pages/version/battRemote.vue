@@ -12,38 +12,38 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="4">
               <el-form-item>
                 <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="4">
               <el-form-item>
                 <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="4">
               <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
             <template v-if="showHsearch">
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-form-item>
                   <el-input v-model="searchForm.bmsMasterSN" clearable :placeholder="$t('battRemote.bmsMasterSN')"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-form-item>
                   <el-input v-model="searchForm.bmsMasterVersion" clearable :placeholder="$t('battRemote.bmsMasterVersion')"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-form-item>
                     <el-input v-model="searchForm.bmsSlaveSN" clearable :placeholder="$t('battRemote.bmsSlaveSN')"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-form-item>
                     <el-input v-model="searchForm.bmsSlaveVersion" clearable :placeholder="$t('battRemote.bmsSlaveVersion')"></el-input>
                 </el-form-item>
