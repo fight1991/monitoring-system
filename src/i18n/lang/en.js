@@ -66,6 +66,7 @@ export default {
   common: {
     serNum: 'No.',
     dateRange: 'Please select a date range',
+    dateTime: 'Please select date and time',
     showNum: 'Total Recordings',
     totalNum: 'Total Page',
     signIn: 'Sign In',

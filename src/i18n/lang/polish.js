@@ -66,6 +66,7 @@ export default {
   common: {
     serNum: 'Numer',
     dateRange: 'Wybierz zakres dat',
+    dateTime: 'Wybierz datę i godzinę',
     showNum: 'Całkowita liczba nagrań',
     totalNum: 'Razem strona',
     signIn: 'Zaloguj sie',

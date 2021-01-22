@@ -66,6 +66,7 @@ export default {
   common: {
     serNum: '序号',
     dateRange: '请选择日期范围',
+    dateTime: '请选择日期时间',
     showNum: '显示第',
     totalNum: '条结果 , 总计',
     signIn: '登录',

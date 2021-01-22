@@ -31,11 +31,9 @@
                   style="width:100%"
                   v-model="searchForm.times"
                   value-format="timestamp"
-                  type="daterange"
+                  type="datetime"
                   :picker-options="pickerOptions"
-                  :range-separator="$t('common.to')"
-                  :start-placeholder="$t('common.start')"
-                  :end-placeholder="$t('common.end')">
+                  :placeholder="$t('common.dateTime')">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -49,16 +47,16 @@
       <!-- 按钮区域 -->
       <div class="function-container">
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="!report" @click="download">{{$t('relog.export')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-downLoad" :disabled="total == 0" @click="download">{{$t('relog.export')}}</el-button>
         </el-row>
       </div>
     </div>
     <!-- 查询内容区域 -->
     <div class="content-box">
-      <div v-if="report" v-html="report"></div>
-      <div v-else class="noDatabox flex-column-center">
+      <div v-if="total==0" class="noDatabox flex-column-center">
         <div class="no-data">{{$t('common.noData')}}</div>
       </div>
+      <div v-else v-html="report"></div>
     </div>
       <div class="page-list">
         <div class="pagination flex-between">
@@ -74,19 +72,17 @@ export default {
     return {
       downloadUrl: '',
       searchForm: {
-        times: [],
+        times: '',
         moduleSN: '',
         level: 'ALL',
         encoding: 'ASCII',
         begin: {
           year: 0,
           month: 0,
-          day: 0
-        },
-        end: {
-          year: 0,
-          month: 0,
-          day: 0
+          day: 0,
+          hour: 0,
+          minute: 0,
+          second: 0
         }
       },
       report: '',
@@ -141,19 +137,17 @@ export default {
     },
     resetSearchForm () {
       this.searchForm = {
-        times: [],
+        times: '',
         moduleSN: '',
         level: 'ALL',
         encoding: 'ASCII',
         begin: {
           year: 0,
           month: 0,
-          day: 0
-        },
-        end: {
-          year: 0,
-          month: 0,
-          day: 0
+          day: 0,
+          hour: 0,
+          minute: 0,
+          second: 0
         }
       }
       this.$nextTick(() => {
@@ -176,16 +170,14 @@ export default {
       this.getReport()
     },
     async getReport () {
-      if (this.searchForm.times && this.searchForm.times.length > 0) {
+      if (this.searchForm.times) {
         this.searchForm.begin = {
-          year: new Date(this.searchForm.times[0]).getFullYear(),
-          month: new Date(this.searchForm.times[0]).getMonth() + 1,
-          day: new Date(this.searchForm.times[0]).getDate()
-        }
-        this.searchForm.end = {
-          year: new Date(this.searchForm.times[1]).getFullYear(),
-          month: new Date(this.searchForm.times[1]).getMonth() + 1,
-          day: new Date(this.searchForm.times[1]).getDate()
+          year: new Date(this.searchForm.times).getFullYear(),
+          month: new Date(this.searchForm.times).getMonth() + 1,
+          day: new Date(this.searchForm.times).getDate(),
+          hour: new Date(this.searchForm.times).getHours(),
+          minute: new Date(this.searchForm.times).getMinutes(),
+          second: new Date(this.searchForm.times).getSeconds()
         }
       }
       let { result, error, other } = await this.$post({
