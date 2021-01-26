@@ -149,9 +149,7 @@ export default {
     // 获取固件版本信息
     async getVersionInfo () {
       let params = {}
-      if (this.type === 'device') {
-        params.productType = this.productType
-      }
+      params.productType = this.productType || ''
       let { result } = await this.$get({
         url: `/c/v0/firmware/${this.type}/version`,
         data: params,
