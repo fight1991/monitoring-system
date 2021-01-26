@@ -93,6 +93,8 @@ export default {
     solfTypeList () { // 软件类别
       if (this.type === 'device') {
         return ['master', 'slave', 'manager']
+      } else if (this.type === 'battery') {
+        return ['master', 'slave']
       } else {
         return ['wifi', 'gprs', 'lan']
       }
