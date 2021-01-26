@@ -59,7 +59,7 @@
       </search-bar>
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="iconfont icon-shengji" :disabled="selection.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
+          <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
@@ -219,7 +219,7 @@ export default {
     },
     async getList (pagination) {
       let { result } = await this.$post({
-        url: '/v0/firmware/battery/list',
+        url: '/c/v0/firmware/battery/list',
         data: {
           ...pagination,
           condition: {
