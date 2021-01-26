@@ -85,7 +85,7 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" type="battery" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="search" :productType="searchForm.productType" type="battery" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="battery"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="battery" :taskId="taskId"></updetail-dialog>
     <battInfo-dialog :visible.sync="battInfoVisible" :list="currentBatInfo"></battInfo-dialog>
