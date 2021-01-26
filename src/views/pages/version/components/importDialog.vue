@@ -56,8 +56,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: dataForm.modelType!=2, message: this.messageValid('require'), trigger: 'change' }">
-              <el-select v-model="dataForm.softType" :disabled="dataForm.modelType==2" clearable style="width:100%">
+            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: softTypeList.length > 0, message: this.messageValid('require'), trigger: 'change' }">
+              <el-select v-model="dataForm.softType" :disabled="softTypeList.length == 0" clearable style="width:100%">
                 <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
@@ -130,7 +130,7 @@ export default {
     softTypeList () {
       let softList = this.allList.find(v => v.modelType === this.dataForm.modelType)
       if (softList) {
-        return softList.softType
+        return softList.softType || []
       }
       return []
     }
