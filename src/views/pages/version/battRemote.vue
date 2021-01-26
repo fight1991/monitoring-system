@@ -51,7 +51,7 @@
             </template>
             <el-col :span="6" align="left">
               <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
-              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="success" icon="icon-search" @click="searchBtn"></search-button>
               <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
@@ -205,6 +205,15 @@ export default {
         bmsSlaveVersion: '',
         productType: ''
       }
+      this.$nextTick(() => {
+        this.$refs.searchForm.clearValidate()
+      })
+      this.search()
+    },
+    searchBtn () {
+      let isValid = true
+      this.$refs.searchForm.validate(valid => (isValid = valid))
+      if (!isValid) return
       this.search()
     },
     search () {
