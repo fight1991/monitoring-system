@@ -191,7 +191,6 @@ export default {
   },
   created () {
     eventBus.$on('openUpdetailDialog', this.openUpdetailDialog)
-    this.getList(this.defaultPage)
     this.getProductList()
   },
   methods: {
