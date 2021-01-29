@@ -51,7 +51,7 @@
             </template>
             <el-col :span="6" align="left">
               <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
-              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="success" icon="icon-search" @click="searchBtn"></search-button>
               <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
@@ -62,7 +62,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:status="{row}">
             <i class="el-icon-success" v-show="row.status==1"></i>
             <i class="el-icon-error" v-show="row.status==2"></i>
@@ -205,6 +205,15 @@ export default {
         bmsSlaveVersion: '',
         productType: ''
       }
+      this.$nextTick(() => {
+        this.$refs.searchForm.clearValidate()
+      })
+      this.search()
+    },
+    searchBtn () {
+      let isValid = true
+      this.$refs.searchForm.validate(valid => (isValid = valid))
+      if (!isValid) return
       this.search()
     },
     search () {
