@@ -429,7 +429,8 @@ export default {
     bmsSlaveVersion: 'Battery slave version',
     batInfo: 'Battery Info',
     batType: 'Battery type',
-    status: 'Status'
+    status: 'Status',
+    batSN: 'Battery SN'
   },
   week: {
     day0: 'Monday',

@@ -429,7 +429,8 @@ export default {
     bmsSlaveVersion: 'Wersja podrzędna baterii',
     batInfo: 'Informacje o baterii',
     batType: 'Typ Baterii',
-    status: 'Status'
+    status: 'Status',
+    batSN: 'Bateria SN'
   },
   week: {
     day0: 'Poniedziałek',

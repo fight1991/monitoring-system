@@ -429,7 +429,8 @@ export default {
     bmsSlaveVersion: '从控版本',
     batInfo: '电池信息',
     batType: '电池类型',
-    status: '模块状态'
+    status: '模块状态',
+    batSN: '电池SN'
   },
   week: {
     day0: '周一',

@@ -13,7 +13,7 @@
         <el-form-item>
           <el-row :gutter="15">
             <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='module' ? $t('common.datacolSN') : $t('common.invertSn')"></el-input>
+              <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t(apiUrlHolder)"></el-input>
             </el-col>
             <el-col :span="8" align="left">
               <search-button type="success" icon="icon-search" @click="search('handClick')"></search-button>
@@ -51,6 +51,7 @@ export default {
         currentPage: 1,
         total: 0
       },
+      apiUrlHolder: '',
       searchForm: {
         deviceSN: ''
       },
@@ -92,6 +93,13 @@ export default {
   created () {
     if (this.apiUrl === 'module') {
       this.tableHead[0].label = 'common.datacolSN'
+      this.apiUrlHolder = 'common.datacolSN'
+    } else if (this.apiUrl === 'battery') {
+      this.tableHead[0].label = 'battRemote.batSN'
+      this.apiUrlHolder = 'battRemote.batSN'
+    } else {
+      this.tableHead[0].label = 'common.invertSn'
+      this.apiUrlHolder = 'common.invertSn'
     }
   },
   mounted () {},
