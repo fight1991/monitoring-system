@@ -116,7 +116,7 @@ export default {
     },
     // 是否显示进度条及显示的值
     getProgressInfo (row) {
-      let isShow = ['upgrading', 'transgerring', 'completed'].includes(row.status)
+      let isShow = ['upgrading', 'transferring', 'completed'].includes(row.status)
       let value = row.status === 'completed' ? 100 : (Number(row.progress) || 0)
       return { isShow, value }
     },
