@@ -416,19 +416,19 @@ export default {
     boot: 'Remote Boot'
   },
   relog: {
-    level: 'Log level',
+    level: 'Log Level',
     encoding: 'Coding',
     export: 'Export',
     total: 'Total Line',
     line: ''
   },
   battRemote: {
-    bmsMasterSN: 'Battery master SN',
-    bmsMasterVersion: 'Battery master version',
-    bmsSlaveSN: 'Battery slave SN',
-    bmsSlaveVersion: 'Battery slave version',
+    bmsMasterSN: 'Battery Master SN',
+    bmsMasterVersion: 'Battery Master version',
+    bmsSlaveSN: 'Battery Slave SN',
+    bmsSlaveVersion: 'Battery Slave Version',
     batInfo: 'Battery Info',
-    batType: 'Battery type',
+    batType: 'Battery Type',
     status: 'Status',
     batSN: 'Battery SN'
   },
