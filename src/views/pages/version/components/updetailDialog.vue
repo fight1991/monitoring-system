@@ -9,18 +9,20 @@
     :visible.sync="dialogVisible"
     width="80%">
     <div class="search-form">
-      <el-form size="mini" label-width="0px" :model="searchForm">
-        <el-form-item>
-          <el-row :gutter="15">
-            <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t(apiUrlHolder)"></el-input>
-            </el-col>
-            <el-col :span="8" align="left">
-              <search-button type="success" icon="icon-search" @click="search('handClick')"></search-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
-      </el-form>
+      <search-bar>
+        <el-form size="mini" label-width="0px" :model="searchForm">
+          <el-form-item>
+            <el-row :gutter="15">
+              <el-col :span="8">
+                <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t(apiUrlHolder)"></el-input>
+              </el-col>
+              <el-col :span="8" align="left">
+                <search-button type="success" icon="icon-search" @click="search('handClick')"></search-button>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
+      </search-bar>
     </div>
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
