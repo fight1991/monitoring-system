@@ -10,7 +10,7 @@
     width="80%">
     <div class="search-form">
       <search-bar>
-        <el-form size="mini" label-width="0px" :model="searchForm">
+        <el-form size="mini" label-width="0px" :model="searchForm" @submit.native.prevent>
           <el-form-item>
             <el-row :gutter="15">
               <el-col :span="8">
