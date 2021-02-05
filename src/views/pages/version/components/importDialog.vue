@@ -56,8 +56,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="22">
-            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: dataForm.modelType==1, message: this.messageValid('require'), trigger: 'change' }">
-              <el-select v-model="dataForm.softType" :disabled="dataForm.modelType!=1" clearable style="width:100%">
+            <el-form-item :label="$t('firmware.SoftType')" prop="softType" :rules="{ required: softTypeList.length > 0, message: this.messageValid('require'), trigger: 'change' }">
+              <el-select v-model="dataForm.softType" :disabled="softTypeList.length == 0" clearable style="width:100%">
                 <el-option v-for="item in softTypeList" :label="item" :value="item" :key="item"></el-option>
               </el-select>
             </el-form-item>
@@ -94,11 +94,6 @@ export default {
         note: ''
       },
       fileTypeList: ['hex', 'bin'],
-      softTypeList: [ // 软件类别
-        'master',
-        'slave',
-        'manager'
-      ],
       deviceTypeList: [ // 设备类型
         { label: 'common.invert', value: 1 },
         { label: 'common.module', value: 2 },
@@ -129,6 +124,13 @@ export default {
       let tempList = this.allList.find(v => v.modelType === this.dataForm.modelType)
       if (tempList) {
         return tempList.productType
+      }
+      return []
+    },
+    softTypeList () {
+      let softList = this.allList.find(v => v.modelType === this.dataForm.modelType)
+      if (softList) {
+        return softList.softType || []
       }
       return []
     }

@@ -3,8 +3,18 @@ export default {
   path: '/bus/relog',
   name: 'bus-relog',
   meta: {
-    permission: [1, 2, 3, 255],
-    title: 'relog',
-    component: () => import(/* webpackChunkName: "bus-relog" */ '@/views/pages/demo')
-  }
+    permission: [255],
+    title: 'relog'
+  },
+  children: [
+    {
+      path: '/bus/relog/battLog',
+      name: 'bus-relog-battLog',
+      meta: {
+        permission: [255],
+        title: 'battLog',
+        component: () => import(/* webpackChunkName: "bus-relog-battLog" */ '@/views/pages/relog/battLog')
+      }
+    }
+  ]
 }

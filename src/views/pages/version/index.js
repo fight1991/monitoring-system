@@ -33,6 +33,15 @@ export default {
         title: 'moduleUp',
         component: () => import(/* webpackChunkName: "bus-device-module" */ '@/views/pages/version/moduRemote')
       }
+    },
+    {
+      path: '/bus/version/battRemote',
+      name: 'bus-version-battRemote',
+      meta: {
+        permission: [3, 255],
+        title: 'batteryUp',
+        component: () => import(/* webpackChunkName: "bus-device-battRemote" */ '@/views/pages/version/battRemote')
+      }
     }
   ]
 }

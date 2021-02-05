@@ -6,11 +6,11 @@ import Group from './group'
 import Version from './version'
 import DataReport from './dataReport'
 import Alarm from './alarm'
+import Relog from './relog'
 // import Factory from './factory'
 // import AfterSale from './afterSale'
 // import Upgrade from './upgrade'
 // import Message from './message'
-// import Relog from './relog'
 
 export default [
   Home,
@@ -20,10 +20,10 @@ export default [
   Version,
   Group,
   DataReport,
-  Alarm
+  Alarm,
+  Relog
   // Factory,
   // AfterSale,
   // Upgrade,
-  // Message,
-  // Relog
+  // Message
 ]

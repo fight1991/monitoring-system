@@ -9,18 +9,20 @@
     :visible.sync="dialogVisible"
     width="80%">
     <div class="search-form">
-      <el-form size="mini" label-width="0px" :model="searchForm">
-        <el-form-item>
-          <el-row :gutter="15">
-            <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? $t('common.invertSn') : $t('common.datacolSN')"></el-input>
-            </el-col>
-            <el-col :span="8" align="left">
-              <el-button type="primary" size="mini" @click="search('handClick')">{{$t('common.search')}}</el-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
-      </el-form>
+      <search-bar>
+        <el-form size="mini" label-width="0px" :model="searchForm" @submit.native.prevent>
+          <el-form-item>
+            <el-row :gutter="15">
+              <el-col :span="8">
+                <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t(apiUrlHolder)"></el-input>
+              </el-col>
+              <el-col :span="8" align="left">
+                <search-button type="success" icon="icon-search" @click="search('handClick')"></search-button>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
+      </search-bar>
     </div>
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
@@ -51,6 +53,7 @@ export default {
         currentPage: 1,
         total: 0
       },
+      apiUrlHolder: '',
       searchForm: {
         deviceSN: ''
       },
@@ -92,6 +95,13 @@ export default {
   created () {
     if (this.apiUrl === 'module') {
       this.tableHead[0].label = 'common.datacolSN'
+      this.apiUrlHolder = 'common.datacolSN'
+    } else if (this.apiUrl === 'battery') {
+      this.tableHead[0].label = 'battRemote.batSN'
+      this.apiUrlHolder = 'battRemote.batSN'
+    } else {
+      this.tableHead[0].label = 'common.invertSn'
+      this.apiUrlHolder = 'common.invertSn'
     }
   },
   mounted () {},
@@ -108,7 +118,7 @@ export default {
     },
     // 是否显示进度条及显示的值
     getProgressInfo (row) {
-      let isShow = ['upgrading', 'transgerring', 'completed'].includes(row.status)
+      let isShow = ['upgrading', 'transferring', 'completed'].includes(row.status)
       let value = row.status === 'completed' ? 100 : (Number(row.progress) || 0)
       return { isShow, value }
     },

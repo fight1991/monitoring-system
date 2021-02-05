@@ -13,14 +13,15 @@ export default {
     invertM: 'Inverter',
     invertD: 'Inverter Details',
     batteryM: 'Battery',
-    remoteS: 'Remote Settting',
+    remoteS: 'Remote Setting',
     moduleM: 'Datalogger',
     versionM: 'Firmware Management',
     clusterM: 'Cluster Management',
     remoteSch: 'Remote Schedule',
     firmware: 'Firmware Version',
     inverUp: 'Inverter Remote Upgrade',
-    moduleUp: 'Datalogger Remote Upgrade',
+    moduleUp: 'Dataloggor Remote Upgrade',
+    batteryUp: 'Battery Remote Upgrade',
     data: 'Data Report',
     alarmM: 'Error List',
     alarmTime: 'Realtime',
@@ -30,6 +31,7 @@ export default {
     remoteUp: 'Promotion',
     infoSys: 'Message',
     relog: 'Relog',
+    battLog: 'Battery log',
     userCenter: 'User Profile'
   },
   join: {
@@ -64,6 +66,7 @@ export default {
   common: {
     serNum: 'No.',
     dateRange: 'Please select a date range',
+    dateTime: 'Please select date and time',
     showNum: 'Total Recordings',
     totalNum: 'Total Page',
     signIn: 'Sign In',
@@ -148,7 +151,7 @@ export default {
     delete: 'Delete',
     deleteL: 'Delete',
     view: 'View',
-    remoteS: 'Remote setting',
+    remoteS: 'Remote Setting',
     release: 'Release',
     postcode: 'Postcode',
     pvcapacity: 'PV Size',
@@ -411,6 +414,23 @@ export default {
     instCap: 'Installed Capacity',
     shutdown: 'Remote Shutdown',
     boot: 'Remote Boot'
+  },
+  relog: {
+    level: 'Log Level',
+    encoding: 'Coding',
+    export: 'Export',
+    total: 'Total Line',
+    line: ''
+  },
+  battRemote: {
+    bmsMasterSN: 'Battery Master SN',
+    bmsMasterVersion: 'Battery Master version',
+    bmsSlaveSN: 'Battery Slave SN',
+    bmsSlaveVersion: 'Battery Slave Version',
+    batInfo: 'Battery Info',
+    batType: 'Battery Type',
+    status: 'Status',
+    batSN: 'Battery SN'
   },
   week: {
     day0: 'Monday',

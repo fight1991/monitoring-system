@@ -21,6 +21,7 @@ export default {
     firmware: '固件版本',
     inverUp: '逆变器远程升级',
     moduleUp: '模块远程升级',
+    batteryUp: '电池远程升级',
     data: '数据报表',
     alarmM: '报错记录',
     alarmTime: '实时告警',
@@ -29,7 +30,8 @@ export default {
     afterSale: '售后管理',
     remoteUp: '远程升级',
     infoSys: '消息系统',
-    relog: '日志系统',
+    relog: '系统日志',
+    battLog: '电池日志',
     userCenter: '个人中心'
   },
   join: {
@@ -64,6 +66,7 @@ export default {
   common: {
     serNum: '序号',
     dateRange: '请选择日期范围',
+    dateTime: '请选择日期时间',
     showNum: '显示第',
     totalNum: '条结果 , 总计',
     signIn: '登录',
@@ -411,6 +414,23 @@ export default {
     instCap: '铭牌容量',
     shutdown: '远程关机',
     boot: '远程开机'
+  },
+  relog: {
+    level: '日志等级',
+    encoding: '编码',
+    export: '导出报文',
+    total: '总计',
+    line: '行'
+  },
+  battRemote: {
+    bmsMasterSN: '主控SN',
+    bmsMasterVersion: '主控版本',
+    bmsSlaveSN: '从控SN',
+    bmsSlaveVersion: '从控版本',
+    batInfo: '电池信息',
+    batType: '电池类型',
+    status: '模块状态',
+    batSN: '电池SN'
   },
   week: {
     day0: '周一',

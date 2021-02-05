@@ -21,6 +21,7 @@ export default {
     firmware: 'Oprogramowanie',
     inverUp: 'Promocja falownika',
     moduleUp: 'Promocja modułu',
+    batteryUp: 'Promocja bateria',
     data: 'Raport danych ',
     alarmM: 'Zgłoś błąd',
     alarmTime: 'Alarm w czasie rzeczywistym',
@@ -30,6 +31,7 @@ export default {
     remoteUp: 'Zdalna aktualizacja',
     infoSys: 'Zarządzanie wiadomościami',
     relog: 'System logowania',
+    battLog: 'Dziennik baterii',
     userCenter: 'Centrum osobiste'
   },
   join: {
@@ -64,6 +66,7 @@ export default {
   common: {
     serNum: 'Numer',
     dateRange: 'Wybierz zakres dat',
+    dateTime: 'Wybierz datę i godzinę',
     showNum: 'Całkowita liczba nagrań',
     totalNum: 'Razem strona',
     signIn: 'Zaloguj sie',
@@ -411,6 +414,23 @@ export default {
     instCap: 'Pojemność znamionowa',
     shutdown: 'Zdalne wyłączanie',
     boot: 'Zdalny rozruch'
+  },
+  relog: {
+    level: 'Poziom dziennika',
+    encoding: 'Kodowanie',
+    export: 'Eksport',
+    total: 'Całkowita linia',
+    line: ''
+  },
+  battRemote: {
+    bmsMasterSN: 'Bateria master SN',
+    bmsMasterVersion: 'Wersja główna baterii',
+    bmsSlaveSN: 'Bateria podrzędna SN',
+    bmsSlaveVersion: 'Wersja podrzędna baterii',
+    batInfo: 'Informacje o baterii',
+    batType: 'Typ Baterii',
+    status: 'Status',
+    batSN: 'Bateria SN'
   },
   week: {
     day0: 'Poniedziałek',
