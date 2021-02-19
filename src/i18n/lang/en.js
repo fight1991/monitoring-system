@@ -39,6 +39,7 @@ export default {
     endUser: 'User',
     installer: 'Installer',
     agent: 'Agent',
+    admin: 'Admin',
     create: 'New',
     join: 'Join',
     joinTips: 'Successful, Require a re-login',

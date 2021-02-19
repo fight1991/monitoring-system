@@ -39,6 +39,7 @@ export default {
     endUser: 'Użytkownik',
     installer: 'Instalator',
     agent: 'Agent',
+    admin: 'Administrator',
     create: 'Stwórz',
     join: 'Przystąp',
     joinTips: 'Dołącz pomyślnie, zaloguj się ponownie!',

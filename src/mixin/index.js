@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import { translateRole } from '@/util'
 export default {
   data () {
     return {
@@ -14,7 +15,10 @@ export default {
   computed: {
     ...mapState({ // 0 游客， 1 终端用户 ，2 安装商 3 代理商 ，255 厂商
       access: state => state.access
-    })
+    }),
+    roleName () {
+      return this.$t(translateRole(this.access))
+    }
   },
   methods: {
     // 翻译状态
