@@ -248,7 +248,7 @@ export default {
     genSta: 'Generation Statistics',
     genTod: 'Today Yield(kW·h)',
     earnTod: 'Earnings Today',
-    genMon: 'Monthly Yield',
+    genMon: 'Monthly Yield(kW·h)',
     earnMon: 'Monthly Earnings',
     genYear: 'Annual Generation',
     earnYear: 'Annual Earnings',
