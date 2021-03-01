@@ -8,9 +8,9 @@
     @close="closeDialog"
     :visible.sync="dialogVisible"
     width="750px">
-    <search-bar>
+    <search-bar v-if="type==='plant'">
       <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
-        <el-form-item v-if="type==='plant'">
+        <el-form-item>
           <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
         </el-form-item>
         <el-form-item>

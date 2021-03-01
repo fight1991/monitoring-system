@@ -50,7 +50,7 @@ export default {
       name: 'bus-device-remoteSetting',
       hidden: true,
       meta: {
-        permission: [1, 2, 3, 255],
+        permission: [2, 3, 255],
         title: 'remoteS',
         component: () => import(/* webpackChunkName: "bus-device-remoteSetting" */ '@/views/pages/device/remoteSetting')
       }
