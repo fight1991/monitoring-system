@@ -470,7 +470,7 @@ export default {
       this.flowPath = tempObj
     },
     // 计算得出hybrid储能机流向图
-    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower, meterPower2) {
+    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower, meterPower2 = 0) {
       let tempObj = {
         box_pv_invert: 0,
         box_bat_invert: 0,
@@ -502,19 +502,21 @@ export default {
       if (meterPower < 0) {
         tempObj.box_grid_node = 1
       }
-      if (loadsPower > 0) {
+      if ((loadsPower + meterPower2) > 0) { // N6 ---> N5 // 当没有发电机时 node和load流向, 有发电机时节点变成nodeLittle
         tempObj.box_load_node = -2
-        tempObj.box_node_little = -2
       }
-      if (loadsPower < 0) {
+      if ((loadsPower + meterPower2) < 0) { // N5 ---> N6
         tempObj.box_load_node = 2
-        tempObj.box_node_little = 2
       }
-      if ((loadsPower - meterPower2) > 0) {
-        tempObj.box_little_load = 3 // nodeLittle流向负载
+      if (loadsPower > 0) { // nodeLittle流向负载即 N5 ---> N3
+        tempObj.box_little_load = 3
       }
+      if (loadsPower < 0) { // 负载流向nodeLittle即 N3 ---> N5
+        tempObj.box_little_load = -3
+      }
+
       if (meterPower2 < 0) {
-        tempObj.box_little_elec = 4 // 电表流向nodeLittle
+        tempObj.box_little_elec = 4 // 发电机流向nodeLittle即 N4 ---> N5
       }
       this.flowPath = tempObj
     },
