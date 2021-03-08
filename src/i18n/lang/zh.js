@@ -70,6 +70,7 @@ export default {
     dateTime: '请选择日期时间',
     showNum: '显示第',
     totalNum: '条结果 , 总计',
+    rows: '条',
     signIn: '登录',
     signUp: '注册',
     require: '必填',

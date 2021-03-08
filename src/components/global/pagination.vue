@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pagination flex-between" v-if='pagination.total != 0'>
-      <span>{{$t('common.showNum')}}&nbsp;{{pagination.currentPage}}-{{pagination.pageSize}}&nbsp;{{$t('common.totalNum')}}{{pagination.total}}</span>
+      <span>{{$t('common.showNum')}}&nbsp;{{pagination.currentPage}}-{{pagination.pageSize}}&nbsp;{{$t('common.totalNum')}}&nbsp;{{pagination.total}}&nbsp;{{$t('common.rows')}}</span>
       <el-pagination
         background
         :small="small"
