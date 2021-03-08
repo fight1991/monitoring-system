@@ -43,6 +43,16 @@
               </el-select>
             </el-form-item>
           </template>
+          <!-- checkbox组件 -->
+          <template v-if="ele.elemType.uiType === 'checkbox' && ele.level!=2">
+            <el-form-item :label="ele.name" :prop="ele.key">
+              <el-checkbox v-model="dataForm[ele.key]"></el-checkbox>
+            </el-form-item>
+          </template>
+           <!-- 分割线-->
+          <template v-if="ele.elemType.uiType === 'line'">
+            <div class="line"></div>
+          </template>
         </div>
         <div class="col-right">
           <div class="btn-container" v-show="!isBlock && ele.elemType.uiType!='switch' && ele.level!=2">
@@ -53,7 +63,7 @@
     </el-form>
     <el-row>
       <div style="margin-left: 380px">
-        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
+        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock && !isDisable">{{$t('common.confirm')}}</el-button>
       </div>
     </el-row>
   </div>
@@ -80,6 +90,10 @@ export default {
     isBlock: { // 整体提交或单条提交
       type: Boolean,
       default: true
+    },
+    isDisable: {
+      type: Boolean,
+      default: false
     },
     keyWord: {
       type: String,
@@ -209,5 +223,9 @@ export default {
     margin: 0 10px;
     font-size: 16px;
   }
+}
+.line {
+  border-top: 1px solid #ccc;
+  margin: 0 -30px 15px 30px;
 }
 </style>

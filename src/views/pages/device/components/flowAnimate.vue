@@ -222,6 +222,7 @@ export default {
       //   top: 0;
       // }
       &.left {
+        right: -1px;
         .flow-column {
           right: auto;
           left: -3px;
@@ -233,7 +234,7 @@ export default {
           border-radius: 50%;
           background-color: #fff;
           position: absolute;
-          right: 0;
+          right: 1px;
           top: 0;
           transform: translate(50%, -50%);
           background: radial-gradient(#fff, rgb(55, 214, 55));
@@ -243,6 +244,7 @@ export default {
       }
       &.right {
         transform: translate(100%);
+        right: 1px;
         &::after {
           left: auto;
           right: 0;
