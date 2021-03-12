@@ -75,8 +75,8 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i :title="$t('common.view')" class="iconfont icon-look" @click.stop="goToDetail('look', row.deviceID, row.flowType, row.status)"></i>
-              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3 && access>1" @click.stop="goToDetail('set', row.deviceID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click.stop="goToInverterDetail(row.deviceID, row.flowType, row.status)"></i>
+              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3 && access>1" @click.stop="goToRemote(row.deviceID, row.deviceSN)"></i>
             </div>
           </template>
           <template v-slot:power="{row}">
@@ -142,7 +142,9 @@ export default {
     }
   },
   created () {
-    this.search()
+    if (this.access !== 255) {
+      this.search()
+    }
     this.getStatusAll()
   },
   methods: {
@@ -165,14 +167,24 @@ export default {
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
-    goToDetail (page, id, flowType, status) {
-      let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
+    // 逆变器详情
+    goToInverterDetail (id, flowType, status) {
       this.$tab.replace({
-        name: routeName,
+        name: 'bus-device-inverterDetail',
         query: {
           id,
           flowType,
           status
+        }
+      })
+    },
+    // 远程设置
+    goToRemote (id, sn) {
+      this.$tab.replace({
+        name: 'bus-device-remoteSetting',
+        query: {
+          id,
+          sn
         }
       })
     },
