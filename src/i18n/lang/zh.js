@@ -191,7 +191,7 @@ export default {
     em: '邮箱',
     phone: '手机号',
     code: '验证码',
-    forgetPw: '忘记密码?',
+    forgetPw: '忘记密码',
     email: '邮箱登录',
     emailSp: '邮箱注册',
     login: '登录',

@@ -191,7 +191,7 @@ export default {
     em: 'Adres e-mail',
     phone: 'Numer telefonu',
     code: 'Kod weryfikacyjny',
-    forgetPw: 'Zapomniałeś hasła?',
+    forgetPw: 'Zapomniałeś hasła',
     email: 'Logowanie przez e-mail',
     emailSp: 'Rejestracja przez e-mailowamail',
     login: 'Zaloguj się',

@@ -191,7 +191,7 @@ export default {
     em: 'Email Address',
     phone: 'Mobile Number',
     code: 'Verification Code',
-    forgetPw: 'Forgot Password?',
+    forgetPw: 'Forgot Password',
     email: 'Email sign in',
     emailSp: 'Email sign up',
     login: 'Sign In',
