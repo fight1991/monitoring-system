@@ -1,25 +1,25 @@
 // 兼容1024 1280显示屏
 // 小于1030的屏占一整行 暂时定为900
-@media only screen and(max-width:900px) {
-  .el-col-24 {
-    width: 100%
-  }
-}
-// 大于900的屏显示2列
-@media only screen and(min-width:900px) {
-  .el-col-lg-12 {
-    width: 50%
-  }
-}
-// 大于1285的屏显示4列或3列
-@media only screen and(min-width:1285px) {
-  .el-col-lg-6 {
-    width: 25%
-  }
-  .el-col-lg-8 {
-    width: 33.33333%;
-  }
-}
+// @media only screen and(max-width:900px) {
+//   .el-col-24 {
+//     width: 100%
+//   }
+// }
+// // 大于900的屏显示2列
+// @media only screen and(min-width:900px) {
+//   .el-col-lg-12 {
+//     width: 50%
+//   }
+// }
+// // 大于1285的屏显示4列或3列
+// @media only screen and(min-width:1285px) {
+//   .el-col-lg-6 {
+//     width: 25%
+//   }
+//   .el-col-lg-8 {
+//     width: 33.33333%;
+//   }
+// }
 .el-input__inner {
   border-radius: 2px;
   padding: 0 8px;
@@ -28,8 +28,11 @@
     border-color: @sys-border-input;
   }
 }
-.el-form-item__content > .el-input input[readonly] {
-  background-color: #f5f5f5;
+.el-input.is-disabled .el-input__inner {
+  background-color: #ebebeb;
+}
+.el-form-item__content > .el-input:not(.no-bg) input[readonly] {
+  background-color: #ebebeb;
 }
 .el-form-item__label {
   line-height: 26px!important;
@@ -37,39 +40,40 @@
   color: #4c4c4c;
 }
 .sys-main { // 页面主要样式
-  padding-top: 5px;
-  margin-left: 5px;
-  margin-right: 10px;
+  margin: 5px 10px 0 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   .el-card:not(.no-bottom) {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
   .el-card__header {
     padding: 12px 20px;
   }
   .pagination {
+    padding: 10px 0;
+    border-top: 1px solid #EBEEF5;
     font-size: 12px;
-    padding-top: 10px;
     .el-pagination {
       font-weight: 400;
     }
-    // .el-pager {
-    //   .number {
-    //     border-radius: 50%;
-    //   }
-    // }
     .el-input--mini .el-input__inner {
       height: 24px;
       line-height: 24px;
       font-size: 12px;
     }
   }
+  .remote-set {
+    .el-form-item__label {
+      word-break: break-all;
+    }
+  }
   .page-list {
-    padding: 10px;
+    padding: 0 10px;
   }
   .states-row {
     display: inline-block;
     font-size: 12px;
-    padding-top: 10px;
+    padding: 10px 0;
     span {
       margin-right: 15px;
     }
@@ -95,17 +99,19 @@
       }
     }
   }
-  .el-card.is-never-shadow {
+  .el-card {
     border: none;
+    border-radius: 0px;
   }
   .el-table__header>thead>tr th {
     background-color: #f0f5fa;
   }
   .el-table__header th>.cell{
     text-align: center;
-    color: @sys-main-text;
-    font-size: 14px;
+    // color: @sys-main-text;
+    color: rgba(0,0,0,.85);
     font-weight: 400;
+    line-height: 16px;
   }
   .el-table__empty-block {
     align-items: inherit;
@@ -118,11 +124,28 @@
     line-height: 40px;
   }
   .sys-table-container {
-    padding:10px;
+    padding: 15px 10px 10px;
     background-color: #fff;
   }
+  .search-container {
+    .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
+      margin-bottom: 12px;
+    }
+    .btn-box {
+      position: relative;
+      transition: all 1s;
+    }
+    .el-button.el-button--mini {
+      transition: all 1s;
+      padding: 0 10px;
+      height: 28px;
+      line-height: 28px;
+      .iconfont {
+        font-size: 16px;
+      }
+    }
+  }
   .function-container {
-    padding: 5px 0px 10px;
     .el-table-column--selection .cell {
       padding-right: 10px;
     }
@@ -136,7 +159,7 @@
     }
     // 表格上方操作按钮
     .table-btn {
-      margin-bottom: 12px;
+      padding: 10px 0;
       .el-button {
         padding: 6px 7px;
         margin: 0 0 0 5px;
@@ -186,13 +209,18 @@
     border-color: transparent;
   }
 }
+.sys-form-style-label {
+  .el-form-item__label {
+    font-size: 12px;
+  }
+} 
 .dropDown-upload {
   .el-upload {
     width: 100%;
   }
 }
 .el-loading-mask {
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(255, 255, 255, .1);
   z-index: 9999;
 }
 .echart-box {
@@ -236,7 +264,11 @@
     }
   }
 }
+<<<<<<< HEAD
 .login-register, .login {
+=======
+.login-resetPw,.login-register, .errTip-right {
+>>>>>>> dev
   .el-form--label-top .el-form-item__label {
     padding-bottom: 0px;
     color: #fff;
@@ -260,9 +292,9 @@
   .el-dialog {
     margin: 0px!important;
   }
-  .el-dialog__header {
-    border-bottom: 1px solid #f5f5f5;
-  }
+  // .el-dialog__header {
+  //   border-bottom: 1px solid #f5f5f5;
+  // }
   .el-dialog__body {
     padding: 20px 17px 40px 20px;
     overflow: hidden;
@@ -342,6 +374,9 @@
   overflow: visible;
   transition: all .3s;
 }
+.open-duration.el-aside {
+  transition: none;
+}
 .el-menu--collapse>.el-menu-item .el-submenu__icon-arrow, .el-menu--collapse>div>.el-submenu>.el-submenu__title .el-submenu__icon-arrow {
   display: none;
 }
@@ -368,9 +403,8 @@
 }
 .sidebar-container {
   color: #fff;
-  background-color: @sys-aside-bg;
   .el-submenu>.el-menu>.el-menu-item {
-    text-indent: 8px;
+    text-indent: 4px;
   }
   .el-submenu>.el-menu {
     background-color: rgba(255,255,255,.1);
@@ -378,6 +412,10 @@
   .el-menu {
     background-color: @sys-aside-bg;
     border-right: none;
+    .sub-title {
+      display: inline-block;
+      width: 100%;
+    }
   }
   .el-menu-item {
     border-left: 3px solid transparent;
@@ -397,6 +435,10 @@
     &:hover {
       background-color: transparent;
     }
+    &>.sub-title {
+      display: inline-block;
+      width: calc(100% - 40px);
+    }
   }
   .el-submenu__title, .el-menu-item {
     color: @sys-aside-text;
@@ -410,9 +452,17 @@
     height: 100%;
     .el-tabs__header {
       margin-bottom: 0;
+      border: none;
+      box-shadow: 0 1px 4px #ccc;
+      z-index: 2;
+      .el-tabs__nav-next, .el-tabs__nav-prev {
+        line-height: 30px;
+      }
       &.is-top {
         background-color: #fff;
         padding-right: 60px;
+        height: 30px;
+        overflow: hidden;
       }
     }
     .el-tabs__content {
@@ -429,14 +479,16 @@
     .el-tabs__item {
       padding: 0 15px!important;
       font-size: 12px;
-      line-height: 35px;
+      line-height: 30px;
       border-bottom: none;
-      height: 35px;
+      height: 30px;
       .el-icon-close {
         line-height: 14px;
       }
-      &.is-active {
-        font-weight: bold;
+      transition: all .05s;
+      &.is-active:not(#tab-tab-index) {
+        color: #fff;
+        background-color: @sys-tab-color;
       }
     }
     .el-tabs__nav {
@@ -447,7 +499,7 @@
   .tab-scrollbar-wrapper {
     overflow-x: hidden;
     .el-scrollbar__view {
-      min-width: 650px;
+      min-width: 780px;
     }
   }
 }
@@ -483,7 +535,10 @@
 }
 .tab-popper {
   min-width: 45px;
-  padding: 10px 12px;
+  padding: 5px 12px;
+}
+.remote-popper {
+  padding: 5px 10px;
 }
 .login-down-type {
   .el-dropdown-menu__item {
@@ -494,4 +549,29 @@
   .el-card__body {
     padding: 20px 0;
   }
+}
+.el-select-dropdown__list {
+  .el-select-dropdown__item {
+    font-size: 12px;
+    line-height: 28px;
+    height: 28px;
+    &:nth-child(n+2) {
+      border-top: 1px solid #ccc;
+    }
+  }
+}
+.autocomplete-input {
+  .el-autocomplete-suggestion__wrap {
+    padding: 6px 0;
+  }
+  .el-autocomplete-suggestion__list li {
+    font-size: 12px;
+    line-height: 28px;
+    &:nth-child(n+2) {
+      border-top: 1px solid #ccc;
+    }
+  }
+}
+.map-popper {
+  z-index: 666!important;
 }

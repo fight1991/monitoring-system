@@ -2,7 +2,7 @@
   <section class="sys-main" v-setH:min="setDivH">
     <show-item ref="plantStatus" @getselect="getselect" :positionList="positionList"></show-item>
     <!-- 表格区域 -->
-    <el-card shadow="never" v-if="access !== 1" class="no-bottom">
+    <el-card class="no-bottom">
       <div class="title border-line" slot="header">{{$t('plant.plantsList')}}</div>
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
@@ -15,8 +15,8 @@
             <el-input v-model="searchForm.name" :placeholder="$t('common.plantsName')" clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-            <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+            <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+            <search-button type="success" icon="icon-search" @click="search"></search-button>
           </el-form-item>
         </el-form>
       </search-bar>
@@ -29,9 +29,9 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="goToDetail('look',row)"></i>
-              <i title="edit" class="iconfont icon-edit"  @click="goToDetail('edit',row)"></i>
-              <i title="delete" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click="goToDetail('look',row)"></i>
+              <i :title="$t('plant.edit')" class="iconfont icon-edit"  @click="goToDetail('edit',row)"></i>
+              <i :title="$t('common.deleteL')" class="iconfont icon-delete" @click="deletePlant(row.stationID)"></i>
             </div>
           </template>
           <template v-slot:generationToday="{row}">
@@ -46,14 +46,14 @@
           <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}</span>
           <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
         </div>
-        <page-box :pagination.sync="pagination" @change="getPlantList"></page-box>
+        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
     </el-card>
   </section>
 </template>
 <script>
 import showItem from '../components/showItem'
-import plantTableHead from './plantTableHead'
+import plantTableHead from './mixins/plantTableHead'
 import { encodeData } from '@/util'
 import { mapState } from 'vuex'
 export default {
@@ -75,7 +75,7 @@ export default {
         name: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -86,7 +86,9 @@ export default {
   created () {},
   async mounted () {
     this.$refs.plantStatus.getPlantStatus()
-    await this.getPlantList(this.$store.state.pagination)
+    if (this.access !== 255) {
+      await this.getList(this.pagination)
+    }
     await this.getAllPlant(this.pagination.total)
     // 在地图上标记电站
     if (this.appVersion === 'abroad') {
@@ -116,7 +118,8 @@ export default {
   beforeDestroy () {},
   methods: {
     search () {
-      this.getPlantList(this.$store.state.pagination)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     reset () {
       this.searchForm = {
@@ -127,9 +130,8 @@ export default {
     },
     // 获取所有电站列表
     async getAllPlant (total) {
-      let { result } = await this.$axios({
-        url: '/v0/plant/list',
-        method: 'post',
+      let { result } = await this.$post({
+        url: '/c/v0/plant/list',
         data: {
           currentPage: 1,
           pageSize: total,
@@ -144,10 +146,9 @@ export default {
       }
     },
     // 获取电站列表
-    async getPlantList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/plant/list',
-        method: 'post',
+    async getList (pagination) {
+      let { result } = await this.$post({
+        url: '/c/v0/plant/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -163,22 +164,20 @@ export default {
     },
     // 电站删除
     async deletePlant (id) {
-      let res = await this.$confirm(this.$t('common.tips2'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
+      let res = await this.$openConfirm({
+        content: this.$t('common.tips2')
+      })
       if (!res) return
-      this.$post({
-        url: '/v0/plant/delete',
+      let { result } = await this.$post({
+        url: '/c/v0/plant/delete',
         data: {
           stationID: id
-        },
-        success: () => {
-          this.$message.success(this.$t('common.success'))
-          this.search()
         }
       })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.search()
+      }
     },
     // 点击状态筛选列表
     getselect (payLoad) {

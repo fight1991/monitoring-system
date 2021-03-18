@@ -2,7 +2,8 @@
 <template>
 <!-- eslint-disable vue/valid-v-bind -->
   <div style="position:relative">
-  <!--  自定义表头显示项目数 -->
+    <span class="num-count" v-show="selectBox && selection.length>0">{{$t('common.checked')}}<span class="num">{{selection.length}}</span></span>
+    <!--  自定义表头显示项目数 -->
     <el-popover popper-class="tableBtn-popper" v-if="checked">
       <ul>
         <li v-for="(value,key) in tableHeadData" :key="'index' + key">
@@ -22,7 +23,11 @@
       highlight-current-row
       :border="border">
       <el-table-column v-if="selectBox" type="selection" align="center" width="40"></el-table-column>
-      <el-table-column v-if="showNum" type="index" width="50" label="NO." align="center"></el-table-column>
+      <el-table-column v-if="showNum" width="50" :label="$t('common.serNum')" align="center">
+        <template slot-scope="scope">
+          {{(scope.$index + 1) + pagination.pageSize*(pagination.currentPage - 1)}}
+        </template>
+      </el-table-column>
       <template v-for="(item,index) in trueTableHead">
         <el-table-column
           show-overflow-tooltip
@@ -30,20 +35,37 @@
           :key="'table' + index"
           :fixed="item.fixed || false"
           :prop="item.prop || ''"
-          :label="$t(item.label)"
           :align="item.align || 'center'"
-          :[widthMethod(item.width)]="item.width || '80'"
-          :render-header="item.renderHeader ? renderHead : renderCommon"
-        ></el-table-column>
+          :[widthMethod(item.width)]="item.width || '80'">
+          <template slot="header">
+            <!-- 自定义表头 -->
+            <el-tooltip
+              class="text-cut"
+              effect="dark"
+              :content="$t(item.label)"
+              placement="top">
+              <div>{{$t(item.label)}}</div>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+          <!-- :render-header="item.renderHeader ? renderHead : renderCommon" -->
         <el-table-column v-else
           show-overflow-tooltip
           :key="'table' + index"
           :fixed="item.fixed || false"
           :prop="item.prop || ''"
-          :label="$t(item.label)"
           :align="item.align || 'center'"
-          :min-width="item.width || '80'"
-          :render-header="item.renderHeader ? renderHead : renderCommon">
+          :min-width="item.width || '80'">
+          <template slot="header">
+            <!-- 自定义表头 -->
+            <el-tooltip
+              class="text-cut"
+              effect="dark"
+              :content="$t(item.label)"
+              placement="top">
+              <div>{{$t(item.label)}}</div>
+            </el-tooltip>
+          </template>
           <template slot-scope="scope">
             <!-- 具名插槽 -->
             <slot :name="item.slotName || 'default'" :row="scope.row"></slot>
@@ -73,14 +95,24 @@ export default {
       selection: [],
       widthMethod (prop, value) {
         return prop ? 'width' : 'min-width'
+      },
+      defineHeaderByScope (label) { // 自定义表头
+        return `<el-tooltip
+          class="text-cut"
+          effect="dark"
+          content=${label}
+          placement="top">
+          <div>${label}</div>
+        </el-tooltip>`
       }
     }
   },
   props: {
-    maxHeight: {
-      default () {
-        return window.innerHeight - this.$store.state.tableH
-      }
+    rowsNum: { // 根据查询条件行数计算表格剩下的高度
+      default: 1
+    },
+    rowsStatus: { // 高级查询是否打开
+      default: false
     },
     height: {
       default: ''
@@ -91,10 +123,19 @@ export default {
         return []
       }
     },
+    pagination: {
+      type: Object,
+      default: () => {
+        return {
+          pageSize: 50,
+          currentPage: 1
+        }
+      }
+    },
     border: {
       type: Boolean,
       default: () => {
-        return false
+        return true
       }
     },
     select: {
@@ -149,7 +190,7 @@ export default {
       }
       return {
         prop: 'max-height',
-        value: this.maxHeight
+        value: window.innerHeight - this.$store.state.tableH - (this.rowsStatus ? (this.rowsNum - 1) * 50 : 0)
       }
     }
   },
@@ -232,5 +273,14 @@ export default {
 }
 </script>
 <style scoped lang="less">
-
+.num-count {
+  position: absolute;
+  left: 5px;
+  top: -20px;
+  font-size: 12px;
+  .num {
+    color: @sys-main-header;
+    margin: 0 5px;
+  }
+}
 </style>

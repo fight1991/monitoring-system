@@ -2,10 +2,10 @@
   <section class='user-container'>
     <div class="content-box">
       <el-row class="top">
-        <el-page-header @back="$router.go(-1)" content=""></el-page-header>
+        <el-page-header @back="$router.go(-1)" content="" :title="$t('login.back')"></el-page-header>
       </el-row>
       <el-row class="bottom">
-        <div class="nav-bar">
+        <el-card class="nav-bar">
           <el-menu
             @select="(index)=>componentId=index"
             :default-active="componentId">
@@ -18,12 +18,12 @@
               <span slot="title">{{$t('user.account')}}</span>
             </el-menu-item>
           </el-menu>
-        </div>
-        <div class="nav-content bg-c">
+        </el-card>
+        <el-card class="nav-content">
           <keep-alive>
             <component :is="componentId"></component>
           </keep-alive>
-        </div>
+        </el-card>
       </el-row>
     </div>
   </section>
@@ -51,7 +51,7 @@ export default {
 .user-container {
   width: 100%;
   height: 100%;
-  background-color: #e5f2ff;
+  background-color: #f5f5f5;
 }
 .content-box {
   height: 100%;
@@ -68,7 +68,10 @@ export default {
     display: flex;
     margin-bottom: 30px;
     .nav-bar {
-      width: 150px;
+      .el-menu {
+        border-right: none;
+      }
+      // width: 150px;
       margin-right: 20px;
     }
     .nav-content {

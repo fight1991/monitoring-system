@@ -26,8 +26,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -36,7 +36,7 @@
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" v-show="false" icon="iconfont icon-multi-download" @click="multiVisible=true">批量下载</el-button>
-          <el-button size="mini" v-show="access==3" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
+          <el-button size="mini" v-show="access==3 || access==255" icon="iconfont icon-downLoad" :disabled="!downloadUrl" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="reportTableHead" :tableList="resultList">
           <template v-slot:etoday="{row}">
@@ -82,7 +82,7 @@
   </section>
 </template>
 <script>
-import reportTableHead from './reportTableHead'
+import reportTableHead from './mixins/reportTableHead'
 import multiDownload from './multiDownload'
 export default {
   mixins: [reportTableHead],
@@ -91,7 +91,6 @@ export default {
     return {
       multiVisible: false,
       downloadUrl: '',
-      selection: [],
       times: [],
       searchForm: {
         sn: '',
@@ -125,7 +124,7 @@ export default {
   },
   methods: {
     download () {
-      window.open(process.env.VUE_APP_API + this.downloadUrl, '_blank')
+      window.open(this.$store.state.domainName + this.downloadUrl, '_blank')
     },
     resetSearchForm () {
       this.searchForm = {
@@ -146,9 +145,26 @@ export default {
     },
     reset () {
       this.resetSearchForm()
+      this.resultList = []
+      this.pagination.currentPage = 1
+      this.pagination.total = 0
+      this.downloadUrl = ''
       // this.search()
     },
+    searchFormCheck () {
+      if (!this.searchForm.sn) {
+        let tipsText = this.$t('common.invertSn') + this.$t('common.require')
+        this.$message.warning(tipsText)
+        return false
+      }
+      if (!(this.times && this.times.length > 0)) {
+        this.$message.warning(this.$t('common.dateRange'))
+        return false
+      }
+      return true
+    },
     search () {
+      if (!this.searchFormCheck()) return
       this.pagination.currentPage = 1
       this.getList(this.pagination)
     },
@@ -163,6 +179,7 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
+      if (!this.searchFormCheck()) return
       if (this.times && this.times.length > 0) {
         this.searchForm.beginDate = {
           year: new Date(this.times[0]).getFullYear(),
@@ -175,9 +192,8 @@ export default {
           day: new Date(this.times[1]).getDate()
         }
       }
-      let { result, error, other } = await this.$axios({
-        url: '/v0/device/report/query',
-        method: 'post',
+      let { result, error, other } = await this.$post({
+        url: '/c/v0/device/report/query',
         data: {
           ...pagination,
           ...this.searchForm

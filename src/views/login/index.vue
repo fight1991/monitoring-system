@@ -16,8 +16,9 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="zh">中文</el-dropdown-item>
+            <el-dropdown-item command="zh_CN">中文</el-dropdown-item>
             <el-dropdown-item command="en" divided>English</el-dropdown-item>
+            <el-dropdown-item command="pl" divided>Polskie</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <erweima></erweima>
@@ -40,7 +41,7 @@
           <i class="shuxian"></i>
           <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
           <i class="shuxian"></i>
-          <el-link type="info" :href="apiUrl + '/i18n/zh_CN/UserAgreement.html'" target="_blank">{{$t('login.useTerm')}}</el-link>
+          <el-link type="info" :href="agreeSrc" target="_blank">{{$t('login.useTerm')}}</el-link>
           <i class="shuxian" v-if="version=='inside'"></i>
           <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
         </p> -->
@@ -55,27 +56,27 @@
 </template>
 
 <script>
-import login from './login'
-import register from './register'
-import resetPw from './resetPw'
-import { judgeClient } from '@/util'
-import erweima from './qrcode/erweima'
+import login from './components/login'
+import resetPw from './components/resetPw'
+import { judgeClient, getLang } from '@/util'
+import erweima from './components/erweima'
+import storage from '@/util/storage'
 export default {
-  name: 'router-login',
+  name: 'sign-in',
   components: {
     login,
-    register,
     resetPw,
     erweima
   },
   data () {
     return {
       pageFlag: 'login', // 注册和密码公用页面
-      lang: '中文',
+      currentLang: '中文',
+      agreeSrc: '',
       sysFlag: judgeClient(), // android ios pc
       // andrImg: require('@/assets/android-app.png'),
       // iosImg: require('@/assets/ios-app.png'),
-      qrcode: location.origin + '/app/download',
+      qrcode: this.$store.state.domainName + '/app/download',
       size: 110,
       kedaLogo: require('@/assets/keda-logo-transparent.png'),
       host: 'https://www.fox-ess.com', // 国外官网
@@ -85,12 +86,20 @@ export default {
   computed: {
     version () { // 判断是国内版本还是国外版本
       return this.$store.state.version
+    },
+    lang () {
+      return this.$store.state.lang
     }
   },
   created () {
-    if (process.env.VUE_APP_VERSION === 'inside') {
+    if (this.version === 'inside') {
       this.host = 'http://www.fox-ess.com.cn' // 国内官网
     }
+    let langInfo = storage.getStorage('lang')
+    if (langInfo) {
+      this.currentLang = getLang()['display'][langInfo]
+    }
+    this.agreeSrc = process.env.VUE_APP_WWW + `/i18n/${this.lang}/UserAgreement.html`
   },
   methods: {
     // 切换登录还是注册
@@ -98,9 +107,10 @@ export default {
       this.pageFlag = typeStatus
     },
     toggleLang (lang) {
-      this.$i18n.locale = lang
-      this.lang = lang === 'en' ? 'English' : '中文'
+      this.$i18n.locale = getLang()['transform'][lang]
+      this.currentLang = getLang()['display'][lang]
       this.$store.commit('toggleLang', lang)
+      storage.setStorage('lang', lang)
     },
     // 手机app二维码下载
     downloadApp () {

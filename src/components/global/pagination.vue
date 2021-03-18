@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="pagination flex-between" v-if='pagination.total != 0'>
-      <span v-show="lang==='zh'">显示第&nbsp;{{pagination.currentPage}}-{{pagination.pageSize}}&nbsp;条结果 , 共{{pagination.total}}条</span>
-      <span v-show="lang==='en'">Show&nbsp;{{pagination.currentPage}}-{{pagination.pageSize}}&nbsp; , Total&nbsp;{{pagination.total}}</span>
+      <span>{{$t('common.showNum')}}&nbsp;{{pagination.currentPage}}-{{pagination.pageSize}}&nbsp;{{$t('common.totalNum')}}&nbsp;{{pagination.total}}&nbsp;{{$t('common.rows')}}</span>
       <el-pagination
         background
         :small="small"

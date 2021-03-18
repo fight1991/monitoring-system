@@ -14,29 +14,31 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
                 <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t('common.invertSn')"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.country" clearable :placeholder="$t('plant.country')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.deviceType" clearable :placeholder="$t('invupgrade.invmodel')"></el-input>
-              </el-form-item>
-            </el-col>
+            <template v-if="showHsearch">
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.plantName" clearable :placeholder="$t('common.plant')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.country" clearable :placeholder="$t('plant.country')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.deviceType" clearable :placeholder="$t('invupgrade.invmodel')"></el-input>
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :span="6">
               <el-form-item>
                 <el-date-picker
@@ -52,8 +54,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -61,9 +64,9 @@
       <!-- 列表查询区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
-          <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button>
+          <!-- <el-button size="mini" icon="el-icon-delete" :disabled="access!=255" @click="deleteInverter">{{$t('common.delete')}}</el-button> -->
         </el-row>
-        <common-table :tableHeadData="inverterTableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="inverterTableHead" :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" showNum :tableList="resultList">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
@@ -72,8 +75,8 @@
           </template>
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="goToDetail('look', row.deviceID, row.flowType)"></i>
-              <i title="remote setting" class="iconfont icon-remote-setting" @click="goToDetail('set', row.deviceID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click.stop="goToInverterDetail(row.deviceID, row.flowType, row.status)"></i>
+              <i :title="$t('common.remoteS')" class="iconfont icon-remote-setting" v-if="row.status!=3 && access>1" @click.stop="goToRemote(row.deviceID, row.deviceSN)"></i>
             </div>
           </template>
           <template v-slot:power="{row}">
@@ -94,12 +97,12 @@
         <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}: {{statusAll.fault}}</span>
         <span><i class="el-icon-remove"></i> {{$t('common.offline')}}: {{statusAll.offline}}</span>
       </div>
-      <page-box :pagination.sync="pagination" @change="getInverterList"></page-box>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
 <script>
-import inverterTableHead from './inverterTableHead'
+import inverterTableHead from './mixins/inverterTableHead'
 export default {
   mixins: [inverterTableHead],
   data () {
@@ -125,11 +128,6 @@ export default {
         currentPage: 1,
         total: 0
       },
-      defaultPage: {
-        pageSize: 50,
-        currentPage: 1,
-        total: 0
-      },
       resultList: [],
       statusAll: {
         normal: 0,
@@ -144,7 +142,9 @@ export default {
     }
   },
   created () {
-    this.search()
+    if (this.access !== 255) {
+      this.search()
+    }
     this.getStatusAll()
   },
   methods: {
@@ -164,47 +164,57 @@ export default {
       this.search()
     },
     search () {
-      this.getInverterList(this.defaultPage)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
-    goToDetail (page, id, flowType) {
-      let routeName = page === 'look' ? 'bus-device-inverterDetail' : 'bus-device-remoteSetting'
+    // 逆变器详情
+    goToInverterDetail (id, flowType, status) {
       this.$tab.replace({
-        name: routeName,
+        name: 'bus-device-inverterDetail',
         query: {
           id,
-          flowType
+          flowType,
+          status
+        }
+      })
+    },
+    // 远程设置
+    goToRemote (id, sn) {
+      this.$tab.replace({
+        name: 'bus-device-remoteSetting',
+        query: {
+          id,
+          sn
         }
       })
     },
     // 获取列表
-    getInverterList (pagination) {
-      this.$post({
-        url: '/v0/device/list',
+    async getList (pagination) {
+      this.selection = []
+      let { result } = await this.$post({
+        url: '/c/v0/device/list',
         data: {
           ...pagination,
           condition: {
             ...this.searchForm,
             queryDate: {
               begin: (this.times && this.times[0]) || 0,
-              end: (this.times && this.times[1]) || 0
+              end: (this.times && this.times[1] + 24 * 3600 * 1000 - 1) || 0
             }
-          }
-        },
-        success: ({ result }) => {
-          if (result) {
-            this.pagination.total = result.total
-            this.pagination.currentPage = result.currentPage
-            this.pagination.pageSize = result.pageSize
-            this.resultList = result.devices || []
           }
         }
       })
+      if (result) {
+        this.pagination.total = result.total
+        this.pagination.currentPage = result.currentPage
+        this.pagination.pageSize = result.pageSize
+        this.resultList = result.devices || []
+      }
     },
     // 获取所有逆变器状态
     async getStatusAll () {
-      let { result } = await this.$axios({
-        url: 'v0/device/status/all'
+      let { result } = await this.$get({
+        url: '/c/v0/device/status/all'
       })
       if (result) {
         this.statusAll = result
@@ -216,9 +226,8 @@ export default {
         this.$message.warning('Please check an option')
         return
       }
-      let { result } = await this.$axios({
-        url: '/v0​/device/delete',
-        method: 'post',
+      let { result } = await this.$post({
+        url: '/c/v0​/device/delete',
         data: this.deviceId
       })
       if (result) {

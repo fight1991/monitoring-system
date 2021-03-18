@@ -1,6 +1,7 @@
 <template>
-  <section class="sys-main">
+  <section class="sys-main flex-column-between bg-c" v-setH:min="setDivH">
     <div class="sys-table-container">
+      <!-- 查询区域 -->
       <search-bar>
         <el-form size="mini" label-width="0px" :model="searchForm">
           <el-row :gutter="15">
@@ -18,25 +19,19 @@
             </el-col>
             <el-col :span="6">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.moduleType" placeholder="type">
-                  <el-option v-for="(item,index) in versionList" :label="item" :value="item" :key="item + index"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.status" placeholder="type">
                   <el-option v-for="(item,index) in statusList" :label="item" :value="item" :key="item + index"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">重置</el-button>
-              <el-button type="primary" size="mini" @click="search">查询</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
       </search-bar>
+      <!-- 表格区域 -->
       <func-bar>
         <el-row class="table-btn" type="flex" justify="end">
           <el-button size="mini" icon="iconfont icon-import">导入</el-button>
@@ -45,8 +40,14 @@
         </el-row>
         <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
         </common-table>
-        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
+    </div>
+    <div class="page-list">
+      <div class="states-row">
+        <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>
+        <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
+      </div>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
@@ -54,14 +55,16 @@
 export default {
   data () {
     return {
-      searchForm: {},
-      versionList: [], // 版本类型
-      typeList: [], // 设备类型
-      statusList: [], // 审核状态
+      searchForm: {
+        version: '',
+        type: '',
+        status: ''
+      },
+      statusList: [],
       resultList: [],
       selection: [],
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -97,16 +100,22 @@ export default {
   },
   methods: {
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        version: '',
+        type: '',
+        status: ''
+      }
+      this.search()
     },
     search () {
-
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/module/list',
-        method: 'post',
+      this.selection = []
+      let { result } = await this.$post({
+        url: '/c/v0/module/list',
         data: {
           ...pagination,
           condition: this.searchForm

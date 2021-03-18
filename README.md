@@ -29,7 +29,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 > `$ npm install webpack -g`
 >  3. 全局安装 yarn  
 > `$ npm install yarn -g`
->  4. 安装项目依赖包，不要从国内镜像cnpm安装，可能会导致后面缺了很多依赖库  
+>  4. 安装项目依赖包，建议npm安装, cnpm可能会导致缺少依赖包等未知问题 
 > `$ yarn install`
   
   
@@ -51,10 +51,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 >  5. 集成其他后续补充
 
 ## 全局变量 ##
-> .env.dev --> 开发环境
-> .env.test --> 测试环境
-> .env.preprod --> 预生成环境
-> .env.prod --> 生产环境
+> .env.dev-en --> 开发环境, 国外版
+> .env.dev-zh --> 开发环境, 国内版
+> .env.test-en --> 测试环境, 国外版
+> .env.test-zh --> 测试环境, 国内版
+> .env.prod-en --> 生产环境, 国内版
+> .env.prod-zh --> 生产环境, 国外版
+> .env.pack-dev-zh --> 打包开发环境时用(npm run pack-dev-zh)
 >  注意: 可以在文件中添加NODE_ENV=development 指定环境类型在package.json文件中配置
 
 ## 开发规范 ##
@@ -74,16 +77,25 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 >     5、引用其他来源组件库、js库、css库产生的非规范命名的除外；
 >  4. src各目录作用：  
 >     assets：src/assets/静态文件；
->     components：自定义的公共组件；
->     directives：自定义指令；
+>     components：一般放置全局自定义的公共组件；
+>     directives：全局自定义指令；
 >     filters：全局过滤器；
+>     mixin: 全局混入参数
 >     mock：前期模拟网络接口返回数据；
 >     net: 网络请求方法封装；
 >     router/index.js：路由总控；
 >     router/tabMethods: 页签跳转方法
 >     store：全局状态管理；
 >     views：功能模块页面；
+>         components: 页面之间的公共组件
 >         pages: 业务功能页面;
+>              page1: .....
+>                    components: 局部页面的公共组件
+>                    mixins: 局部页面的混入
+>                    common: 放置公共js和less文件
+>              page2: .....
+>              page3: .....
+>              page4: .....
 >         error：系统错误页面；
 >         login: 登录/注册页面
 >         inverter: 逆变器其他页面
@@ -98,30 +110,26 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 >         color.less 颜色变量
 >         main.less 覆盖element-ui默认样式
 >         variable.scss 设置element-ui主题颜色
->     2、所有静态图片必须压缩减重（推荐：www.tinypng.com）,移动端尽量控制在50kb以下，pc端在150kb以下；
->     3、声明顺序尽量规范： 
->       1.位置属性(position, display, left, top, right, float, overflow, z-index等)
->       2.大小(width, height, margin, padding)
->       3.文字系列(font, color, text-align, line-height, letter-spacing等)
->       4.背景(background-color, background, border等)
->       5.其他(animation, transition等)
+>     2、静态图片需压缩（www.tinypng.com）,小图标icon放在plantIcon中自动生成精灵图,样式在style/sprite.less中；
 >  7. vue或组件、js：
 >     1.使用ES6风格编码源码：定义变量使用let ,定义常量使用const；使用export ，import 模块化；
 >     2.组件 props 原子化：提供默认值；使用 type 属性校验类型；使用 props 之前先检查该 prop 是否存在
->     3.调试信息console.log()使用完及时删除
+>     3.调试完代码及时去除console.log()
 
 ## 路由路径配置要求 ##   
->  1. 一级菜单：必须以模块命名，例如：财务管理 /finace
->  2. 二级菜单：必须以一级名称+二级名, 例如：财务管理-->物流费用 /finance/logistics
+>  1. 一级菜单：必须以模块命名，例如：登录页 /login
+>  2. 二级菜单：必须以一级名称+二级名 后台管理页面首页 /bus/index
 
 ## 页签跳转 ## 
 > 1. this.$tab.open 打开新页签, 需要定义一个tabId
-> 2. this.$tab.push 同this.$router.push 在已有的页签中查找,有则激活,无则新增
-> 3. this.$tab.replace 替换已有页签,无则打开新页签
-> 4. this.$tab.back 关闭当前tab,打开指定tab(如果存在就刷新)
+> 2. this.$tab.append 已有的页签中查找,有则激活(不刷新页面),无则新增
+> 3. this.$tab.replace 替换已有页签,无则打开新页签(刷新页面)
+> 4. this.$tab.back 关闭当前tab,打开指定tab(如果存在重新打开)
 
-## 全局loading和局部loading
+## 全局loading和后台管理页面每个页签下的loading
 > 1. 非后台管理页面发送请求时默认开启全局loading
 > 2. 进入后台管理页面默认开启局部loading
 > 3. 若要在后台管理页面开启全局loading(使用dialog组件时会用到) 每个请求增加globalLoading: true
+> 4. 局部loading在store/modules/tab中 tabList item.loadingNum 计数
+> 5. 全局loading在 store/state/loadingNum 计数
  

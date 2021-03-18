@@ -41,7 +41,7 @@ export default {
         zoom: 12,
         center: [116.39, 39.9],
         resizeEnable: true,
-        lang: this.$store.state.lang === 'zh' ? 'zh_cn' : 'en'
+        lang: this.$store.state.lang === 'zh_CN' ? 'zh_cn' : 'en'
       })
       AMap.plugin([...this.plugin], () => {
         // this.$emit('getMapInfo', { AMap, map })
@@ -78,7 +78,6 @@ export default {
         }
         let script = document.createElement('script')
         script.type = 'text/javascript'
-        script.setAttribute('crossorigin', true)
         script.src =
           'https://webapi.amap.com/maps?v=1.4.15&key=' + this.ak + '&callback=onAMapCallback'
         script.onerror = () => {

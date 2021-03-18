@@ -3,7 +3,7 @@ export default {
   path: '/bus/upgrade',
   name: 'bus-upgrade',
   meta: {
-    permission: [1, 2, 3],
+    permission: [1, 2, 3, 255],
     title: 'remoteUp',
     component: () => import(/* webpackChunkName: "bus-upgrade" */ '@/views/pages/demo')
   }

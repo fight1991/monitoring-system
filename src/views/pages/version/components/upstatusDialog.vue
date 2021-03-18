@@ -1,18 +1,19 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="'升级状态'"
+    :title="$t('invupgrade.status')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @open="search"
     @close="$emit('update:visible', false)"
     :visible.sync="dialogVisible"
-    width="750px">
+    width="80%">
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
           <template v-slot:op="{row}">
             <div class="flex-center table-op-btn">
-              <i title="view" class="iconfont icon-look" @click="openDialog(row.taskID)"></i>
+              <i :title="$t('common.view')" class="iconfont icon-look" @click="openDialog(row.taskID)"></i>
             </div>
           </template>
         </common-table>
@@ -25,13 +26,13 @@
 </template>
 
 <script>
-import * as eventBus from './eventBus'
+import * as eventBus from '../common/eventBus'
 export default {
   components: {},
   data () {
     return {
       dialogVisible: false,
-      resultList: [{ taskName: 121212, taskID: 1212 }],
+      resultList: [],
       pagination: {
         pageSize: 50,
         currentPage: 1,
@@ -39,30 +40,36 @@ export default {
       },
       tableHead: [
         {
-          label: '任务名',
+          label: 'invupgrade.taskName',
           prop: 'taskName',
           checked: true
         }, {
-          label: '任务总数',
+          label: 'invupgrade.total',
           prop: 'total',
           checked: true
         }, {
-          label: '升级完成数量',
+          label: 'invupgrade.completed',
           prop: 'upgraded',
           checked: true
         }, {
-          label: '升级中数量',
+          label: 'invupgrade.upgrading',
           prop: 'upgrading',
           checked: true
         }, {
-          label: '升级失败数量',
+          label: 'invupgrade.failed',
           prop: 'failed',
           checked: true
         }, {
-          label: '操作',
+          label: 'common.time',
+          prop: 'time',
+          checked: true,
+          width: 220
+        }, {
+          label: 'common.operation',
           prop: 'op',
           slotName: 'op',
-          checked: true
+          checked: true,
+          fixed: 'right'
         }
       ]
     }
@@ -82,10 +89,9 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/firmware/' + this.apiUrl + '/upgrade/status',
+      let { result } = await this.$post({
+        url: '/c/v0/firmware/' + this.apiUrl + '/upgrade/status',
         globalLoading: true,
-        method: 'post',
         data: {
           ...pagination
         }

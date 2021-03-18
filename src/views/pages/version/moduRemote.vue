@@ -21,19 +21,22 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item>
-                <el-input v-model="searchForm.version" :placeholder="$t('invupgrade.dataversion')"></el-input>
-              </el-form-item>
-            </el-col>
+            <template v-if="showHsearch">
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleType" clearable :placeholder="$t('plant.datacolType')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item>
+                  <el-input v-model="searchForm.moduleVersion" clearable :placeholder="$t('invupgrade.dataversion')"></el-input>
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
+              <search-button type="info" :icon="showHsearch ? 'icon-hs_close' : 'icon-hs_open'" @click="showHsearch=!showHsearch"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -43,7 +46,7 @@
           <el-button size="mini" icon="iconfont icon-shengji" :disabled="sns.length==0" @click="upgradeVisible=true">{{$t('invupgrade.upgrade')}}</el-button>
           <el-button size="mini" icon="iconfont icon-chakan" @click="upstatusVisible=true">{{$t('invupgrade.upstatus')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:moduleStatus="{row}">
             <i class="el-icon-success" v-show="row.moduleStatus==1"></i>
             <i class="el-icon-error" v-show="row.moduleStatus==2"></i>
@@ -60,15 +63,15 @@
       </div>
       <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
-    <upgrade-dialog @refreshList="search" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
+    <upgrade-dialog @refreshList="search" type="module" :visible.sync="upgradeVisible" :sns="sns"></upgrade-dialog>
     <upstatus-dialog :visible.sync="upstatusVisible" apiUrl="module"></upstatus-dialog>
     <updetail-dialog :visible.sync="updetailVisible" apiUrl="module" :taskId="taskId"></updetail-dialog>
   </section>
 </template>
 <script>
-import moduRemoteMix from './components/moduRemoteMix'
-import { module as eventBus } from './components/eventBus'
-import upgradeDialog from './components/modupgradeDialog'
+import moduRemoteMix from './mixins/moduRemoteMix'
+import { module as eventBus } from './common/eventBus'
+import upgradeDialog from './components/upgradeDialog'
 import updetailDialog from './components/updetailDialog'
 import upstatusDialog from './components/upstatusDialog'
 export default {
@@ -84,7 +87,7 @@ export default {
         plantName: '',
         moduleStatus: '',
         moduleType: '',
-        version: '',
+        moduleVersion: '',
         upgradeStatus: ''
       },
       taskId: '',
@@ -113,7 +116,7 @@ export default {
         plantName: '',
         moduleStatus: '',
         moduleType: '',
-        version: '',
+        moduleVersion: '',
         upgradeStatus: ''
       }
       this.search()
@@ -121,13 +124,12 @@ export default {
     search () {
       this.currentPage = 1
       this.getList(this.pagination)
-      this.selection = []
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/firmware/module/list',
-        method: 'post',
+      this.selection = []
+      let { result } = await this.$post({
+        url: '/c/v0/firmware/module/list',
         data: {
           ...pagination,
           condition: this.searchForm

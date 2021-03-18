@@ -46,6 +46,9 @@ img {
 .mg-b15 {
   margin-bottom: 15px;
 }
+.mg-b12 {
+  margin-bottom: 12px;
+}
 .mg-b20 {
   margin-bottom: 20px;
 }
@@ -99,4 +102,28 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(51,51,51,0.25);
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0);
+  border-radius: 10px;
+}
+.show-shadow {
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
+}
+@keyframes colorLinear {
+  0% {
+    filter: contrast(15) hue-rotate(0);
+  }
+  100% {
+    filter: contrast(15) hue-rotate(360deg);
+  }
 }

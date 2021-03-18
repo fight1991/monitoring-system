@@ -1,4 +1,5 @@
 import store from '@/store'
+import { getLang } from '@/util'
 import VueI18n from 'vue-i18n'
 import Vue from 'vue'
 import ELEMENT from 'element-ui'
@@ -8,6 +9,7 @@ import ELEMENT from 'element-ui'
 
 import en from './lang/en'
 import zh from './lang/zh'
+import pl from './lang/polish'
 
 const messages = {
   en: {
@@ -17,12 +19,16 @@ const messages = {
   zh: {
     ...zh,
     ...ELEMENT.lang.zhCN
+  },
+  pl: {
+    ...pl,
+    ...ELEMENT.lang.pl
   }
 }
 const i18n = new VueI18n({
   // missing: function () {},
   silentTranslationWarn: true,
-  locale: store.state.lang, // set locale
+  locale: getLang()['transform'][store.state.lang], // set locale
   messages // set locale messages
 })
 

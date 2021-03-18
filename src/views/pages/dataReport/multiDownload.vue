@@ -2,6 +2,7 @@
   <el-dialog
     :title="'批量下载'"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @closed="$emit('update:visible', false)"
     :visible.sync="dialogVisible">
     <div class="up-box">

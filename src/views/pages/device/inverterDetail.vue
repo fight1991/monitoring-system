@@ -1,16 +1,16 @@
 <template>
   <section class="sys-main">
     <!-- 电站名称区域 -->
-    <div class="block bg-c mg-b15">
+    <div class="block bg-c show-shadow mg-b12">
       <div class="plant-head clearfix">
         <div class="plant-name flex-center">
-          <i class="iconfont icon-nibianqi"></i>
+          <i class="iconfont icon-flow-invert"></i>
           <div class="line-center">
-            <span>{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</span>
-            <span>{{$t('plant.name')}} : {{headInfo.plantName || ''}}</span>
-            <span>{{$t('common.datacolSN')}}  : {{headInfo.moduleSN || ''}}</span>
-            <span>{{$t('common.InvType')}}  : {{headInfo.deviceType || ''}}</span>
-            <span>{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</span>
+            <div class="text-cut item" :title="headInfo.deviceSN || ''">{{$t('common.invertSn')}} : {{headInfo.deviceSN || ''}}</div>
+            <div class="text-cut item" :title="headInfo.plantName || ''">{{$t('plant.name')}} : {{headInfo.plantName || ''}}</div>
+            <div class="text-cut item" :title="headInfo.moduleSN || ''">{{$t('common.datacolSN')}} : {{headInfo.moduleSN || ''}}</div>
+            <div class="text-cut item" :title="headInfo.deviceType || ''">{{$t('common.InvType')}} : {{headInfo.deviceType || ''}}</div>
+            <div class="text-cut item" :title="translateStatus(headInfo.status) || ''">{{$t('plant.equipSta')}} : {{translateStatus(headInfo.status) || ''}}</div>
           </div>
           <i @click="collapse=!collapse" v-show="!collapse" class="arrow-right fr el-icon-arrow-right"></i>
           <i @click="collapse=!collapse" v-show="collapse" class="arrow-right fr el-icon-arrow-down"></i>
@@ -18,41 +18,58 @@
       </div>
       <div :class="{'plant-item':true, 'height-0':!collapse}">
         <div class="line-collapse">
-          <span>{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
-          <span>{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
-          <span>{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
-          <span>{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
-          <span>{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
-          <span>{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
-          <span class="text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
+          <span class="item">{{$t('plant.country')}}  : {{headInfo.country || '-'}}</span>
+          <span class="item">{{$t('plant.city')}} : {{headInfo.city || '-'}}</span>
+          <span class="item">{{$t('inverter.InvHV')}}  : {{headInfo.hardwareVersion || '-'}}</span>
+          <span class="item">{{$t('inverter.InvMas')}} : {{headInfo.softVersion && headInfo.softVersion.master || '-'}}</span>
+          <span class="item">{{$t('inverter.InvSla')}} : {{headInfo.softVersion && headInfo.softVersion.slave || '-'}}</span>
+          <span class="item">{{$t('inverter.InvMan')}} : {{headInfo.softVersion && headInfo.softVersion.manager || '-'}}</span>
+          <span class="item text-cut" :title="headInfo.feedinDate || '-'">{{$t('inverter.InsTime')}}  : {{headInfo.feedinDate || '-'}}</span>
         </div>
       </div>
     </div>
-    <!-- 设备状态 -->
-    <device-status :incomeDetail="incomeDetail" :power="incomeDetail.power" :capacity="incomeDetail.systemCapacity" :title="$t('plant.equipSta')"></device-status>
+    <!-- 设备状态 电池状态 -->
+    <div class="block status-box">
+      <div class="left">
+        <device-status
+          :incomeDetail="incomeDetail"
+          :power="incomeDetail.power"
+          type="device"
+          :capacity="incomeDetail.systemCapacity"
+          :todayFault="todayFault"
+          :id="deviceId"
+          :title="$t('plant.equipSta')">
+        </device-status>
+      </div>
+      <div class="right" v-if="flowType>1">
+        <battery-status :batData="wsData.bat" :batteryInfo="batteryInfo"></battery-status>
+      </div>
+    </div>
     <!-- 今日异常 流向图 -->
     <div class="block">
-      <el-row :gutter="15">
-        <el-col :span="8">
-          <today-abnormal :todayFault="todayFault" :type="'device'" :id="deviceId" :contentH="250"></today-abnormal>
-        </el-col>
-        <el-col :span="16">
-          <el-card shadow="never">
+      <el-row :gutter="12">
+        <el-col :span="24">
+          <el-card >
             <div class="title border-line" slot="header">
               <!-- Flow graph -->
               {{$t('inverter.powerFD')}}
               <i class="fr el-icon-more flow-icon-more" @click="flowDialog=true"></i>
             </div>
-            <div class="flow-map flex-center" style="height:250px">
-              <flow-animate :flowType="flowType" :path="flowPath" :pvValue="pvTotal"></flow-animate>
+            <div class="flow-map flex-center">
+              <flow-animate :flowType="flowType" :isElec="isElec" :path="flowPath" :wsData="wsData"></flow-animate>
             </div>
           </el-card>
         </el-col>
       </el-row>
     </div>
     <!-- 功率折线图和电量统计柱状图 -->
-    <div class="container-bottom bg-c">
-      <line-bar :id="deviceId" :type="'device'" ref="lineBar">
+    <div class="mg-b12 show-shadow bg-c">
+      <line-bar
+        :id="deviceId"
+        :type="'device'"
+        :lineParams="lineParams"
+        :barParams="barParams"
+        ref="lineBar">
         <template v-slot:radioBtn>
           <el-radio-button label="power">{{$t('common.power')}}</el-radio-button>
           <el-radio-button label="elec">{{$t('common.gene')}}</el-radio-button>
@@ -60,16 +77,16 @@
       </line-bar>
     </div>
     <!-- 多选折线图 -->
-    <div class="container-bottom bg-c">
+    <div class="bg-c show-shadow">
       <el-row class="select-line">
         <div class="flex-between">
           <div class="select-box">
             <el-select v-model="multiValue" collapse-tags multiple size="mini" :placeholder="$t('common.select')">
               <el-option
                 v-for="item in options"
-                :key="item"
-                :label="$t('chart.'+item)"
-                :value="item">
+                :key="item.variable"
+                :label="item.name"
+                :value="item.variable">
               </el-option>
             </el-select>
             <el-button @click="selectChange" v-show="hasVarible" class="mg-l10" size="mini" plain>{{$t('common.search')}}</el-button>
@@ -84,25 +101,25 @@
           </el-date-picker>
         </div>
       </el-row>
-      <el-echart :loading="chartLoading" :datas="lineChart" height="300px"></el-echart>
+      <el-echart :loading="chartLoading" :datas="lineChart" height="350px"></el-echart>
     </div>
     <flow-dialog :visible.sync="flowDialog" :tabList="flowDetail"></flow-dialog>
   </section>
 </template>
 <script>
-import todayAbnormal from '@/views/pages/plant/todayAbnormal'
 import deviceStatus from '@/views/pages/components/powerStatus'
-import lineBar from '@/views/pages/components/lineBar/lineBar'
-import flowDialog from './flowDialog'
-import flowAnimate from './flowAnimate'
-import lineChart from './lineChart'
+import batteryStatus from './components/batteryStatus'
+import lineBar from '@/views/pages/components/lineBar'
+import flowDialog from './components/flowDialog'
+import flowAnimate from './components/flowAnimate'
+import lineChart from './mixins/lineChart'
 import storage from '@/util/storage'
 import { isJSON, formatDate, getTimespan } from '@/util'
 export default {
   components: {
     deviceStatus,
     lineBar,
-    todayAbnormal,
+    batteryStatus,
     flowDialog,
     flowAnimate
   },
@@ -110,11 +127,16 @@ export default {
   data () {
     return {
       chartLoading: false,
-      flowPath: 0,
+      batteryInfo: {},
+      flowPath: {},
       flowType: 1,
+      isElec: false, // 是否有发电机
       powerDate: formatDate(Date.now(), 'yyyy-MM-dd'),
       flowDetail: [],
+      lineParams: null,
+      barParams: null,
       pvTotal: 0,
+      wsData: {},
       ws: null,
       wsIsOpen: false,
       todayFault: 0,
@@ -162,14 +184,19 @@ export default {
     }
   },
   created () {
-    let { id, flowType } = this.$route.query
+    let { id, flowType, status } = this.$route.query
     this.deviceId = id
-    this.flowType = flowType
+    this.flowType = Number(flowType)
+    if (flowType > 1) { // 包含电池业务
+      this.getBaterryInfo(id)
+    }
     this.getHeadInfo()
     this.getOptions()
     this.getAbnormalStatus()
     this.getDeviceEarns()
-    this.createWebsocket(this.getWsInfo)
+    if (Number(status) !== 3) { // 设备状态为非离线状态 即正常建立websocket连接
+      this.createWebsocket(this.getWsInfo)
+    }
   },
   computed: {
     hasVarible () {
@@ -177,14 +204,12 @@ export default {
     }
   },
   mounted () {
-    let lineParams = null
-    let barParams = null
-    if (this.flowType !== 1) { // 电池业务
-      lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
-      barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
+    if (this.flowType > 1) { // 电池业务
+      this.lineParams = ['generationPower', 'feedinPower', 'batChargePower', 'batDischargePower']
+      this.barParams = ['feedin', 'generation', 'gridConsumption', 'chargeEnergyToTal', 'dischargeEnergyToTal']
     }
-    this.$refs.lineBar.getLineData('', lineParams)
-    this.$refs.lineBar.getBarData('', barParams)
+    this.$refs.lineBar.getLineData('', this.lineParams)
+    this.$refs.lineBar.getBarData('', this.barParams)
   },
   watch: {
     wsIsOpen (newData) {
@@ -214,8 +239,8 @@ export default {
   methods: {
     // 获取头部逆变器信息
     async getHeadInfo () {
-      let { result } = await this.$axios({
-        url: '/v0/device/addressbook',
+      let { result } = await this.$get({
+        url: '/c/v0/device/addressbook',
         data: {
           deviceID: this.deviceId
         }
@@ -224,8 +249,8 @@ export default {
     },
     // 获取单个设备功率的发电和收益情况
     async getDeviceEarns () {
-      let { result } = await this.$axios({
-        url: '/v0/device/earnings',
+      let { result } = await this.$get({
+        url: '/c/v0/device/earnings',
         data: {
           deviceID: this.deviceId
         }
@@ -247,22 +272,27 @@ export default {
     },
     // 获取图表下拉选择框
     async getOptions () {
-      let { result } = await this.$axios({
-        url: '/v0/device/variables',
+      let { result } = await this.$get({
+        url: '/c/v1/device/variables',
         data: {
           deviceID: this.deviceId
         }
       })
       if (result) {
         this.options = result.variables || []
+        // 设置初始值 // 输出功率
+        let tempV = this.options.filter(v => v.variable === 'generationPower')
+        if (tempV.length > 0) {
+          this.multiValue = tempV.map(v => v.variable)
+          this.selectChange()
+        }
       }
     },
     // 多折线图表
     async getMultiChart () {
       this.chartLoading = true
-      let { result } = await this.$axios({
-        url: '/v0/device/history/raw',
-        method: 'post',
+      let { result } = await this.$post({
+        url: '/c/v0/device/history/raw',
         isLoad: false,
         data: {
           deviceID: this.deviceId,
@@ -279,13 +309,15 @@ export default {
         }
       })
       if (result && result.length > 0) {
-        let temp = []
+        let tempSeries = []
+        let tempName = []
         result.forEach((v, i) => {
-          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value)])
-          temp.push({
+          let tempData = v.data.map(item => [getTimespan(item.time), this.toFixed(item.value), v.unit])
+          tempSeries.push({
             symbol: 'none',
-            name: v.variable,
+            name: v.name,
             data: tempData,
+            unit: v.unit,
             type: 'line',
             markPoint: {
               data: [
@@ -295,16 +327,18 @@ export default {
             },
             smooth: true
           })
-          this.lineChart.series = temp
+          tempName.push(v.name)
         })
+        this.lineChart.series = tempSeries
+        this.lineChart.legend.data = tempName
       }
       this.chartLoading = false
       return true
     },
     // 获取今日异常
     async getAbnormalStatus () {
-      let { result } = await this.$axios({
-        url: '/v0/device/alarm/today',
+      let { result } = await this.$get({
+        url: '/c/v0/device/alarm/today',
         data: {
           deviceID: this.deviceId
         }
@@ -314,9 +348,18 @@ export default {
       }
       return true
     },
+    // 获取电池设备信息
+    async getBaterryInfo (id) {
+      let { result } = await this.$get({
+        url: '/c/v0/device/battery/info',
+        data: {
+          id
+        }
+      })
+      this.batteryInfo = result || {}
+    },
     selectChange () {
       if (!this.hasVarible) return
-      this.lineChart.legend.data = this.multiValue
       this.getMultiChart()
     },
     // 创建websocket
@@ -326,7 +369,11 @@ export default {
         this.$message.error(`your brower can't support websocket, please go to update`)
         return
       }
-      let ws = new WebSocket(process.env.VUE_APP_SOCKET)
+      let socketUrl = `wss://${location.host}/c/v0/websocket`
+      if (process.env.NODE_ENV === 'development') {
+        socketUrl = process.env.VUE_APP_SOCKET
+      }
+      let ws = new WebSocket(socketUrl)
       this.ws = ws
       let that = this
       ws.onopen = function () {
@@ -362,88 +409,156 @@ export default {
       if (res.sequence === 'flow') {
         let data = res.data
         let pvValue = 0
-        let tempPath = 1000
-        this.pvTotal = 0
-        let { pvPower, generationPower, loadsPower, feedinPower, gridConsumptionPower, meterPower, invBatPower } = data
+        let pvTotal = 0
+        let { pvPower, generationPower, loadsPower, feedinPower, meterPower, invBatPower, gridConsumptionPower, meterPower2, meter2Status } = data
         if (pvPower && pvPower.length > 0) {
           // pvPower不可能为负值, 只需判断是否有>0的即可
           let flag = pvPower.some(v => v.value > 0)
           flag && (pvValue = 1)
           pvPower.forEach(v => {
-            this.pvTotal += v.value
+            pvTotal += v.value
           })
         }
-        if (this.flowType === 1) {
-          tempPath = this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, feedinPower.value, gridConsumptionPower.value)
-        } else if (this.flowType === 2) {
-          this.flowPth = this.getFlowPathFor2(pvValue, generationPower.value, feedinPower.value, invBatPower.value, meterPower.value)
-        } else {
-          this.flowPth = this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value)
+        this.isElec = meter2Status || false
+        let tempObj = {
+          pv: pvTotal || 0,
+          load: loadsPower.value || 0,
+          bat: invBatPower.value || 0,
+          inverter: generationPower.value || 0,
+          grid: meterPower.value || 0,
+          elec: meterPower2.value || 0
         }
-        this.flowPath = tempPath
+        if (this.flowType === 1) {
+          let tempPower = gridConsumptionPower.value - feedinPower.value
+          tempObj.grid = tempPower
+          this.getFlowPathFor1(pvValue, generationPower.value, loadsPower.value, tempPower)
+        } else if (this.flowType === 2) {
+          this.getFlowPathFor2(pvValue, generationPower.value, invBatPower.value, meterPower.value, loadsPower.value, meterPower2.value)
+        } else {
+          this.getFlowPathFor3(generationPower.value, meterPower.value, invBatPower.value, loadsPower.value)
+        }
+        this.wsData = tempObj
       }
     },
-    // 计算得出并网机流向图路径
-    getFlowPathFor1 (pvValue, generationPower, loadsPower, feedinPower, gridConsumptionPower) {
-      let tag1 = pvValue > 0 && generationPower > 0 && (feedinPower + generationPower) > 0
-      let tag2 = pvValue > 0 && generationPower > 0 && (feedinPower + generationPower) < 0
-      if (tag1 && feedinPower < 0) {
-        return 1
-      } else if (tag1 && feedinPower > 0) {
-        return 2
-      } else if (tag2 && feedinPower < 0) {
-        return 3
-      } else if (feedinPower > 0 && (generationPower + feedinPower) > 0) {
-        return 4
-      } else {
-        return 0
+    // 计算得出并网机流向图路径, 流动状态: 1向右 -1向左 2向上 -2向下 0 静止
+    getFlowPathFor1 (pvValue, generationPower, loadsPower, tempP) {
+      // tempP = gridConsumptionPower - feedinPower
+      let tempObj = {
+        box_pv_invert: 0,
+        box_invert_node: 0,
+        box_load_node: 0,
+        box_grid_node: 0
       }
+      if (pvValue > 0) {
+        tempObj.box_pv_invert = 1
+      }
+      if (generationPower > 0) {
+        tempObj.box_invert_node = 1
+      }
+      if (tempP > 0) {
+        tempObj.box_grid_node = -1
+      }
+      if (tempP < 0) {
+        tempObj.box_grid_node = 1
+      }
+      if (loadsPower > 0) {
+        tempObj.box_load_node = -2
+      }
+      if (loadsPower < 0) {
+        tempObj.box_load_node = 2
+      }
+      this.flowPath = tempObj
     },
     // 计算得出hybrid储能机流向图
-    getFlowPathFor2 (pvPower, generationPower, feedinPower, invBatPower, meterPower) {
-      let flag0 = pvPower > 0 && invBatPower < 0
-      let flag1 = invBatPower > 0 && generationPower > 0 && meterPower && (feedinPower / meterPower) < 0
-      let flag2 = invBatPower > 0 && generationPower > 0 && (generationPower + meterPower) > 0
-      let flag3 = meterPower && (feedinPower / meterPower) > 0 && generationPower < 0 && invBatPower < 0
-      let flag4 = meterPower && (feedinPower / meterPower) > 0 && (generationPower + meterPower) > 0
-      if (flag0) {
-        return 1 // dot1显示
-      } else if (flag1) {
-        return 2 // dot5显示
-      } else if (flag2) {
-        return 3 // dot7显示
-      } else if (flag3) {
-        return 4 // dot6显示
-      } else if (flag4) {
-        return 5 // dot2 显示
-      } else {
-        return 0
+    getFlowPathFor2 (pvPower, generationPower, invBatPower, meterPower, loadsPower, meterPower2 = 0) {
+      let tempObj = {
+        box_pv_invert: 0,
+        box_bat_invert: 0,
+        box_invert_node: 0,
+        box_load_node: 0,
+        box_grid_node: 0,
+        box_node_little: 0,
+        box_little_load: 0,
+        box_little_elec: 0
       }
+      if (pvPower > 0) {
+        tempObj.box_pv_invert = 1
+      }
+      if (invBatPower > 0) {
+        tempObj.box_bat_invert = 2
+      }
+      if (invBatPower < 0) {
+        tempObj.box_bat_invert = -2
+      }
+      if (generationPower > 0) {
+        tempObj.box_invert_node = 1
+      }
+      if (generationPower < 0) {
+        tempObj.box_invert_node = -1
+      }
+      if (meterPower > 0) {
+        tempObj.box_grid_node = -1
+      }
+      if (meterPower < 0) {
+        tempObj.box_grid_node = 1
+      }
+      if ((loadsPower + meterPower2) > 0) { // N6 ---> N5 // 当没有发电机时 node和load流向, 有发电机时节点变成nodeLittle
+        tempObj.box_load_node = -2
+      }
+      if ((loadsPower + meterPower2) < 0) { // N5 ---> N6
+        tempObj.box_load_node = 2
+      }
+      if (loadsPower > 0) { // nodeLittle流向负载即 N5 ---> N3
+        tempObj.box_little_load = 3
+      }
+      if (loadsPower < 0) { // 负载流向nodeLittle即 N3 ---> N5
+        tempObj.box_little_load = -3
+      }
+
+      if (meterPower2 < 0) {
+        tempObj.box_little_elec = 4 // 发电机流向nodeLittle即 N4 ---> N5
+      }
+      this.flowPath = tempObj
     },
     // 计算得出ac单相储能机流向图
-    getFlowPathFor3 (generationPower, meterPower, invBatPower) {
-      let flag1 = invBatPower > 0 && generationPower > 0
-      if (flag1 && meterPower < 0) {
-        if ((generationPower + meterPower) > 0) {
-          return 1 // dot1和dot3同时显示
-        } else {
-          return 2 // 只有dot3显示
-        }
-      } else if (flag1 && meterPower > 0) {
-        return 3 // dot1显示
-      } else if (meterPower > 0 && (generationPower + meterPower) > 0) {
-        return 4 // dot2显示
-      } else if (meterPower > 0 && generationPower < 0 && invBatPower < 0) {
-        return 5 // dot4显示
-      } else {
-        return 0
+    getFlowPathFor3 (generationPower, meterPower, invBatPower, loadsPower) {
+      let tempObj = {
+        box_pv_invert: 0,
+        box_invert_node: 0,
+        box_load_node: 0,
+        box_grid_node: 0
       }
+      if (invBatPower > 0) {
+        tempObj.box_pv_invert = 1
+      }
+      if (invBatPower < 0) {
+        tempObj.box_pv_invert = -1
+      }
+      if (generationPower > 0) {
+        tempObj.box_invert_node = 1
+      }
+      if (generationPower < 0) {
+        tempObj.box_invert_node = -1
+      }
+      if (meterPower > 0) {
+        tempObj.box_grid_node = -1
+      }
+      if (meterPower < 0) {
+        tempObj.box_grid_node = 1
+      }
+      if (loadsPower > 0) {
+        tempObj.box_load_node = -2
+      }
+      if (loadsPower < 0) {
+        tempObj.box_load_node = 2
+      }
+      this.flowPath = tempObj
     }
   }
 }
 </script>
 <style lang="less" scoped>
-@import '../components/plantInvert';
+@import '../components/common/plantInvert';
 .flow-icon-more {
   font-size: 16px;
   font-weight: bold;
@@ -456,8 +571,5 @@ export default {
 .select-line {
   padding:10px;
   border-bottom:1px solid #f5f5f5;
-}
-.line-center {
-  flex: 1;
 }
 </style>

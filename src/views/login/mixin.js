@@ -1,4 +1,4 @@
-import valid from './validate'
+import valid from './common/validate'
 import { mapState } from 'vuex'
 export default {
   data () {
@@ -13,11 +13,7 @@ export default {
         if (this.codeText.includes('s')) {
           return this.codeText
         } else {
-          if (state.lang === 'zh') {
-            return '获取验证码'
-          } else {
-            return 'Send'
-          }
+          return this.$t('login.send')
         }
       }
     })
@@ -31,18 +27,20 @@ export default {
       return false
     },
     // 发送验证码
-    sendCode (user, callback) {
+    async sendCode (user) {
       if (this.timer) return
-      this.$post({
-        url: '/v0/user/sendcaptcha',
+      let { result } = await this.$post({
+        url: '/c/v0/user/sendcaptcha',
         data: {
           user
-        },
-        success: () => {
-          callback && callback()
-          this.$message.success('send successful')
         }
       })
+      if (result) {
+        this.$message.success(this.$t('join.send'))
+        return true
+      } else {
+        return false
+      }
     },
     // 验证码按钮
     codeBtn () {

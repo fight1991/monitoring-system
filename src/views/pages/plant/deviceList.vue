@@ -1,5 +1,5 @@
 <template>
-  <section class="sys-main">
+  <section>
     <!-- 查询区域 -->
     <div class="sys-table-container">
       <search-bar>
@@ -13,14 +13,14 @@
             <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')" clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="mini" @click="resetSearchForm()">{{$t('common.reset')}}</el-button>
-            <el-button type="primary" size="mini" @click="search()">{{$t('common.search')}}</el-button>
+            <search-button type="warning" icon="icon-clear" @click="resetSearchForm()"></search-button>
+            <search-button type="success" icon="icon-search" @click="search()"></search-button>
           </el-form-item>
         </el-form>
       </search-bar>
       <!-- 列表查询区域 -->
       <func-bar>
-        <common-table :tableHeadData="deviceTableHead" :tableList="resultList" :height="195">
+        <common-table :tableHeadData="deviceTableHead" :tableList="resultList" :height="200">
           <template v-slot:status="{row}">
             <!-- 1 正常 2 故障 3 离线 -->
             <i class="el-icon-success" v-show="row.status==1"></i>
@@ -42,13 +42,13 @@
           <span><i class="el-icon-error"></i> {{$t('common.abnormal')}}</span>
           <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
         </div>
-        <page-box :pagination.sync="pagination" @change="getDeviceList"></page-box>
+        <page-box :pagination.sync="pagination" @change="getList"></page-box>
       </func-bar>
     </div>
   </section>
 </template>
 <script>
-import deviceTableHead from './deviceTableHead'
+import deviceTableHead from './mixins/deviceTableHead'
 export default {
   mixins: [deviceTableHead],
   data () {
@@ -67,7 +67,7 @@ export default {
         moduleSN: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -77,7 +77,8 @@ export default {
   props: ['id'],
   methods: {
     search (id) {
-      this.getDeviceList(this.$store.state.pagination, id)
+      this.pagination.currentPage = 1
+      this.getList(this.pagination, id)
     },
     resetSearchForm (id) {
       this.searchForm = {
@@ -88,15 +89,13 @@ export default {
         country: '',
         deviceType: ''
       }
-      this.search(id)
+      this.getList(this.pagination, id)
     },
-    async getDeviceList (pagination, id) {
-      let pages = pagination || this.$store.state.pagination
-      let { result } = await this.$axios({
-        method: 'post',
-        url: '/v0/plant/device/list',
+    async getList (pagination, id) {
+      let { result } = await this.$post({
+        url: '/c/v0/plant/device/list',
         data: {
-          ...pages,
+          ...pagination,
           stationID: id || this.id,
           condition: this.searchForm
         }

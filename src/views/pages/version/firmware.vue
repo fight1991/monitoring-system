@@ -11,14 +11,14 @@
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devicetype')">
-                  <el-option v-for="item in modelTypeList" :label="item.label" :value="item.value" :key="item.value"></el-option>
+                <el-select style="width:100%" v-model="searchForm.modelType" @change="searchForm.softType=''" clearable :placeholder="$t('firmware.devtype')">
+                  <el-option v-for="item in modelTypeList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item>
-                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.type')">
+                <el-select style="width:100%" v-model="searchForm.softType" :disabled="searchForm.modelType!=1" clearable :placeholder="$t('firmware.SoftType')">
                   <el-option v-for="item in versionList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -26,13 +26,13 @@
             <el-col :span="4">
               <el-form-item>
                 <el-select style="width:100%" v-model="searchForm.firmwareStatus" clearable :placeholder="$t('firmware.status')">
-                  <el-option v-for="item in statusList" :label="item.label" :value="item.value" :key="item.value"></el-option>
+                  <el-option v-for="item in statusList" :label="$t(item.label)" :value="item.value" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -43,9 +43,9 @@
           <el-button size="mini" icon="iconfont icon-fabu" :disabled="releaseIds.length==0" @click="multiOptions('release')">{{$t('common.release')}}</el-button>
           <el-button size="mini" icon="el-icon-delete" :disabled="deleteIds.length==0" @click="multiOptions('delete')">{{$t('common.delete')}}</el-button>
         </el-row>
-        <common-table :tableHeadData="tableHead" :select.sync="selection" :selectBox="true" :tableList="resultList">
+        <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :select.sync="selection" :selectBox="true" :tableList="resultList">
           <template v-slot:firmwareStatus="{row}">
-            {{row.firmwareStatus == 1 ? '测试' : '发布'}}
+            {{row.firmwareStatus == 1 ? $t('common.test') : $t('common.rel')}}
           </template>
           <template v-slot:modelType="{row}">
             {{translateDeviceType(row.modelType)}}
@@ -61,7 +61,7 @@
 </template>
 <script>
 import importDialog from './components/importDialog'
-import firmwareMix from './components/firmwareMix'
+import firmwareMix from './mixins/firmwareMix'
 export default {
   components: {
     importDialog
@@ -114,13 +114,11 @@ export default {
     search () {
       this.pagination.currentPage = 1
       this.getList(this.pagination)
-      this.selection = []
     },
     // 批量发布/批量删除
     async multiOptions (op) {
-      let { result } = await this.$axios({
-        url: '/v0/firmware/' + op,
-        method: 'post',
+      let { result } = await this.$post({
+        url: '/c/v0/firmware/' + op,
         data: {
           firmware: op === 'release' ? this.releaseIds : this.deleteIds
         }
@@ -132,9 +130,9 @@ export default {
     },
     // 获取列表
     async getList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/firmware/list',
-        method: 'post',
+      this.selection = []
+      let { result } = await this.$post({
+        url: '/c/v0/firmware/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -150,11 +148,11 @@ export default {
     translateDeviceType (num) {
       switch (num) {
         case 1 :
-          return '逆变器'
+          return this.$t('common.invert')
         case 2:
-          return '模块'
+          return this.$t('common.module')
         default:
-          return '电池'
+          return this.$t('common.battery')
       }
     }
   }

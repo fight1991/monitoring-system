@@ -1,7 +1,7 @@
 <template>
-  <div class="container-top mg-b10">
+  <div class="container-top mg-b12">
     <div class="left">
-      <div class="top-item flex-between mg-b10">
+      <div class="top-item flex-between mg-b12">
         <div class="items flex-around" @click="selectStatus(0)">
           <i class="iconfont icon-sum"></i>
           <div class="items-right">
@@ -39,23 +39,30 @@
           </div>
         </div>
       </div>
-      <el-card shadow="never" class="no-bottom">
+      <el-card  class="no-bottom">
         <div class="title border-line" slot="header">{{$t('plant.statusGer')}}</div>
         <income-item :incomeDetail="incomeDetail"></income-item>
       </el-card>
     </div>
-    <div class="right bg-c">
+    <div class="right show-shadow bg-c">
       <div class="weather-content flex-around">
         <div class="time-info">
-          <div class="time">{{timeInfo.time}}</div>
+          <div class="time">
+            <span class="time-item">{{timeInfo.hour}}</span>
+            <span class="symbol">:</span>
+            <span class="time-item">{{timeInfo.minute}}</span>
+            <span class="symbol">:</span>
+            <span class="time-item">{{timeInfo.second}}</span>
+          </div>
           <div class="date">{{timeInfo.date}} {{timeInfo.week}}</div>
+          <!-- <clock :width="100" :height="100"></clock> -->
         </div>
-        <div class="weather-info flex-center">
+        <!-- <div class="weather-info flex-center">
           <div class="weather-img"><i class="iconfont icon-qing" style="font-size:60px"></i></div>
           <div class="weather-text">22℃</div>
-        </div>
+        </div> -->
       </div>
-      <div class="map-content">
+      <div class="map-content show-shadow">
         <g-map ref="googleMap" v-if="appInvar=='abroad' && gMapNormal" :autoGps="false" @gMapError="gMapError"></g-map>
         <a-map ref="gaodeMap" v-else :autoGps="false"></a-map>
       </div>
@@ -66,6 +73,7 @@
 import incomeItem from './incomeItem'
 import gMap from '@/views/components/gMap'
 import aMap from '@/views/components/aMap'
+// import clock from './clock'
 import { formatDate } from '@/util'
 export default {
   name: 'show-item',
@@ -88,11 +96,10 @@ export default {
       timeInfo: {
         date: '00-00-00',
         time: '00:00:00',
-        week: '--'
-      },
-      timeTrans: {
-        zh: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        other: ['Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        week: '--',
+        hour: '',
+        minute: '',
+        second: ''
       },
       incomeList: [],
       mapId: '', // 地图容器 若id相同的话只渲染一次
@@ -137,8 +144,8 @@ export default {
     },
     // 获取所有电站正常 非正常 故障个数
     async getPlantStatus () {
-      let { result } = await this.$axios({
-        url: '/v0/plant/status/all'
+      let { result } = await this.$get({
+        url: '/c/v0/plant/status/all'
       })
       if (result) {
         this.plantStatus.total = result.total || 0
@@ -159,14 +166,20 @@ export default {
         let tempArr = tempTime.split(' ')
         this.timeInfo.date = tempArr[0]
         this.timeInfo.time = tempArr[1]
+        let temphour = tempS.getHours()
+        let tempminute = tempS.getMinutes()
+        let tempsecond = tempS.getSeconds()
+        this.timeInfo.hour = temphour < 10 ? ('0' + temphour) : temphour
+        this.timeInfo.minute = tempminute < 10 ? ('0' + tempminute) : tempminute
+        this.timeInfo.second = tempsecond < 10 ? ('0' + tempsecond) : tempsecond
         let index = tempS.getDay() - 1
-        this.timeInfo.week = this.lang === 'zh' ? this.timeTrans['zh'][index] : this.timeTrans['other'][index]
+        this.timeInfo.week = this.$t('week.day' + index)
       }, 1000)
     },
     // 获取所有电站的发电和收益情况
     async getPlantEarns () {
-      let { result } = await this.$axios({
-        url: '/v0/plant/earnings/all'
+      let { result } = await this.$get({
+        url: '/c/v0/plant/earnings/all'
       })
       if (result) {
         this.incomeDetail = result
@@ -176,10 +189,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.map-content {
-  width: 100%;
-  height: calc(100% - 120px);
-}
 .container-top {
   display: flex;
   width: 100%;
@@ -189,14 +198,16 @@ export default {
     margin-right: 10px;
     .top-item {
       .items {
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
         cursor: pointer;
         padding: 10px 20px;
         background-color: #fff;
         box-sizing: border-box;
         width: 24%;
+        transition: all .5s linear;
         &:hover {
           box-shadow: 0 4px 6px rgba(0,0,0,.2);
-          transition: all .5s ease-in-out;
+          transform: translateY(-3px);
         }
         .iconfont {
           font-size: 36px;
@@ -256,17 +267,36 @@ export default {
     }
   }
   .right {
+    display: flex;
+    flex-direction: column;
+    .map-content {
+      flex: 1;
+    }
     .weather-content {
       height: 95px;
-      margin-bottom: 10px;
+      // margin-bottom: 10px;
       text-align: center;
       .weather-img {
         padding: 5px 10px 5px;
         color: #FDB201;
       }
       .time-info {
+        // background-color: black;
         .time {
           font-size: 40px;
+          display: flex;
+          align-items: center;
+          // animation: colorLinear 5s ease-in-out infinite;
+          // color: green;
+          .time-item {
+            // text-shadow: 1px 1px greenyellow, -1px -1px greenyellow,1px -1px greenyellow, -1px 1px greenyellow;
+            padding: 0 10px;
+            margin: 0 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,.1);
+          }
+          .symbol {
+            font-size: 24px;
+          }
         }
         .date {
           padding-top: 5px;

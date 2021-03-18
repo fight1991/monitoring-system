@@ -25,8 +25,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" align="left">
-              <el-button size="mini" @click="reset">{{$t('common.reset')}}</el-button>
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
+              <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
+              <search-button type="success" icon="icon-search" @click="search"></search-button>
             </el-col>
           </el-row>
         </el-form>
@@ -70,7 +70,7 @@
         <span><i class="el-icon-success"></i> {{$t('common.normal')}}</span>
         <span><i class="el-icon-remove"></i> {{$t('common.offline')}}</span>
       </div>
-      <page-box :pagination.sync="pagination" @change="getModuleList"></page-box>
+      <page-box :pagination.sync="pagination" @change="getList"></page-box>
     </div>
   </section>
 </template>
@@ -90,7 +90,7 @@ export default {
         moduleType: ''
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         currentPage: 1,
         total: 0
       },
@@ -100,8 +100,7 @@ export default {
         {
           label: 'common.datacolSN',
           prop: 'moduleSN',
-          checked: true,
-          renderHeader: true
+          checked: true
         },
         {
           label: 'plant.datacolType',
@@ -161,8 +160,8 @@ export default {
       this.search()
     },
     search () {
-      this.getModuleList(this.$store.state.pagination)
-      this.selection = []
+      this.pagination.currentPage = 1
+      this.getList(this.pagination)
     },
     commandDrop () {
 
@@ -173,8 +172,8 @@ export default {
     },
     // 批量解绑
     async unbindMulti () {
-      let { result } = await this.$axios({
-        url: '/v0/module/disable',
+      let { result } = await this.$post({
+        url: '/c/v0/module/disable',
         data: {
           modules: this.bindIds
         }
@@ -185,18 +184,18 @@ export default {
     },
     // 获取模块类型列表
     async getModuleTypeList () {
-      let { result } = await this.$axios({
-        url: '/v0/module/types'
+      let { result } = await this.$get({
+        url: '/c/v0/module/types'
       })
       if (result) {
         this.typeList = result.types || []
       }
     },
     // 获取模块列表
-    async getModuleList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/module/list',
-        method: 'post',
+    async getList (pagination) {
+      this.selection = []
+      let { result } = await this.$post({
+        url: '/c/v0/module/list',
         data: {
           ...pagination,
           condition: this.searchForm
@@ -209,7 +208,7 @@ export default {
         this.pagination.pageSize = result.pageSize
       }
     },
-    beforeUpload (file) {
+    async beforeUpload (file) {
       // excel 或 .csv格式
       let excelType = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
       if (!excelType.includes(file.type)) {
@@ -222,10 +221,9 @@ export default {
       let param = new FormData()
       param.append('file', file, file.name)
       // 文件上传请求
-      this.$upload({
-        url: '/v0/module/import',
-        data: {},
-        success: res => {}
+      await this.$upload({
+        url: '/c/v0/module/import',
+        data: {}
       })
     }
   }

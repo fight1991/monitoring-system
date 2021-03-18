@@ -1,40 +1,72 @@
 <template>
   <div class="head-container">
-    <div class="logo fl">
-      <img :src="logoSrc">
+    <!-- 左侧页面导航 -->
+    <div class="left-box flex-vertical-center">
+      <div class="pull-icon" @click="toggleMenu"><i :class="{'el-icon-s-unfold':$store.state.collapse,'el-icon-s-fold':!$store.state.collapse}"></i></div>
+      <div class="bread-navigator">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item>{{$t('navBar.home')}}</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="item in routerArray" :key="item">{{$t('navBar.' + item)}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <!-- 刷新按钮 -->
+      <div v-show="$route.name!='tab-index'" class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')">
+        <i class="el-icon-refresh-right"></i>
+      </div>
     </div>
-    <div class="login fr">
-      <!-- <el-dropdown
-        trigger="click"
-        @command="toggleLang"
-        placement="top-start">
-        <span class="lang">
-          <span>{{lang}}</span>
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="zh">中文</el-dropdown-item>
-          <el-dropdown-item command="en" divided>English</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
+    <!-- 右侧其他元素 -->
+    <div class="right-box flex-vertical-center">
+      <!-- <div class="system-set" @click="setDrawerShow=true">
+        <i class="el-icon-setting"></i>
+      </div> -->
+      <!-- 用户名 -->
+      <div class="tag-box">
+        <el-tag size="small">{{$store.getters.username}}</el-tag>
+      </div>
+      <!-- 用户角色 -->
+      <div class="tag-box">
+        <el-tag type="success" size="small">{{roleName}}</el-tag>
+      </div>
+      <!-- 用户画像 -->
       <el-dropdown
         @command="userOption"
         trigger="click"
         placement="top-start">
         <span class="user-name flex-center">
-          <!-- <i class="user-logo iconfont icon-user"></i> -->
           <div class="user-logo"><img :src="userLogo" alt=""></div>
-          <!-- <span>{{userInfo.user || ''}}</span> -->
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="user">{{$t('user.center')}}</el-dropdown-item>
           <el-dropdown-item command="logout" divided>{{$t('login.goOut')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- <span class="info"><i class="iconfont icon-info"></i></span> -->
-      <!-- <span class="fullscreen" v-show="!isFullScreen" @click="screenClick('enter')" :title="$t('common.enterFull')"><i class="iconfont icon-enter-fullScreen"></i></span>
-      <span class="fullscreen" v-show="isFullScreen" @click="screenClick('out')" :title="$t('common.outFull')"><i class="iconfont icon-out-fullScreen"></i></span> -->
     </div>
+    <!-- 系统设置 -->
+    <el-drawer
+      title="系统设置"
+      append-to-body
+      :visible.sync="setDrawerShow"
+      :with-header="false">
+      <div class="system-setBox">
+        <div class="title">系统布局配置</div>
+        <div class="content">
+          <el-row>
+            <el-col :span="12">主题色</el-col>
+            <el-col :span="12">
+              <el-color-picker size="mini" v-model="primaryColor"></el-color-picker>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              开启Tabs-View
+            </el-col>
+            <el-col :span="12">
+              <el-switch v-model="tabModule"></el-switch>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -44,16 +76,30 @@ export default {
   name: 'layout-header',
   data () {
     return {
+      tabModule: false,
+      primaryColor: '#409EFF',
+      setDrawerShow: false,
       isFullScreen: false,
+<<<<<<< HEAD
       userLogo: require('@/assets/user-logo.png'),
       logoSrc: require('@/assets/keda-logo-transparent.png'),
       lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
+=======
+      userLogo: require('@/assets/user-logo.png')
+>>>>>>> dev
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.userInfo
-    })
+    }),
+    routerArray () {
+      if (this.$route.name === 'tab-index') {
+        return []
+      }
+      let temp = this.$route.matched.map(v => v.meta.title)
+      return temp.length > 1 ? temp.slice(1) : temp
+    }
   },
   created () {
     window.addEventListener('resize', () => {
@@ -61,6 +107,9 @@ export default {
     })
   },
   methods: {
+    refreshCurrentPage () {
+      this.$store.dispatch('refreshTab', this.$store.getters.currentTabInfo)
+    },
     // 切换全屏
     screenClick (type) {
       this.isFullScreen = type === 'enter'
@@ -71,12 +120,8 @@ export default {
         // document.documentElement.requestFullscreen.call('dom') // 是dom元素全屏
       }
     },
-    // 切换语言
-    toggleLang (lang) {
-      this.$i18n.locale = lang
-      this.lang = lang === 'en' ? 'English' : '中文'
-      this.$store.commit('toggleLang', lang)
-      document.title = this.$t('navBar.' + this.$route.meta.title)
+    toggleMenu () {
+      this.$store.commit('changeCollapse')
     },
     userOption (op) {
       if (op === 'logout') {
@@ -106,21 +151,19 @@ export default {
     },
     // 注销登录
     async logout () {
-      let res = await this.$confirm(this.$t('login.tips3'), this.$t('common.tip'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => true).catch(() => false)
-      if (!res) return
-      this.$post({
-        url: '/v0/user/logout',
-        success: () => {
-          let { href } = this.$router.resolve({
-            path: '/login'
-          })
-          window.open(href, '_self')
-        }
+      let res = await this.$openConfirm({
+        content: this.$t('login.tips3')
       })
+      if (!res) return
+      let { result } = await this.$post({
+        url: '/c/v0/user/logout'
+      })
+      if (result) {
+        let { href } = this.$router.resolve({
+          path: '/login'
+        })
+        window.open(href, '_self')
+      }
     }
   }
 }
@@ -130,14 +173,52 @@ export default {
 .head-container {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.login, .logo {
+.system-setBox {
+  padding: 30px 10px;
+}
+.left-box {
+  height: 100%;
+  .el-icon-s-unfold, .el-icon-s-fold{
+    font-size: 22px;
+    font-weight: 200;
+    cursor: pointer;
+  }
+  .pull-icon {
+    margin-right: 15px;
+  }
+  .el-breadcrumb {
+    font-size: 12px;
+  }
+  .refresh-button {
+    cursor: pointer;
+    margin: 0 30px;
+    border-radius: 50%;
+    color: #606266;
+    padding: 2px;
+    i {
+      transition: all 1.5s;
+      font-size: 20px;
+    }
+    &:hover {
+      background-color: #d8d8d8;
+      i {
+        transform: rotate(270deg);
+      }
+    }
+  }
+}
+.right-box {
   height: 100%;
   display: flex;
   align-items: center;
-}
-.login {
-  color: #fff;
+  .tag-box {
+    margin-right: 15px;
+  }
+  // color: #fff;
   .el-dropdown {
     color: #fff;
   }
@@ -146,11 +227,13 @@ export default {
   }
   .lang, .user-name {
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 15px;
   }
   .user-logo {
-    padding-right: 5px;
-    width: 35px;
+    margin-right: 5px;
+    width: 32px;
+    box-shadow: 0 0 5px 2px #ccc;
+    border-radius: 50%;
     img {
       width: 100%;
     }
@@ -159,6 +242,7 @@ export default {
     padding: 0 20px;
   }
 }
+<<<<<<< HEAD
 .logo {
   height: 100%;
   img {
@@ -170,6 +254,8 @@ export default {
     font-size: 16px;
   }
 }
+=======
+>>>>>>> dev
 .fullscreen {
   cursor: pointer;
   padding: 0 20px;

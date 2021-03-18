@@ -1,29 +1,36 @@
 <template>
   <el-dialog
     class="sys-dialog"
-    :title="'升级详情'"
+    :title="$t('invupgrade.upDetail')"
     :modal-append-to-body="false"
+    :close-on-click-modal="false"
     @open="search"
     @close="closeDialog"
     :visible.sync="dialogVisible"
-    width="750px">
+    width="80%">
     <div class="search-form">
-      <el-form size="mini" label-width="0px" :model="searchForm">
-        <el-form-item>
-          <el-row :gutter="15">
-            <el-col :span="8">
-              <el-input v-model="searchForm.deviceSN" clearable :placeholder="apiUrl=='device' ? '逆变器sn' : '模块sn'"></el-input>
-            </el-col>
-            <el-col :span="8" align="left">
-              <el-button type="primary" size="mini" @click="search">{{$t('common.search')}}</el-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
-      </el-form>
+      <search-bar>
+        <el-form size="mini" label-width="0px" :model="searchForm" @submit.native.prevent>
+          <el-form-item>
+            <el-row :gutter="15">
+              <el-col :span="8">
+                <el-input v-model="searchForm.deviceSN" clearable :placeholder="$t(apiUrlHolder)"></el-input>
+              </el-col>
+              <el-col :span="8" align="left">
+                <search-button type="success" icon="icon-search" @click="search('handClick')"></search-button>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
+      </search-bar>
     </div>
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
+          <template #progress="{row}">
+            <el-progress v-if="getProgressInfo(row)['isShow']" :percentage="getProgressInfo(row)['value']" color="#67c23a"></el-progress>
+            <span v-else>--</span>
+          </template>
         </common-table>
       </func-bar>
       <div class="page-box">
@@ -39,32 +46,41 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      resultList: [{ taskName: 121212 }],
+      timer: null,
+      resultList: [],
       pagination: {
         pageSize: 50,
         currentPage: 1,
-        total: 1000
+        total: 0
       },
+      apiUrlHolder: '',
       searchForm: {
         deviceSN: ''
       },
       tableHead: [
         {
-          label: '逆变器sn',
+          label: 'common.invertSn',
           prop: 'deviceSN',
-          checked: true
+          checked: true,
+          width: 150
         }, {
-          label: '升级前版本',
+          label: 'invupgrade.curVer',
           prop: 'before',
           checked: true
         }, {
-          label: '升级后版本',
+          label: 'navBar.firmware',
           prop: 'after',
           checked: true
         }, {
-          label: '升级状态',
+          label: 'invupgrade.status',
           prop: 'status',
           checked: true
+        }, {
+          label: 'invupgrade.progress',
+          prop: 'progress',
+          checked: true,
+          slotName: 'progress',
+          width: 120
         }
       ]
     }
@@ -76,22 +92,52 @@ export default {
       this.searchForm.deviceSN = ''
     }
   },
-  created () {},
+  created () {
+    if (this.apiUrl === 'module') {
+      this.tableHead[0].label = 'common.datacolSN'
+      this.apiUrlHolder = 'common.datacolSN'
+    } else if (this.apiUrl === 'battery') {
+      this.tableHead[0].label = 'battRemote.batSN'
+      this.apiUrlHolder = 'battRemote.batSN'
+    } else {
+      this.tableHead[0].label = 'common.invertSn'
+      this.apiUrlHolder = 'common.invertSn'
+    }
+  },
   mounted () {},
+  beforeDestroy () {
+    this.clearTimer()
+  },
   methods: {
-    search () {
+    search (from) {
       this.pagination.currentPage = 1
+      if (from) { // 手动点击查询按钮, 清除定时器
+        this.clearTimer()
+      }
       this.getList(this.pagination)
     },
+    // 是否显示进度条及显示的值
+    getProgressInfo (row) {
+      let isShow = ['upgrading', 'transferring', 'completed'].includes(row.status)
+      let value = row.status === 'completed' ? 100 : (Number(row.progress) || 0)
+      return { isShow, value }
+    },
+    // 清除定时器
+    clearTimer () {
+      this.timer && clearInterval(this.timer)
+      this.timer = null
+    },
+    // 关闭对话框
     closeDialog () {
       this.$emit('update:visible', false)
+      this.clearTimer()
     },
     // 获取列表
-    async getList (pagination) {
-      let { result } = await this.$axios({
-        url: '/v0/firmware/' + this.apiUrl + '/upgrade/detail',
+    async getList (pagination, openLoading = true) {
+      let { result, other, error } = await this.$post({
+        url: '/c/v0/firmware/' + this.apiUrl + '/upgrade/detail',
         globalLoading: true,
-        method: 'post',
+        isLoad: openLoading,
         data: {
           taskID: this.taskId,
           condition: this.searchForm,
@@ -103,6 +149,14 @@ export default {
         this.pagination.total = result.total
         this.pagination.currentPage = result.currentPage
         this.pagination.pageSize = result.pageSize
+        // 开启定时器, 每15s查询一次
+        if (this.timer) return
+        this.timer = setInterval(() => {
+          this.getList(this.pagination, false)
+        }, 10000)
+      }
+      if (other || error) {
+        this.clearTimer()
       }
     }
   }

@@ -1,50 +1,40 @@
 <template>
-  <div class="status-box">
-    <div class="left">
-      <el-card shadow="never" class="card-no-padding">
-        <div class="title border-line" slot="header">{{title}}</div>
-        <el-row class="current-kw">
-          <el-col :span="8">
-            <div class="my-pg flex-center">
-              <el-progress :width="150" type="circle" color="#67C23A" :show-text="false" :percentage="powerPercent" :stroke-width="12"></el-progress>
-              <div class="progress-txt">
-                <div class="number">{{toFixed(power) + 'kW'}}</div>
-                <div class="f12">{{$t('common.currentP')}}</div>
-              </div>
+  <div>
+    <el-card>
+      <div class="title border-line" slot="header">
+        {{title}}
+        <span class="fr header-right" @click="visible=true" :title="$t('plant.todayAb')">
+          <i class="iconfont icon-alarm-total"></i>
+          <span class="fault-num">{{todayFault}}</span>
+        </span>
+      </div>
+      <el-row class="current-kw">
+        <el-col :span="8">
+          <div class="my-pg flex-center">
+            <el-progress :width="150" type="circle" color="#67C23A" :show-text="false" :percentage="powerPercent" :stroke-width="12"></el-progress>
+            <div class="progress-txt">
+              <div class="number">{{toFixed(power) + 'kW'}}</div>
+              <div class="f12">{{$t('common.currentP')}}</div>
             </div>
-          </el-col>
-          <el-col :span="16">
-            <income-item v-bind="$attrs"></income-item>
-          </el-col>
-        </el-row>
-      </el-card>
-    </div>
-    <!-- 储能电池状态 -->
-    <div class="right" v-if="flowType!=1">
-      <el-card shadow="never">
-        <div class="title border-line" slot="header">{{$t('plant.baStatus')}}</div>
-        <div class="battery-box">
-          <div class="battery-img">
-            <div class="percent-bg" :style="{'width': (batteryInfo.soc  || 0) + '%'}"></div>
           </div>
-          <div class="item battery-value">{{(batteryInfo.soc || 0) + '%'}}</div>
-          <div class="item battery-power">{{$t('common.power')}}: <span class="num">{{batteryInfo.power || 0}}</span>W</div>
-          <!-- $t('common.run')工作中 $t('common.sleep')休眠 -->
-          <div class="item battery-status">{{$t('common.status')}}: <span class="status">{{translateStatus(batteryInfo.status)}}</span></div>
-        </div>
-      </el-card>
-    </div>
+        </el-col>
+        <el-col :span="16">
+          <income-item v-bind="$attrs"></income-item>
+        </el-col>
+      </el-row>
+    </el-card>
+    <today-abnormal :visible.sync="visible" v-bind="$attrs"></today-abnormal>
   </div>
 </template>
 <script>
 import incomeItem from './incomeItem'
+import todayAbnormal from './todayAbnormal'
 export default {
-  components: { incomeItem },
+  components: { incomeItem, todayAbnormal },
   data () {
     return {
       bPercent: 40,
-      batteryInfo: {},
-      flowType: 1
+      visible: false
     }
   },
   props: {
@@ -56,111 +46,39 @@ export default {
     },
     capacity: {
       default: 0
+    },
+    todayFault: {
+      default: 0
     }
   },
   computed: {
     powerPercent () {
       if (this.capacity > 0) {
-        let tempres = Math.ceil((this.power / this.capacity) * 100)
+        let tempres = Math.ceil((Math.abs(this.power) / this.capacity) * 100)
         if (tempres > 100) return 100
         return tempres
       }
       return 0
     }
   },
-  created () {
-    let { id, flowType } = this.$route.query
-    this.flowType = flowType
-    if (flowType > 1) { // 包含电池业务
-      this.getBaterryInfo(id)
-    }
-  },
-  methods: {
-    // 获取电池设备信息
-    async getBaterryInfo (id) {
-      let { result } = await this.$axios({
-        url: '/device/battery/info',
-        data: {
-          id
-        }
-      })
-      this.batteryInfo = result || {}
-    },
-    translateStatus (val) {
-      //  -1离线 0休眠 1工作
-      switch (val) {
-        case 0:
-          return this.$t('common.sleep')
-        case 1:
-          return this.$t('common.run')
-        default:
-          return this.$t('common.offline')
-      }
-    }
-  }
+  created () {},
+  methods: {}
 }
 </script>
-<style lang="less" scoped>
-.status-box {
-  display: flex;
-  .right {
+<style lang="scss" scoped>
+.none {
+  display: none;
+}
+.header-right {
+  cursor: pointer;
+  .fault-num {
+    font-size: 16px;
     margin-left: 10px;
-    width: 230px;
-    // height: 321px;
-    // box-sizing: border-box;
-    // padding: 10px;
+    color: #F96867;
   }
-  .left {
-    flex: 1;
-  }
-  .battery-box {
-    height: 240px;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
-    .battery-img {
-      height: 80px;
-      margin: 0 auto;
-      // width: 100%;
-      width: 180px;
-      padding: 6px 18px 6px 6px;
-      box-sizing: border-box;
-      // border: 1px solid red;
-      background: url("../../../assets/battery.png") no-repeat;
-      background-size: 180px 100%;
-      .percent-bg {
-        background-color: #67C23A;
-        height: 100%;
-        transition: all 1s;
-        border-radius: 6px;
-        box-shadow: 0 0 2px #67C23A;
-      }
-    }
-    .item {
-      padding: 15px 0;
-    }
-    .battery-value {
-      font-size: 18px;
-      font-weight: bold;
-      text-align: center;
-    }
-    .battery-power,.battery-status {
-      width: 100%;
-      text-indent: 25px;
-    }
-    .battery-power {
-      .num {
-        color: #FDB201;
-        margin: 0 5px 0 15px;
-        font-size: 18px;
-      }
-    }
-    .battery-status {
-      .status {
-        margin: 0 5px 0 15px;
-      }
-    }
+  .icon-alarm-total {
+    color: #F96867;
+    font-size: 18px;
   }
 }
 .my-pg {

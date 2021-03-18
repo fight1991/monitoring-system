@@ -1,43 +1,61 @@
 <template>
   <section>
     <el-row>
-      <div class="col">{{$t('user.type')}}</div>
-      <div class="col">{{translateTools(access)}}</div>
-    </el-row>
-    <el-row class="flex-vertical-center">
-      <div class="col">
-        <el-dropdown
-          @command="getOpText"
-          trigger="click">
-          <span class="el-dropdown-link">
-            {{$t('user.code')}}<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="$t('join.installer')" @click.native="getInviteCode('installer')">{{$t('user.installer')}}</el-dropdown-item>
-            <el-dropdown-item :command="$t('join.agent')" @click.native="getInviteCode('agent')" divided>{{$t('user.agent')}}</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-      <div class="col getCode">
-        <span></span>
-        <el-input size="mini" v-model="invitCode" readOnly>
-          <span slot="suffix">{{opText}}</span>
-        </el-input>
+      <div class="col border-b">
+        <span class="label">{{$t('user.type') + ' : '}}</span>
+        <span class="value">{{roleName}}</span>
       </div>
     </el-row>
+    <el-row type="flex" align="middle" v-if="access==1">
+      <div class="nap">{{$t('user.assoInAg')}}</div>
+      <div class="nap"><el-input v-model="linkCode" :placeholder="$t('user.inAgCode')" size="mini"></el-input></div>
+      <el-button type="primary" size="mini" :disabled="!linkCode" @click="joinOrgans('user')">{{$t('common.confirm')}}</el-button>
+    </el-row>
+    <div v-if="access==2">
+      <el-row>
+        <div class="col border-b">
+          <span class="label">{{$t('user.inCode') + ' : '}}</span>
+          <span class="value">{{initCode}}</span>
+        </div>
+      </el-row>
+      <el-row type="flex" align="middle">
+        <div class="nap">{{$t('user.assoAg')}}</div>
+        <div class="nap"><el-input v-model="linkCode" :placeholder="$t('user.agCode')" size="mini"></el-input></div>
+        <el-button type="primary" size="mini" :disabled="!linkCode" @click="joinOrgans('installer')">{{$t('common.confirm')}}</el-button>
+      </el-row>
+    </div>
+    <div v-if="access==3">
+      <el-row>
+        <div class="col border-b">
+          <span class="label">{{$t('user.agCode') + ' : '}}</span>
+          <span class="value">{{initCode}}</span>
+        </div>
+      </el-row>
+      <el-row type="flex" align="middle">
+        <div class="nap get-code" @click="getOrganCode('agent')">{{$t('user.code')}}</div>
+        <div class="nap"><el-input v-model="agentCode" :placeholder="$t('user.invCode')" size="mini"></el-input></div>
+      </el-row>
+    </div>
   </section>
 </template>
 
 <script>
 export default {
   name: 'user-info',
+  // components: { joinDialog },
   data () {
     return {
-      invitCode: '',
-      opText: this.$t('common.select')
+      initCode: '',
+      agentCode: '',
+      linkCode: '' // 安装商关联代理商的代码
     }
   },
-  created () {},
+  created () {
+    // 获取代理商和安装商的组织代码
+    if (this.access > 1) {
+      this.getOrganCode('installer')
+    }
+  },
   methods: {
     translateTools (type) {
       switch (type) {
@@ -51,54 +69,49 @@ export default {
           return 'admin'
       }
     },
-    async getInviteCode (type) {
-      let { result } = await this.$axios({
-        url: '/v0/organs/invitation',
+    // 获取代理商/安装商的组织代码 和代理商邀请码
+    async getOrganCode (flag) {
+      let { result } = await this.$get({
+        url: '/c/v0/organs/invitation',
         data: {
-          organType: type
+          organType: flag
         }
       })
       if (result) {
-        this.invitCode = result.code || ''
+        if (flag === 'installer') {
+          this.initCode = result.code || ''
+        } else {
+          this.agentCode = result.code || ''
+        }
       }
     },
-    getOpText (command) {
-      this.opText = command
+    async joinOrgans (organ) {
+      let { result } = await this.$post({
+        url: '/c/v0/organs/join',
+        data: {
+          code: this.linkCode,
+          organType: organ,
+          moduleSN: ''
+        }
+      })
+      if (result) {
+        this.$message.success(this.$t('common.success'))
+        this.linkCode = ''
+      }
     }
   }
 }
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-.el-row {
-  padding: 15px 20px;
-  .col {
-    color: gray;
-    float: left;
-    width: 150px;
-    margin-right: 10px;
-  }
-  .getCode {
-    width: 200px;
-  }
-  .edit {
-    color: @sys-main-header;
-    cursor: pointer;
-  }
-}
-.el-dropdown-link {
+@import url("../style/common.less");
+.get-code {
   cursor: pointer;
-  color: @sys-main-header;
-}
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-.border-line {
-  border-bottom: 1px solid #ccc;
-}
-.el-input__suffix-inner {
-  span {
-    line-height: 28px;
+  &:hover {
+    color: @sys-main-header;
   }
+}
+.nap {
+  margin-right: 15px;
 }
 </style>
