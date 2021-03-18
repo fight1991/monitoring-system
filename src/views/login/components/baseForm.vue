@@ -1,10 +1,14 @@
 <template>
+<<<<<<< HEAD
 <<<<<<< HEAD:src/views/login/register.vue
   <div class="login login-register">
     <slot></slot>
 =======
   <div class="login-register">
 >>>>>>> dev:src/views/login/components/baseForm.vue
+=======
+  <div class="login-register">
+>>>>>>> 373f243d03ac54d5d683580ad700a2500bea0f9b
     <div class="form">
       <el-form ref="dataForm" size="small" label-width="150px" :model="dataForm" :rules="loginRules">
         <el-row>

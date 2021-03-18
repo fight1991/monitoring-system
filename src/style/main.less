@@ -246,9 +246,6 @@
     height: 32px;
     line-height: 32px;
   }
-  .el-form-item__label {
-    color: #fff;
-  }
   .code-area {
     .el-input-group__append {
       border-radius: 0 2px 2px 0;
@@ -265,13 +262,23 @@
   }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 .login-register, .login {
 =======
 .login-resetPw,.login-register, .errTip-right {
 >>>>>>> dev
+=======
+.login-container {
+  .login {
+    .el-form-item__label {
+      color: #fff;
+    }
+  }
+}
+.login-resetPw,.login-register, .errTip-right {
+>>>>>>> 373f243d03ac54d5d683580ad700a2500bea0f9b
   .el-form--label-top .el-form-item__label {
     padding-bottom: 0px;
-    color: #fff;
     line-height: 18px!important;
   }
   .el-form-item__error {
@@ -444,6 +451,9 @@
     color: @sys-aside-text;
   }
 }
+.el-tabs__item.is-active {
+  color: @sys-main-header;
+}
 .tab-container {
   height: 100%;
   &>.el-tabs {
@@ -486,7 +496,7 @@
         line-height: 14px;
       }
       transition: all .05s;
-      &.is-active:not(#tab-tab-index) {
+      &.is-active {
         color: #fff;
         background-color: @sys-tab-color;
       }
