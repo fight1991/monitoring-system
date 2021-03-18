@@ -80,17 +80,9 @@ export default {
       primaryColor: '#409EFF',
       setDrawerShow: false,
       isFullScreen: false,
-<<<<<<< HEAD
-<<<<<<< HEAD
       userLogo: require('@/assets/user-logo.png'),
       logoSrc: require('@/assets/keda-logo-transparent.png'),
       lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
-=======
-      userLogo: require('@/assets/user-logo.png')
->>>>>>> dev
-=======
-      userLogo: require('@/assets/user-logo.png')
->>>>>>> 373f243d03ac54d5d683580ad700a2500bea0f9b
     }
   },
   computed: {
@@ -246,10 +238,6 @@ export default {
     padding: 0 20px;
   }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 373f243d03ac54d5d683580ad700a2500bea0f9b
 .logo {
   height: 100%;
   img {
@@ -261,11 +249,6 @@ export default {
     font-size: 16px;
   }
 }
-<<<<<<< HEAD
-=======
->>>>>>> dev
-=======
->>>>>>> 373f243d03ac54d5d683580ad700a2500bea0f9b
 .fullscreen {
   cursor: pointer;
   padding: 0 20px;
