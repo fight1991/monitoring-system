@@ -52,7 +52,7 @@
             :decimals="2"
             :duration="2600"/>
         </div>
-        <div class="plant-text text-cut" :title="$t('plant.earnTot')">
+        <div class="plant-text text-cut" :title="`${$t('plant.earnTot')}(${incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']})`">
           {{$t('plant.earnTot')}} ({{incomeDetail.earnings.cumulate[0] && incomeDetail.earnings.cumulate[0]['currency']}})
         </div>
       </div>

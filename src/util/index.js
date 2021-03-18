@@ -270,3 +270,16 @@ export function getLang () {
     }
   }
 }
+// 角色key
+export function translateRole (access) {
+  switch (access) {
+    case 1:
+      return 'join.endUser'
+    case 2:
+      return 'join.installer'
+    case 3:
+      return 'join.agent'
+    default:
+      return 'join.admin'
+  }
+}

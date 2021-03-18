@@ -38,20 +38,32 @@
           <!-- select组件 -->
           <template v-if="ele.elemType.uiType === 'select' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key" :rules="rangeValidSelect(ele)">
-              <el-select v-model="dataForm[ele.key]" remote filterable :disabled="ele.level==1">
+              <el-select style="width:100%;" v-model="dataForm[ele.key]" remote filterable :disabled="ele.level==1">
                 <el-option v-for="op in ele.elemType.uiItems" :label="op" :key="op" :value="op"></el-option>
               </el-select>
             </el-form-item>
           </template>
+          <!-- checkbox组件 -->
+          <template v-if="ele.elemType.uiType === 'checkbox' && ele.level!=2">
+            <el-form-item :label="ele.name" :prop="ele.key">
+              <el-checkbox v-model="dataForm[ele.key]" true-label="true" false-label="false"></el-checkbox>
+            </el-form-item>
+          </template>
+           <!-- 分割线-->
+          <template v-if="ele.elemType.uiType === 'line'">
+            <div class="line"></div>
+          </template>
         </div>
-        <div class="col-right" v-show="!isBlock && ele.elemType.uiType!='switch'">
-          <el-button type="success" size="mini" icon="iconfont icon-carry-out" circle @click="singleBtn(ele.key)"></el-button>
+        <div class="col-right">
+          <div class="btn-container" v-show="!isBlock && ele.elemType.uiType!='switch' && ele.level!=2">
+            <el-button type="success" size="mini" icon="iconfont icon-carry-out" circle @click="singleBtn(ele.key)"></el-button>
+          </div>
         </div>
       </el-row>
     </el-form>
     <el-row>
       <div style="margin-left: 380px">
-        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock">{{$t('common.confirm')}}</el-button>
+        <el-button size="mini" type="primary" @click="saveBtn" v-if="isBlock && !isDisable">{{$t('common.confirm')}}</el-button>
       </div>
     </el-row>
   </div>
@@ -78,6 +90,10 @@ export default {
     isBlock: { // 整体提交或单条提交
       type: Boolean,
       default: true
+    },
+    isDisable: {
+      type: Boolean,
+      default: false
     },
     keyWord: {
       type: String,
@@ -192,7 +208,11 @@ export default {
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 .col-right {
-  margin-left: 10px;
+  margin: 0 100px 0 10px;
+}
+.col-left {
+  flex: 1;
+  max-width: 700px;
 }
 .tips {
   border-radius: 4px 0 0 4px;
@@ -203,5 +223,9 @@ export default {
     margin: 0 10px;
     font-size: 16px;
   }
+}
+.line {
+  border-top: 1px solid #ccc;
+  margin: 0 -30px 15px 30px;
 }
 </style>

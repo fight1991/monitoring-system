@@ -43,37 +43,7 @@ export default {
         pageSize: 10,
         currentPage: 1,
         total: 0
-      },
-      alarmTypeList: [
-        {
-          value: 0,
-          label: 'all'
-        }, {
-          value: 1,
-          label: 'common'
-        }, {
-          value: 2,
-          label: 'pvBus'
-        }, {
-          value: 3,
-          label: 'powerGrid'
-        }, {
-          value: 4,
-          label: 'temper'
-        }, {
-          value: 5,
-          label: 'cpu'
-        }, {
-          value: 6,
-          label: 'eps'
-        }, {
-          value: 7,
-          label: 'peri'
-        }, {
-          value: 8,
-          label: 'alarm'
-        }
-      ]
+      }
     }
   },
   props: {

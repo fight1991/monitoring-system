@@ -30,7 +30,6 @@ const state = {
     total: 0
   },
   access: -1, // 0 游客， 1 终端用户 ，2 安装商 3 代理商 ，255 厂商
-  username: '',
   userInfo: {
     user: '', // 当前登录的用户名
     name: '',
@@ -47,6 +46,9 @@ const state = {
 const getters = {
   isLoading (state) {
     return state.loadingNum > 0
+  },
+  username (state) {
+    return state.userInfo.user
   }
 }
 const mutations = {

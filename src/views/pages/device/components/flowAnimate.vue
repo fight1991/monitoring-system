@@ -95,14 +95,14 @@
             <div :class="{'flow-column': true, 'arrow-b': path.box_load_node==-2, 'arrow-t': path.box_load_node==2}"></div>
             <!-- nodeLittle流向负载 little--load -->
             <div class="box-little left" v-if="isElec">
-              <div :class="{'flow-row': true, 'arrow-l': path.box_little_load==3}"></div>
-              <div :class="{'flow-column': true, 'arrow-b': path.box_little_load==3}"></div>
+              <div :class="{'flow-row': true, 'arrow-l': path.box_little_load==3, 'arrow-r': path.box_little_load==-3}"></div>
+              <div :class="{'flow-column': true, 'arrow-b': path.box_little_load==3, 'arrow-t': path.box_little_load==-3}"></div>
               <div class="load icon-load">
                 <i class="iconfont icon-flow-load"></i>
                 <span class="data-text">Load&nbsp;:&nbsp;{{toFixed(wsData.load, true) + ' kW'}}</span>
               </div>
             </div>
-            <!-- 电表流向nodeLittle elec--little -->
+            <!-- 电机流向nodeLittle elec--little -->
             <div class="box-little right" v-if="isElec">
               <div :class="{'flow-row': true, 'arrow-l': path.box_little_elec==4}"></div>
               <div :class="{'flow-column': true, 'arrow-t': path.box_little_elec==4}"></div>
@@ -222,6 +222,7 @@ export default {
       //   top: 0;
       // }
       &.left {
+        right: -1px;
         .flow-column {
           right: auto;
           left: -3px;
@@ -233,7 +234,7 @@ export default {
           border-radius: 50%;
           background-color: #fff;
           position: absolute;
-          right: 0;
+          right: 1px;
           top: 0;
           transform: translate(50%, -50%);
           background: radial-gradient(#fff, rgb(55, 214, 55));
@@ -243,6 +244,7 @@ export default {
       }
       &.right {
         transform: translate(100%);
+        right: 1px;
         &::after {
           left: auto;
           right: 0;

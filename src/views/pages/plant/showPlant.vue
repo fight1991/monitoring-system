@@ -86,7 +86,9 @@ export default {
   created () {},
   async mounted () {
     this.$refs.plantStatus.getPlantStatus()
-    await this.getList(this.pagination)
+    if (this.access !== 255) {
+      await this.getList(this.pagination)
+    }
     await this.getAllPlant(this.pagination.total)
     // 在地图上标记电站
     if (this.appVersion === 'abroad') {

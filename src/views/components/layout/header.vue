@@ -1,5 +1,6 @@
 <template>
   <div class="head-container">
+    <!-- 左侧页面导航 -->
     <div class="left-box flex-vertical-center">
       <div class="pull-icon" @click="toggleMenu"><i :class="{'el-icon-s-unfold':$store.state.collapse,'el-icon-s-fold':!$store.state.collapse}"></i></div>
       <div class="bread-navigator">
@@ -8,12 +9,25 @@
           <el-breadcrumb-item v-for="item in routerArray" :key="item">{{$t('navBar.' + item)}}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+      <!-- 刷新按钮 -->
+      <div v-show="$route.name!='tab-index'" class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')">
+        <i class="el-icon-refresh-right"></i>
+      </div>
     </div>
+    <!-- 右侧其他元素 -->
     <div class="right-box flex-vertical-center">
       <!-- <div class="system-set" @click="setDrawerShow=true">
         <i class="el-icon-setting"></i>
       </div> -->
-      <div v-show="$route.name!='tab-index'" class="refresh-button" @click="refreshCurrentPage" :title="$t('common.refresh')"><i class="el-icon-refresh"></i></div>
+      <!-- 用户名 -->
+      <div class="tag-box">
+        <el-tag size="small">{{$store.getters.username}}</el-tag>
+      </div>
+      <!-- 用户角色 -->
+      <div class="tag-box">
+        <el-tag type="success" size="small">{{roleName}}</el-tag>
+      </div>
+      <!-- 用户画像 -->
       <el-dropdown
         @command="userOption"
         trigger="click"
@@ -173,29 +187,30 @@ export default {
   .el-breadcrumb {
     font-size: 12px;
   }
+  .refresh-button {
+    cursor: pointer;
+    margin: 0 30px;
+    border-radius: 50%;
+    color: #606266;
+    padding: 2px;
+    i {
+      transition: all 1.5s;
+      font-size: 20px;
+    }
+    &:hover {
+      background-color: #d8d8d8;
+      i {
+        transform: rotate(270deg);
+      }
+    }
+  }
 }
 .right-box {
   height: 100%;
   display: flex;
   align-items: center;
-  .refresh-button {
-    font-size: 26px;
-    cursor: pointer;
-    margin: 0 30px;
-    color: green;
-    font-weight: bold;
-    i {
-      transition: all 1.5s;
-      border-radius: 30%;
-    }
-    &:hover {
-      i {
-        transform: rotate(-180deg);
-        background-color: #0097a7;
-        border-radius: 50%;
-        color: #fff;
-      }
-    }
+  .tag-box {
+    margin-right: 15px;
   }
   // color: #fff;
   .el-dropdown {
