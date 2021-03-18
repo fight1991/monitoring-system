@@ -195,7 +195,7 @@ export default {
     email: 'Logowanie przez e-mail',
     emailSp: 'Rejestracja przez e-mailowamail',
     login: 'Zaloguj się',
-    register: 'Zapisz',
+    register: 'Zarejestruj się',
     back: 'Cofnij',
     verPw: 'Sprawdź hasło',
     pwNot: 'Wprowadzone hasło jest niespójne',
