@@ -46,7 +46,7 @@
           <!-- checkbox组件 -->
           <template v-if="ele.elemType.uiType === 'checkbox' && ele.level!=2">
             <el-form-item :label="ele.name" :prop="ele.key">
-              <el-checkbox v-model="dataForm[ele.key]"></el-checkbox>
+              <el-checkbox v-model="dataForm[ele.key]" true-label="true" false-label="false"></el-checkbox>
             </el-form-item>
           </template>
            <!-- 分割线-->
