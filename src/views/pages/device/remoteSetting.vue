@@ -1,9 +1,12 @@
 <template>
   <section class="sys-main bg-c" v-setH:min="setDivH">
+    <div class="spanSN">
+      <span class="item">{{$t('common.invertSn')}}  :  {{sn || '-'}}</span>
+    </div>
     <div class="remote-set-tab">
       <el-tabs type="card" tab-position="left" v-model="tabName" @tab-click="tabClickBtn">
         <el-tab-pane lazy v-for="item in tabList" :key="item.key" :label="item.name" :name="item.key">
-          <common-form :ref="'form'+item.key" :tips="item.tips" :isBlock="item.block" :formItems="item.properties" :keyWord="item.key" :id="id"></common-form>
+          <common-form :ref="'form'+item.key" :tips="item.tips" :isBlock="item.block" :isDisable="item.disable" :formItems="item.properties" :keyWord="item.key" :id="id"></common-form>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -16,12 +19,14 @@ export default {
   data () {
     return {
       id: '',
+      sn: '',
       tabName: '',
       tabList: []
     }
   },
   async created () {
     this.id = this.$route.query.id
+    this.sn = this.$route.query.sn
     await this.getTabList()
     if (this.tabList.length > 0) {
       this.tabName = this.tabList[0].key
@@ -41,7 +46,7 @@ export default {
     // 获取tab结构
     async getTabList () {
       let { result } = await this.$get({
-        url: '/c/v0/device/setting/ui',
+        url: '/c/v1/device/setting/ui',
         data: {
           id: this.id
         }
@@ -62,6 +67,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .remote-set-tab {
-  padding: 30px 0 30px 30px;
+  padding: 0 0 30px 30px;
+}
+.spanSN {
+  padding: 30px 0 20px 30px;
+}
+.el-tabs--left, .el-tabs--right {
+  overflow: visible;
 }
 </style>

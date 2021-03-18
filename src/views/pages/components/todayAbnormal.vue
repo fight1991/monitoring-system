@@ -8,15 +8,10 @@
     @close="closeDialog"
     :visible.sync="dialogVisible"
     width="750px">
-    <search-bar>
+    <search-bar v-if="type==='plant'">
       <el-form size="mini" label-width="0px" :model="searchForm" :inline="true">
-        <el-form-item v-if="type==='plant'">
-          <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
-        </el-form-item>
         <el-form-item>
-          <el-select v-model="searchForm.alarmType" :placeholder="$t('common.alarmType')">
-            <el-option v-for="item in alarmTypeList" :label="$t('common.' + item.label)" :value="item.value" :key="item.value"></el-option>
-          </el-select>
+          <el-input v-model="searchForm.deviceSN" :placeholder="$t('common.invertSn')"></el-input>
         </el-form-item>
         <el-form-item>
           <search-button type="warning" icon="icon-clear" @click="reset"></search-button>
@@ -27,9 +22,6 @@
     <div class="container flex-column-between" v-setH:min="setDivH-250">
       <func-bar>
         <common-table :tableHeadData="tableHead" :tableList="resultList">
-          <template #alarmType="{row}">
-            {{$t('common.' + alarmTypeList[row.alarmType]['label'])}}
-          </template>
         </common-table>
       </func-bar>
       <div class="page-box">
@@ -53,46 +45,11 @@ export default {
         currentPage: 1,
         total: 0
       },
-      alarmTypeList: [
-        {
-          value: 0,
-          label: 'all'
-        }, {
-          value: 1,
-          label: 'common'
-        }, {
-          value: 2,
-          label: 'pvBus'
-        }, {
-          value: 3,
-          label: 'powerGrid'
-        }, {
-          value: 4,
-          label: 'temper'
-        }, {
-          value: 5,
-          label: 'cpu'
-        }, {
-          value: 6,
-          label: 'eps'
-        }, {
-          value: 7,
-          label: 'peri'
-        }, {
-          value: 8,
-          label: 'alarm'
-        }
-      ],
       tableHead: [
         {
           label: 'common.invertSn',
           prop: 'deviceSN',
           checked: false
-        }, {
-          label: 'common.alarmType',
-          prop: 'alarmType',
-          checked: true,
-          slotName: 'alarmType'
         }, {
           label: 'plant.errorCode',
           prop: 'code',

@@ -17,13 +17,6 @@
             <template v-if="showHsearch">
               <el-col :span="7">
                 <el-form-item>
-                  <el-select style="width:100%" v-model="searchForm.alarmType" clearable :placeholder="$t('common.alarmType')">
-                    <el-option v-for="(item, index) in alarmTypeList" :label="$t('alarm.' + item.label)" :value="item.value" :key="item + index"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item>
                   <el-input v-model="searchForm.moduleSN" clearable :placeholder="$t('common.datacolSN')"></el-input>
                 </el-form-item>
               </el-col>
@@ -56,9 +49,6 @@
           <el-button size="mini" :disabled="!downloadUrl" icon="iconfont icon-downLoad" @click="download">{{$t('common.download')}}</el-button>
         </el-row>
         <common-table :tableHeadData="tableHead" showNum :pagination="pagination" :rowsStatus="showHsearch" :rowsNum="2" :tableList="resultList">
-          <template v-slot:alarmType="{row}">
-            {{$t(translateAlarmType(row.alarmType))}}
-          </template>
         </common-table>
       </func-bar>
     </div>
@@ -75,7 +65,7 @@ export default {
       searchForm: {
         plantName: '',
         deviceSN: '',
-        alarmType: '',
+        alarmType: 0,
         moduleSN: ''
       },
       beginDate: {
@@ -94,16 +84,6 @@ export default {
           return time.getTime() > Date.now()
         }
       },
-      alarmTypeList: [
-        { value: 0, label: 'all' },
-        { value: 1, label: 'comError' },
-        { value: 2, label: 'pVBus' },
-        { value: 3, label: 'gridError' },
-        { value: 4, label: 'tempError' },
-        { value: 5, label: 'cpuError' },
-        { value: 6, label: 'eps' },
-        { value: 7, label: 'outer' }
-      ],
       selection: [],
       resultList: [],
       pagination: {
@@ -128,12 +108,6 @@ export default {
           prop: 'moduleSN',
           checked: true,
           width: 160
-        },
-        {
-          label: 'common.alarmType',
-          prop: 'alarmType',
-          checked: true,
-          slotName: 'alarmType'
         },
         {
           label: 'alarm.alarmNum',
@@ -161,7 +135,7 @@ export default {
       this.searchForm = {
         plantName: '',
         deviceSN: '',
-        alarmType: '',
+        alarmType: 0,
         moduleSN: ''
       }
       this.beginDate = {
@@ -233,26 +207,6 @@ export default {
         this.pagination.pageSize = result.pageSize
         this.resultList = result.data || []
         this.downloadUrl = result.downloadUrl || ''
-      }
-    },
-    translateAlarmType (num) {
-      switch (num) {
-        case 0 :
-          return 'alarm.all'
-        case 1:
-          return 'alarm.comError'
-        case 2 :
-          return 'alarm.pVBus'
-        case 3:
-          return 'alarm.gridError'
-        case 4 :
-          return 'alarm.tempError'
-        case 5:
-          return 'alarm.cpuError'
-        case 6 :
-          return 'alarm.eps'
-        case 7:
-          return 'alarm.outer'
       }
     }
   }

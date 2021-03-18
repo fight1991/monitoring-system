@@ -3,7 +3,7 @@
     <el-row>
       <div class="col border-b">
         <span class="label">{{$t('user.type') + ' : '}}</span>
-        <span class="value">{{translateTools(access)}}</span>
+        <span class="value">{{roleName}}</span>
       </div>
     </el-row>
     <el-row type="flex" align="middle" v-if="access==1">
