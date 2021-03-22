@@ -1,16 +1,17 @@
 <template>
   <div class="login">
+    <slot></slot>
     <div class="form">
-      <el-form ref="dataForm" :model="dataForm" label-width="0px" :rules="loginRules">
+      <el-form ref="dataForm" :model="dataForm" label-position="top" :rules="loginRules">
         <el-row>
           <el-col :span="24">
-            <el-form-item>
-              <el-input v-model="dataForm.user" :placeholder="$t('login.username')"></el-input>
+            <el-form-item :label="$t('login.username')">
+              <el-input v-model="dataForm.user"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24" class="password">
-            <el-form-item prop="pw">
-              <el-input ref="password" :type="pwType" v-model="dataForm.password" :placeholder="$t('login.pw')" @keyup.native.enter="goLogin">
+            <el-form-item prop="pw" :label="$t('login.pw')">
+              <el-input ref="password" :type="pwType" v-model="dataForm.password" @keyup.native.enter="goLogin">
                 <i slot="suffix" @click="showPw" :class="pwType === 'password'?'iconfont icon-hide':'iconfont icon-show'"></i>
               </el-input>
             </el-form-item>

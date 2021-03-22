@@ -2,7 +2,7 @@
   <section class='user-container'>
     <div class="content-box">
       <el-row class="top">
-        <el-page-header @back="$router.go(-1)" content=""></el-page-header>
+        <el-page-header @back="$router.go(-1)" content="" :title="$t('login.back')"></el-page-header>
       </el-row>
       <el-row class="bottom">
         <el-card class="nav-bar">

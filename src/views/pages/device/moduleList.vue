@@ -144,7 +144,9 @@ export default {
   },
   created () {
     this.getModuleTypeList()
-    this.search()
+    if (this.access !== 255) {
+      this.search()
+    }
   },
   methods: {
     resetSearchForm () {

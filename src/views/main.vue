@@ -5,7 +5,6 @@
         <div class="aside-box">
           <div class="logo">
             <img :src="logoSrc">
-            <span v-show="!$store.state.collapse">{{$t('monitor')}}</span>
           </div>
           <layout-aside @getMoveDistance="getMoveDistance"></layout-aside>
         </div>
@@ -35,7 +34,8 @@ export default {
   },
   data () {
     return {
-      logoSrc: require('@/assets/logo.png'),
+      // logoSrc: require('@/assets/logo.png')
+      logoSrc: require('@/assets/keda-logo-transparent.png'),
       distance: 210
     }
   },
@@ -66,16 +66,19 @@ export default {
   display: flex;
   align-items: center;
   height: 50px;
-  padding-left: 10px;
+  justify-content: center;
+  width: 100%;
+  // padding: 0 35px 0 8px;
   background-color: rgba(255,255,255,.1);
   box-sizing: border-box;
-  img {
-    width: 40px;
-  }
   span {
     color: #f5f5f5;
     margin-left: 15px;
     font-size: 16px;
+  }
+  img {
+    width: 150px;
+    min-width: 64px;
   }
 }
 .outside-container {

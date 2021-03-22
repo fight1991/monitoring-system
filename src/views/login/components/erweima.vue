@@ -68,7 +68,7 @@ export default {
 //   font-size: 32px;
 // }
 .app-downLoad {
-  color: @sys-main-header;
+  color: #fff;
   padding: 2px 0;
   cursor: pointer;
   .iconfont {

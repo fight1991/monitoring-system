@@ -246,9 +246,6 @@
     height: 32px;
     line-height: 32px;
   }
-  .el-form-item__label {
-    line-height: 18px!important;
-  }
   .code-area {
     .el-input-group__append {
       border-radius: 0 2px 2px 0;
@@ -264,9 +261,18 @@
     }
   }
 }
+
+.login-container {
+  .login {
+    .el-form-item__label {
+      color: #fff;
+    }
+  }
+}
 .login-resetPw,.login-register, .errTip-right {
   .el-form--label-top .el-form-item__label {
     padding-bottom: 0px;
+    line-height: 18px!important;
   }
   .el-form-item__error {
     right: 0;
@@ -438,6 +444,9 @@
     color: @sys-aside-text;
   }
 }
+.el-tabs__item.is-active {
+  color: @sys-main-header;
+}
 .tab-container {
   height: 100%;
   &>.el-tabs {
@@ -480,7 +489,7 @@
         line-height: 14px;
       }
       transition: all .05s;
-      &.is-active:not(#tab-tab-index) {
+      &.is-active {
         color: #fff;
         background-color: @sys-tab-color;
       }

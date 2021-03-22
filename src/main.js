@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-// import '@/style/variable/theme.scss' // 出现样式重复现象
-// import 'element-ui/lib/theme-chalk/index.css'
+// 引入自定义主题
+import '@/style/theme/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import 'nprogress/nprogress.css'
 // 覆盖样式

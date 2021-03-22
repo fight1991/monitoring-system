@@ -80,7 +80,9 @@ export default {
       primaryColor: '#409EFF',
       setDrawerShow: false,
       isFullScreen: false,
-      userLogo: require('@/assets/user-logo.png')
+      userLogo: require('@/assets/user-logo.png'),
+      logoSrc: require('@/assets/keda-logo-transparent.png'),
+      lang: this.$store.state.lang === 'zh' ? '中文' : 'English'
     }
   },
   computed: {
@@ -234,6 +236,17 @@ export default {
   }
   .info {
     padding: 0 20px;
+  }
+}
+.logo {
+  height: 100%;
+  img {
+    width: 110px;
+  }
+  span {
+    color: #fff;
+    margin-left: 20px;
+    font-size: 16px;
   }
 }
 .fullscreen {

@@ -2,8 +2,8 @@
   <div class="login-container">
     <div class="header">
       <div class="login-logo flex-center">
-        <img src="@/assets/logo.png" alt="">
-        <span>FoxESS</span>
+        <!-- <img src="@/assets/logo.png" alt=""> -->
+        <!-- <span>FoxESS</span> -->
       </div>
       <div class="header-right flex-center">
         <el-dropdown
@@ -28,13 +28,15 @@
       <div class="invert"></div>
       <transition name="zoom">
         <keep-alive>
-          <component :is="pageFlag" @toggleStatus="toggleStatus"></component>
+          <component :is="pageFlag" @toggleStatus="toggleStatus">
+            <div class="keda-logo"><img :src="kedaLogo" alt=""></div>
+          </component>
         </keep-alive>
       </transition>
     </div>
     <div class="footer">
       <div class="footer-content">
-        <p class="flex-center some-link">
+        <!-- <p class="flex-center some-link">
           <span>{{$store.state.rightsTxt + $t('login.allRight')}}</span>
           <i class="shuxian"></i>
           <el-link type="info" :href="host" target="_blank">{{$t('login.site')}}</el-link>
@@ -42,10 +44,11 @@
           <el-link type="info" :href="agreeSrc" target="_blank">{{$t('login.useTerm')}}</el-link>
           <i class="shuxian" v-if="version=='inside'"></i>
           <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a>
-        </p>
+        </p> -->
         <p class="flex-center">
-          <span class="beian" v-if="version=='inside'"></span>
+          <!-- <span class="beian" v-if="version=='inside'"></span>
           <span class="beian-num" v-if="version=='inside'">苏公网安备 32021402001297号</span>
+          <a class="beian-num" v-if="version=='inside'" href="http://www.beian.miit.gov.cn/" target="_blank">苏ICP备20036769号-2</a> -->
         </p>
       </div>
     </div>
@@ -75,6 +78,7 @@ export default {
       // iosImg: require('@/assets/ios-app.png'),
       qrcode: this.$store.state.domainName + '/app/download',
       size: 110,
+      kedaLogo: require('@/assets/keda-logo-transparent.png'),
       host: 'https://www.fox-ess.com', // 国外官网
       apiUrl: process.env.VUE_APP_WWW // 资源地址
     }
@@ -150,16 +154,15 @@ export default {
   margin: 0 5px;
 }
   .login-container {
-    // background: url("../../assets/inverter-bg.png") no-repeat left center;
-    // background-size: cover;
+    background: url("../../assets/inverter-bg.png") no-repeat left center;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     height: 100%;
     overflow-y: auto;
-    background-size: cover;
     position: relative;
     .header,.footer {
-      background-color: #fff;
+      // background-color: #fff;
     }
     .footer-content {
       font-size: 12px;
@@ -183,7 +186,7 @@ export default {
       }
       .header-right {
         span {
-          color: @sys-main-header;
+          color: #fff;
         }
       }
       display: flex;
@@ -201,12 +204,18 @@ export default {
     .content {
       min-height: 400px;
       // background: linear-gradient(40deg, #1174b6 40%, #2398dd 80%,#56b3e9);
-      background: url("../../assets/inverter-bg.png") no-repeat left center;
-      background-size: cover;
+      // background: url("../../assets/inverter-bg.png") no-repeat left center;
+      // background-size: cover;
       flex: 1;
       position: relative;
       display: flex;
       align-items: center;
+      .keda-logo {
+        margin-bottom: 10px;
+        img {
+          width: 100%;
+        }
+      }
       .sys-text {
         z-index: 66;
         .top {
@@ -233,7 +242,7 @@ export default {
       }
     }
     .login {
-      box-shadow: 0 0 10px #ddd;
+      // box-shadow: 0 0 10px #ddd;
       z-index: 6;
       position: absolute;
       right: 15%;
@@ -241,7 +250,7 @@ export default {
       // transform-origin: center;
       width: 450px;
       box-sizing: border-box;
-      background-color: #fff;
+      background-color: transparent;
       border-radius: 2px;
       padding: 20px 25px 25px;
       color: #999;
@@ -264,7 +273,6 @@ export default {
       }
     }
     .find-btn {
-      color: #3883c2;
       span {
         &:hover {
           color: @sys-main-header;
@@ -274,18 +282,14 @@ export default {
     }
   }
 @media only screen and(max-width:1080px) {
-  .login{
+  .login {
     width: 380px!important;
     right: 5%;
-  }
-  .content .bg {
-    width: 360px!important;
-    left: 5%!important;
   }
 }
   // 兼容手机端
 @media only screen and(max-width:768px) {
-  .login{
+  .login {
     width: calc(100% - 20px)!important;
     margin: 0 10px;
     right: 0!important;
@@ -293,28 +297,17 @@ export default {
   .login-container .header {
     padding-left: 0;
   }
-  .content .bg {
-    display: none;
-  }
 }
 @media only screen and(min-width:1080px) {
-  .login{
+  .login {
     width: 480px!important;
     right: 5%!important;
   }
-  .content .bg {
-    width: 440px!important;
-    left: 5%!important;
-  }
 }
 @media only screen and(min-width:1400px) {
-  .login{
+  .login {
     width: 480px!important;
     right: 10%!important;
-  }
-  .content .bg {
-    width: 460px!important;
-    left: 10%!important;
   }
 }
 @keyframes drop {
